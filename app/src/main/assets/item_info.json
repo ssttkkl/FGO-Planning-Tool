@@ -1,0 +1,618 @@
+[
+  {
+    "codename": "qp",
+    "cnName": "QP",
+    "jpName": "QP",
+    "enName": "QP",
+    "type": "General"
+  },
+  {
+    "codename": "archer_magic_gem",
+    "cnName": "弓之魔石",
+    "jpName": "弓の魔石",
+    "enName": "Magic Gem of Bows",
+    "type": "Gem"
+  },
+  {
+    "codename": "archer_monument",
+    "cnName": "弓阶金像",
+    "jpName": "アーチャーモニュメント",
+    "enName": "Archer Monument",
+    "type": "Piece"
+  },
+  {
+    "codename": "archer_piece",
+    "cnName": "弓阶银棋",
+    "jpName": "アーチャーピース",
+    "enName": "Archer Piece",
+    "type": "Piece"
+  },
+  {
+    "codename": "archer_secret_gem",
+    "cnName": "弓之秘石",
+    "jpName": "弓の秘石",
+    "enName": "Secret Gem of Bows",
+    "type": "Gem"
+  },
+  {
+    "codename": "archer_shinning_gem",
+    "cnName": "弓之辉石",
+    "jpName": "弓の輝石",
+    "enName": "Shining Gem of Bows",
+    "type": "Gem"
+  },
+  {
+    "codename": "assassin_magic_gem",
+    "cnName": "杀之魔石",
+    "jpName": "殺の魔石",
+    "enName": "Magic Gem of Killing",
+    "type": "Gem"
+  },
+  {
+    "codename": "assassin_monument",
+    "cnName": "杀阶金像",
+    "jpName": "アサシンモニュメント",
+    "enName": "Assassin Monument",
+    "type": "Piece"
+  },
+  {
+    "codename": "assassin_piece",
+    "cnName": "杀阶银棋",
+    "jpName": "アサシンピース",
+    "enName": "Assassin Piece",
+    "type": "Piece"
+  },
+  {
+    "codename": "assassin_secret_gem",
+    "cnName": "杀之秘石",
+    "jpName": "殺の秘石",
+    "enName": "Secret Gem of Killing",
+    "type": "Gem"
+  },
+  {
+    "codename": "assassin_shinning_gem",
+    "cnName": "杀之辉石",
+    "jpName": "殺の輝石",
+    "enName": "Shining Gem of Killing",
+    "type": "Gem"
+  },
+  {
+    "codename": "b_pellet",
+    "cnName": "B-Pellet",
+    "jpName": "Bペレット",
+    "enName": "B-Pellet",
+    "type": "Event"
+  },
+  {
+    "codename": "ball",
+    "cnName": "水晶球",
+    "jpName": "水晶球",
+    "enName": "Crystal Ball",
+    "type": "Event"
+  },
+  {
+    "codename": "berserker_magic_gem",
+    "cnName": "狂之魔石",
+    "jpName": "狂の魔石",
+    "enName": "Magic Gem of Madness",
+    "type": "Gem"
+  },
+  {
+    "codename": "berserker_monument",
+    "cnName": "狂阶金像",
+    "jpName": "バーサーカーモニュメント",
+    "enName": "Berserket Monument",
+    "type": "Piece"
+  },
+  {
+    "codename": "berserker_piece",
+    "cnName": "狂阶银棋",
+    "jpName": "バーサーカーピース",
+    "enName": "Berserker Piece",
+    "type": "Piece"
+  },
+  {
+    "codename": "berserker_secret_gem",
+    "cnName": "狂之秘石",
+    "jpName": "狂の秘石",
+    "enName": "Secret Gem of Madness",
+    "type": "Gem"
+  },
+  {
+    "codename": "berserker_shinning_gem",
+    "cnName": "狂之辉石",
+    "jpName": "狂の輝石",
+    "enName": "Shining Gem of Madness",
+    "type": "Gem"
+  },
+  {
+    "codename": "bloodstone",
+    "cnName": "血之泪石",
+    "jpName": "血の涙石",
+    "enName": "Bloodstone Tear",
+    "type": "Golden"
+  },
+  {
+    "codename": "bone",
+    "cnName": "凶骨",
+    "jpName": "凶骨",
+    "enName": "Unlucky Bone",
+    "type": "Copper"
+  },
+  {
+    "codename": "bracelet",
+    "cnName": "心形手链",
+    "jpName": "ハートのブレスレット",
+    "enName": "Heart Bracelet",
+    "type": "Event"
+  },
+  {
+    "codename": "branch",
+    "cnName": "铃鸣之枝",
+    "jpName": "鈴鳴りの枝",
+    "enName": "Ringing-Bell Branch",
+    "type": "Event"
+  },
+  {
+    "codename": "bucket",
+    "cnName": "炸鸡桶",
+    "jpName": "樽入りチキン",
+    "enName": "Chicken Bucket",
+    "type": "Event"
+  },
+  {
+    "codename": "candy",
+    "cnName": "Twinkle Candy",
+    "jpName": "ティンクルキャンディー",
+    "enName": "Twinkle Candy",
+    "type": "Event"
+  },
+  {
+    "codename": "caster_magic_gem",
+    "cnName": "术之魔石",
+    "jpName": "術の魔石",
+    "enName": "Magic Gem of Spells",
+    "type": "Gem"
+  },
+  {
+    "codename": "caster_monument",
+    "cnName": "术阶金像",
+    "jpName": "キャスターモニュメント",
+    "enName": "Caster Monument",
+    "type": "Piece"
+  },
+  {
+    "codename": "caster_piece",
+    "cnName": "术阶银棋",
+    "jpName": "キャスターピース",
+    "enName": "Caster Piece",
+    "type": "Piece"
+  },
+  {
+    "codename": "caster_secret_gem",
+    "cnName": "术之秘石",
+    "jpName": "術の秘石",
+    "enName": "Secret Gem of Spells",
+    "type": "Gem"
+  },
+  {
+    "codename": "caster_shinning_gem",
+    "cnName": "术之辉石",
+    "jpName": "術の輝石",
+    "enName": "Shining Gem of Spells",
+    "type": "Gem"
+  },
+  {
+    "codename": "cerebrospinal",
+    "cnName": "魔术髓液",
+    "jpName": "魔術髄液",
+    "enName": "Magical Cerebrospinal Fluid",
+    "type": "Copper"
+  },
+  {
+    "codename": "chain",
+    "cnName": "愚者之锁",
+    "jpName": "愚者の鎖",
+    "enName": "Chains of the Fool",
+    "type": "Copper"
+  },
+  {
+    "codename": "cholecyst",
+    "cnName": "咒兽胆石",
+    "jpName": "呪獣胆石",
+    "enName": "Cursed Beast Cholecyst",
+    "type": "Golden"
+  },
+  {
+    "codename": "crystallize",
+    "cnName": "传承结晶",
+    "jpName": "伝承結晶",
+    "enName": "Crystallized Lore",
+    "type": "General"
+  },
+  {
+    "codename": "doll",
+    "cnName": "吉尔·德·雷玩偶",
+    "jpName": "ジル･ド･レェ人形",
+    "enName": "Gilles de Rais Doll",
+    "type": "Event"
+  },
+  {
+    "codename": "fang",
+    "cnName": "龙之牙",
+    "jpName": "竜の牙",
+    "enName": "Dragon Fang",
+    "type": "Copper"
+  },
+  {
+    "codename": "flag",
+    "cnName": "海援队旗",
+    "jpName": "Kaien Team's Flag",
+    "enName": "海援隊旗",
+    "type": "Event"
+  },
+  {
+    "codename": "gear",
+    "cnName": "无间齿轮",
+    "jpName": "無間の歯車",
+    "enName": "Infinity Gear",
+    "type": "Sliver"
+  },
+  {
+    "codename": "gunpowder",
+    "cnName": "励振火药",
+    "jpName": "励振火薬",
+    "enName": "Stimulus Gunpowder",
+    "type": "Copper"
+  },
+  {
+    "codename": "heart",
+    "cnName": "蛮神心脏",
+    "jpName": "蛮神の心臓",
+    "enName": "Heart of a Foreign God",
+    "type": "Golden"
+  },
+  {
+    "codename": "homunculus",
+    "cnName": "人造生命体幼体",
+    "jpName": "ホムンクルスベビー",
+    "enName": "Homunculus Baby",
+    "type": "Sliver"
+  },
+  {
+    "codename": "horn",
+    "cnName": "战马的幼角",
+    "jpName": "戦馬の幼角",
+    "enName": "Warhorse's Immature Horn",
+    "type": "Golden"
+  },
+  {
+    "codename": "horseshoe",
+    "cnName": "陨蹄铁",
+    "jpName": "隕蹄鉄",
+    "enName": "Meteoric Horseshoe",
+    "type": "Sliver"
+  },
+  {
+    "codename": "ice",
+    "cnName": "永远结冰",
+    "jpName": "永遠結氷",
+    "enName": "Permafrost Ice Crystal",
+    "type": "Sliver"
+  },
+  {
+    "codename": "knife",
+    "cnName": "业物小刀",
+    "jpName": "業物ナイフ",
+    "enName": "Sharp Knife",
+    "type": "Event"
+  },
+  {
+    "codename": "lamp",
+    "cnName": "封魔之灯",
+    "jpName": "封魔のランプ",
+    "enName": "Lamp of Demon Sealing",
+    "type": "Golden"
+  },
+  {
+    "codename": "lancer_magic_gem",
+    "cnName": "枪之魔石",
+    "jpName": "槍の魔石",
+    "enName": "Magic Gem of Lances",
+    "type": "Gem"
+  },
+  {
+    "codename": "lancer_monument",
+    "cnName": "枪阶金像",
+    "jpName": "ランサーモニュメント",
+    "enName": "Lancer Monument",
+    "type": "Piece"
+  },
+  {
+    "codename": "lancer_piece",
+    "cnName": "枪阶银棋",
+    "jpName": "ランサーピース",
+    "enName": "Lancer Piece",
+    "type": "Piece"
+  },
+  {
+    "codename": "lancer_secret_gem",
+    "cnName": "枪之秘石",
+    "jpName": "槍の秘石",
+    "enName": "Secret Gem of Lances",
+    "type": "Gem"
+  },
+  {
+    "codename": "lancer_shinning_gem",
+    "cnName": "枪之辉石",
+    "jpName": "槍の輝石",
+    "enName": "Shining Gem of Lances",
+    "type": "Gem"
+  },
+  {
+    "codename": "lantern",
+    "cnName": "鬼魂提灯",
+    "jpName": "ゴーストランタン",
+    "enName": "Ghost Lantern",
+    "type": "Sliver"
+  },
+  {
+    "codename": "lanugo",
+    "cnName": "起源的胎毛",
+    "jpName": "原初の産毛",
+    "enName": "Primordial Lanugo",
+    "type": "Golden"
+  },
+  {
+    "codename": "leaf",
+    "cnName": "遗忘之叶",
+    "jpName": "忘れじの葉",
+    "enName": "The Forgotten Leaf",
+    "type": "Event"
+  },
+  {
+    "codename": "lighter",
+    "cnName": "黄金熊印打火机",
+    "jpName": "ゴールデンベアライター",
+    "enName": "Golden Bear Lighter",
+    "type": "Event"
+  },
+  {
+    "codename": "magatama",
+    "cnName": "枯淡勾玉",
+    "jpName": "枯淡勾玉",
+    "enName": "Kotan Magatama",
+    "type": "Sliver"
+  },
+  {
+    "codename": "medal",
+    "cnName": "大骑士勋章",
+    "jpName": "大騎士勲章",
+    "enName": "Medal of Great Knight",
+    "type": "Sliver"
+  },
+  {
+    "codename": "moustache",
+    "cnName": "圣诞胡须",
+    "jpName": "サンタひげ",
+    "enName": "Santa Moustache",
+    "type": "Event"
+  },
+  {
+    "codename": "octuplet",
+    "cnName": "八连双晶",
+    "jpName": "八連双晶",
+    "enName": "Octuplet Twin Crystal",
+    "type": "Sliver"
+  },
+  {
+    "codename": "orb",
+    "cnName": "龙之宝玉",
+    "jpName": "竜のオーブ",
+    "enName": "Dragon Orb",
+    "type": "Event"
+  },
+  {
+    "codename": "page",
+    "cnName": "禁断书页",
+    "jpName": "Forbidden Page",
+    "enName": "禁断の頁",
+    "type": "Sliver"
+  },
+  {
+    "codename": "plume",
+    "cnName": "凤凰羽毛",
+    "jpName": "鳳凰の羽根",
+    "enName": "Phoenix Plume",
+    "type": "Sliver"
+  },
+  {
+    "codename": "proof",
+    "cnName": "英雄之证",
+    "jpName": "英雄の証",
+    "enName": "Hero's Proof",
+    "type": "Copper"
+  },
+  {
+    "codename": "ranjatai",
+    "cnName": "兰奢待",
+    "jpName": "蘭奢待",
+    "enName": "Ranjatai",
+    "type": "Event"
+  },
+  {
+    "codename": "reed",
+    "cnName": "黄金芦苇",
+    "jpName": "黄金の葦",
+    "enName": "Golden Reed",
+    "type": "Event"
+  },
+  {
+    "codename": "refuse",
+    "cnName": "虚影之尘",
+    "jpName": "虚影の塵",
+    "enName": "Void's Refuse",
+    "type": "Copper"
+  },
+  {
+    "codename": "ribbon",
+    "cnName": "思念蝴蝶结",
+    "jpName": "思い出のリボン",
+    "enName": "Ribbon of Reminiscence​",
+    "type": "Event"
+  },
+  {
+    "codename": "rider_magic_gem",
+    "cnName": "骑之魔石",
+    "jpName": "騎の魔石",
+    "enName": "Magic Gem of Cavalry",
+    "type": "Gem"
+  },
+  {
+    "codename": "rider_monument",
+    "cnName": "骑阶金像",
+    "jpName": "ライダーモニュメント",
+    "enName": "Rider Monument",
+    "type": "Piece"
+  },
+  {
+    "codename": "rider_piece",
+    "cnName": "骑阶银棋",
+    "jpName": "ライダーピース",
+    "enName": "Rider Piece",
+    "type": "Piece"
+  },
+  {
+    "codename": "rider_secret_gem",
+    "cnName": "骑之秘石",
+    "jpName": "騎の秘石",
+    "enName": "Secret Gem of Cavalry",
+    "type": "Gem"
+  },
+  {
+    "codename": "rider_shinning_gem",
+    "cnName": "骑之辉石",
+    "jpName": "騎の輝石",
+    "enName": "Shining Gem of Cavalry",
+    "type": "Gem"
+  },
+  {
+    "codename": "root",
+    "cnName": "精灵根",
+    "jpName": "精霊根",
+    "enName": "Spirit Root",
+    "type": "Golden"
+  },
+  {
+    "codename": "saber_magic_gem",
+    "cnName": "剑之魔石",
+    "jpName": "剣の魔石",
+    "enName": "Magic Gem of Swords",
+    "type": "Gem"
+  },
+  {
+    "codename": "saber_monument",
+    "cnName": "剑阶金像",
+    "jpName": "セイバーモニュメント",
+    "enName": "Saber Monument",
+    "type": "Piece"
+  },
+  {
+    "codename": "saber_piece",
+    "cnName": "剑阶银棋",
+    "jpName": "セイバーピース",
+    "enName": "Saber Piece",
+    "type": "Piece"
+  },
+  {
+    "codename": "saber_secret_gem",
+    "cnName": "剑之秘石",
+    "jpName": "剣の秘石",
+    "enName": "Secret Gem of Swords",
+    "type": "Gem"
+  },
+  {
+    "codename": "saber_shinning_gem",
+    "cnName": "剑之辉石",
+    "jpName": "剣の輝石",
+    "enName": "Shining Gem of Swords",
+    "type": "Gem"
+  },
+  {
+    "codename": "scale",
+    "cnName": "龙之逆鳞",
+    "jpName": "竜の逆鱗",
+    "enName": "Dragon's Reverse Scale",
+    "type": "Golden"
+  },
+  {
+    "codename": "scarab",
+    "cnName": "智慧之圣甲虫像",
+    "jpName": "智慧のスカラベ",
+    "enName": "Scarab of Wisdom",
+    "type": "Golden"
+  },
+  {
+    "codename": "seashell",
+    "cnName": "追忆的贝壳",
+    "jpName": "追憶の貝殻",
+    "enName": "Seashell of Reminiscence",
+    "type": "Sliver"
+  },
+  {
+    "codename": "seed",
+    "cnName": "世界树之种",
+    "jpName": "世界樹の種",
+    "enName": "Yggdrasil Seed",
+    "type": "Sliver"
+  },
+  {
+    "codename": "skull",
+    "cnName": "黄金骷髅",
+    "jpName": "黄金髑髏",
+    "enName": "Golden Skull",
+    "type": "Event"
+  },
+  {
+    "codename": "jewel",
+    "cnName": "蛇之宝玉",
+    "jpName": "蛇の宝玉",
+    "enName": "Snake Jewel",
+    "type": "Sliver"
+  },
+  {
+    "codename": "stake",
+    "cnName": "夜泣铁钉",
+    "jpName": "宵哭きの鉄杭",
+    "enName": "Night-Weeping Iron Stake",
+    "type": "Copper"
+  },
+  {
+    "codename": "stinger",
+    "cnName": "万死的毒针",
+    "jpName": "万死の毒針",
+    "enName": "Stinger of Certain Death",
+    "type": "Copper"
+  },
+  {
+    "codename": "tallow",
+    "cnName": "黑兽脂",
+    "jpName": "黒獣脂",
+    "enName": "Black Tallow",
+    "type": "Golden"
+  },
+  {
+    "codename": "talon",
+    "cnName": "混沌之爪",
+    "jpName": "混沌の爪",
+    "enName": "Talon of Chaos",
+    "type": "Golden"
+  },
+  {
+    "codename": "wine",
+    "cnName": "奇奇神酒",
+    "jpName": "奇奇神酒",
+    "enName": "Bizarre Godly Wine",
+    "type": "Golden"
+  }
+]

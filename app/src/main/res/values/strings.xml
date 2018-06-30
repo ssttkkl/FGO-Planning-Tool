@@ -1,0 +1,123 @@
+<resources>
+    <string name="app_name" translatable="false">FGO Planning Tool</string>
+    <string name="app_repo" translatable="false">https://github.com/ssttkkl/FGO-Planning-Tool</string>
+
+    <string name="openDrawer_main">打开侧边栏</string>
+    <string name="closeDrawer_main">关闭侧边栏</string>
+    <string name="backAgain_main">再按一次返回键退出应用</string>
+
+    <string name="planlist_nav">规划列表</string>
+    <string name="ownitemlist_nav">持有材料</string>
+    <string name="preferences_nav">选项</string>
+
+    <string name="title_planlist">规划列表</string>
+    <string name="emptyHint_planlist">什么都没有</string>
+    <string name="selectedCount_planlist" translatable="false">%1$d / %2$d</string>
+    <string name="add_planlist">添加</string>
+    <string name="enterSelectMode_planlist">进入多选模式</string>
+    <string name="remove_planlist">删除</string>
+    <string name="selectAll_planlist">选择全部</string>
+    <string name="stage_item_planlist">再临阶段</string>
+    <string name="skill1_item_planlist">技能 I</string>
+    <string name="skill2_item_planlist">技能 II</string>
+    <string name="skill3_item_planlist">技能 III</string>
+    <string name="levelPattern_item_planlist" translatable="false">%1$d → %2$d</string>
+
+    <string name="title_new_editplan">新建规划</string>
+    <string name="title_edit_editplan">编辑规划</string>
+    <string name="save_editplan">保存</string>
+    <string name="remove_editplan">删除</string>
+    <string name="tab_edit_editplan">编辑</string>
+    <string name="tab_items_editplan">消耗材料</string>
+    <string-array name="stage_editplan">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="skill_editplan">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
+    <string name="sortAndFilter_servantlist">排序与过滤</string>
+    <string name="search_servantlist">搜索</string>
+    <string name="order_servantlist">排序</string>
+    <string-array name="order_servantlist">
+        <item>升序</item>
+        <item>降序</item>
+    </string-array>
+    <string-array name="orderBy_servantlist">
+        <item>编号</item>
+        <item>职介</item>
+        <item>星级</item>
+    </string-array>
+    <string name="star_servantlist">按星级过滤</string>
+    <string name="class_servantlist">按职介过滤</string>
+    <string name="item_servantlist">按消耗材料过滤</string>
+    <string name="add_item_servantlist">添加</string>
+    <string-array name="mode_item_servantlist">
+        <item>与</item>
+        <item>或</item>
+    </string-array>
+
+    <string name="title_costitemlist">消耗材料</string>
+
+    <string name="title_itemlist">材料列表</string>
+    <string name="emptyHint_itemlist">什么都没有</string>
+    <string name="own_item_itemlist">持有</string>
+    <string name="need_item_itemlist">需要</string>
+
+    <string name="title_ownitemlist">持有材料</string>
+
+    <string name="hint_edititem">持有数量</string>
+    <string name="save_edititem">保存</string>
+    <string name="cancel_edititem">取消</string>
+    <string name="illegalError_edititem">数据不合法</string>
+    <string name="unknownError_edititem">未知错误</string>
+
+    <string-array name="itemType">
+        <item>通用</item>
+        <item>棋子</item>
+        <item>技能石</item>
+        <item>铜素材</item>
+        <item>银素材</item>
+        <item>金素材</item>
+        <item>活动英灵再临素材</item>
+    </string-array>
+
+    <string name="deductItems_changeplanwarning">扣除消耗的材料</string>
+    <string name="viewItems_changeplanwarning">查看</string>
+    <string name="remove_changeplanwarning">删除</string>
+    <string name="edit_changeplanwarning">编辑</string>
+    <string name="cancel_changeplanwarning">取消</string>
+
+    <string name="title_pref">选项</string>
+    <string name="group_importAndExport_pref">数据导入导出</string>
+    <string name="title_importItems_pref">导入持有材料</string>
+    <string name="summary_importItems_pref">当前的所有持有材料数据将被覆盖</string>
+    <string name="title_exportItems_pref">导出持有材料</string>
+    <string name="title_importPlans_pref">导入规划</string>
+    <string name="summary_importPlans_pref">当前的所有规划数据将被覆盖</string>
+    <string name="title_exportPlans_pref">导出规划</string>
+
+    <string name="title_version_pref">版本号</string>
+    <string name="title_repo_pref">Github 项目主页</string>
+
+    <string name="importStart_pref">开始导入</string>
+    <string name="importSuccessful_pref">导入成功</string>
+    <string name="importError_pref">导入失败</string>
+    <string name="exportStart_pref">开始导出</string>
+    <string name="exportSuccessful_pref">导出成功</string>
+    <string name="exportError_pref">导出失败</string>
+    <string name="errorMessageFormat_pref">%1$s（%2$s）</string>
+</resources>

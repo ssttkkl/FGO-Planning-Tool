@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/enterSelectMode_action"
+        android:icon="@drawable/ic_done_all_white_24dp"
+        android:title="@string/enterSelectMode_planlist"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/add_action"
+        android:icon="@drawable/ic_add_white_24dp"
+        android:title="@string/add_planlist"
+        app:showAsAction="ifRoom" />
+</menu>
