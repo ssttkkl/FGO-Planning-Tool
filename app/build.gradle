@@ -13,7 +13,7 @@ android {
     buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.ssttkkl.fgoplanningtool"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 20180630
         versionName "v0.1.0"
