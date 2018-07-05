@@ -6,10 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.item.ItemsRepository
+import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.data.plan.PlansRepository
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanActivity
@@ -21,7 +20,7 @@ class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAda
     private val adapter = view.recView.adapter as PlanListRecViewAdapter
 
     init {
-        PlansRepository.observeAllPlanList(view, Observer { onDataChanged(it) })
+        Repo.planListLiveData.observe(view, Observer { onDataChanged(it) })
     }
 
     val inSelectMode
@@ -30,9 +29,9 @@ class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAda
     // access database
     fun removePlan(plans: Collection<Plan>, withItems: Boolean) {
         launch(CommonPool) {
-            PlansRepository.remove(plans.map { it.servantId })
+            Repo.planRepo.remove(plans.map { it.servantId })
             if (withItems)
-                ItemsRepository.deductItems(plans.costItems)
+                Repo.itemRepo.deductItems(plans.costItems)
         }
     }
 

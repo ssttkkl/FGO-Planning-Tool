@@ -4,10 +4,9 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.item.ItemsRepository
+import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.data.plan.PlansRepository
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.editplan.container.EditPlanContainerFragment
 import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.ServantListFragment
@@ -53,7 +52,7 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
     fun onSaveAction() {
         when (mode) {
             EditPlanActivity.Companion.Mode.New -> {
-                launch(CommonPool) { PlansRepository.insert(viewModel.plan) }
+                launch(CommonPool) { Repo.planRepo.insert(viewModel.plan) }
                 view.finish()
             }
             EditPlanActivity.Companion.Mode.Edit -> {
@@ -78,11 +77,11 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
     fun onWarningFragmentAction(mode: ChangePlanWarningDialogFragment.Companion.Mode, plan: Plan, deductItems: Boolean) {
         launch(CommonPool) {
             when (mode) {
-                ChangePlanWarningDialogFragment.Companion.Mode.Edit -> PlansRepository.insert(viewModel.plan)
-                ChangePlanWarningDialogFragment.Companion.Mode.Remove -> PlansRepository.remove(viewModel.plan.servantId)
+                ChangePlanWarningDialogFragment.Companion.Mode.Edit -> Repo.planRepo.insert(viewModel.plan)
+                ChangePlanWarningDialogFragment.Companion.Mode.Remove -> Repo.planRepo.remove(viewModel.plan.servantId)
             }
             if (deductItems)
-                ItemsRepository.deductItems(listOf(plan).costItems)
+                Repo.itemRepo.deductItems(listOf(plan).costItems)
         }
         view.finish()
     }

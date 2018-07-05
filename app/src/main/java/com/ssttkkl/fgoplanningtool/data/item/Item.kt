@@ -1,23 +1,30 @@
 package com.ssttkkl.fgoplanningtool.data.item
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 
-data class Item(val codename: String,
+@Entity(tableName = "Item")
+data class Item(@PrimaryKey val codename: String,
                 var count: Int) : Parcelable {
     val descriptor
         get() = ResourcesProvider.itemDescriptors[codename]
 
+    constructor(parcel: Parcel) : this(
+            parcel.readString(),
+            parcel.readInt())
+
     constructor(item: Item) : this(item.codename, item.count)
 
-    constructor(p: Parcel) : this(p.readString(), p.readInt())
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(codename)
+        parcel.writeInt(count)
+    }
 
-    override fun describeContents() = 0
-
-    override fun writeToParcel(p: Parcel, flags: Int) {
-        p.writeString(codename)
-        p.writeInt(count)
+    override fun describeContents(): Int {
+        return 0
     }
 
     companion object CREATOR : Parcelable.Creator<Item> {

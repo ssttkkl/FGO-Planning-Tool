@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.item.ItemsRepository
+import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
@@ -55,7 +55,7 @@ class ChangePlanWarningDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         deductItems_checkBox.isEnabled = runBlocking(CommonPool) {
-            plans.costItems.all { ItemsRepository.get(it.codename).count >= it.count }
+            plans.costItems.all { (Repo.itemRepo.get(it.codename)?.count ?: 0) >= it.count }
         }
 
         viewItems_button.setOnClickListener {

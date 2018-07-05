@@ -3,8 +3,8 @@ package com.ssttkkl.fgoplanningtool.ui.preferences
 import android.content.Intent
 import android.net.Uri
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.DatabaseExporter
-import com.ssttkkl.fgoplanningtool.data.DatabaseImporter
+import com.ssttkkl.fgoplanningtool.data.RepoExporter
+import com.ssttkkl.fgoplanningtool.data.RepoImporter
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -107,25 +107,25 @@ class ImportAndExportPresenter(val view: PreferencesFragment) {
 
     private fun exportItems(uri: Uri) {
         performExportAsync(uri, view.getString(R.string.exportSuccessful_pref), view.getString(R.string.exportError_pref)) {
-            DatabaseExporter.exportItems(it)
+            RepoExporter.exportItems(it)
         }
     }
 
     private fun exportPlans(uri: Uri) {
         performExportAsync(uri, view.getString(R.string.exportSuccessful_pref), view.getString(R.string.exportError_pref)) {
-            DatabaseExporter.exportPlans(it)
+            RepoExporter.exportPlans(it)
         }
     }
 
     private fun importPlans(uri: Uri) {
         performImportAsync(uri, view.getString(R.string.importSuccessful_pref), view.getString(R.string.importError_pref)) {
-            DatabaseImporter.importPlans(it)
+            RepoImporter.importPlans(it)
         }
     }
 
     private fun importItems(uri: Uri) {
         performImportAsync(uri, view.getString(R.string.importSuccessful_pref), view.getString(R.string.importError_pref)) {
-            DatabaseImporter.importItems(it)
+            RepoImporter.importItems(it)
         }
     }
 
