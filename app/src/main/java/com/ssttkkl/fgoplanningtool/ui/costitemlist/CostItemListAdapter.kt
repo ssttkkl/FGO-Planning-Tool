@@ -23,17 +23,15 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
         private set
 
     fun setNewData(items: Collection<Item>) {
-        runBlocking(CommonPool) {
-            data = items.sortedBy { it.descriptor?.type }
-                    .map {
-                        CostItemListEntity(it.descriptor?.localizedName ?: it.codename,
-                                it.descriptor?.type?.localizedName ?: "",
-                                it.count,
-                                Repo.itemRepo.get(it.codename)?.count ?: 0,
-                                it.descriptor?.imgUri ?: "")
-                    }
-        }
-        launch(UI) { notifyDataSetChanged() }
+        data = items.sortedBy { it.descriptor?.type }
+                .map {
+                    CostItemListEntity(it.descriptor?.localizedName ?: it.codename,
+                            it.descriptor?.type?.localizedName ?: "",
+                            it.count,
+                            Repo.itemRepo[it.codename]?.count ?: 0,
+                            it.descriptor?.imgUri ?: "")
+                }
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = data.size

@@ -54,8 +54,8 @@ class ChangePlanWarningDialogFragment : DialogFragment() {
             inflater.inflate(R.layout.fragment_changeplanwarning, container)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        deductItems_checkBox.isEnabled = runBlocking(CommonPool) {
-            plans.costItems.all { (Repo.itemRepo.get(it.codename)?.count ?: 0) >= it.count }
+        deductItems_checkBox.isEnabled = plans.costItems.all {
+            (Repo.itemRepo[it.codename]?.count ?: 0) >= it.count
         }
 
         viewItems_button.setOnClickListener {

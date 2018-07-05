@@ -10,13 +10,9 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import kotlinx.android.synthetic.main.item_servantlist.view.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.runBlocking
 
 class ServantListAdapter(val context: Context) : RecyclerView.Adapter<ServantListAdapter.ViewHolder>() {
-    private val exist = runBlocking(CommonPool) {
-        Repo.planRepo.getAll().mapTo(HashSet()) { it.servantId }
-    }
+    private val exist = Repo.planRepo.all.mapTo(HashSet()) { it.servantId }
 
     var data: List<Servant> = listOf()
         set(value) {

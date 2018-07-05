@@ -13,8 +13,6 @@ import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogF
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanActivity
 import kotlinx.android.synthetic.main.fragment_planlist.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.launch
 
 class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAdapter.Callback {
     private val adapter = view.recView.adapter as PlanListRecViewAdapter
@@ -27,12 +25,10 @@ class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAda
         get() = adapter.isInSelectMode
 
     // access database
-    fun removePlan(plans: Collection<Plan>, withItems: Boolean) {
-        launch(CommonPool) {
-            Repo.planRepo.remove(plans.map { it.servantId })
-            if (withItems)
-                Repo.itemRepo.deductItems(plans.costItems)
-        }
+    fun removePlan(plans: Collection<Plan>, deductItems: Boolean) {
+        Repo.planRepo.removeAsync(plans.map { it.servantId })
+        if (deductItems)
+            Repo.itemRepo.deductItemsAsync(plans.costItems)
     }
 
     // handle ui events

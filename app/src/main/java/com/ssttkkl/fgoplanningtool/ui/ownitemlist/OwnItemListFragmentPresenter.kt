@@ -11,13 +11,13 @@ import kotlinx.coroutines.experimental.runBlocking
 class OwnItemListFragmentPresenter(val view: OwnItemListFragment) {
     fun onItemClick(codename: String) {
         launch(UI) {
-            gotoChangeItemUi(runBlocking(CommonPool) { Repo.itemRepo.get(codename) }
+            gotoChangeItemUi(Repo.itemRepo[codename]
                     ?: throw Exception("Item $codename not found. "))
         }
     }
 
     fun updateItem(item: Item) {
-        launch(CommonPool) { Repo.itemRepo.update(item) }
+        Repo.itemRepo.updateAsync(item)
     }
 
     private fun gotoChangeItemUi(item: Item) {

@@ -52,7 +52,7 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
     fun onSaveAction() {
         when (mode) {
             EditPlanActivity.Companion.Mode.New -> {
-                launch(CommonPool) { Repo.planRepo.insert(viewModel.plan) }
+                Repo.planRepo.insertAsync(viewModel.plan)
                 view.finish()
             }
             EditPlanActivity.Companion.Mode.Edit -> {
@@ -75,14 +75,12 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
     }
 
     fun onWarningFragmentAction(mode: ChangePlanWarningDialogFragment.Companion.Mode, plan: Plan, deductItems: Boolean) {
-        launch(CommonPool) {
-            when (mode) {
-                ChangePlanWarningDialogFragment.Companion.Mode.Edit -> Repo.planRepo.insert(viewModel.plan)
-                ChangePlanWarningDialogFragment.Companion.Mode.Remove -> Repo.planRepo.remove(viewModel.plan.servantId)
-            }
-            if (deductItems)
-                Repo.itemRepo.deductItems(listOf(plan).costItems)
+        when (mode) {
+            ChangePlanWarningDialogFragment.Companion.Mode.Edit -> Repo.planRepo.insertAsync(viewModel.plan)
+            ChangePlanWarningDialogFragment.Companion.Mode.Remove -> Repo.planRepo.removeAsync(viewModel.plan.servantId)
         }
+        if (deductItems)
+            Repo.itemRepo.deductItemsAsync(listOf(plan).costItems)
         view.finish()
     }
 

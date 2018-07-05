@@ -9,7 +9,9 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptor
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptorManager
 import com.ssttkkl.fgoplanningtool.data.item.Item
+import com.ssttkkl.fgoplanningtool.data.item.ItemRepo
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
+import com.ssttkkl.fgoplanningtool.data.plan.PlanRepo
 
 object Repo {
     private var uuid: String
