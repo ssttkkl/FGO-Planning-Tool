@@ -1,67 +1,113 @@
 package com.ssttkkl.fgoplanningtool.data.databasedescriptor
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import android.util.Log
 import com.ssttkkl.fgoplanningtool.Dispatchers
+import com.ssttkkl.fgoplanningtool.MyApp
+import com.ssttkkl.fgoplanningtool.R
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
-object DatabaseDescriptorManager {
+object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
     private val cache = ConcurrentHashMap<String, DatabaseDescriptor>()
-
-    private val mutableLiveData = MutableLiveData<List<DatabaseDescriptor>>()
-
-    val liveData: LiveData<List<DatabaseDescriptor>>
-        get() = mutableLiveData
 
     private val database = DatabaseDescriptorDatabase.instance.apply {
         Log.d("DBDescriptorManager", "Loading database...")
-        cache.putAll(runBlocking(Dispatchers.db) { databaseDescriptorDao.all }
-                .map { Pair(it.uuid, it) })
-        mutableLiveData.postValue(getAll())
+        synchronized(cache) {
+            cache.putAll(runBlocking(Dispatchers.db) { databaseDescriptorDao.all }.associate { Pair(it.uuid, it) })
+        }
         Log.d("DBDescriptorManager", "Database loaded.")
     }
 
-    private fun performTransaction(action: () -> Unit) {
-        runBlocking(Dispatchers.db) {
-            action.invoke()
+    val liveData = database.databaseDescriptorDao.allLiveData
+            .apply { observeForever(this@DatabaseDescriptorManager) }
+
+    override fun onChanged(t: List<DatabaseDescriptor>?) {
+        synchronized(cache) {
+            cache.clear()
+            if (t != null)
+                cache.putAll(t.associate { Pair(it.uuid, it) })
         }
-        mutableLiveData.postValue(getAll())
+        Log.d("DBDescriptorManager", "Database updated.")
     }
 
-    fun getAll(): List<DatabaseDescriptor> =
-            cache.values.sortedBy { it.uuid }
+    val all
+        get() = cache.values.sortedBy { it.uuid }
 
-    fun get(uuid: String): DatabaseDescriptor? =
-            cache[uuid]
+    operator fun get(uuid: String) = cache[uuid]
 
-    fun insert(descriptors: Collection<DatabaseDescriptor>) = performTransaction {
-        descriptors.forEach { descriptor ->
-            cache[descriptor.uuid] = descriptor
-        }
+    fun getLiveData(uuid: String) = database.databaseDescriptorDao.getLiveDataByUUID(uuid)
+
+    private fun performTransication(action: () -> Unit) = runBlocking(Dispatchers.db) { action.invoke() }
+
+    private fun performTransicationAsync(action: () -> Unit) = async(Dispatchers.db) { action.invoke() }
+
+    private fun insertImpl(descriptors: Collection<DatabaseDescriptor>) {
         database.databaseDescriptorDao.insert(descriptors)
     }
 
-    fun remove(uuids: Collection<String>) = performTransaction {
-        uuids.forEach { uuid ->
-            cache.remove(uuid)
-            val descriptor = database.databaseDescriptorDao.getByUUID(uuid)
-            if (descriptor != null)
-                database.databaseDescriptorDao.remove(descriptor)
-        }
-    }
+    fun insert(descriptors: Collection<DatabaseDescriptor>) = performTransication { insertImpl(descriptors) }
 
-    fun clear() = performTransaction {
-        cache.clear()
-        database.databaseDescriptorDao.remove(database.databaseDescriptorDao.all)
-    }
+    fun insertAsync(descriptors: Collection<DatabaseDescriptor>) = performTransicationAsync { insertImpl(descriptors) }
 
     fun insert(descriptor: DatabaseDescriptor) {
         insert(listOf(descriptor))
     }
 
+    fun insertAsync(descriptor: DatabaseDescriptor) {
+        insertAsync(listOf(descriptor))
+    }
+
+    private fun removeImpl(uuids: Collection<String>) {
+        uuids.forEach { uuid ->
+            database.databaseDescriptorDao.remove(database.databaseDescriptorDao.getByUUID(uuid)!!)
+        }
+    }
+
+    fun remove(uuids: Collection<String>) = performTransication { removeImpl(uuids) }
+
+    fun removeAsync(uuids: Collection<String>) = performTransicationAsync { removeImpl(uuids) }
+
     fun remove(uuid: String) {
         remove(listOf(uuid))
     }
+
+    fun removeAsync(uuid: String) {
+        removeAsync(listOf(uuid))
+    }
+
+    private fun clearImpl() {
+        database.databaseDescriptorDao.remove(database.databaseDescriptorDao.all)
+    }
+
+    fun clear() = performTransication { clearImpl() }
+
+    fun clearAsync() = performTransicationAsync { clearImpl() }
+
+    fun generateAndInsert(name: String): DatabaseDescriptor {
+        val descriptor = DatabaseDescriptor(UUID.randomUUID().toString().filter { it != '-' }.toLowerCase(), name)
+        insert(descriptor)
+        return descriptor
+    }
+
+    fun generateAndInsert(): DatabaseDescriptor {
+        val name = MyApp.context.getString(R.string.newDatabaseName)
+        return if (cache.containsKey(name)) {
+            val exists = cache.keys.filter { it.contains(name) }
+            val nameMultiple = MyApp.context.getString(R.string.newDatabaseNameMultiple)
+            var i = 2
+            while (exists.contains(nameMultiple.format(i)))
+                i++
+            generateAndInsert(nameMultiple.format(i))
+        } else {
+            generateAndInsert(name)
+        }
+    }
+
+    val firstOrCreate: DatabaseDescriptor
+        get() {
+            return all.firstOrNull() ?: generateAndInsert()
+        }
 }

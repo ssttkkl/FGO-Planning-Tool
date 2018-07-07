@@ -4,7 +4,6 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
-import java.util.*
 
 @Entity(tableName = "DatabaseDescriptor")
 data class DatabaseDescriptor(@PrimaryKey val uuid: String,
@@ -31,8 +30,5 @@ data class DatabaseDescriptor(@PrimaryKey val uuid: String,
         override fun newArray(size: Int): Array<DatabaseDescriptor?> {
             return arrayOfNulls(size)
         }
-
-        fun generate(name: String) =
-                DatabaseDescriptor(UUID.randomUUID().toString().filter { it != '-' }, name)
     }
 }

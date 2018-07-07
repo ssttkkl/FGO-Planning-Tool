@@ -2,7 +2,8 @@
     <string name="app_name" translatable="false">FGO Planning Tool</string>
     <string name="app_repo" translatable="false">https://github.com/ssttkkl/FGO-Planning-Tool</string>
 
-    <string name="new_database_name">新数据库</string>
+    <string name="newDatabaseName">新数据库</string>
+    <string name="newDatabaseNameMultiple">新数据库 (%1$d)</string>
 
     <string name="openDrawer_main">打开侧边栏</string>
     <string name="closeDrawer_main">关闭侧边栏</string>

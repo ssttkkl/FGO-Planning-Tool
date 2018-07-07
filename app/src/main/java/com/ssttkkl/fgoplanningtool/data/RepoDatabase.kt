@@ -15,16 +15,7 @@ abstract class RepoDatabase : RoomDatabase() {
     abstract val itemsDao: ItemsDao
 
     companion object {
-        private val instances = HashMap<String, RepoDatabase>()
-
-        fun getInstances(uuid: String): RepoDatabase {
-            if (!instances.containsKey(uuid))
-                synchronized(instances) {
-                    if (!instances.containsKey(uuid))
-                        instances[uuid] = Room.databaseBuilder(MyApp.context,
-                                RepoDatabase::class.java, "$uuid.db").build()
-                }
-            return instances[uuid]!!
-        }
+        fun newInstance(filename: String) = Room.databaseBuilder(MyApp.context,
+                RepoDatabase::class.java, "$filename.db").build()
     }
 }
