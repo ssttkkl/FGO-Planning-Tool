@@ -7,6 +7,13 @@
     "type": "General"
   },
   {
+    "codename": "holy_grail",
+    "cnName": "圣杯",
+    "jpName": "聖杯",
+    "enName": "Holy Grail",
+    "type": "General"
+  },
+  {
     "codename": "archer_magic_gem",
     "cnName": "弓之魔石",
     "jpName": "弓の魔石",

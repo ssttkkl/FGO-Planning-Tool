@@ -59,107 +59,236 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="姓名" />
 
-        <android.support.v7.widget.GridLayout
-            android:id="@+id/gridLayout"
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            app:columnCount="4"
+            android:maxLines="1"
+            android:text="@string/stage_item_planlist"
+            android:textAppearance="@style/ListItemTertiary"
+            android:textSize="10sp"
+            app:layout_column="0"
+            app:layout_columnWeight="1"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/name_textView"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="@string/skill1_item_planlist"
+            android:textAppearance="@style/ListItemTertiary"
+            android:textSize="10sp"
+            app:layout_column="1"
+            app:layout_columnWeight="1"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout4"
+            app:layout_constraintTop_toBottomOf="@+id/name_textView"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="@string/skill2_item_planlist"
+            android:textAppearance="@style/ListItemTertiary"
+            android:textSize="10sp"
+            app:layout_column="2"
+            app:layout_columnWeight="1"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/name_textView"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="@string/skill3_item_planlist"
+            android:textAppearance="@style/ListItemTertiary"
+            android:textSize="10sp"
+            app:layout_column="3"
+            app:layout_columnWeight="1"
+            app:layout_constraintEnd_toEndOf="@id/linearLayout3"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+            app:layout_constraintTop_toBottomOf="@+id/name_textView"
+            app:layout_row="0" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:gravity="center_vertical"
+            app:layout_column="0"
+            app:layout_columnWeight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/frameLayout"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_row="1">
+
+            <ImageView
+                android:id="@+id/nowHolyGrail_imageView"
+                android:layout_width="12dp"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="false"
+                android:visibility="gone"
+                app:srcCompat="@drawable/holy_grail" />
+
+            <TextView
+                android:id="@+id/nowStage_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textAppearance="@style/ListItemSecondary"
+                tools:text="0" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_trending_flat_grey_24dp" />
+
+            <ImageView
+                android:id="@+id/planHolyGrail_imageView"
+                android:layout_width="12dp"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="false"
+                app:srcCompat="@drawable/holy_grail" />
+
+            <TextView
+                android:id="@+id/planStage_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:textAppearance="@style/ListItemSecondary"
+                tools:text="×5" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:layout_column="1"
+            app:layout_columnWeight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:layout_row="1">
+
+            <TextView
+                android:id="@+id/nowSkill1_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textAppearance="@style/ListItemSecondary"
+                tools:text="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_trending_flat_grey_24dp" />
+
+            <TextView
+                android:id="@+id/planSkill1_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textAppearance="@style/ListItemSecondary"
+                tools:text="10" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:layout_column="2"
+            app:layout_columnWeight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:layout_row="1">
+
+            <TextView
+                android:id="@+id/nowSkill2_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textAppearance="@style/ListItemSecondary"
+                tools:text="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_trending_flat_grey_24dp" />
+
+            <TextView
+                android:id="@+id/planSkill2_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textAppearance="@style/ListItemSecondary"
+                tools:text="10" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:layout_column="3"
+            app:layout_columnWeight="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/frameLayout"
-            app:layout_constraintTop_toBottomOf="@+id/name_textView"
-            app:rowCount="2">
+            app:layout_constraintStart_toEndOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            app:layout_row="1">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:text="@string/stage_item_planlist"
-                android:textAppearance="@style/ListItemTertiary"
-                android:textSize="10sp"
-                app:layout_column="0"
-                app:layout_columnWeight="1"
-                app:layout_row="0" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:text="@string/skill1_item_planlist"
-                android:textAppearance="@style/ListItemTertiary"
-                android:textSize="10sp"
-                app:layout_column="1"
-                app:layout_columnWeight="1"
-                app:layout_row="0" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:text="@string/skill2_item_planlist"
-                android:textAppearance="@style/ListItemTertiary"
-                android:textSize="10sp"
-                app:layout_column="2"
-                app:layout_columnWeight="1"
-                app:layout_row="0" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:text="@string/skill3_item_planlist"
-                android:textAppearance="@style/ListItemTertiary"
-                android:textSize="10sp"
-                app:layout_column="3"
-                app:layout_columnWeight="1"
-                app:layout_row="0" />
-
-            <TextView
-                android:id="@+id/stage_textView"
-                android:layout_width="0dp"
+                android:id="@+id/nowSkill3_textView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:textAppearance="@style/ListItemSecondary"
-                app:layout_column="0"
-                app:layout_columnWeight="1"
-                app:layout_row="1"
-                tools:text="0 → 4" />
+                tools:text="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_trending_flat_grey_24dp" />
 
             <TextView
-                android:id="@+id/skill1_textView"
-                android:layout_width="0dp"
+                android:id="@+id/planSkill3_textView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:textAppearance="@style/ListItemSecondary"
-                app:layout_column="1"
-                app:layout_columnWeight="1"
-                app:layout_row="1"
-                tools:text="1 → 10" />
-
-            <TextView
-                android:id="@+id/skill2_textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textAppearance="@style/ListItemSecondary"
-                app:layout_column="2"
-                app:layout_columnWeight="1"
-                app:layout_row="1"
-                tools:text="1 → 10" />
-
-            <TextView
-                android:id="@+id/skill3_textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textAppearance="@style/ListItemSecondary"
-                app:layout_column="3"
-                app:layout_columnWeight="1"
-                app:layout_row="1"
-                tools:text="1 → 10" />
-        </android.support.v7.widget.GridLayout>
+                tools:text="10" />
+        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

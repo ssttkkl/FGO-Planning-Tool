@@ -61,8 +61,7 @@
                     android:id="@+id/nowStage_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/stage_editplan" />
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -76,8 +75,7 @@
                     android:id="@+id/planStage_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/stage_editplan" />
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <TextView
@@ -96,8 +94,7 @@
                     android:id="@+id/nowSkill1_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/skill_editplan" />
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -111,8 +108,7 @@
                     android:id="@+id/planSkill1_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/skill_editplan" />
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <TextView
@@ -131,8 +127,7 @@
                     android:id="@+id/nowSkill2_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/skill_editplan" />
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -146,8 +141,7 @@
                     android:id="@+id/planSkill2_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/skill_editplan" />
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <TextView
@@ -166,8 +160,7 @@
                     android:id="@+id/nowSkill3_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/skill_editplan" />
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -181,8 +174,7 @@
                     android:id="@+id/planSkill3_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/skill_editplan" />
+                    android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

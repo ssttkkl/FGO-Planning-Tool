@@ -36,11 +36,11 @@
     <string name="enterSelectMode_planlist">进入多选模式</string>
     <string name="remove_planlist">删除</string>
     <string name="selectAll_planlist">选择全部</string>
-    <string name="stage_item_planlist">再临阶段</string>
+    <string name="stage_item_planlist">再临 / 圣杯</string>
     <string name="skill1_item_planlist">技能 I</string>
     <string name="skill2_item_planlist">技能 II</string>
     <string name="skill3_item_planlist">技能 III</string>
-    <string name="levelPattern_item_planlist" translatable="false">%1$d → %2$d</string>
+    <string name="times_item_planlist">×%1$d</string>
 
     <string name="title_new_editplan">新建规划</string>
     <string name="title_edit_editplan">编辑规划</string>
@@ -54,6 +54,11 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>×1</item>
+        <item>×2</item>
+        <item>×3</item>
+        <item>×4</item>
+        <item>×5</item>
     </string-array>
     <string-array name="skill_editplan">
         <item>1</item>

@@ -125,17 +125,35 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
 
     override fun getItemCount() = data.size
 
-    private val levelPattern = context.getString(R.string.levelPattern_item_planlist)
+    private val times = context.getString(R.string.times_item_planlist)
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         holder.itemView.apply {
             val plan = data[pos]
             name_textView.text = plan.servant.localizedName
 
-            stage_textView.text = levelPattern.format(plan.nowStage, plan.planStage)
-            skill1_textView.text = levelPattern.format(plan.nowSkill1, plan.planSkill1)
-            skill2_textView.text = levelPattern.format(plan.nowSkill2, plan.planSkill2)
-            skill3_textView.text = levelPattern.format(plan.nowSkill3, plan.planSkill3)
+            if (plan.nowStage <= 4) {
+                nowStage_textView.text = plan.nowStage.toString()
+                nowHolyGrail_imageView.visibility = View.GONE
+            } else {
+                nowStage_textView.text = times.format(plan.nowStage - 4)
+                nowHolyGrail_imageView.visibility = View.VISIBLE
+            }
+
+            if (plan.planStage <= 4) {
+                planStage_textView.text = plan.planStage.toString()
+                planHolyGrail_imageView.visibility = View.GONE
+            } else {
+                planStage_textView.text = times.format(plan.planStage - 4)
+                planHolyGrail_imageView.visibility = View.VISIBLE
+            }
+
+            nowSkill1_textView.text = plan.nowSkill1.toString()
+            planSkill1_textView.text = plan.planSkill1.toString()
+            nowSkill2_textView.text = plan.nowSkill2.toString()
+            planSkill2_textView.text = plan.planSkill2.toString()
+            nowSkill3_textView.text = plan.nowSkill3.toString()
+            planSkill3_textView.text = plan.planSkill3.toString()
 
             Glide.with(context).load(plan.servant.avatarUri).into(avatar_imageView)
             selectedFlag_imageView.visibility = if (isInSelectMode && isPositionSelected(pos)) View.VISIBLE else View.INVISIBLE
