@@ -18,11 +18,7 @@ object Repo {
     val databaseDescriptor
         get() = DatabaseDescriptorManager[uuid]
 
-    private var database = RepoDatabase.newInstance(uuid)
-        set(value) {
-            field.close()
-            field = value
-        }
+    private var database = RepoDatabase.getInstance(uuid)
 
     val planListLiveData: LiveData<List<Plan>> = MutableLiveData<List<Plan>>()
 
@@ -67,7 +63,7 @@ object Repo {
         }
 
     fun switchDatabase(newUUID: String) {
-        database = RepoDatabase.newInstance(newUUID)
+        database = RepoDatabase.getInstance(newUUID)
         uuid = newUUID
         databaseDescriptorLiveDataFromManager = DatabaseDescriptorManager.getLiveData(newUUID)
 

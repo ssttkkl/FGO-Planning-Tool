@@ -2,10 +2,9 @@ package com.ssttkkl.fgoplanningtool.data.plan
 
 import android.arch.lifecycle.Observer
 import android.util.Log
-import com.ssttkkl.fgoplanningtool.Dispatchers
+import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.RepoDatabase
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
+import com.ssttkkl.fgoplanningtool.data.perform
 import java.util.concurrent.ConcurrentHashMap
 
 class PlanRepo(private val database: RepoDatabase) : Observer<List<Plan>> {
@@ -28,49 +27,31 @@ class PlanRepo(private val database: RepoDatabase) : Observer<List<Plan>> {
 
     operator fun get(servantId: Int) = cache[servantId]
 
-    private fun performTransication(action: () -> Unit) = runBlocking(Dispatchers.db) { action.invoke() }
-
-    private fun performTransicationAsync(action: () -> Unit) = async(Dispatchers.db) { action.invoke() }
-
-    private fun insertImpl(plans: Collection<Plan>) {
-        database.plansDao.insert(plans)
-    }
-
-    fun insert(plans: Collection<Plan>) = performTransication { insertImpl(plans) }
-
-    fun insertAsync(plans: Collection<Plan>) = performTransicationAsync { insertImpl(plans) }
-
-    private fun removeImpl(servantIDs: Collection<Int>) {
-        servantIDs.forEach { servantID ->
-            database.plansDao.remove(database.plansDao.getByServantID(servantID)!!)
+    fun insert(plans: Collection<Plan>, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        perform(howToPerform) {
+            database.plansDao.insert(plans)
         }
     }
 
-    fun remove(servantIDs: Collection<Int>) = performTransication { removeImpl(servantIDs) }
-
-    fun removeAsync(servantIDs: Collection<Int>) = performTransicationAsync { removeImpl(servantIDs) }
-
-    private fun clearImpl() {
-        database.plansDao.remove(database.plansDao.all)
+    fun remove(servantIDs: Collection<Int>, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        perform(howToPerform) {
+            servantIDs.forEach { servantID ->
+                database.plansDao.remove(database.plansDao.getByServantID(servantID)!!)
+            }
+        }
     }
 
-    fun clear() = performTransication { clearImpl() }
-
-    fun clearAsync() = performTransicationAsync { clearImpl() }
-
-    fun insert(plan: Plan) {
-        insert(listOf(plan))
+    fun clear(howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        perform(howToPerform) {
+            database.plansDao.remove(database.plansDao.all)
+        }
     }
 
-    fun insertAsync(plan: Plan) {
-        insertAsync(listOf(plan))
+    fun insert(plan: Plan, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        insert(listOf(plan), howToPerform)
     }
 
-    fun remove(servantID: Int) {
-        remove(listOf(servantID))
-    }
-
-    fun removeAsync(servantID: Int) {
-        removeAsync(listOf(servantID))
+    fun remove(servantID: Int, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        remove(listOf(servantID), howToPerform)
     }
 }

@@ -3,7 +3,9 @@ package com.ssttkkl.fgoplanningtool.data.item
 import android.arch.lifecycle.Observer
 import android.util.Log
 import com.ssttkkl.fgoplanningtool.Dispatchers
+import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.RepoDatabase
+import com.ssttkkl.fgoplanningtool.data.perform
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
@@ -40,28 +42,20 @@ class ItemRepo(private val database: RepoDatabase) : Observer<List<Item>> {
         return cache[codename]
     }
 
-    private fun performTransaction(action: () -> Unit) = runBlocking(Dispatchers.db) { action.invoke() }
-
-    private fun performTransactionAsync(action: () -> Unit) = async(Dispatchers.db) { action.invoke() }
-
-    private fun updateImpl(items: Collection<Item>) {
-        database.itemsDao.update(items)
-    }
-
-    fun update(items: Collection<Item>) = performTransaction { updateImpl(items) }
-
-    fun updateAsync(items: Collection<Item>) = performTransactionAsync { updateImpl(items) }
-
-    private fun clearImpl() {
-        val newItems = database.itemsDao.all.apply {
-            forEach { it.count = 0 }
+    fun update(items: Collection<Item>, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        perform(howToPerform) {
+            database.itemsDao.update(items)
         }
-        database.itemsDao.update(newItems)
     }
 
-    fun clear() = performTransaction { clearImpl() }
-
-    fun clearAsync() = performTransactionAsync { clearImpl() }
+    fun clear(howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        perform(howToPerform) {
+            val newItems = database.itemsDao.all.apply {
+                forEach { it.count = 0 }
+            }
+            database.itemsDao.update(newItems)
+        }
+    }
 
     private fun processDeductItems(itemsToDeduct: Collection<Item>) =
             itemsToDeduct.map {
@@ -72,19 +66,11 @@ class ItemRepo(private val database: RepoDatabase) : Observer<List<Item>> {
                 Item(it.codename, itemInRepo.count - it.count)
             }
 
-    fun deductItems(itemsToDeduct: Collection<Item>) {
-        update(processDeductItems(itemsToDeduct))
+    fun deductItems(itemsToDeduct: Collection<Item>, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        update(processDeductItems(itemsToDeduct), howToPerform)
     }
 
-    fun deductItemsAsync(itemsToDeduct: Collection<Item>) {
-        updateAsync(processDeductItems(itemsToDeduct))
-    }
-
-    fun update(item: Item) {
-        update(listOf(item))
-    }
-
-    fun updateAsync(item: Item) {
-        updateAsync(listOf(item))
+    fun update(item: Item, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        update(listOf(item), howToPerform)
     }
 }

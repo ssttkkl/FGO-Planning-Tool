@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
@@ -52,7 +53,7 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
     fun onSaveAction() {
         when (mode) {
             EditPlanActivity.Companion.Mode.New -> {
-                Repo.planRepo.insertAsync(viewModel.plan)
+                Repo.planRepo.insert(viewModel.plan, HowToPerform.Launch)
                 view.finish()
             }
             EditPlanActivity.Companion.Mode.Edit -> {
@@ -76,11 +77,11 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
 
     fun onWarningFragmentAction(mode: ChangePlanWarningDialogFragment.Companion.Mode, plan: Plan, deductItems: Boolean) {
         when (mode) {
-            ChangePlanWarningDialogFragment.Companion.Mode.Edit -> Repo.planRepo.insertAsync(viewModel.plan)
-            ChangePlanWarningDialogFragment.Companion.Mode.Remove -> Repo.planRepo.removeAsync(viewModel.plan.servantId)
+            ChangePlanWarningDialogFragment.Companion.Mode.Edit -> Repo.planRepo.insert(viewModel.plan, HowToPerform.Launch)
+            ChangePlanWarningDialogFragment.Companion.Mode.Remove -> Repo.planRepo.remove(viewModel.plan.servantId, HowToPerform.Launch)
         }
         if (deductItems)
-            Repo.itemRepo.deductItemsAsync(listOf(plan).costItems)
+            Repo.itemRepo.deductItems(listOf(plan).costItems, HowToPerform.Launch)
         view.finish()
     }
 

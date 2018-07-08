@@ -2,6 +2,7 @@
     <string name="app_name" translatable="false">FGO Planning Tool</string>
     <string name="app_repo" translatable="false">https://github.com/ssttkkl/FGO-Planning-Tool</string>
 
+    <string name="databaseFromMigrationName">从旧版本迁移的数据库</string>
     <string name="newDatabaseName">新数据库</string>
     <string name="newDatabaseNameMultiple">新数据库 (%1$d)</string>
 
@@ -12,6 +13,21 @@
     <string name="planlist_nav">规划列表</string>
     <string name="ownitemlist_nav">持有材料</string>
     <string name="preferences_nav">选项</string>
+    <string name="databaseManage_nav">管理</string>
+
+    <string name="title_databasemanage">管理数据库</string>
+    <string name="add_databasemanage">添加</string>
+    <string name="rename_databasemanage">重命名</string>
+    <string name="remove_databasemanage">删除</string>
+    <string name="importItems_databasemanage">导入持有材料</string>
+    <string name="exportItems_databasemanage">导出持有材料</string>
+    <string name="importPlans_databasemanage">导入规划</string>
+    <string name="exportPlans_databasemanage">导出规划</string>
+    <string name="importSuccessful_databasemanage">导入成功</string>
+    <string name="importError_databasemanage">导入失败</string>
+    <string name="exportSuccessful_databasemanage">导出成功</string>
+    <string name="exportError_databasemanage">导出失败</string>
+    <string name="errorMessageFormat_databasemanage">%1$s（%2$s）</string>
 
     <string name="title_planlist">规划列表</string>
     <string name="emptyHint_planlist">什么都没有</string>
@@ -105,22 +121,6 @@
     <string name="cancel_changeplanwarning">取消</string>
 
     <string name="title_pref">选项</string>
-    <string name="group_importAndExport_pref">数据导入导出</string>
-    <string name="title_importItems_pref">导入持有材料</string>
-    <string name="summary_importItems_pref">当前的所有持有材料数据将被覆盖</string>
-    <string name="title_exportItems_pref">导出持有材料</string>
-    <string name="title_importPlans_pref">导入规划</string>
-    <string name="summary_importPlans_pref">当前的所有规划数据将被覆盖</string>
-    <string name="title_exportPlans_pref">导出规划</string>
-
     <string name="title_version_pref">版本号</string>
     <string name="title_repo_pref">Github 项目主页</string>
-
-    <string name="importStart_pref">开始导入</string>
-    <string name="importSuccessful_pref">导入成功</string>
-    <string name="importError_pref">导入失败</string>
-    <string name="exportStart_pref">开始导出</string>
-    <string name="exportSuccessful_pref">导出成功</string>
-    <string name="exportError_pref">导出失败</string>
-    <string name="errorMessageFormat_pref">%1$s（%2$s）</string>
 </resources>

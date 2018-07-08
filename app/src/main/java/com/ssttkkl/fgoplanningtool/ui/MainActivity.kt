@@ -1,6 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui
 
 import android.app.Activity
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -10,6 +11,8 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.Repo
+import com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageActivity
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragment
 import com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragment
 import com.ssttkkl.fgoplanningtool.ui.preferences.PreferencesActivity
@@ -24,6 +27,11 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navview.setNavigationItemSelectedListener(this)
+
+        Repo.databaseDescriptorLiveData.observe(this, Observer {
+            currentDatabase_textView.text = it?.name
+        })
+        databaseManage_button.setOnClickListener { gotoActivity(DatabaseManageActivity::class.java) }
 
         if (supportFragmentManager.fragments.isEmpty())
             switchToFragment(PlanListFragment::class)

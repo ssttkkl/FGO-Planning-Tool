@@ -1,5 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.ownitemlist
 
+import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.edititem.EditItemDialogFragment
@@ -17,7 +18,7 @@ class OwnItemListFragmentPresenter(val view: OwnItemListFragment) {
     }
 
     fun updateItem(item: Item) {
-        Repo.itemRepo.updateAsync(item)
+        Repo.itemRepo.update(item, HowToPerform.Launch)
     }
 
     private fun gotoChangeItemUi(item: Item) {

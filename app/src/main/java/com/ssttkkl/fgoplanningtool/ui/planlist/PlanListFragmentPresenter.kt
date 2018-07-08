@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
@@ -26,9 +27,9 @@ class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAda
 
     // access database
     fun removePlan(plans: Collection<Plan>, deductItems: Boolean) {
-        Repo.planRepo.removeAsync(plans.map { it.servantId })
+        Repo.planRepo.remove(plans.map { it.servantId }, HowToPerform.Launch)
         if (deductItems)
-            Repo.itemRepo.deductItemsAsync(plans.costItems)
+            Repo.itemRepo.deductItems(plans.costItems, HowToPerform.Launch)
     }
 
     // handle ui events

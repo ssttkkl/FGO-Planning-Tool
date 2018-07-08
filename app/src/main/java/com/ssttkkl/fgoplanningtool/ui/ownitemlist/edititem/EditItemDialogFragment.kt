@@ -82,12 +82,12 @@ class EditItemDialogFragment : DialogFragment() {
             try {
                 action.invoke(value)
             } catch (exc: Exception) {
-                Toast.makeText(context!!, getString(R.string.errorMessageFormat_pref)
+                Toast.makeText(context!!, getString(R.string.errorMessageFormat_databasemanage)
                         .format(getString(R.string.unknownError_edititem), exc.localizedMessage),
                         Toast.LENGTH_SHORT).show()
             }
         } catch (exc: Exception) {
-            Toast.makeText(context!!, getString(R.string.errorMessageFormat_pref)
+            Toast.makeText(context!!, getString(R.string.errorMessageFormat_databasemanage)
                     .format(getString(R.string.illegalError_edititem), exc.localizedMessage),
                     Toast.LENGTH_SHORT).show()
         }

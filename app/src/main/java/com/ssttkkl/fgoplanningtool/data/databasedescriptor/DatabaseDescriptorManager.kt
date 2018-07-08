@@ -5,15 +5,19 @@ import android.util.Log
 import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
-import kotlinx.coroutines.experimental.async
+import com.ssttkkl.fgoplanningtool.data.HowToPerform
+import com.ssttkkl.fgoplanningtool.data.RepoDatabase
+import com.ssttkkl.fgoplanningtool.data.migration.DatabaseDescriptorDatabaseCommonMigration1
+import com.ssttkkl.fgoplanningtool.data.perform
 import kotlinx.coroutines.experimental.runBlocking
-import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
     private val cache = ConcurrentHashMap<String, DatabaseDescriptor>()
 
     private val database = DatabaseDescriptorDatabase.instance.apply {
+        DatabaseDescriptorDatabaseCommonMigration1.migration(this)
+
         Log.d("DBDescriptorManager", "Loading database...")
         synchronized(cache) {
             cache.putAll(runBlocking(Dispatchers.db) { databaseDescriptorDao.all }.associate { Pair(it.uuid, it) })
@@ -34,76 +38,71 @@ object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
     }
 
     val all
-        get() = cache.values.sortedBy { it.uuid }
+        get() = cache.values.sortedBy { it.createTime }
 
     operator fun get(uuid: String) = cache[uuid]
 
     fun getLiveData(uuid: String) = database.databaseDescriptorDao.getLiveDataByUUID(uuid)
 
-    private fun performTransication(action: () -> Unit) = runBlocking(Dispatchers.db) { action.invoke() }
-
-    private fun performTransicationAsync(action: () -> Unit) = async(Dispatchers.db) { action.invoke() }
-
-    private fun insertImpl(descriptors: Collection<DatabaseDescriptor>) {
-        database.databaseDescriptorDao.insert(descriptors)
-    }
-
-    fun insert(descriptors: Collection<DatabaseDescriptor>) = performTransication { insertImpl(descriptors) }
-
-    fun insertAsync(descriptors: Collection<DatabaseDescriptor>) = performTransicationAsync { insertImpl(descriptors) }
-
-    fun insert(descriptor: DatabaseDescriptor) {
-        insert(listOf(descriptor))
-    }
-
-    fun insertAsync(descriptor: DatabaseDescriptor) {
-        insertAsync(listOf(descriptor))
-    }
-
-    private fun removeImpl(uuids: Collection<String>) {
-        uuids.forEach { uuid ->
-            database.databaseDescriptorDao.remove(database.databaseDescriptorDao.getByUUID(uuid)!!)
+    fun insert(descriptors: Collection<DatabaseDescriptor>, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        perform(howToPerform) {
+            database.databaseDescriptorDao.insert(descriptors)
         }
     }
 
-    fun remove(uuids: Collection<String>) = performTransication { removeImpl(uuids) }
-
-    fun removeAsync(uuids: Collection<String>) = performTransicationAsync { removeImpl(uuids) }
-
-    fun remove(uuid: String) {
-        remove(listOf(uuid))
+    fun insert(descriptor: DatabaseDescriptor, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        insert(listOf(descriptor), howToPerform)
     }
 
-    fun removeAsync(uuid: String) {
-        removeAsync(listOf(uuid))
+    fun update(descriptor: DatabaseDescriptor, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        perform(howToPerform) {
+            database.databaseDescriptorDao.update(descriptor)
+        }
     }
 
-    private fun clearImpl() {
-        database.databaseDescriptorDao.remove(database.databaseDescriptorDao.all)
+    fun remove(uuids: Collection<String>, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        perform(howToPerform) {
+            uuids.forEach { uuid ->
+                database.databaseDescriptorDao.remove(database.databaseDescriptorDao.getByUUID(uuid)!!)
+                RepoDatabase.remove(uuid)
+            }
+        }
     }
 
-    fun clear() = performTransication { clearImpl() }
+    fun remove(uuid: String, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        remove(listOf(uuid), howToPerform)
+    }
 
-    fun clearAsync() = performTransicationAsync { clearImpl() }
+    fun clear(howToPerform: HowToPerform = HowToPerform.RunBlocking) {
+        perform(howToPerform) {
+            database.databaseDescriptorDao.remove(database.databaseDescriptorDao.all)
+        }
+    }
 
-    fun generateAndInsert(name: String): DatabaseDescriptor {
-        val descriptor = DatabaseDescriptor(UUID.randomUUID().toString().filter { it != '-' }.toLowerCase(), name)
-        insert(descriptor)
+    fun generate(): DatabaseDescriptor {
+        val names = all.map { it.name }.toSet()
+        val name = MyApp.context.getString(R.string.newDatabaseName)
+        return if (names.contains(name)) {
+            val nameMultiple = MyApp.context.getString(R.string.newDatabaseNameMultiple)
+            var i = 2
+            while (names.contains(nameMultiple.format(i)))
+                i++
+            DatabaseDescriptor.generate(nameMultiple.format(i))
+        } else {
+            DatabaseDescriptor.generate(name)
+        }
+    }
+
+    fun generateAndInsert(name: String, howToPerform: HowToPerform = HowToPerform.RunBlocking): DatabaseDescriptor {
+        val descriptor = DatabaseDescriptor.generate(name)
+        insert(descriptor, howToPerform)
         return descriptor
     }
 
-    fun generateAndInsert(): DatabaseDescriptor {
-        val name = MyApp.context.getString(R.string.newDatabaseName)
-        return if (cache.containsKey(name)) {
-            val exists = cache.keys.filter { it.contains(name) }
-            val nameMultiple = MyApp.context.getString(R.string.newDatabaseNameMultiple)
-            var i = 2
-            while (exists.contains(nameMultiple.format(i)))
-                i++
-            generateAndInsert(nameMultiple.format(i))
-        } else {
-            generateAndInsert(name)
-        }
+    fun generateAndInsert(howToPerform: HowToPerform = HowToPerform.RunBlocking): DatabaseDescriptor {
+        val descriptor = generate()
+        insert(descriptor, howToPerform)
+        return descriptor
     }
 
     val firstOrCreate: DatabaseDescriptor
