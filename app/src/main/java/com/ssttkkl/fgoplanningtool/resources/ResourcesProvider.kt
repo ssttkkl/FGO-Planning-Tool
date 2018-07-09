@@ -14,11 +14,13 @@ object ResourcesProvider {
     val servants: Map<Int, Servant> = ResourcesBuilder.buildServants(MyApp.context)
     val ascensionQPInfo: List<List<Int>>
     val skillQPInfo: List<List<Int>>
+    val palingenesisQPInfo: List<List<Int>>
 
     init {
-        val (ascension, skill) = ResourcesBuilder.buildQPInfo(MyApp.context)
-        ascensionQPInfo = ascension
-        skillQPInfo = skill
+        val map = ResourcesBuilder.buildQPInfo(MyApp.context)
+        ascensionQPInfo = map["ascension"]!!
+        skillQPInfo = map["skill"]!!
+        palingenesisQPInfo = map["palingenesis"]!!
     }
 
     private object ResourcesBuilder {
@@ -46,11 +48,10 @@ object ResourcesProvider {
             }
         }
 
-        fun buildQPInfo(context: Context): Pair<List<List<Int>>, List<List<Int>>> {
+        fun buildQPInfo(context: Context): Map<String, List<List<Int>>> {
             context.assets.open(qpInfoFilename).use { stream ->
                 InputStreamReader(stream).use { reader ->
-                    val map = gson.fromJson<Map<String, List<List<Int>>>>(reader, object : TypeToken<Map<String, List<List<Int>>>>() {}.type)
-                    return Pair(map["ascension"]!!, map["skill"]!!)
+                    return gson.fromJson(reader, object : TypeToken<Map<String, List<List<Int>>>>() {}.type)
                 }
             }
         }
