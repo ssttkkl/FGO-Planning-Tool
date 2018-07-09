@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.data.item.ItemsRepository
 import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_costitemlist.view.*
 import kotlinx.coroutines.experimental.CommonPool
@@ -23,17 +23,15 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
         private set
 
     fun setNewData(items: Collection<Item>) {
-        runBlocking(CommonPool) {
-            data = items.sortedBy { it.descriptor?.type }
-                    .map {
-                        CostItemListEntity(it.descriptor?.localizedName ?: it.codename,
-                                it.descriptor?.type?.localizedName ?: "",
-                                it.count,
-                                ItemsRepository.get(it.codename).count,
-                                it.descriptor?.imgUri ?: "")
-                    }
-        }
-        launch(UI) { notifyDataSetChanged() }
+        data = items.sortedBy { it.descriptor?.type }
+                .map {
+                    CostItemListEntity(it.descriptor?.localizedName ?: it.codename,
+                            it.descriptor?.type?.localizedName ?: "",
+                            it.count,
+                            Repo.itemRepo[it.codename]?.count ?: 0,
+                            it.descriptor?.imgUri ?: "")
+                }
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = data.size

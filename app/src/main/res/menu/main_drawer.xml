@@ -9,12 +9,12 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/planlist_nav"
-            android:icon="@drawable/ic_flag_black_24dp"
+            android:icon="@drawable/ic_flag_white_24dp"
             android:title="@string/planlist_nav"
             app:showAsAction="ifRoom" />
         <item
             android:id="@+id/ownitemlist_nav"
-            android:icon="@drawable/ic_storage_black_24dp"
+            android:icon="@drawable/ic_storage_white_24dp"
             android:title="@string/ownitemlist_nav"
             app:showAsAction="ifRoom" />
     </group>
@@ -24,7 +24,7 @@
         android:checkableBehavior="none">
         <item
             android:id="@+id/preferences_nav"
-            android:icon="@drawable/ic_settings_black_24dp"
+            android:icon="@drawable/ic_settings_white_24dp"
             android:title="@string/preferences_nav"
             app:showAsAction="ifRoom" />
     </group>

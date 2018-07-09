@@ -39,7 +39,7 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="4dp"
-            app:srcCompat="@drawable/ic_clear_grey_24dp" />
+            app:srcCompat="@drawable/ic_clear_white_24dp" />
 
     </LinearLayout>
 

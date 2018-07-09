@@ -1,11 +1,14 @@
 package com.ssttkkl.fgoplanningtool.data.plan
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 
-data class Plan(var servantId: Int,
+@Entity(tableName = "Plan")
+data class Plan(@PrimaryKey val servantId: Int,
                 var nowStage: Int,
                 var planStage: Int,
                 var nowSkill1: Int,

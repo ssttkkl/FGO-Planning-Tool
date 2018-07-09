@@ -6,34 +6,30 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.item.ItemsRepository
+import com.ssttkkl.fgoplanningtool.data.HowToPerform
+import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.data.plan.PlansRepository
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanActivity
 import kotlinx.android.synthetic.main.fragment_planlist.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.launch
 
 class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAdapter.Callback {
     private val adapter = view.recView.adapter as PlanListRecViewAdapter
 
     init {
-        PlansRepository.observeAllPlanList(view, Observer { onDataChanged(it) })
+        Repo.planListLiveData.observe(view, Observer { onDataChanged(it) })
     }
 
     val inSelectMode
         get() = adapter.isInSelectMode
 
     // access database
-    fun removePlan(plans: Collection<Plan>, withItems: Boolean) {
-        launch(CommonPool) {
-            PlansRepository.remove(plans.map { it.servantId })
-            if (withItems)
-                ItemsRepository.deductItems(plans.costItems)
-        }
+    fun removePlan(plans: Collection<Plan>, deductItems: Boolean) {
+        Repo.planRepo.remove(plans.map { it.servantId }, HowToPerform.Launch)
+        if (deductItems)
+            Repo.itemRepo.deductItems(plans.costItems, HowToPerform.Launch)
     }
 
     // handle ui events

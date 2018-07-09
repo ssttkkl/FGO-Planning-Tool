@@ -31,7 +31,8 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_arrow_drop_down_coloraccent_24dp" />
+            app:srcCompat="@drawable/ic_arrow_drop_down_white_24dp"
+            android:tint="@color/colorAccent" />
 
     </LinearLayout>
 
