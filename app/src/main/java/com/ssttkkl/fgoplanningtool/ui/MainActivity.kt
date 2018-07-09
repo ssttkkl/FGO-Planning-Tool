@@ -1,63 +1,66 @@
 package com.ssttkkl.fgoplanningtool.ui
 
 import android.app.Activity
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.Repo
+import com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageActivity
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragment
 import com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragment
 import com.ssttkkl.fgoplanningtool.ui.preferences.PreferencesActivity
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
 class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelectedListener {
-    private val fragmentClasses = listOf(PlanListFragment::class, OwnItemListFragment::class)
-
-    private var cur = -1 // current fragment position
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navview.setNavigationItemSelectedListener(this)
-        switchToFragment(savedInstanceState?.getInt(KEY_CUR) ?: 0)
+
+        Repo.databaseDescriptorLiveData.observe(this, Observer {
+            currentDatabase_textView.text = it?.name
+        })
+        databaseManage_button.setOnClickListener { gotoActivity(DatabaseManageActivity::class.java) }
+
+        if (supportFragmentManager.fragments.isEmpty())
+            switchToFragment(PlanListFragment::class)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view mItem clicks here.
         when (item.itemId) {
-            R.id.planlist_nav -> switchToFragment(0)
-            R.id.ownitemlist_nav -> switchToFragment(1)
+            R.id.planlist_nav -> switchToFragment(PlanListFragment::class)
+            R.id.ownitemlist_nav -> switchToFragment(OwnItemListFragment::class)
             R.id.preferences_nav -> gotoActivity(PreferencesActivity::class.java)
         }
         drawerlayout.closeDrawer(GravityCompat.START)
         return true
     }
 
-    private fun switchToFragment(idx: Int) {
-        if (supportFragmentManager.findFragmentByTag(fragmentClasses[idx].qualifiedName) == null) {
+    private fun switchToFragment(fragmentClass: KClass<out Fragment>) {
+        if (supportFragmentManager.findFragmentByTag(fragmentClass.qualifiedName) == null) {
             supportFragmentManager.apply {
                 beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.frameLayout, fragmentClasses[idx].createInstance())
+                        .replace(R.id.frameLayout, fragmentClass.createInstance())
                         .commit()
                 executePendingTransactions()
             }
-            cur = idx
         }
     }
 
     private fun gotoActivity(activityClass: Class<out Activity>) {
         startActivity(Intent(this, activityClass))
-    }
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        outState?.putInt(KEY_CUR, cur)
     }
 
     private var lastBackPressedTime: Long = 0
@@ -80,7 +83,5 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
     companion object {
         // same to android.support.design.widget.LONG_DURATION_MS
         private const val BACK_AGAIN_DURATION = 2750
-
-        private const val KEY_CUR = "cur"
     }
 }

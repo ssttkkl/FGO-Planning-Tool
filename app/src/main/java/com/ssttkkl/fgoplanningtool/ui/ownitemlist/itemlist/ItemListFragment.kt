@@ -11,8 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.data.item.ItemsRepository
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.fragment_ownitemlist_itemlist.*
@@ -42,7 +42,7 @@ class ItemListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        type = ItemType.valueOf(arguments!!.getString("type"))
+        type = arguments!!.getSerializable("type") as ItemType
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +57,7 @@ class ItemListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!))
         }
-        ItemsRepository.observeAll(this, Observer {
+        Repo.itemListLiveData.observe(this, Observer {
             onDataChanged(it?.filter { it.descriptor?.type == type } ?: listOf())
         })
     }
@@ -70,8 +70,10 @@ class ItemListFragment : Fragment() {
     companion object {
         fun getInstance(type: ItemType) = ItemListFragment().apply {
             arguments = Bundle().apply {
-                putString("type", type.name)
+                putSerializable(ARG_TYPE, type)
             }
         }
+
+        private const val ARG_TYPE = "type"
     }
 }

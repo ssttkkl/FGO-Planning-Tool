@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
@@ -36,31 +36,69 @@ class EditPlanFragment : Fragment(), LifecycleOwner {
                 Glide.with(this@EditPlanFragment).load(avatarUri).into(avatar_imageView)
             }
 
-            listOf(Triple(nowStage_spinner, nowStage, 0),
-                    Triple(planStage_spinner, planStage, 0),
-                    Triple(nowSkill1_spinner, nowSkillI, 1),
-                    Triple(nowSkill2_spinner, nowSkillII, 1),
-                    Triple(nowSkill3_spinner, nowSkillIII, 1),
-                    Triple(planSkill1_spinner, planSkillI, 1),
-                    Triple(planSkill2_spinner, planSkillII, 1),
-                    Triple(planSkill3_spinner, planSkillIII, 1)
-            ).forEach { (spinner, data, offset) ->
-                // first fill the values in spinners
-                spinner.setSelection(data.value!! - offset)
+            var stageArr = resources.getStringArray(R.array.stage_editplan)
+            if (servantId.value == 1)
+                stageArr = stageArr.sliceArray(0..4)
+            else {
+                when (ResourcesProvider.servants[servantId.value]?.star) {
+                    5 -> stageArr = stageArr.sliceArray(0..9)
+                    4 -> stageArr = stageArr.sliceArray(0..11)
+                    3 -> stageArr = stageArr.sliceArray(0..13)
+                }
+            }
+
+            listOf(Pair(nowStage_spinner, nowStage),
+                    Pair(planStage_spinner, planStage)
+            ).forEach { (spinner, data) ->
+                spinner.adapter = DrawableAndTextSpinnerAdapter(context,
+                        stageArr, R.drawable.holy_grail) { it > 4 }
+                spinner.setSelection(data.value!!)
 
                 // observe values changing
                 data.observe(this@EditPlanFragment, Observer {
                     // check if value really changed
-                    if (spinner.selectedItemPosition != it!! - offset)
-                        spinner.setSelection(it - offset)
+                    if (spinner.selectedItemPosition != it!!)
+                        spinner.setSelection(it)
                 })
 
                 // setup spinners' listeners
                 spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                         // check if value really changed
-                        if (data.value != pos + offset) {
-                            data.value = pos + offset
+                        if (data.value != pos) {
+                            data.value = pos
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                }
+            }
+
+            listOf(Pair(nowSkill1_spinner, nowSkillI),
+                    Pair(nowSkill2_spinner, nowSkillII),
+                    Pair(nowSkill3_spinner, nowSkillIII),
+                    Pair(planSkill1_spinner, planSkillI),
+                    Pair(planSkill2_spinner, planSkillII),
+                    Pair(planSkill3_spinner, planSkillIII)
+            ).forEach { (spinner, data) ->
+                // first fill the values in spinners
+                spinner.adapter = DrawableAndTextSpinnerAdapter(context,
+                        resources.getStringArray(R.array.skill_editplan), 0) { false }
+                spinner.setSelection(data.value!! - 1)
+
+                // observe values changing
+                data.observe(this@EditPlanFragment, Observer {
+                    // check if value really changed
+                    if (spinner.selectedItemPosition != it!! - 1)
+                        spinner.setSelection(it - 1)
+                })
+
+                // setup spinners' listeners
+                spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                        // check if value really changed
+                        if (data.value != pos + 1) {
+                            data.value = pos + 1
                         }
                     }
 

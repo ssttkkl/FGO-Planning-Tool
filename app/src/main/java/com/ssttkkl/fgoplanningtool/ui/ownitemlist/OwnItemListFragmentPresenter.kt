@@ -1,7 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.ownitemlist
 
+import com.ssttkkl.fgoplanningtool.data.HowToPerform
+import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.data.item.ItemsRepository
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.edititem.EditItemDialogFragment
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
@@ -11,14 +12,13 @@ import kotlinx.coroutines.experimental.runBlocking
 class OwnItemListFragmentPresenter(val view: OwnItemListFragment) {
     fun onItemClick(codename: String) {
         launch(UI) {
-            gotoChangeItemUi(runBlocking(CommonPool) {
-                ItemsRepository.get(codename)
-            })
+            gotoChangeItemUi(Repo.itemRepo[codename]
+                    ?: throw Exception("Item $codename not found. "))
         }
     }
 
     fun updateItem(item: Item) {
-        launch(CommonPool) { ItemsRepository.update(item) }
+        Repo.itemRepo.update(item, HowToPerform.Launch)
     }
 
     private fun gotoChangeItemUi(item: Item) {

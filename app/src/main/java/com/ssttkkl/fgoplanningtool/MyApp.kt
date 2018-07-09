@@ -16,7 +16,7 @@ class MyApp : Application() {
         lateinit var context: Context
             private set
 
-        val versionName
+        val versionName: String
             get() = context.packageManager.getPackageInfo(context.packageName, 0).versionName
 
         val versionCode

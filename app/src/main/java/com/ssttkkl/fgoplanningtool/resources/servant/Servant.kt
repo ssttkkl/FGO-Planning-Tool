@@ -29,6 +29,9 @@ data class Servant(val id: Int,
     val skillQP
         get() = ResourcesProvider.skillQPInfo[star]
 
+    val palingenesisQP
+        get() = ResourcesProvider.palingenesisQPInfo[star]
+
     companion object {
         private const val AVATAR_URI_PATTERN = "file:///android_asset/avatar/%d.jpg"
     }

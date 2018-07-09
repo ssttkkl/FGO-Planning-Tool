@@ -7,16 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.plan.PlansRepository
+import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import kotlinx.android.synthetic.main.item_servantlist.view.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.runBlocking
 
 class ServantListAdapter(val context: Context) : RecyclerView.Adapter<ServantListAdapter.ViewHolder>() {
-    private val exist = runBlocking(CommonPool) {
-        PlansRepository.getAll().mapTo(HashSet()) { it.servantId }
-    }
+    private val exist = Repo.planRepo.all.mapTo(HashSet()) { it.servantId }
 
     var data: List<Servant> = listOf()
         set(value) {
