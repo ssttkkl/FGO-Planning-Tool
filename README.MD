@@ -16,3 +16,4 @@
 
 ![5](doc/image/5.png)
 
+![6](doc/image/6.png)
