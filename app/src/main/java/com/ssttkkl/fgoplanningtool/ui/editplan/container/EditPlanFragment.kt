@@ -36,10 +36,22 @@ class EditPlanFragment : Fragment(), LifecycleOwner {
                 Glide.with(this@EditPlanFragment).load(avatarUri).into(avatar_imageView)
             }
 
+            var stageArr = resources.getStringArray(R.array.stage_editplan)
+            if (servantId.value == 1)
+                stageArr = stageArr.sliceArray(0..4)
+            else {
+                when (ResourcesProvider.servants[servantId.value]?.star) {
+                    5 -> stageArr = stageArr.sliceArray(0..9)
+                    4 -> stageArr = stageArr.sliceArray(0..11)
+                    3 -> stageArr = stageArr.sliceArray(0..13)
+                }
+            }
+
             listOf(Pair(nowStage_spinner, nowStage),
                     Pair(planStage_spinner, planStage)
             ).forEach { (spinner, data) ->
-                spinner.adapter = DrawableAndTextSpinnerAdapter(context, resources.getStringArray(R.array.stage_editplan), R.drawable.holy_grail) { it > 4 }
+                spinner.adapter = DrawableAndTextSpinnerAdapter(context,
+                        stageArr, R.drawable.holy_grail) { it > 4 }
                 spinner.setSelection(data.value!!)
 
                 // observe values changing
@@ -70,7 +82,8 @@ class EditPlanFragment : Fragment(), LifecycleOwner {
                     Pair(planSkill3_spinner, planSkillIII)
             ).forEach { (spinner, data) ->
                 // first fill the values in spinners
-                spinner.adapter = DrawableAndTextSpinnerAdapter(context, resources.getStringArray(R.array.skill_editplan), 0) { false }
+                spinner.adapter = DrawableAndTextSpinnerAdapter(context,
+                        resources.getStringArray(R.array.skill_editplan), 0) { false }
                 spinner.setSelection(data.value!! - 1)
 
                 // observe values changing
