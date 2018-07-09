@@ -36,7 +36,8 @@
     <string name="enterSelectMode_planlist">进入多选模式</string>
     <string name="remove_planlist">删除</string>
     <string name="selectAll_planlist">选择全部</string>
-    <string name="stage_item_planlist">再临 / 圣杯</string>
+    <string name="stage_item_planlist">再临阶段</string>
+    <string name="stageAndHolyGrail_item_planlist">再临 / 圣杯</string>
     <string name="skill1_item_planlist">技能 I</string>
     <string name="skill2_item_planlist">技能 II</string>
     <string name="skill3_item_planlist">技能 III</string>

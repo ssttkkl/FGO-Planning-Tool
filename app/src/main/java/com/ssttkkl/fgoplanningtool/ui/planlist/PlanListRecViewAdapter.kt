@@ -148,6 +148,12 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
                 planHolyGrail_imageView.visibility = View.VISIBLE
             }
 
+
+            stageLabel_textView.setText(if (plan.nowStage <= 4 && plan.planStage <= 4)
+                R.string.stage_item_planlist
+            else
+                R.string.stageAndHolyGrail_item_planlist)
+
             nowSkill1_textView.text = plan.nowSkill1.toString()
             planSkill1_textView.text = plan.planSkill1.toString()
             nowSkill2_textView.text = plan.nowSkill2.toString()

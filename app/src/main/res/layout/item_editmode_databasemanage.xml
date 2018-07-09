@@ -18,7 +18,8 @@
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_check_coloraccent_24dp" />
+        app:srcCompat="@drawable/ic_check_white_24dp"
+        android:tint="@android:color/tertiary_text_light" />
 
     <EditText
         android:id="@+id/name_editText"
@@ -47,7 +48,8 @@
         app:layout_constraintEnd_toStartOf="@+id/abort_button"
         app:layout_constraintStart_toEndOf="@+id/name_editText"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_check_grey_24dp" />
+        app:srcCompat="@drawable/ic_check_white_24dp"
+        android:tint="@android:color/tertiary_text_light" />
 
     <ImageView
         android:id="@+id/abort_button"
@@ -62,5 +64,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ok_button"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_clear_grey_24dp" />
+        app:srcCompat="@drawable/ic_clear_white_24dp"
+        android:tint="@android:color/tertiary_text_light" />
 </android.support.constraint.ConstraintLayout>

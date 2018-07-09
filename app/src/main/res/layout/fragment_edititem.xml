@@ -47,7 +47,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/count_editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/count_editText"
-        app:srcCompat="@drawable/ic_add_grey_24dp" />
+        app:srcCompat="@drawable/ic_add_white_24dp"
+        android:tint="@android:color/tertiary_text_light" />
 
     <ImageView
         android:id="@+id/dec_button"
@@ -61,7 +62,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/count_editText"
         app:layout_constraintStart_toEndOf="@+id/avatar_imageView"
         app:layout_constraintTop_toTopOf="@+id/count_editText"
-        app:srcCompat="@drawable/ic_remove_grey_24dp" />
+        app:srcCompat="@drawable/ic_remove_white_24dp"
+        android:tint="@android:color/tertiary_text_light" />
 
     <Button
         android:id="@+id/save_button"

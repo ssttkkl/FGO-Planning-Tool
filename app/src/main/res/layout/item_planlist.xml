@@ -60,7 +60,7 @@
             tools:text="姓名" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/stageLabel_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -126,7 +126,7 @@
 
         <LinearLayout
             android:id="@+id/linearLayout2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="center_vertical"
@@ -134,17 +134,17 @@
             app:layout_columnWeight="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/frameLayout"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/stageLabel_textView"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.27"
             app:layout_row="1">
 
             <ImageView
                 android:id="@+id/nowHolyGrail_imageView"
                 android:layout_width="12dp"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="false"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:srcCompat="@drawable/holy_grail" />
 
             <TextView
@@ -153,20 +153,21 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:textAppearance="@style/ListItemSecondary"
-                tools:text="0" />
+                tools:text="×0" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/ic_trending_flat_grey_24dp" />
+                android:tint="@android:color/tertiary_text_light"
+                app:srcCompat="@drawable/ic_trending_flat_white_24dp" />
 
             <ImageView
                 android:id="@+id/planHolyGrail_imageView"
                 android:layout_width="12dp"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="false"
+                android:visibility="visible"
                 app:srcCompat="@drawable/holy_grail" />
 
             <TextView
@@ -175,13 +176,13 @@
                 android:layout_height="match_parent"
                 android:maxLines="1"
                 android:textAppearance="@style/ListItemSecondary"
-                tools:text="×5" />
+                tools:text="×4" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout4"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             app:layout_column="1"
@@ -205,7 +206,8 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/ic_trending_flat_grey_24dp" />
+                android:tint="@android:color/tertiary_text_light"
+                app:srcCompat="@drawable/ic_trending_flat_white_24dp" />
 
             <TextView
                 android:id="@+id/planSkill1_textView"
@@ -218,7 +220,7 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             app:layout_column="2"
@@ -242,7 +244,8 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/ic_trending_flat_grey_24dp" />
+                android:tint="@android:color/tertiary_text_light"
+                app:srcCompat="@drawable/ic_trending_flat_white_24dp" />
 
             <TextView
                 android:id="@+id/planSkill2_textView"
@@ -255,7 +258,7 @@
 
         <LinearLayout
             android:id="@+id/linearLayout3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             app:layout_column="3"
@@ -279,7 +282,8 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/ic_trending_flat_grey_24dp" />
+                android:tint="@android:color/tertiary_text_light"
+                app:srcCompat="@drawable/ic_trending_flat_white_24dp" />
 
             <TextView
                 android:id="@+id/planSkill3_textView"
