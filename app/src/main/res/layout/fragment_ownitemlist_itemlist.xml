@@ -1,8 +1,0 @@
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist.ItemListFragment"
-    tools:listitem="@layout/item_ownitemlist"
-    android:id="@+id/recView"
-    android:background="@android:color/background_light" />
