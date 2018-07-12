@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
+import com.ssttkkl.fgoplanningtool.ui.utils.RecViewAdapterDataSetChanger
 import kotlinx.android.synthetic.main.item_planlist.view.*
 
 class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanListRecViewAdapter.ViewHolder>() {
@@ -15,7 +16,7 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
 
     fun setNewData(newData: List<Plan>) {
         isInSelectMode = false
-        PlanListRecViewAdapterDataSetChanger.perform(this, data as ArrayList<Plan>, newData)
+        RecViewAdapterDataSetChanger.perform(this, data as ArrayList<Plan>, newData) { it.servantId }
     }
 
     // callback start
@@ -128,10 +129,8 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
     private val times = context.getString(R.string.times_item_planlist)
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
+        val plan = data[pos]
         holder.itemView.apply {
-            val plan = data[pos]
-            name_textView.text = plan.servant.localizedName
-
             if (plan.nowStage <= 4) {
                 nowStage_textView.text = plan.nowStage.toString()
                 nowHolyGrail_imageView.visibility = View.GONE
@@ -148,11 +147,7 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
                 planHolyGrail_imageView.visibility = View.VISIBLE
             }
 
-
-            stageLabel_textView.setText(if (plan.nowStage <= 4 && plan.planStage <= 4)
-                R.string.stage_item_planlist
-            else
-                R.string.stageAndHolyGrail_item_planlist)
+            stageLabel_textView.setText(if (plan.nowStage <= 4 && plan.planStage <= 4) R.string.stage_item_planlist else R.string.stageAndHolyGrail_item_planlist)
 
             nowSkill1_textView.text = plan.nowSkill1.toString()
             planSkill1_textView.text = plan.planSkill1.toString()
@@ -161,8 +156,11 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
             nowSkill3_textView.text = plan.nowSkill3.toString()
             planSkill3_textView.text = plan.planSkill3.toString()
 
-            Glide.with(context).load(plan.servant.avatarUri).into(avatar_imageView)
             selectedFlag_imageView.visibility = if (isInSelectMode && isPositionSelected(pos)) View.VISIBLE else View.INVISIBLE
+
+            // if servant resources doesn't exist, show its servantId and avatar_placeholder instead
+            name_textView.text = plan.servant?.localizedName ?: plan.servantId.toString()
+            Glide.with(context).load(plan.servant?.avatarFile).error(R.drawable.avatar_placeholder).into(avatar_imageView)
         }
     }
 

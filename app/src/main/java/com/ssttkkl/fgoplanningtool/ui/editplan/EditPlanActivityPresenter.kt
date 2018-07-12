@@ -11,8 +11,6 @@ import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.editplan.container.EditPlanContainerFragment
 import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.ServantListFragment
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.launch
 
 class EditPlanActivityPresenter(val view: EditPlanActivity) {
     private val mode: EditPlanActivity.Companion.Mode = view.intent.extras[EditPlanActivity.ARG_MODE] as EditPlanActivity.Companion.Mode

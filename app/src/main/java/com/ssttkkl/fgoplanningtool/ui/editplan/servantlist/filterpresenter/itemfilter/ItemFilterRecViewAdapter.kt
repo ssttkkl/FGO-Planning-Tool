@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters.itemfilter
+package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -15,12 +15,12 @@ class ItemFilterRecViewAdapter(val context: Context) : RecyclerView.Adapter<Item
         private set
 
     fun setNewData(newData: Collection<String>) {
-        data = newData.map { ItemEntity(ResourcesProvider.itemDescriptors[it]!!) }
+        data = newData.map { ItemEntity(ResourcesProvider.instance.itemDescriptors[it]!!) }
         notifyDataSetChanged()
     }
 
     fun addItem(codename: String) {
-        (data as MutableList<ItemEntity>).add(ItemEntity(ResourcesProvider.itemDescriptors[codename]!!))
+        (data as MutableList<ItemEntity>).add(ItemEntity(ResourcesProvider.instance.itemDescriptors[codename]!!))
         notifyItemInserted(data.size - 1)
     }
 
@@ -54,7 +54,7 @@ class ItemFilterRecViewAdapter(val context: Context) : RecyclerView.Adapter<Item
         val item = data[pos]
         holder.itemView.apply {
             name_textView.text = item.name
-            Glide.with(context).load(item.imgUri).into(imageView)
+            Glide.with(context).load(item.imgFile).into(imageView)
         }
     }
 

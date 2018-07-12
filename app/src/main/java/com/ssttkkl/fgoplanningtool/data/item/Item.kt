@@ -10,7 +10,7 @@ import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 data class Item(@PrimaryKey val codename: String,
                 var count: Int) : Parcelable {
     val descriptor
-        get() = ResourcesProvider.itemDescriptors[codename]
+        get() = ResourcesProvider.instance.itemDescriptors[codename]
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),

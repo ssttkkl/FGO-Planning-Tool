@@ -2,6 +2,7 @@ package com.ssttkkl.fgoplanningtool.resources.servant
 
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
+import java.io.File
 import java.util.*
 
 data class Servant(val id: Int,
@@ -13,8 +14,8 @@ data class Servant(val id: Int,
                    val nickname: Collection<String>,
                    val ascensionItems: List<Collection<Item>>,
                    val skillItems: List<Collection<Item>>) {
-    val avatarUri: String
-        get() = AVATAR_URI_PATTERN.format(id)
+    val avatarFile
+        get() = File(ResourcesProvider.instance.avatarDir, "$id.jpg")
 
     val localizedName
         get() = when (Locale.getDefault().language) {
@@ -24,15 +25,11 @@ data class Servant(val id: Int,
         }
 
     val ascensionQP
-        get() = ResourcesProvider.ascensionQPInfo[star]
+        get() = ResourcesProvider.instance.ascensionQPInfo[star]
 
     val skillQP
-        get() = ResourcesProvider.skillQPInfo[star]
+        get() = ResourcesProvider.instance.skillQPInfo[star]
 
     val palingenesisQP
-        get() = ResourcesProvider.palingenesisQPInfo[star]
-
-    companion object {
-        private const val AVATAR_URI_PATTERN = "file:///android_asset/avatar/%d.jpg"
-    }
+        get() = ResourcesProvider.instance.palingenesisQPInfo[star]
 }

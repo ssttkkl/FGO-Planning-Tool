@@ -1,5 +1,7 @@
 package com.ssttkkl.fgoplanningtool.resources.itemdescriptor
 
+import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
+import java.io.File
 import java.io.Serializable
 import java.util.*
 
@@ -8,8 +10,8 @@ data class ItemDescriptor(val codename: String,
                           val jpName: String,
                           val enName: String,
                           val type: ItemType) : Serializable {
-    val imgUri: String
-        get() = imgUriPattern.format(codename)
+    val imgFile
+        get() = File(ResourcesProvider.instance.itemImgDir, "$codename.jpg")
 
     val localizedName
         get() = when (Locale.getDefault().language) {
@@ -17,8 +19,4 @@ data class ItemDescriptor(val codename: String,
             Locale.JAPANESE.language -> jpName
             else -> enName
         }
-
-    companion object {
-        private const val imgUriPattern = "file:///android_asset/item/%s.jpg"
-    }
 }

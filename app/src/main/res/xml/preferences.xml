@@ -2,13 +2,24 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <PreferenceCategory android:title="@string/group_res_pref">
+        <Preference
+            android:key="updateRes"
+            android:title="@string/updateRes_pref"
+            android:summary="@string/loadingCurResVersion_pref" />
+        <Preference android:title="@string/getRes_pref">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/getResLink_pref" />
+        </Preference>
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/app_name">
         <Preference
             android:key="version"
-            android:title="@string/title_version_pref"
+            android:title="@string/version_pref"
             tools:summary="v1.0.0" />
         <Preference
-            android:title="@string/title_repo_pref"
+            android:title="@string/repo_pref"
             android:summary="@string/app_repo">
             <intent
                 android:action="android.intent.action.VIEW"

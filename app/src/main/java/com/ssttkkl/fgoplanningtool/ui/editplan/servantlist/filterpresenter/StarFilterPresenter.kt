@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters
+package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter
 
 import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.ServantListFragment
 import kotlinx.android.synthetic.main.content_servantlist_star.*

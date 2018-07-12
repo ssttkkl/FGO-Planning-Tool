@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters
+package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter
 
 import android.support.v7.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection

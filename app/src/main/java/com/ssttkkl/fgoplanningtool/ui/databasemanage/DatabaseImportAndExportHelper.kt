@@ -48,7 +48,7 @@ class DatabaseImportAndExportHelper(val view: DatabaseManageActivity) {
 
     private fun gotoCreateJsonUi(filename: String, requestCode: Int) {
         view.startActivityForResult(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            type = "*/*"
+            type = TYPE_JSON
             addCategory(Intent.CATEGORY_OPENABLE)
             putExtra(Intent.EXTRA_TITLE, filename)
         }, requestCode)
@@ -56,7 +56,7 @@ class DatabaseImportAndExportHelper(val view: DatabaseManageActivity) {
 
     private fun gotoOpenJsonUi(filename: String, requestCode: Int) {
         view.startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            type = "*/*"
+            type = TYPE_JSON
             addCategory(Intent.CATEGORY_OPENABLE)
             putExtra(Intent.EXTRA_TITLE, filename)
         }, requestCode)

@@ -12,6 +12,7 @@ import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
+import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageActivity
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragment
 import com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragment
@@ -35,6 +36,10 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
 
         if (supportFragmentManager.fragments.isEmpty())
             switchToFragment(PlanListFragment::class)
+
+        if (ResourcesProvider.instance.version.isEmpty())
+            Snackbar.make(frameLayout, getString(R.string.resMissed_main), Snackbar.LENGTH_INDEFINITE)
+                    .show()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
