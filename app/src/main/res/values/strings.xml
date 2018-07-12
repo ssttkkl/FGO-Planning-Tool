@@ -9,6 +9,7 @@
     <string name="openDrawer_main">打开侧边栏</string>
     <string name="closeDrawer_main">关闭侧边栏</string>
     <string name="backAgain_main">再按一次返回键退出应用</string>
+    <string name="resMissed_main">当前尚未加载资源文件。请到“选项”界面加载。</string>
 
     <string name="planlist_nav">规划列表</string>
     <string name="ownitemlist_nav">持有材料</string>
@@ -132,6 +133,15 @@
     <string name="cancel_changeplanwarning">取消</string>
 
     <string name="title_pref">选项</string>
-    <string name="title_version_pref">版本号</string>
-    <string name="title_repo_pref">Github 项目主页</string>
+    <string name="group_res_pref">资源包</string>
+    <string name="updateRes_pref">更新资源包</string>
+    <string name="loadingCurResVersion_pref">当前版本：加载中……</string>
+    <string name="curResVersion_pref">当前版本：%1$s</string>
+    <string name="noRes_pref">当前还没有加载资源包</string>
+    <string name="updateResSuccessful_pref">更新资源包成功</string>
+    <string name="updateResFailed_pref">更新资源包失败（%1$s）</string>
+    <string name="getRes_pref">获取资源包</string>
+    <string name="getResLink_pref">https://github.com/ssttkkl/FGO-Planning-Tool/wiki/%E8%B5%84%E6%BA%90%E5%8C%85</string>
+    <string name="version_pref">版本号</string>
+    <string name="repo_pref">Github 项目主页</string>
 </resources>

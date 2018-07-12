@@ -24,28 +24,28 @@ class EditPlanContainerFragment : Fragment() {
         mode = arguments!![ARG_MODE] as EditPlanActivity.Companion.Mode
     }
 
-    interface Master {
+    interface Callback {
         fun onSaveAction()
         fun onRemoveAction()
     }
 
-    private var master: Master? = null
+    private var callback: Callback? = null
 
     private lateinit var viewModel: EditPlanViewModel
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        master = when {
-            parentFragment is Master -> parentFragment as Master
-            activity is Master -> activity as Master
-            else -> throw Exception("Either parent fragment or activity must impl OnItemClickListener interface.")
+        callback = when {
+            parentFragment is Callback -> parentFragment as Callback
+            activity is Callback -> activity as Callback
+            else -> throw Exception("Either parent fragment or activity must impl Callback interface.")
         }
         viewModel = ViewModelProviders.of(activity!!).get(EditPlanViewModel::class.java)
     }
 
     override fun onDetach() {
         super.onDetach()
-        master = null
+        callback = null
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -98,8 +98,8 @@ class EditPlanContainerFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> activity?.finish()
-            R.id.save_action -> master?.onSaveAction()
-            R.id.remove_action -> master?.onRemoveAction()
+            R.id.save_action -> callback?.onSaveAction()
+            R.id.remove_action -> callback?.onRemoveAction()
             else -> return super.onOptionsItemSelected(item)
         }
         return true

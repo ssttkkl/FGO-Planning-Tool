@@ -10,11 +10,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.*
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters.ClassFilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters.OrderFilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters.StarFilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters.itemfilter.ItemFilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters.itemfilter.additem.AddItemDialogFragment
+import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.ClassFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.OrderFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.StarFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter.ItemFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter.additem.AddItemDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.fragment_servantlist.*

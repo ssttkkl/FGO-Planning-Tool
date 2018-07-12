@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters
+package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter
 
 import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.Order
 import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.OrderBy

@@ -14,7 +14,7 @@
         android:layout_height="70dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/avatar_1" />
+        tools:srcCompat="@drawable/avatar_placeholder" />
 
     <ScrollView
         android:layout_width="0dp"

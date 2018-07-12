@@ -45,7 +45,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_row="0"
             app:layout_rowSpan="2"
-            tools:src="@drawable/img_heart" />
+            tools:src="@drawable/item_placeholder" />
 
         <TextView
             android:id="@+id/name_textView"

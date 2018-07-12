@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
+import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.fragment_ownitemlist_itemlist.*
@@ -58,12 +59,17 @@ class ItemListFragment : Fragment() {
             addItemDecoration(CommonRecViewItemDecoration(context!!))
         }
         Repo.itemListLiveData.observe(this, Observer {
-            onDataChanged(it?.filter { it.descriptor?.type == type } ?: listOf())
+            onDataChanged(it ?: listOf())
         })
     }
 
     private fun onDataChanged(data: List<Item>) {
-        (recView?.adapter as? ItemListRecViewAdapter)?.setNewData(data)
+        val map = data.associate { Pair(it.codename, it) }
+        val newData = ResourcesProvider.instance.itemDescriptors.values.filter { it.type == type }
+                .map { Item(it.codename, map[it.codename]?.count ?: 0) }
+                .sortedBy { ResourcesProvider.instance.itemRank[it.codename] }
+
+        (recView?.adapter as? ItemListRecViewAdapter)?.setNewData(newData)
         Log.d("OwnItemList", "DataSet Changed. ($type)")
     }
 

@@ -14,9 +14,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/count_editText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/count_editText"
-        app:srcCompat="@drawable/img_heart" />
+        app:srcCompat="@drawable/item_placeholder" />
 
-    <android.support.design.widget.TextInputEditText
+    <EditText
         android:id="@+id/count_editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +26,6 @@
         android:layout_weight="1"
         android:ems="6"
         android:gravity="center_horizontal|end"
-        android:hint="@string/hint_edititem"
         android:inputType="number"
         android:singleLine="true"
         android:theme="@style/AppTheme.Dialog"

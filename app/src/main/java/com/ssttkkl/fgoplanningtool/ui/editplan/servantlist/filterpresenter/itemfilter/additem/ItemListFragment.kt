@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters.itemfilter.additem
+package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter.additem
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -42,7 +42,7 @@ class ItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recView.apply {
             adapter = ItemListRecViewAdapter(context!!).apply {
-                setNewData(ResourcesProvider.itemDescriptors.values.filter { it.type == type })
+                setNewData(ResourcesProvider.instance.itemDescriptors.values.filter { it.type == type })
                 setOnItemClickListener { listener?.onItemClick(it) }
             }
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

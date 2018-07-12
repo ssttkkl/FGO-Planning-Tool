@@ -13,8 +13,6 @@ import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
 import kotlinx.android.synthetic.main.fragment_changeplanwarning.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.runBlocking
 
 class ChangePlanWarningDialogFragment : DialogFragment() {
     interface OnActionListener {
@@ -55,7 +53,7 @@ class ChangePlanWarningDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         deductItems_checkBox.isEnabled = plans.costItems.all {
-            (Repo.itemRepo[it.codename]?.count ?: 0) >= it.count
+            (Repo.itemRepo[it.codename].count) >= it.count
         }
 
         viewItems_button.setOnClickListener {

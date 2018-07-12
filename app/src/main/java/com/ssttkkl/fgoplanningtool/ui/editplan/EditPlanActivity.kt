@@ -12,7 +12,7 @@ import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor
 
 class EditPlanActivity : BackHandlerActivity(),
         LifecycleOwner,
-        EditPlanContainerFragment.Master,
+        EditPlanContainerFragment.Callback,
         ServantListFragment.OnServantSelectedListener,
         ChangePlanWarningDialogFragment.OnActionListener {
     private lateinit var presenter: EditPlanActivityPresenter

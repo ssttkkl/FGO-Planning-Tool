@@ -46,8 +46,12 @@ class EditItemDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.apply {
-            count_editText.setText(item.count.toString())
-            Glide.with(this@EditItemDialogFragment).load(item.descriptor?.imgUri).into(avatar_imageView)
+            Glide.with(this@EditItemDialogFragment).load(item.descriptor?.imgFile).error(R.drawable.item_placeholder).into(avatar_imageView)
+
+            count_editText.apply {
+                hint = item.count.toString()
+                setText(item.count.toString())
+            }
 
             dec_button.setOnClickListener {
                 performOnValue {

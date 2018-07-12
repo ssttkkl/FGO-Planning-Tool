@@ -17,8 +17,8 @@ data class Plan(@PrimaryKey val servantId: Int,
                 var planSkill1: Int,
                 var planSkill2: Int,
                 var planSkill3: Int) : Parcelable {
-    val servant: Servant
-        get() = ResourcesProvider.servants[servantId]!!
+    val servant: Servant?
+        get() = ResourcesProvider.instance.servants[servantId]
 
     constructor(plan: Plan) : this(plan.servantId,
             plan.nowStage,
