@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.view.MenuItem
+import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
@@ -19,6 +20,7 @@ import com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragment
 import com.ssttkkl.fgoplanningtool.ui.preferences.PreferencesActivity
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.experimental.launch
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
@@ -37,9 +39,14 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
         if (supportFragmentManager.fragments.isEmpty())
             switchToFragment(PlanListFragment::class)
 
-        if (ResourcesProvider.instance.version.isEmpty())
-            Snackbar.make(frameLayout, getString(R.string.resMissed_main), Snackbar.LENGTH_INDEFINITE)
-                    .show()
+        launch(Dispatchers.file) {
+            if (ResourcesProvider.instance.absent)
+                Snackbar.make(frameLayout, getString(R.string.resMissed_main), Snackbar.LENGTH_INDEFINITE)
+                        .show()
+            else if (ResourcesProvider.instance.broken)
+                Snackbar.make(frameLayout, getString(R.string.resBroken_main), Snackbar.LENGTH_INDEFINITE)
+                        .show()
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

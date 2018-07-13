@@ -65,17 +65,18 @@ class ResourcesUpdatePresenter(val view: PreferencesFragment) {
     }
 
     init {
-        view.findPreference(KEY_UPDATE_RES).apply {
-            val version = ResourcesProvider.instance.version
-            summary = if (version.isEmpty())
+        val pref = view.findPreference(KEY_UPDATE_RES)
+        launch(Dispatchers.file) {
+            pref.summary = if (ResourcesProvider.instance.absent)
                 view.getString(R.string.noRes_pref)
+            else if (ResourcesProvider.instance.broken)
+                view.getString(R.string.brokenCurResVersion_pref, ResourcesProvider.instance.version)
             else
-                view.getString(R.string.curResVersion_pref, version)
-
-            setOnPreferenceClickListener {
-                gotoOpenZipUi(REQUEST_CODE_UPDATE_RES)
-                true
-            }
+                view.getString(R.string.curResVersion_pref, ResourcesProvider.instance.version)
+        }
+        pref.setOnPreferenceClickListener {
+            gotoOpenZipUi(REQUEST_CODE_UPDATE_RES)
+            true
         }
     }
 

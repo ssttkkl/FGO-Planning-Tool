@@ -3,10 +3,12 @@ package com.ssttkkl.fgoplanningtool.resources
 import android.content.Context
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.resources.servant.gson.ServantMapGsonTypeAdapter
+import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
 import java.io.InputStreamReader
 
@@ -16,11 +18,10 @@ class ResourcesProvider(context: Context) {
     val itemImgDir = File(resourcesDir, DIRECTORYNAME_ITEM)
 
     val version: String
-
-    init {
-        val versionFile = File(resourcesDir, FILENAME_VERSION)
-        version = if (!versionFile.exists()) "" else versionFile.readText()
-    }
+        get() {
+            val versionFile = File(resourcesDir, FILENAME_VERSION)
+            return if (!versionFile.exists()) "" else versionFile.readText()
+        }
 
     val servants: Map<Int, Servant> = buildServants()
 
@@ -43,6 +44,16 @@ class ResourcesProvider(context: Context) {
         skillQPInfo = map[SKILL] ?: List(6) { List(9) { 0 } }
         palingenesisQPInfo = map[PALINGENESIS] ?: List(6) { List(10) { 0 } }
     }
+
+    val broken: Boolean
+        get() {
+            val list = resourcesDir.listFiles()
+            return listOf(FILENAME_SERVANT_INFO, FILENAME_ITEM_INFO, FILENAME_QP_INFO, FILENAME_VERSION).any { list.none { file -> file.name == it && file.isFile } }
+                    && listOf(DIRECTORYNAME_AVATAR, DIRECTORYNAME_ITEM).any { list.none { file -> file.name == it && file.isDirectory } }
+        }
+
+    val absent: Boolean
+        get() = !resourcesDir.exists() || !resourcesDir.isDirectory || resourcesDir.list().isEmpty()
 
     private fun buildItemDescriptors(): List<ItemDescriptor> {
         val file = File(resourcesDir, FILENAME_ITEM_INFO)

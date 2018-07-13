@@ -65,7 +65,7 @@ object RecViewAdapterDataSetChanger {
         }
         for (i in a.indices) {
             for (j in b.indices) {
-                if (judgeSameItemBy(a[i]) == judgeSameItemBy(b[i])) {
+                if (judgeSameItemBy(a[i]) == judgeSameItemBy(b[j])) {
                     val prev = f[Pair(i - 1, j - 1)]!!
                     f[Pair(i, j)] = DPState(i, j, prev.distance, prev, 0)
                 } else {

@@ -16,7 +16,7 @@ class ItemListRecViewAdapter(val context: Context) : RecyclerView.Adapter<ItemLi
         private set
 
     fun setNewData(newData: Collection<ItemDescriptor>) {
-        data = newData.map { ItemEntity(it) }.sortedBy { it.name }
+        data = newData.map { ItemEntity(it) }
         notifyDataSetChanged()
     }
 

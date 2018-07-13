@@ -14,12 +14,12 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:tint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/name_textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_check_white_24dp"
-        android:tint="@android:color/tertiary_text_light" />
+        app:srcCompat="@drawable/ic_check_white_24dp" />
 
     <TextView
         android:id="@+id/name_textView"

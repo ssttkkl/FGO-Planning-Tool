@@ -21,7 +21,7 @@ android {
         applicationId "com.ssttkkl.fgoplanningtool"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 20180712
+        versionCode 20180713
         versionName "v0.3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables {

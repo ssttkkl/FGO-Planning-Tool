@@ -16,7 +16,7 @@ class DatabaseManageActivityPresenter(val view: DatabaseManageActivity) : Databa
 
     private fun onDataChanged(newData: List<DatabaseDescriptor>) {
         (view.recView.adapter as DatabaseManageRecViewAdapter).apply {
-            data = newData
+            setNewData(newData)
             // If there's no such uuid Repo holding, switch Repo's database.
             // If Repo opened a database exists in newData, select it.
             // Else do nothing because the new database will be selected in the next time onDataChanged called.
