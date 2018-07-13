@@ -9,11 +9,12 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanViewModel
+import com.ssttkkl.fgoplanningtool.ui.utils.DrawableAndTextSpinnerAdapter
 import kotlinx.android.synthetic.main.fragment_editplan.*
 
 class EditPlanFragment : Fragment(), LifecycleOwner {
@@ -30,17 +31,16 @@ class EditPlanFragment : Fragment(), LifecycleOwner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.apply {
-            ResourcesProvider.servants[servantId.value]!!.apply {
-                name_textView.text = localizedName
-                class_textView.text = theClass.toString()
-                Glide.with(this@EditPlanFragment).load(avatarUri).into(avatar_imageView)
-            }
+            val servant = ResourcesProvider.instance.servants[servantId.value]
+            name_textView.text = servant?.localizedName ?: servantId.value?.toString()
+            class_textView.text = servant?.theClass?.name
+            Glide.with(this@EditPlanFragment).load(servant?.avatarFile).error(R.drawable.avatar_placeholder).into(avatar_imageView)
 
             var stageArr = resources.getStringArray(R.array.stage_editplan)
             if (servantId.value == 1)
                 stageArr = stageArr.sliceArray(0..4)
             else {
-                when (ResourcesProvider.servants[servantId.value]?.star) {
+                when (ResourcesProvider.instance.servants[servantId.value]?.star) {
                     5 -> stageArr = stageArr.sliceArray(0..9)
                     4 -> stageArr = stageArr.sliceArray(0..11)
                     3 -> stageArr = stageArr.sliceArray(0..13)

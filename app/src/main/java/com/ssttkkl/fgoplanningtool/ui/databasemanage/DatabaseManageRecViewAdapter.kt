@@ -11,16 +11,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptor
+import com.ssttkkl.fgoplanningtool.ui.utils.RecViewAdapterDataSetChanger
 import kotlinx.android.synthetic.main.item_databasemanage.view.*
 import kotlinx.android.synthetic.main.item_editmode_databasemanage.view.*
 import java.util.concurrent.ConcurrentHashMap
 
 class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<DatabaseManageRecViewAdapter.ViewHolder>() {
-    var data: List<DatabaseDescriptor> = listOf()
-        set(value) {
-            notifyDataSetChanged()
-            field = value
-        }
+    val data: List<DatabaseDescriptor> = ArrayList()
+
+    fun setNewData(newData:List<DatabaseDescriptor>) {
+        RecViewAdapterDataSetChanger.perform(this, data as ArrayList<DatabaseDescriptor>, newData) { it.uuid }
+    }
 
     interface Callback {
         fun onSelectedPositionChanged(newPos: Int, newItem: DatabaseDescriptor)

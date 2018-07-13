@@ -7,9 +7,7 @@ import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.RepoDatabase
 import com.ssttkkl.fgoplanningtool.data.perform
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
 import java.util.concurrent.ConcurrentHashMap
 
 class ItemRepo(private val database: RepoDatabase) : Observer<List<Item>> {
@@ -21,16 +19,8 @@ class ItemRepo(private val database: RepoDatabase) : Observer<List<Item>> {
     override fun onChanged(t: List<Item>?) {
         synchronized(cache) {
             cache.clear()
-            if (t != null) {
-                val existCodename = t.map { it.codename }.toSet()
-                val absentCodename = ResourcesProvider.itemDescriptors.keys.filter { !existCodename.contains(it) }.toSet()
-                if (absentCodename.isNotEmpty()) {
-                    launch(Dispatchers.db) { database.itemsDao.update(absentCodename.map { Item(it, 0) }) }
-                    Log.d("ItemRepo", "Inserted ${absentCodename.size} Item(s) absent from database. ")
-                }
-
+            if (t != null)
                 cache.putAll(t.associate { Pair(it.codename, it) })
-            }
         }
         Log.d("ItemRepo", "Database updated.")
     }
@@ -38,8 +28,8 @@ class ItemRepo(private val database: RepoDatabase) : Observer<List<Item>> {
     val all: List<Item>
         get() = cache.values.sortedBy { it.codename }
 
-    operator fun get(codename: String): Item? {
-        return cache[codename]
+    operator fun get(codename: String): Item {
+        return cache[codename] ?: Item(codename, 0).also { update(it, HowToPerform.Launch) }
     }
 
     fun update(items: Collection<Item>, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
@@ -50,17 +40,13 @@ class ItemRepo(private val database: RepoDatabase) : Observer<List<Item>> {
 
     fun clear(howToPerform: HowToPerform = HowToPerform.RunBlocking) {
         perform(howToPerform) {
-            val newItems = database.itemsDao.all.apply {
-                forEach { it.count = 0 }
-            }
-            database.itemsDao.update(newItems)
+            database.itemsDao.update(database.itemsDao.all)
         }
     }
 
     private fun processDeductItems(itemsToDeduct: Collection<Item>) =
             itemsToDeduct.map {
                 val itemInRepo = get(it.codename)
-                        ?: throw Exception("Item ${it.codename} is absent. ")
                 if (it.count > itemInRepo.count)
                     throw Exception("Number of item ${it.codename} to deduct is grater than that in repo. ")
                 Item(it.codename, itemInRepo.count - it.count)

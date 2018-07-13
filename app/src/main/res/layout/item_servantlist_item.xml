@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            tools:srcCompat="@drawable/img_heart" />
+            tools:srcCompat="@drawable/item_placeholder" />
 
         <TextView
             android:id="@+id/name_textView"
@@ -39,6 +39,7 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="4dp"
+            android:tint="@android:color/tertiary_text_light"
             app:srcCompat="@drawable/ic_clear_white_24dp" />
 
     </LinearLayout>

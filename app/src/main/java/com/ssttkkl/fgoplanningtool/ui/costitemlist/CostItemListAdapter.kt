@@ -11,25 +11,23 @@ import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
+import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_costitemlist.view.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
 
 class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemListAdapter.ViewHolder>() {
     var data: List<CostItemListEntity> = listOf()
         private set
 
     fun setNewData(items: Collection<Item>) {
-        data = items.sortedBy { it.descriptor?.type }
+        data = items.groupBy { it.descriptor?.type }.toList().sortedBy { it.first } // group items and sort groups by type
+                .map { it.second.sortedBy { ResourcesProvider.instance.itemRank[it.codename] } }.flatMap { it } // sort each group's items and flat
                 .map {
                     CostItemListEntity(it.descriptor?.localizedName ?: it.codename,
                             it.descriptor?.type?.localizedName ?: "",
                             it.count,
-                            Repo.itemRepo[it.codename]?.count ?: 0,
-                            it.descriptor?.imgUri ?: "")
+                            Repo.itemRepo[it.codename].count,
+                            it.descriptor?.imgFile)
                 }
         notifyDataSetChanged()
     }
@@ -64,7 +62,7 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
                 own_textView.typeface = Typeface.DEFAULT
             }
 
-            Glide.with(context).load(item.imgUri).into(avatar_imageView)
+            Glide.with(context).load(item.imgFile).into(avatar_imageView)
         }
     }
 

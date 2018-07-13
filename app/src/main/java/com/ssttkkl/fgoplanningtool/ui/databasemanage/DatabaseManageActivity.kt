@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.activity_databasemanage.*
 

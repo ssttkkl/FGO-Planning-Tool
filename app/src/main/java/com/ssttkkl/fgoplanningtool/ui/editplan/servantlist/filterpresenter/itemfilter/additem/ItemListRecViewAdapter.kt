@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters.itemfilter.additem
+package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter.additem
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters.itemfilter.ItemEntity
+import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter.ItemEntity
 import kotlinx.android.synthetic.main.item_servantlist_additem_itemlist.view.*
 
 class ItemListRecViewAdapter(val context: Context) : RecyclerView.Adapter<ItemListRecViewAdapter.ViewHolder>() {
@@ -16,7 +16,7 @@ class ItemListRecViewAdapter(val context: Context) : RecyclerView.Adapter<ItemLi
         private set
 
     fun setNewData(newData: Collection<ItemDescriptor>) {
-        data = newData.map { ItemEntity(it) }.sortedBy { it.name }
+        data = newData.map { ItemEntity(it) }
         notifyDataSetChanged()
     }
 
@@ -36,7 +36,7 @@ class ItemListRecViewAdapter(val context: Context) : RecyclerView.Adapter<ItemLi
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         val item = data[pos]
         holder.itemView.apply {
-            Glide.with(context).load(item.imgUri).into(imageView)
+            Glide.with(context).load(item.imgFile).into(imageView)
             name_textView.text = item.name
         }
     }

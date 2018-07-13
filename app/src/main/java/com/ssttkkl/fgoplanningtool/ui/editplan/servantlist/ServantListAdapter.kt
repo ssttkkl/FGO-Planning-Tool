@@ -35,7 +35,7 @@ class ServantListAdapter(val context: Context) : RecyclerView.Adapter<ServantLis
         holder.itemView.apply {
             name_textView.text = item.localizedName
             class_textView.text = item.theClass.name
-            Glide.with(context).load(item.avatarUri).into(avatar_imageView)
+            Glide.with(context).load(item.avatarFile).into(avatar_imageView)
 
             alpha = if (exist.contains(item.id)) disabledAlpha else enabledAlpha
         }

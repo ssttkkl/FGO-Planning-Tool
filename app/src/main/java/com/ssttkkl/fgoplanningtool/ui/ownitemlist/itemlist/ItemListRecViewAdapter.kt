@@ -12,27 +12,21 @@ import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_ownitemlist.view.*
 
 class ItemListRecViewAdapter(val context: Context) : RecyclerView.Adapter<ItemListRecViewAdapter.ViewHolder>() {
-    var data: List<ItemListEntity> = ArrayList()
-        private set
+    val data: List<Item> = ArrayList()
 
     fun setNewData(newData: List<Item>) {
-        val newEntities = newData.sortedBy { it.descriptor?.localizedName }.map {
-            ItemListEntity(it.codename,
-                    it.descriptor?.localizedName ?: it.codename,
-                    it.count,
-                    it.descriptor?.imgUri ?: "")
-        }
-        if (data is MutableList<ItemListEntity> &&
-                newEntities.size == data.size &&
-                newEntities.indices.all { newEntities[it].codename == data[it].codename }) {
-            newEntities.indices.forEach {
-                if (newEntities[it] != data[it]) {
-                    (data as MutableList<ItemListEntity>)[it] = newEntities[it]
+        if (newData.size == data.size && newData.indices.all { newData[it].codename == data[it].codename }) {
+            newData.indices.forEach {
+                if (newData[it] != data[it]) {
+                    (data as MutableList<Item>)[it] = newData[it]
                     notifyItemChanged(it)
                 }
             }
         } else {
-            data = ArrayList(newEntities)
+            (data as MutableList<Item>).apply {
+                clear()
+                addAll(newData)
+            }
             notifyDataSetChanged()
         }
     }
@@ -56,9 +50,9 @@ class ItemListRecViewAdapter(val context: Context) : RecyclerView.Adapter<ItemLi
         val item = data[pos]
         holder.apply {
             itemView.apply {
-                name_textView.text = item.name
-                own_textView.text = item.own.toStringWithSplitter()
-                Glide.with(context).load(item.imgUri).into(avatar_imageView)
+                name_textView.text = item.descriptor?.localizedName ?: item.codename
+                own_textView.text = item.count.toStringWithSplitter()
+                Glide.with(context).load(item.descriptor?.imgFile).error(R.drawable.item_placeholder).into(avatar_imageView)
             }
         }
     }

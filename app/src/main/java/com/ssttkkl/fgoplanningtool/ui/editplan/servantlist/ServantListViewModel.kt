@@ -5,7 +5,7 @@ import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
 
 class ServantListViewModel : ViewModel() {
-    val data = ServantListLiveData(ResourcesProvider.servants.values)
+    val data = ServantListLiveData(ResourcesProvider.instance.servants.values)
 
     // search
     var searchText: CharSequence = ""

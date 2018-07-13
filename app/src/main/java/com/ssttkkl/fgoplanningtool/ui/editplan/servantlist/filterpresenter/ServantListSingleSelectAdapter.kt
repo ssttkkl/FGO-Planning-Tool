@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenters
+package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter
 
 import android.app.Activity
 import android.graphics.Typeface

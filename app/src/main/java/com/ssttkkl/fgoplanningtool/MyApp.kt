@@ -3,6 +3,7 @@ package com.ssttkkl.fgoplanningtool
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 
 class MyApp : Application() {
     override fun onCreate() {
@@ -21,5 +22,11 @@ class MyApp : Application() {
 
         val versionCode
             get() = context.packageManager.getPackageInfo(context.packageName, 0).versionCode
+
+        fun restart() {
+            val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            context.startActivity(intent)
+        }
     }
 }

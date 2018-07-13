@@ -34,7 +34,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/avatar_1" />
+                tools:srcCompat="@drawable/avatar_placeholder" />
 
             <ImageView
                 android:id="@+id/selectedFlag_imageView"
