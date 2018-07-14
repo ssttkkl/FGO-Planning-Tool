@@ -14,7 +14,7 @@ class ItemFilterPresenter(view: ServantListFragment) : FilterPresenter(view) {
     init {
         view.apply {
             // Setup the CostItem RecView
-            item_linearLayout.setOnClickListener { expandLayout(item_arrow_imageView, item_expLayout) }
+            itemHeader_textView.setOnClickListener { expandLayout(itemHeader_textView, item_expLayout) }
             item_add_button.setOnClickListener { gotoAddItemFilterUi() }
             item_mode_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {

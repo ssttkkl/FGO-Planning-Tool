@@ -6,35 +6,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/item_linearLayout"
+    <TextView
+        android:id="@+id/itemHeader_textView"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:foreground="?android:attr/selectableItemBackground"
         android:background="@android:color/background_light"
         android:clickable="true"
+        android:drawableEnd="@drawable/rotate_arrow"
+        android:elevation="4dp"
         android:focusable="true"
-        android:elevation="4dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            android:text="@string/item_servantlist"
-            android:textAppearance="@style/SubHeader" />
-
-        <ImageView
-            android:id="@+id/item_arrow_imageView"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_arrow_drop_down_white_24dp"
-            android:tint="@color/colorAccent" />
-
-    </LinearLayout>
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:text="@string/item_servantlist"
+        android:textAppearance="@style/SubHeader" />
 
     <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/item_expLayout"

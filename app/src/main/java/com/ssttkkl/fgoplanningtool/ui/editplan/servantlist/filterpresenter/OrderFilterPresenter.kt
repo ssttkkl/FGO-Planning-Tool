@@ -9,7 +9,7 @@ class OrderFilterPresenter(view: ServantListFragment) : SingleSelectFilterPresen
     init {
         view.apply {
             // Setup the Order RecView
-            orderBy_linearLayout.setOnClickListener { expandLayout(orderBy_arrow_imageView, orderby_expLayout) }
+            orderByHeader_textView.setOnClickListener { expandLayout(orderByHeader_textView, orderby_expLayout) }
             order_recView.setupSingleSelectRecView(Order.values().toList(),
                     { it.localizedName },
                     viewModel.orderSelectedPosition,

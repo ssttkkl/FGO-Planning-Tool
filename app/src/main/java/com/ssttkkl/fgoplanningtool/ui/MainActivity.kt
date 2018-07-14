@@ -40,10 +40,10 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
             switchToFragment(PlanListFragment::class)
 
         launch(Dispatchers.file) {
-            if (ResourcesProvider.instance.absent)
+            if (ResourcesProvider.instance.isAbsent)
                 Snackbar.make(frameLayout, getString(R.string.resMissed_main), Snackbar.LENGTH_INDEFINITE)
                         .show()
-            else if (ResourcesProvider.instance.broken)
+            else if (ResourcesProvider.instance.isBroken)
                 Snackbar.make(frameLayout, getString(R.string.resBroken_main), Snackbar.LENGTH_INDEFINITE)
                         .show()
         }

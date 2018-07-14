@@ -45,14 +45,14 @@ class ResourcesProvider(context: Context) {
         palingenesisQPInfo = map[PALINGENESIS] ?: List(6) { List(10) { 0 } }
     }
 
-    val broken: Boolean
+    val isBroken: Boolean
         get() {
             val list = resourcesDir.listFiles()
             return listOf(FILENAME_SERVANT_INFO, FILENAME_ITEM_INFO, FILENAME_QP_INFO, FILENAME_VERSION).any { list.none { file -> file.name == it && file.isFile } }
                     && listOf(DIRECTORYNAME_AVATAR, DIRECTORYNAME_ITEM).any { list.none { file -> file.name == it && file.isDirectory } }
         }
 
-    val absent: Boolean
+    val isAbsent: Boolean
         get() = !resourcesDir.exists() || !resourcesDir.isDirectory || resourcesDir.list().isEmpty()
 
     private fun buildItemDescriptors(): List<ItemDescriptor> {
