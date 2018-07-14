@@ -8,7 +8,7 @@ class ClassFilterPresenter(view: ServantListFragment) : MultipleSelectFilterPres
     init {
         view.apply {
             // Setup the Class RecView
-            class_linearLayout.setOnClickListener { expandLayout(class_arrow_imageView, class_expLayout) }
+            classHeader_textView.setOnClickListener { expandLayout(classHeader_textView, class_expLayout) }
             class_recView.setupMultipleSelectRecView(ServantClass.values().toList(),
                     { it.name },
                     viewModel.classSelectedPosition,

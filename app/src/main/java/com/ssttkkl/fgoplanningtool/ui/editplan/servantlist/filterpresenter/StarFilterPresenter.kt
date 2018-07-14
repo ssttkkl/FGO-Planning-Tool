@@ -7,7 +7,7 @@ class StarFilterPresenter(view: ServantListFragment) : MultipleSelectFilterPrese
     init {
         view.apply {
             // Setup the Star RecView
-            star_linearLayout.setOnClickListener { expandLayout(star_arrow_imageView, star_expLayout) }
+            starHeader_textView.setOnClickListener { expandLayout(starHeader_textView, star_expLayout) }
             star_recView.setupMultipleSelectRecView(listOf(1, 2, 3, 4, 5),
                     { it.toString() },
                     viewModel.starSelectedPosition,

@@ -67,9 +67,9 @@ class ResourcesUpdatePresenter(val view: PreferencesFragment) {
     init {
         val pref = view.findPreference(KEY_UPDATE_RES)
         launch(Dispatchers.file) {
-            pref.summary = if (ResourcesProvider.instance.absent)
+            pref.summary = if (ResourcesProvider.instance.isAbsent)
                 view.getString(R.string.noRes_pref)
-            else if (ResourcesProvider.instance.broken)
+            else if (ResourcesProvider.instance.isBroken)
                 view.getString(R.string.brokenCurResVersion_pref, ResourcesProvider.instance.version)
             else
                 view.getString(R.string.curResVersion_pref, ResourcesProvider.instance.version)
