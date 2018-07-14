@@ -11,4 +11,6 @@
     <dimen name="common_list_vertical_padding">16dp</dimen>
 
     <dimen name="list_header_and_footer_height">8dp</dimen>
+
+    <dimen name="holy_grail_width">12dp</dimen>
 </resources>
