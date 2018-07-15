@@ -30,9 +30,14 @@
         tools:text="au" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/constLayout"
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:elevation="4dp">
 
         <ImageView
             android:id="@+id/avatar_imageView"
@@ -63,6 +68,7 @@
             tools:text="heart" />
 
         <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/linearLayoutCompat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
@@ -118,4 +124,21 @@
         </android.support.v7.widget.LinearLayoutCompat>
 
     </android.support.constraint.ConstraintLayout>
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorBackground"
+        android:padding="8dp"
+        app:el_expanded="true">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_costitemlist_requireservant" />
+
+    </net.cachapa.expandablelayout.ExpandableLayout>
+
 </LinearLayout>

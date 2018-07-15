@@ -75,7 +75,7 @@ class EditPlanContainerFragment : Fragment() {
             override fun instantiateItem(container: ViewGroup, position: Int) =
                     super.instantiateItem(container, position).also {
                         if (it is CostItemListFragment)
-                            it.data = viewModel.plan.costItems
+                            it.plans = listOf(viewModel.plan)
                     }
         }
         tabLayout.setupWithViewPager(viewPager)
@@ -107,7 +107,7 @@ class EditPlanContainerFragment : Fragment() {
 
     private fun onPlanChanged() {
         (childFragmentManager.fragments.firstOrNull { it is CostItemListFragment } as? CostItemListFragment)
-                ?.data = viewModel.plan.costItems
+                ?.plans = listOf(viewModel.plan)
     }
 
     companion object {

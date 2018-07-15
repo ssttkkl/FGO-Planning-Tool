@@ -20,8 +20,8 @@ class CostItemListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // set the DataSet to CostItemListFragment
-        (supportFragmentManager.findFragmentById(R.id.itemListFragment) as CostItemListFragment).data =
-                intent.getParcelableArrayExtra(ARG_PLANS).map { it as Plan }.costItems
+        (supportFragmentManager.findFragmentById(R.id.itemListFragment) as CostItemListFragment).plans =
+                intent.getParcelableArrayExtra(ARG_PLANS).map { it as Plan }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
