@@ -1,11 +1,25 @@
 package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist
 
 import android.arch.lifecycle.ViewModel
+import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
+import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
 
 class ServantListViewModel : ViewModel() {
     val data = ServantListLiveData(ResourcesProvider.instance.servants.values)
+
+    private val prefs = MyApp.context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+    var viewType: ViewType = ViewType.values()[prefs.getInt(KEY_VIEW_TYPE, 0)]
+        set(value) {
+            field = value
+            prefs.edit()
+                    .putInt(KEY_VIEW_TYPE, value.ordinal)
+                    .apply()
+        }
 
     // search
     var searchText: CharSequence = ""
@@ -83,5 +97,10 @@ class ServantListViewModel : ViewModel() {
         (items as MutableSet<String>).remove(codename)
         data.itemFilter.remove(codename)
         data.notifyFiltersChanged()
+    }
+
+    companion object {
+        private const val PREFS_NAME = "ServantListViewModel"
+        private const val KEY_VIEW_TYPE = "viewType"
     }
 }

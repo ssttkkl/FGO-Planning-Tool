@@ -4,6 +4,7 @@ import android.animation.AnimatorInflater
 import android.animation.ValueAnimator
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.drawable.RotateDrawable
+import android.view.View
 import android.widget.TextView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.ServantListFragment
@@ -21,7 +22,7 @@ abstract class FilterPresenter(val view: ServantListFragment) {
                 drawable.level = it.animatedValue as Int
             }
             animator.start()
-            expLayout.isExpanded = !expLayout.isExpanded
+            expLayout.toggle()
         }
     }
 }

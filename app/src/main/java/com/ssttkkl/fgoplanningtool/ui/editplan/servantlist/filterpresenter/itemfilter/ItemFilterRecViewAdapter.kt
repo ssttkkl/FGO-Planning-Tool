@@ -20,6 +20,8 @@ class ItemFilterRecViewAdapter(val context: Context) : RecyclerView.Adapter<Item
     }
 
     fun addItem(codename: String) {
+        if (data.any { it.codename == codename })
+            return
         (data as MutableList<ItemEntity>).add(ItemEntity(ResourcesProvider.instance.itemDescriptors[codename]!!))
         notifyItemInserted(data.size - 1)
     }

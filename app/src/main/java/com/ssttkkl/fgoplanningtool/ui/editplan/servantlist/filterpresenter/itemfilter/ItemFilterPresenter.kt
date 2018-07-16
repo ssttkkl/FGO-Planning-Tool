@@ -1,5 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter
 
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import com.google.android.flexbox.FlexDirection
@@ -28,10 +31,7 @@ class ItemFilterPresenter(view: ServantListFragment) : FilterPresenter(view) {
                     setNewData(viewModel.items)
                     setOnRemoveActionListener { onRemoveItemAction(it) }
                 }
-                layoutManager = FlexboxLayoutManager(activity!!).apply {
-                    flexDirection = FlexDirection.ROW
-                    flexWrap = FlexWrap.WRAP
-                }
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 isNestedScrollingEnabled = false
             }
         }
