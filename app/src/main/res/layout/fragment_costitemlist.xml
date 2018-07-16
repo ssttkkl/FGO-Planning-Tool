@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:layout_margin="16dp"
         android:gravity="center"
-        android:text="@string/emptyHint_itemlist"
+        android:text="@string/emptyHint"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <android.support.v7.widget.RecyclerView

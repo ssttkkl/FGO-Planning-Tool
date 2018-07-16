@@ -12,7 +12,7 @@ import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.ui.costitemlist.requireservantlist.RequireServantsListEntity
+import com.ssttkkl.fgoplanningtool.ui.costitemlist.requirementlist.RequirementListEntity
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.fragment_costitemlist.*
 
@@ -43,8 +43,9 @@ class CostItemListFragment : Fragment() {
                     codename = codename,
                     requireServants = req.sortedBy { it.first }.map { (servantID, count) ->
                         val servant = ResourcesProvider.instance.servants[servantID]
-                        RequireServantsListEntity(avatarFile = servant?.avatarFile,
-                                require = count)
+                        RequirementListEntity(name = servant?.localizedName ?: servantID.toString(),
+                                require = count,
+                                avatarFile = servant?.avatarFile)
                     })
         }
         return entities.groupBy { it.type }.toList().sortedBy { it.first } // group items and sort groups by type

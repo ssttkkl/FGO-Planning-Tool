@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.costitemlist
 
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
-import com.ssttkkl.fgoplanningtool.ui.costitemlist.requireservantlist.RequireServantsListEntity
+import com.ssttkkl.fgoplanningtool.ui.costitemlist.requirementlist.RequirementListEntity
 import java.io.File
 
 data class CostItemListEntity(val name: String,
@@ -10,4 +10,4 @@ data class CostItemListEntity(val name: String,
                               val own: Int,
                               val imgFile: File?,
                               val codename: String,
-                              val requireServants: List<RequireServantsListEntity>)
+                              val requireServants: List<RequirementListEntity>)

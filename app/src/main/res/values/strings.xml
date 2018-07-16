@@ -2,6 +2,8 @@
     <string name="app_name" translatable="false">FGO Planning Tool</string>
     <string name="app_repo" translatable="false">https://github.com/ssttkkl/FGO-Planning-Tool</string>
 
+    <string name="emptyHint">什么都没有</string>
+
     <string name="databaseFromMigrationName">从旧版本迁移的数据库</string>
     <string name="newDatabaseName">新数据库</string>
     <string name="newDatabaseNameMultiple">新数据库 (%1$d)</string>
@@ -13,7 +15,7 @@
     <string name="resBroken_main">当前资源文件不完整。请到“选项”界面重新加载。</string>
 
     <string name="planlist_nav">规划列表</string>
-    <string name="ownitemlist_nav">持有材料</string>
+    <string name="ownitemlist_nav">材料仓库</string>
     <string name="preferences_nav">选项</string>
     <string name="databaseManage_nav">管理</string>
 
@@ -105,19 +107,20 @@
     </string-array>
 
     <string name="title_costitemlist">消耗材料</string>
+    <string name="own_item_costitemlist">持有</string>
+    <string name="need_item_costitemlist">需要</string>
 
-    <string name="title_itemlist">材料列表</string>
-    <string name="emptyHint_itemlist">什么都没有</string>
-    <string name="own_item_itemlist">持有</string>
-    <string name="need_item_itemlist">需要</string>
-
-    <string name="title_ownitemlist">持有材料</string>
+    <string name="title_ownitemlist">材料仓库</string>
+    <string name="own_item_ownitemlist">持有</string>
 
     <string name="hint_edititem">持有数量</string>
     <string name="save_edititem">保存</string>
     <string name="cancel_edititem">取消</string>
     <string name="illegalError_edititem">数据不合法</string>
     <string name="unknownError_edititem">未知错误</string>
+
+    <string name="ascension_iteminfo">灵基再临</string>
+    <string name="skill_iteminfo">技能升级</string>
 
     <string-array name="itemType">
         <item>通用</item>

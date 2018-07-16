@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:maxLines="1"
-                android:text="@string/need_item_itemlist"
+                android:text="@string/need_item_costitemlist"
                 android:textAppearance="@style/ListItemTertiary" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:maxLines="1"
-                android:text="@string/own_item_itemlist"
+                android:text="@string/own_item_costitemlist"
                 android:textAppearance="@style/ListItemTertiary" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -130,14 +130,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/colorBackground"
-        android:padding="8dp"
         app:el_expanded="true">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_costitemlist_requireservant" />
+            tools:listitem="@layout/item_requirementlist" />
 
     </net.cachapa.expandablelayout.ExpandableLayout>
 

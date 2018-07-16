@@ -108,8 +108,5 @@ class EditItemDialogFragment : DialogFragment() {
 
         private const val MIN_VALUE = 0
         private const val MAX_VALUE = 999_999_999
-
-        val tag
-            get() = EditItemDialogFragment::class.qualifiedName
     }
 }
