@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter.additem
+package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.additem
 
 import android.os.Bundle
 import android.support.v4.app.DialogFragment

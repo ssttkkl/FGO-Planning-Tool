@@ -1,10 +1,10 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter
+package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter
 
 import android.support.v7.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.ServantListFragment
+import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 
 
 abstract class SingleSelectFilterPresenter(view: ServantListFragment) : FilterPresenter(view) {

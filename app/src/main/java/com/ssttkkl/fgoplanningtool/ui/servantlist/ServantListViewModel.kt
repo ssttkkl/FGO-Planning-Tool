@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist
+package com.ssttkkl.fgoplanningtool.ui.servantlist
 
 import android.arch.lifecycle.ViewModel
 import android.content.Context

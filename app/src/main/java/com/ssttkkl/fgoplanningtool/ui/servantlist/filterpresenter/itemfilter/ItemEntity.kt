@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter
+package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter
 
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
 import java.io.File

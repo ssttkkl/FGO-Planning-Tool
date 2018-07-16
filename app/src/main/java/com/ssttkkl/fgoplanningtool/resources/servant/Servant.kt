@@ -25,7 +25,7 @@ data class Servant(val id: Int,
         }
 
     val ascensionQP
-        get() = ResourcesProvider.instance.ascensionQPInfo[star]
+        get() = if (id == 1) listOf(0, 0, 0, 0) else ResourcesProvider.instance.ascensionQPInfo[star]
 
     val skillQP
         get() = ResourcesProvider.instance.skillQPInfo[star]

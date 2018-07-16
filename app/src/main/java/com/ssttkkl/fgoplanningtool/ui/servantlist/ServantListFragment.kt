@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist
+package com.ssttkkl.fgoplanningtool.ui.servantlist
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
@@ -13,11 +13,12 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.ClassFilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.OrderFilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.StarFilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter.ItemFilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter.additem.AddItemDialogFragment
+import com.ssttkkl.fgoplanningtool.ui.MainActivity
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.ClassFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.OrderFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.StarFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.ItemFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.additem.AddItemDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.fragment_servantlist.*
@@ -48,6 +49,13 @@ class ServantListFragment : BackHandlerFragment(),
         listener = null
     }
 
+    private lateinit var hiddenServantIDs: Set<Int>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        hiddenServantIDs = arguments?.getIntArray(KEY_HIDDEN)?.toHashSet() ?: setOf()
+    }
+
     private lateinit var orderFilterPresenter: OrderFilterPresenter
     private lateinit var starFilterPresenter: StarFilterPresenter
     private lateinit var classFilterPresenter: ClassFilterPresenter
@@ -69,9 +77,11 @@ class ServantListFragment : BackHandlerFragment(),
             }
         }
 
+        (activity as? MainActivity)?.setupDrawerToggle(toolbar)
+
         // Setup the Servant RecView
         recView.apply {
-            adapter = ServantListAdapter(context!!).apply {
+            adapter = ServantListAdapter(context!!, hiddenServantIDs).apply {
                 setOnItemClickListener { onServantSelected(it) }
             }
             setHasFixedSize(true)
@@ -163,7 +173,12 @@ class ServantListFragment : BackHandlerFragment(),
     }
 
     companion object {
-        val tag
-            get() = ServantListFragment::class.qualifiedName
+        fun newInstance(hiddenServantIDs: Set<Int>) = ServantListFragment().apply {
+            arguments = Bundle().apply {
+                putIntArray(KEY_HIDDEN, hiddenServantIDs.toIntArray())
+            }
+        }
+
+        private const val KEY_HIDDEN = "hidden"
     }
 }

@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist
+package com.ssttkkl.fgoplanningtool.ui.servantlist
 
 import android.arch.lifecycle.LiveData
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant

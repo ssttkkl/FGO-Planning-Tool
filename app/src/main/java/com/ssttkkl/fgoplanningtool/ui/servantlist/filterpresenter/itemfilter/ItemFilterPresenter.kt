@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter
+package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -8,9 +8,9 @@ import android.widget.AdapterView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.ServantListFragment
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.FilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter.additem.AddItemDialogFragment
+import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.FilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.additem.AddItemDialogFragment
 import kotlinx.android.synthetic.main.content_servantlist_item.*
 
 class ItemFilterPresenter(view: ServantListFragment) : FilterPresenter(view) {

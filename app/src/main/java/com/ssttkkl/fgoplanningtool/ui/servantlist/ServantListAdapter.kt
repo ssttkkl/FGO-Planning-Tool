@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist
+package com.ssttkkl.fgoplanningtool.ui.servantlist
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -11,9 +11,8 @@ import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import kotlinx.android.synthetic.main.item_servantlist.view.*
 
-class ServantListAdapter(val context: Context) : RecyclerView.Adapter<ServantListAdapter.ViewHolder>() {
-    private val exist = Repo.planRepo.all.mapTo(HashSet()) { it.servantId }
-
+class ServantListAdapter(val context: Context,
+                         private val hidden: Set<Int>) : RecyclerView.Adapter<ServantListAdapter.ViewHolder>() {
     var data: List<Servant> = listOf()
         set(value) {
             field = value
@@ -45,7 +44,7 @@ class ServantListAdapter(val context: Context) : RecyclerView.Adapter<ServantLis
             R.layout.item_servantlist_grid
         return ViewHolder(LayoutInflater.from(context).inflate(layoutResID, parent, false)).apply {
             itemView.setOnClickListener {
-                if (!exist.contains(data[adapterPosition].id))
+                if (!hidden.contains(data[adapterPosition].id))
                     listener?.invoke(data[adapterPosition].id)
             }
         }
@@ -60,7 +59,7 @@ class ServantListAdapter(val context: Context) : RecyclerView.Adapter<ServantLis
             }
             Glide.with(context).load(item.avatarFile).into(avatar_imageView)
 
-            alpha = if (exist.contains(item.id)) disabledAlpha else enabledAlpha
+            alpha = if (hidden.contains(item.id)) disabledAlpha else enabledAlpha
         }
     }
 

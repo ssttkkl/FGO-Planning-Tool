@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter
+package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter
 
 import android.animation.AnimatorInflater
 import android.animation.ValueAnimator
@@ -7,8 +7,8 @@ import android.graphics.drawable.RotateDrawable
 import android.view.View
 import android.widget.TextView
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.ServantListFragment
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.ServantListViewModel
+import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
+import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListViewModel
 import net.cachapa.expandablelayout.ExpandableLayout
 
 abstract class FilterPresenter(val view: ServantListFragment) {

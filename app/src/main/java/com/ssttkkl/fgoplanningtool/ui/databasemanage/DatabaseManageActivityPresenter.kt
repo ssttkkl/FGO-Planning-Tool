@@ -15,16 +15,15 @@ class DatabaseManageActivityPresenter(val view: DatabaseManageActivity) : Databa
     }
 
     private fun onDataChanged(newData: List<DatabaseDescriptor>) {
-        (view.recView.adapter as DatabaseManageRecViewAdapter).apply {
-            setNewData(newData)
-            // If there's no such uuid Repo holding, switch Repo's database.
-            // If Repo opened a database exists in newData, select it.
-            // Else do nothing because the new database will be selected in the next time onDataChanged called.
-            if (data.none { it.uuid == Repo.uuid })
-                Repo.switchDatabase(DatabaseDescriptorManager.firstOrCreate.uuid)
-            if (data.any { it.uuid == Repo.uuid })
-                selectedPosition = data.indexOfFirst { it.uuid == Repo.uuid }
-        }
+        view.data = newData
+
+        // If there's no such uuid Repo holding, switch Repo's database.
+        // If Repo opened a database exists in newData, select it.
+        // Else do nothing because the new database will be selected in the next time onDataChanged called.
+        if (newData.none { it.uuid == Repo.uuid })
+            Repo.switchDatabase(DatabaseDescriptorManager.firstOrCreate.uuid)
+        if (newData.any { it.uuid == Repo.uuid })
+            (view.recView.adapter as DatabaseManageRecViewAdapter).selectedPosition = newData.indexOfFirst { it.uuid == Repo.uuid }
     }
 
     override fun onSelectedPositionChanged(newPos: Int, newItem: DatabaseDescriptor) {
