@@ -9,14 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayoutManager
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.requirementlist.RequirementListRecViewAdapter
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_costitemlist.view.*
+import net.cachapa.expandablelayout.ExpandableLayout
 
 class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemListAdapter.ViewHolder>() {
     private var recyclerView: RecyclerView? = null
@@ -62,7 +60,12 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
                     adapter = RequirementListRecViewAdapter(context)
                     layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(CommonRecViewItemDecoration(context!!))
-                    isNestedScrollingEnabled = false
+                }
+                itemView.expLayout.setOnExpansionUpdateListener { _, state ->
+                    itemView.recView.visibility = if (state == ExpandableLayout.State.COLLAPSED)
+                        View.GONE
+                    else
+                        View.VISIBLE
                 }
             }
 

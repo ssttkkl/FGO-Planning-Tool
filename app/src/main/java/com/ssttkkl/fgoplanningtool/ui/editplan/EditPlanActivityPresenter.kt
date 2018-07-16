@@ -10,7 +10,7 @@ import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.editplan.container.EditPlanContainerFragment
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.ServantListFragment
+import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 
 class EditPlanActivityPresenter(val view: EditPlanActivity) {
     private val mode: EditPlanActivity.Companion.Mode = view.intent.extras[EditPlanActivity.ARG_MODE] as EditPlanActivity.Companion.Mode
@@ -91,7 +91,8 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
     }
 
     private fun gotoServantListUi() {
-        switchToFragment(ServantListFragment(), ServantListFragment.tag)
+        val existingServantIDs = Repo.planRepo.all.map { it.servantId }.toSet()
+        switchToFragment(ServantListFragment.newInstance(existingServantIDs), ServantListFragment::class.qualifiedName)
     }
 
     private fun gotoEditPlanUi() {

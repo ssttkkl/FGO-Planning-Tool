@@ -17,6 +17,11 @@
             android:icon="@drawable/ic_storage_white_24dp"
             android:title="@string/ownitemlist_nav"
             app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/servantdetaillist_nav"
+            android:icon="@drawable/ic_album_white_24dp"
+            android:title="@string/servantdetaillist_nav"
+            app:showAsAction="ifRoom" />
     </group>
 
     <group

@@ -9,11 +9,19 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptor
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.activity_databasemanage.*
 
 class DatabaseManageActivity : AppCompatActivity() {
+    var data: List<DatabaseDescriptor>
+        get() = (recView?.adapter as? DatabaseManageRecViewAdapter)?.data ?: listOf()
+        set(value) {
+            (recView?.adapter as? DatabaseManageRecViewAdapter)?.setNewData(value)
+            recView?.invalidateItemDecorations()
+        }
+
     private lateinit var presenter: DatabaseManageActivityPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +32,25 @@ class DatabaseManageActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         recView.apply {
-            adapter = DatabaseManageRecViewAdapter(this@DatabaseManageActivity)
-            layoutManager = LinearLayoutManager(this@DatabaseManageActivity, LinearLayoutManager.VERTICAL, false)
+            adapter = DatabaseManageRecViewAdapter(this@DatabaseManageActivity).apply {
+                // restore editing states
+                if (savedInstanceState != null) {
+                    if (savedInstanceState.containsKey(KEY_DATA))
+                        setNewData(savedInstanceState.getParcelableArray(KEY_DATA).map { it as DatabaseDescriptor })
+
+                    if (savedInstanceState.containsKey(KEY_EDITING_POSITIONS) && savedInstanceState.containsKey(KEY_EDITING_CONTENTS)) {
+                        val editingPositions = savedInstanceState.getIntArray(KEY_EDITING_POSITIONS)
+                        val editingContents = savedInstanceState.getStringArray(KEY_EDITING_CONTENTS)
+                        if (editingPositions.size == editingContents.size) {
+                            editingPositions.indices.forEach { idx ->
+                                setPositionInEditMode(editingPositions[idx], editingContents[idx])
+                            }
+                        }
+                    }
+                }
+                layoutManager = LinearLayoutManager(this@DatabaseManageActivity, LinearLayoutManager.VERTICAL, false)
+                addItemDecoration(CommonRecViewItemDecoration(context))
+            }
         }
 
         presenter = DatabaseManageActivityPresenter(this).also {
@@ -36,6 +61,19 @@ class DatabaseManageActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         presenter.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putParcelableArray(KEY_DATA, data.toTypedArray())
+        (recView?.adapter as? DatabaseManageRecViewAdapter)?.apply {
+            val inEditModePositions = inEditModePositions.filter { it.value }.keys
+            val pairs = inEditModePositions.map { Pair(it, editedNames[it] ?: data[it].name) }
+            if (outState != null && pairs.isNotEmpty()) {
+                outState.putIntArray(KEY_EDITING_POSITIONS, pairs.map { it.first }.toIntArray())
+                outState.putStringArray(KEY_EDITING_CONTENTS, pairs.map { it.second }.toTypedArray())
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -59,5 +97,11 @@ class DatabaseManageActivity : AppCompatActivity() {
 
     fun showMessage(message: String) {
         Snackbar.make(root, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    companion object {
+        private const val KEY_DATA = "data"
+        private const val KEY_EDITING_POSITIONS = "editing_positions"
+        private const val KEY_EDITING_CONTENTS = "editing_contents"
     }
 }

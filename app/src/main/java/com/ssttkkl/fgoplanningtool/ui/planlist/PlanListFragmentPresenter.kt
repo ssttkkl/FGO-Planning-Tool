@@ -16,14 +16,21 @@ import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanActivity
 import kotlinx.android.synthetic.main.fragment_planlist.*
 
 class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAdapter.Callback {
-    private val adapter = view.recView.adapter as PlanListRecViewAdapter
+    private val adapter
+        get() = view.recView.adapter as PlanListRecViewAdapter
 
     init {
         Repo.planListLiveData.observe(view, Observer { onDataChanged(it) })
+
+        if (adapter.isInSelectMode)
+            onSelectModeEnabled()
     }
 
     val inSelectMode
         get() = adapter.isInSelectMode
+
+    val selectedPositions
+        get() = adapter.selectedPositions
 
     // access database
     fun removePlan(plans: Collection<Plan>, deductItems: Boolean) {

@@ -6,7 +6,7 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.editplan.container.EditPlanContainerFragment
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.ServantListFragment
+import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerActivity
 import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor
 

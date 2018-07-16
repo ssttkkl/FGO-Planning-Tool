@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter
+package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

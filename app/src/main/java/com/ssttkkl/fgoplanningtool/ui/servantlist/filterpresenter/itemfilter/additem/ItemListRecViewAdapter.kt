@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter.additem
+package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.additem
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.itemfilter.ItemEntity
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.ItemEntity
 import kotlinx.android.synthetic.main.item_servantlist_additem_itemlist.view.*
 
 class ItemListRecViewAdapter(val context: Context) : RecyclerView.Adapter<ItemListRecViewAdapter.ViewHolder>() {

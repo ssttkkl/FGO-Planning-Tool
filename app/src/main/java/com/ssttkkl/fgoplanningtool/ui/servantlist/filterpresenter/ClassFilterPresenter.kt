@@ -1,7 +1,7 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter
+package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter
 
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
-import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.ServantListFragment
+import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 import kotlinx.android.synthetic.main.content_servantlist_class.*
 
 class ClassFilterPresenter(view: ServantListFragment) : MultipleSelectFilterPresenter(view) {
