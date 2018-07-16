@@ -3,6 +3,7 @@ package com.ssttkkl.fgoplanningtool.ui.costitemlist
 import android.content.Context
 import android.graphics.Typeface
 import android.support.v4.content.res.ResourcesCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,8 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.ui.costitemlist.requireservantlist.RequireServantsListRecViewAdapter
+import com.ssttkkl.fgoplanningtool.ui.costitemlist.requirementlist.RequirementListRecViewAdapter
+import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_costitemlist.view.*
 
@@ -57,11 +59,9 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
                     expendedPosition = if (expendedPosition != adapterPosition) adapterPosition else -1
                 }
                 itemView.recView.apply {
-                    adapter = RequireServantsListRecViewAdapter(context)
-                    layoutManager = FlexboxLayoutManager(context).apply {
-                        flexDirection = FlexDirection.ROW
-                        flexWrap = FlexWrap.WRAP
-                    }
+                    adapter = RequirementListRecViewAdapter(context)
+                    layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+                    addItemDecoration(CommonRecViewItemDecoration(context!!))
                     isNestedScrollingEnabled = false
                 }
             }
@@ -93,7 +93,7 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
 
             Glide.with(context).load(item.imgFile).into(avatar_imageView)
 
-            (recView.adapter as RequireServantsListRecViewAdapter).data = item.requireServants
+            (recView.adapter as RequirementListRecViewAdapter).data = item.requireServants
             expLayout.setExpanded(expendedPosition == pos, false)
         }
     }

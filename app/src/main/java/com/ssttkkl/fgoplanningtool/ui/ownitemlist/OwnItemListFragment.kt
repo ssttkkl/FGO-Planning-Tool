@@ -14,11 +14,12 @@ import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.edititem.EditItemDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist.ItemListFragment
+import com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist.ItemListRecViewAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_ownitemlist.*
 
 class OwnItemListFragment : Fragment(), LifecycleOwner
-        , ItemListFragment.OnItemClickListener
+        , ItemListRecViewAdapter.Callback
         , EditItemDialogFragment.OnChangeItemActionListener {
     private lateinit var presenter: OwnItemListFragmentPresenter
 
@@ -45,8 +46,12 @@ class OwnItemListFragment : Fragment(), LifecycleOwner
         presenter = OwnItemListFragmentPresenter(this)
     }
 
-    override fun onItemClick(codename: String) {
-        presenter.onItemClick(codename)
+    override fun onItemEditAction(codename: String) {
+        presenter.onItemEditAction(codename)
+    }
+
+    override fun onItemInfoAction(codename: String) {
+        presenter.onItemInfoAction(codename)
     }
 
     override fun onChangeItemAction(changedItem: Item) {
