@@ -81,6 +81,8 @@
         <item>10</item>
     </string-array>
 
+    <string name="switchToGridView_servantlist">切换到网格视图</string>
+    <string name="switchToListView_servantlist">切换到列表视图</string>
     <string name="sortAndFilter_servantlist">排序与过滤</string>
     <string name="search_servantlist">搜索</string>
     <string name="order_servantlist">排序</string>

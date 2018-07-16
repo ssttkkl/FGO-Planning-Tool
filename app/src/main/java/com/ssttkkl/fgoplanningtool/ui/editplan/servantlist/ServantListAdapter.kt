@@ -20,31 +20,48 @@ class ServantListAdapter(val context: Context) : RecyclerView.Adapter<ServantLis
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_servantlist, parent, false)).apply {
-                itemView.setOnClickListener {
-                    if (!exist.contains(data[adapterPosition].id))
-                        onItemClickListener?.invoke(data[adapterPosition].id)
-                }
-            }
-
     override fun getItemCount(): Int = data.size
+
+    private var listener: ((servantId: Int) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: ((servantId: Int) -> Unit)?) {
+        this.listener = listener
+    }
+
+    var viewType: ViewType = ViewType.List
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    override fun getItemViewType(position: Int): Int {
+        return viewType.ordinal
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutResID = if (viewType == ViewType.List.ordinal)
+            R.layout.item_servantlist
+        else
+            R.layout.item_servantlist_grid
+        return ViewHolder(LayoutInflater.from(context).inflate(layoutResID, parent, false)).apply {
+            itemView.setOnClickListener {
+                if (!exist.contains(data[adapterPosition].id))
+                    listener?.invoke(data[adapterPosition].id)
+            }
+        }
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         val item = data[pos]
         holder.itemView.apply {
-            name_textView.text = item.localizedName
-            class_textView.text = item.theClass.name
+            if (viewType == ViewType.List) {
+                name_textView.text = item.localizedName
+                class_textView.text = item.theClass.name
+            }
             Glide.with(context).load(item.avatarFile).into(avatar_imageView)
 
             alpha = if (exist.contains(item.id)) disabledAlpha else enabledAlpha
         }
-    }
-
-    private var onItemClickListener: ((servantId: Int) -> Unit)? = null
-
-    fun setOnItemClickListener(listener: ((servantId: Int) -> Unit)?) {
-        onItemClickListener = listener
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)

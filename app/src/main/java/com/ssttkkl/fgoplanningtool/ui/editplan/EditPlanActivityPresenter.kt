@@ -32,13 +32,11 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
                     planSkillIII.value = it.planSkill3
                 }
             }
+            if (servantId.value == 0)
+                gotoServantListUi()
+            else
+                gotoEditPlanUi()
             firstCreate = false
-        }
-
-        if (servantId.value == 0) {
-            gotoServantListUi()
-        } else {
-            gotoEditPlanUi()
         }
     }
 

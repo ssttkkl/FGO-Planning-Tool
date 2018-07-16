@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.*
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.ClassFilterPresenter
 import com.ssttkkl.fgoplanningtool.ui.editplan.servantlist.filterpresenter.OrderFilterPresenter
@@ -53,6 +56,8 @@ class ServantListFragment : BackHandlerFragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_servantlist, container, false)
 
+    private lateinit var itemDecoration: CommonRecViewItemDecoration
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Setup the Toolbar
         (activity as? AppCompatActivity)?.apply {
@@ -69,13 +74,17 @@ class ServantListFragment : BackHandlerFragment(),
             adapter = ServantListAdapter(context!!).apply {
                 setOnItemClickListener { onServantSelected(it) }
             }
-            layoutManager = LinearLayoutManager(activity!!, LinearLayoutManager.VERTICAL, false)
-            addItemDecoration(CommonRecViewItemDecoration(context!!))
             setHasFixedSize(true)
         }
+        itemDecoration = CommonRecViewItemDecoration(context!!)
         viewModel.data.observe(this, Observer {
             (recView.adapter as ServantListAdapter).data = it ?: listOf()
         })
+
+        if (viewModel.viewType == ViewType.List)
+            onSwitchToListView()
+        else
+            onSwitchToGridView()
 
         // Setup the SearchView
         searchView.apply {
@@ -98,12 +107,18 @@ class ServantListFragment : BackHandlerFragment(),
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         menu?.clear()
         inflater?.inflate(R.menu.servantlist, menu)
+        if (viewModel.viewType == ViewType.List)
+            menu?.findItem(R.id.switchToListView_action)?.isVisible = false
+        else
+            menu?.findItem(R.id.switchToGridView_action)?.isVisible = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> activity?.finish()
             R.id.sortAndFilter_action -> drawerlayout.openDrawer(Gravity.END)
+            R.id.switchToGridView_action -> onSwitchToGridView()
+            R.id.switchToListView_action -> onSwitchToListView()
             else -> super.onOptionsItemSelected(item)
         }
         return true
@@ -122,6 +137,29 @@ class ServantListFragment : BackHandlerFragment(),
 
     private fun onServantSelected(servantId: Int) {
         listener?.onServantSelected(servantId)
+    }
+
+    private fun onSwitchToGridView() {
+        recView?.apply {
+            layoutManager = FlexboxLayoutManager(activity!!).apply {
+                flexWrap = FlexWrap.WRAP
+                justifyContent = JustifyContent.SPACE_AROUND
+                removeItemDecoration(itemDecoration)
+            }
+            (adapter as? ServantListAdapter)?.viewType = ViewType.Grid
+        }
+        viewModel.viewType = ViewType.Grid
+        activity?.invalidateOptionsMenu()
+    }
+
+    private fun onSwitchToListView() {
+        recView?.apply {
+            layoutManager = LinearLayoutManager(activity!!, LinearLayoutManager.VERTICAL, false)
+            (adapter as? ServantListAdapter)?.viewType = ViewType.List
+            addItemDecoration(itemDecoration)
+        }
+        viewModel.viewType = ViewType.List
+        activity?.invalidateOptionsMenu()
     }
 
     companion object {

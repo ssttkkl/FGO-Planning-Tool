@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/avatar_imageView"
+    android:layout_width="64dp"
+    android:layout_height="70dp"
+    android:layout_margin="8dp"
+    android:adjustViewBounds="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    tools:srcCompat="@drawable/avatar_placeholder" />

@@ -3,6 +3,10 @@ package com.ssttkkl.fgoplanningtool.ui.editplan.servantlist
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 
+enum class ViewType {
+    List, Grid;
+}
+
 enum class OrderBy {
     ID, Class, Star;
 
