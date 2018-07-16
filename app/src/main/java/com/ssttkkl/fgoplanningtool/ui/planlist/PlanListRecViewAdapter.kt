@@ -16,8 +16,18 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
     val data: List<Plan> = ArrayList()
 
     fun setNewData(newData: List<Plan>) {
-        isInSelectMode = false
-        RecViewAdapterDataSetChanger.perform(this, data as ArrayList<Plan>, newData) { it.servantId }
+        synchronized(data) {
+            var equal = data.size == newData.size
+            if (equal)
+                data.indices.forEach {
+                    equal = equal && data[it] == newData[it]
+                }
+            if (equal)
+                return
+
+            isInSelectMode = false
+            RecViewAdapterDataSetChanger.perform(this, data as ArrayList<Plan>, newData) { it.servantId }
+        }
     }
 
     // callback start
@@ -30,8 +40,8 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
 
     private var callback: Callback? = null
 
-    fun setCallback(callback: Callback?) {
-        this.callback = callback
+    fun setCallback(newCallback: Callback?) {
+        callback = newCallback
     }
 
     // selection start

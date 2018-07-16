@@ -16,6 +16,7 @@
 
     <string name="planlist_nav">规划列表</string>
     <string name="ownitemlist_nav">材料仓库</string>
+    <string name="servantdetaillist_nav">灵基一览</string>
     <string name="preferences_nav">选项</string>
     <string name="databaseManage_nav">管理</string>
 

@@ -12,7 +12,8 @@ import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.ui.costitemlist.requirementlist.RequirementListEntity
+import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
+import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.fragment_costitemlist.*
 
@@ -43,7 +44,8 @@ class CostItemListFragment : Fragment() {
                     codename = codename,
                     requireServants = req.sortedBy { it.first }.map { (servantID, count) ->
                         val servant = ResourcesProvider.instance.servants[servantID]
-                        RequirementListEntity(name = servant?.localizedName ?: servantID.toString(),
+                        RequirementListEntity(servantID = servantID,
+                                name = servant?.localizedName ?: servantID.toString(),
                                 require = count,
                                 avatarFile = servant?.avatarFile)
                     })
@@ -66,6 +68,7 @@ class CostItemListFragment : Fragment() {
         recView.apply {
             adapter = CostItemListAdapter(context!!).apply {
                 data = generateEntities(plans)
+                setOnServantClickListener { gotoServantDetailUi(it) }
                 if (savedInstanceState != null && savedInstanceState.containsKey(ARG_EXPANDED))
                     expendedPosition = savedInstanceState.getInt(ARG_EXPANDED)
             }
@@ -81,11 +84,13 @@ class CostItemListFragment : Fragment() {
                 ?: -1)
     }
 
+    private fun gotoServantDetailUi(servantID: Int) {
+        ServantInfoDialogFragment.newInstance(servantID)
+                .show(childFragmentManager, ServantInfoDialogFragment::class.qualifiedName)
+    }
+
     companion object {
         private const val ARG_PLANS = "plans"
         private const val ARG_EXPANDED = "expanded"
-
-        val tag
-            get() = CostItemListFragment::class.qualifiedName
     }
 }

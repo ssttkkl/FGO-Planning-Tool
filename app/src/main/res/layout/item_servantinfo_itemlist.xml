@@ -9,7 +9,7 @@
     android:background="?android:attr/selectableItemBackground">
 
     <ImageView
-        android:id="@+id/avatar_imageView"
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
@@ -17,15 +17,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/avatar_placeholder" />
+        tools:srcCompat="@drawable/item_placeholder" />
 
     <TextView
         android:id="@+id/name_textView"
-        android:ellipsize="marquee"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="72dp"
+        android:ellipsize="marquee"
         android:singleLine="true"
         android:textAppearance="@style/ListItem"
         app:layout_constraintBottom_toBottomOf="parent"

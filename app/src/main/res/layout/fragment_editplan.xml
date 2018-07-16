@@ -7,11 +7,13 @@
     android:padding="16dp"
     tools:context=".ui.editplan.container.EditPlanFragment">
 
-
     <ImageView
         android:id="@+id/avatar_imageView"
         android:layout_width="64dp"
         android:layout_height="70dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/avatar_placeholder" />

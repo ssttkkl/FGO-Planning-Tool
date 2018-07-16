@@ -19,8 +19,19 @@ import java.util.concurrent.ConcurrentHashMap
 class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<DatabaseManageRecViewAdapter.ViewHolder>() {
     val data: List<DatabaseDescriptor> = ArrayList()
 
-    fun setNewData(newData:List<DatabaseDescriptor>) {
-        RecViewAdapterDataSetChanger.perform(this, data as ArrayList<DatabaseDescriptor>, newData) { it.uuid }
+    fun setNewData(newData: List<DatabaseDescriptor>) {
+        synchronized(data) {
+            var equal = data.size == newData.size
+            if (equal)
+                data.indices.forEach {
+                    equal = equal && data[it] == newData[it]
+                }
+            if (equal)
+                return
+
+            inEditModePositions.filter { it.value }.keys.forEach { setPositionInNormalMode(it) }
+            RecViewAdapterDataSetChanger.perform(this, data as ArrayList<DatabaseDescriptor>, newData) { it.uuid }
+        }
     }
 
     interface Callback {
@@ -41,7 +52,7 @@ class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<
 
     private fun onMenuItemClick(pos: Int, menuId: Int) {
         when (menuId) {
-            R.id.rename_action -> setPositionInEditMode(pos)
+            R.id.rename_action -> setPositionInEditMode(pos, data[pos].name)
             R.id.remove_action -> callback?.onItemRemove(pos, data[pos])
             R.id.importPlans_action -> callback?.onImportPlans(pos, data[pos])
             R.id.importItems_action -> callback?.onImportItems(pos, data[pos])
@@ -50,17 +61,17 @@ class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<
         }
     }
 
-    private val inEditModePosition = ConcurrentHashMap<Int, Boolean>()
-    private val editedName = ConcurrentHashMap<Int, String>()
+    val inEditModePositions = ConcurrentHashMap<Int, Boolean>()
+    val editedNames = ConcurrentHashMap<Int, String>()
 
-    fun setPositionInEditMode(pos: Int) {
-        inEditModePosition[pos] = true
-        editedName[pos] = data[pos].name
+    fun setPositionInEditMode(pos: Int, editedName: String) {
+        inEditModePositions[pos] = true
+        editedNames[pos] = editedName
         notifyItemChanged(pos)
     }
 
     fun setPositionInNormalMode(pos: Int) {
-        inEditModePosition[pos] = false
+        inEditModePositions[pos] = false
         notifyItemChanged(pos)
     }
 
@@ -76,7 +87,7 @@ class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<
             callback?.onSelectedPositionChanged(value, data[value])
         }
 
-    override fun getItemViewType(pos: Int) = if (inEditModePosition[pos] == true) ITEM_TYPE_EDIT else ITEM_TYPE_NORMAL
+    override fun getItemViewType(pos: Int) = if (inEditModePositions[pos] == true) ITEM_TYPE_EDIT else ITEM_TYPE_NORMAL
 
     override fun getItemCount() = data.size
 
@@ -94,15 +105,15 @@ class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<
             itemView.name_editText.addTextChangedListener(object : TextWatcher {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     if (itemView.name_editText.isFocused)
-                        editedName[adapterPosition] = s?.toString() ?: ""
+                        editedNames[adapterPosition] = s?.toString() ?: ""
                 }
 
                 override fun afterTextChanged(s: Editable?) {}
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             })
             itemView.ok_button.setOnClickListener {
-                if (editedName[adapterPosition] != "")
-                    callback?.onItemNameChange(adapterPosition, data[adapterPosition], editedName[adapterPosition]
+                if (editedNames[adapterPosition] != "")
+                    callback?.onItemNameChange(adapterPosition, data[adapterPosition], editedNames[adapterPosition]
                             ?: "")
                 setPositionInNormalMode(adapterPosition)
             }
@@ -120,7 +131,7 @@ class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<
                 }
                 ITEM_TYPE_EDIT -> {
                     name_editText.hint = item.name
-                    name_editText.setText(editedName[pos])
+                    name_editText.setText(editedNames[pos])
                 }
             }
         }

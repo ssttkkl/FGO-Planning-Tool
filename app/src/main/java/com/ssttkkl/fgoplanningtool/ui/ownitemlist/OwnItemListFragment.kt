@@ -4,7 +4,6 @@ import android.arch.lifecycle.LifecycleOwner
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +11,10 @@ import android.view.ViewGroup
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
+import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.edititem.EditItemDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist.ItemListFragment
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist.ItemListRecViewAdapter
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_ownitemlist.*
 
 class OwnItemListFragment : Fragment(), LifecycleOwner
@@ -32,9 +31,7 @@ class OwnItemListFragment : Fragment(), LifecycleOwner
         (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
 
         // setup drawer toggle
-        val toggle = ActionBarDrawerToggle(activity, activity?.drawerlayout, toolbar, R.string.openDrawer_main, R.string.closeDrawer_main)
-        activity?.drawerlayout?.addDrawerListener(toggle)
-        toggle.syncState()
+        (activity as? MainActivity)?.setupDrawerToggle(toolbar)
 
         viewPager.adapter = object : FragmentPagerAdapter(childFragmentManager) {
             override fun getPageTitle(pos: Int) = ItemType.values()[pos].localizedName

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanViewModel
+import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.DrawableAndTextSpinnerAdapter
 import kotlinx.android.synthetic.main.fragment_editplan.*
 
@@ -105,6 +106,12 @@ class EditPlanFragment : Fragment(), LifecycleOwner {
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
                 }
             }
+        }
+        avatar_imageView.setOnClickListener {
+            val servantID = viewModel.servantId.value
+            if (servantID != null && servantID > 0)
+                ServantInfoDialogFragment.newInstance(servantID)
+                        .show(childFragmentManager, ServantInfoDialogFragment::class.qualifiedName)
         }
     }
 }
