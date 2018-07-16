@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.ownitemlist.iteminfo
+package com.ssttkkl.fgoplanningtool.ui.iteminfo
 
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -12,7 +12,7 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
-import com.ssttkkl.fgoplanningtool.ui.costitemlist.requirementlist.RequirementListEntity
+import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
 import kotlinx.android.synthetic.main.fragment_iteminfo.*
 
 class ItemInfoDialogFragment : DialogFragment() {
@@ -65,7 +65,8 @@ class ItemInfoDialogFragment : DialogFragment() {
                 }
             }
             if (requirement > 0)
-                list.add(RequirementListEntity(name = servant.localizedName,
+                list.add(RequirementListEntity(servantID = servant.id,
+                        name = servant.localizedName,
                         require = requirement,
                         avatarFile = servant.avatarFile))
         }

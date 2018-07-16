@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.costitemlist
 
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
-import com.ssttkkl.fgoplanningtool.ui.costitemlist.requirementlist.RequirementListEntity
+import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
 import java.io.File
 
 data class CostItemListEntity(val name: String,

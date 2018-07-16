@@ -4,7 +4,7 @@ import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.edititem.EditItemDialogFragment
-import com.ssttkkl.fgoplanningtool.ui.ownitemlist.iteminfo.ItemInfoDialogFragment
+import com.ssttkkl.fgoplanningtool.ui.iteminfo.ItemInfoDialogFragment
 
 class OwnItemListFragmentPresenter(val view: OwnItemListFragment) {
     fun onItemEditAction(codename: String) {

@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.ui.costitemlist.requirementlist.RequirementListRecViewAdapter
+import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListRecViewAdapter
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_costitemlist.view.*
@@ -40,6 +40,12 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
 
     override fun getItemCount() = data.size
 
+    private var listener: ((servantID: Int) -> Unit)? = null
+
+    fun setOnServantClickListener(newListener: ((servantID: Int) -> Unit)?) {
+        listener = newListener
+    }
+
     var expendedPosition = -1
         set(value) {
             if (field >= 0)
@@ -57,7 +63,9 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
                     expendedPosition = if (expendedPosition != adapterPosition) adapterPosition else -1
                 }
                 itemView.recView.apply {
-                    adapter = RequirementListRecViewAdapter(context)
+                    adapter = RequirementListRecViewAdapter(context).apply {
+                        setOnItemClickListener { _, item -> listener?.invoke(item.servantID) }
+                    }
                     layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(CommonRecViewItemDecoration(context!!))
                 }

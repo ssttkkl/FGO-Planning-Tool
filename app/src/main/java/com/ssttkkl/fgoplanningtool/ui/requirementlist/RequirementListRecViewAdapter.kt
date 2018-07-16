@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.costitemlist.requirementlist
+package com.ssttkkl.fgoplanningtool.ui.requirementlist
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -19,8 +19,16 @@ class RequirementListRecViewAdapter(val context: Context) : RecyclerView.Adapter
 
     override fun getItemCount() = data.size
 
+    private var listener: ((pos: Int, item: RequirementListEntity) -> Unit)? = null
+
+    fun setOnItemClickListener(newListener: ((pos: Int, item: RequirementListEntity) -> Unit)?) {
+        listener = newListener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_requirementlist, parent, false))
+            ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_requirementlist, parent, false)).apply {
+                itemView.setOnClickListener { listener?.invoke(adapterPosition, data[adapterPosition]) }
+            }
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         val item = data[pos]
