@@ -4,6 +4,6 @@ import java.io.File
 
 data class CostItemListEntity(val name: String,
                               val type: String,
-                              val need: Int,
-                              val own: Int,
+                              val need: Long,
+                              val own: Long,
                               val imgFile: File?)

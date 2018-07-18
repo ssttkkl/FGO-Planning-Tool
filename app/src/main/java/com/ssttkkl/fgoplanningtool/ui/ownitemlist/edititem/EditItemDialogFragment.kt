@@ -74,9 +74,9 @@ class EditItemDialogFragment : DialogFragment() {
         }
     }
 
-    private fun performOnValue(action: (data: Int) -> Unit) {
+    private fun performOnValue(action: (data: Long) -> Unit) {
         try {
-            val value = if (count_editText.text.isNotEmpty()) count_editText.text.toString().toInt() else item.count
+            val value = if (count_editText.text.isNotEmpty()) count_editText.text.toString().toLong() else item.count
             if (value > MAX_VALUE)
                 throw Exception("The value mustn't be larger than $MAX_VALUE.")
             else if (value < MIN_VALUE)

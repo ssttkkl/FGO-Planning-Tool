@@ -34,15 +34,15 @@ class ResourcesProvider(context: Context) {
         itemRank = list.mapIndexed { idx, it -> Pair(it.codename, idx) }.toMap(HashMap())
     }
 
-    val ascensionQPInfo: List<List<Int>>
-    val skillQPInfo: List<List<Int>>
-    val palingenesisQPInfo: List<List<Int>>
+    val ascensionQPInfo: List<List<Long>>
+    val skillQPInfo: List<List<Long>>
+    val palingenesisQPInfo: List<List<Long>>
 
     init {
         val map = buildQPInfo()
-        ascensionQPInfo = map[ASCENSION] ?: List(6) { List(4) { 0 } }
-        skillQPInfo = map[SKILL] ?: List(6) { List(9) { 0 } }
-        palingenesisQPInfo = map[PALINGENESIS] ?: List(6) { List(10) { 0 } }
+        ascensionQPInfo = map[ASCENSION] ?: List(6) { List(4) { 0L } }
+        skillQPInfo = map[SKILL] ?: List(6) { List(9) { 0L } }
+        palingenesisQPInfo = map[PALINGENESIS] ?: List(6) { List(10) { 0L } }
     }
 
     val broken: Boolean
@@ -77,7 +77,7 @@ class ResourcesProvider(context: Context) {
         }
     }
 
-    private fun buildQPInfo(): Map<String, List<List<Int>>> {
+    private fun buildQPInfo(): Map<String, List<List<Long>>> {
         val file = File(resourcesDir, FILENAME_QP_INFO)
         if (!file.exists())
             return mapOf()

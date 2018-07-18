@@ -20,7 +20,7 @@ class ItemCollectionGsonTypeAdapter : TypeAdapter<Collection<Item>>() {
         val list = ArrayList<Item>()
         reader.beginObject()
         while (reader.hasNext()) {
-            list.add(Item(reader.nextName(), reader.nextInt()))
+            list.add(Item(reader.nextName(), reader.nextLong()))
         }
         reader.endObject()
         return list

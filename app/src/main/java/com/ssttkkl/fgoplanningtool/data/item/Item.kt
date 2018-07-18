@@ -8,19 +8,19 @@ import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 
 @Entity(tableName = "Item")
 data class Item(@PrimaryKey val codename: String,
-                var count: Int) : Parcelable {
+                var count: Long) : Parcelable {
     val descriptor
         get() = ResourcesProvider.instance.itemDescriptors[codename]
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
-            parcel.readInt())
+            parcel.readLong())
 
     constructor(item: Item) : this(item.codename, item.count)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(codename)
-        parcel.writeInt(count)
+        parcel.writeLong(count)
     }
 
     override fun describeContents(): Int {
