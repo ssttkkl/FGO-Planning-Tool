@@ -26,7 +26,10 @@ class CostItemListFragment : Fragment() {
         }
 
     private fun generateEntities(plans: Collection<Plan>): List<CostItemListEntity> {
-        val map = HashMap<String, HashSet<Pair<Int, Int>>>()
+        // key: item's codename
+        // value: a set contains pairs, each stands for a servant requires this item.
+        //        the first is servantID, the second is requirement.
+        val map = HashMap<String, HashSet<Pair<Int, Long>>>()
         plans.forEach { plan ->
             plan.costItems.forEach { item ->
                 if (!map.containsKey(item.codename))
@@ -34,19 +37,25 @@ class CostItemListFragment : Fragment() {
                 map[item.codename]!!.add(Pair(plan.servantId, item.count))
             }
         }
+
         val entities = map.map { (codename, req) ->
+            var need = 0L
+            req.forEach {
+                need += it.second
+            }
+
             val descriptor = ResourcesProvider.instance.itemDescriptors[codename]
             CostItemListEntity(name = descriptor?.localizedName ?: codename,
                     type = descriptor?.type,
-                    need = req.sumBy { it.second },
+                    need = need,
                     own = Repo.itemRepo[codename].count,
                     imgFile = descriptor?.imgFile,
                     codename = codename,
-                    requireServants = req.sortedBy { it.first }.map { (servantID, count) ->
+                    requirements = req.sortedBy { it.first }.map { (servantID, count) ->
                         val servant = ResourcesProvider.instance.servants[servantID]
                         RequirementListEntity(servantID = servantID,
                                 name = servant?.localizedName ?: servantID.toString(),
-                                require = count,
+                                requirement = count,
                                 avatarFile = servant?.avatarFile)
                     })
         }

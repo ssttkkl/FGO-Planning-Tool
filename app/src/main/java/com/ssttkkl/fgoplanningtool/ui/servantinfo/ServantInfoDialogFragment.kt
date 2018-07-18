@@ -63,7 +63,7 @@ class ServantInfoDialogFragment : DialogFragment() {
     private fun generateEntities(getStart: (Int) -> String,
                                  getTo: (Int) -> String,
                                  getItems: (Servant?) -> List<Collection<Item>>,
-                                 getQP: (Servant?) -> List<Int>): List<ServantInfoLevelListEntity> {
+                                 getQP: (Servant?) -> List<Long>): List<ServantInfoLevelListEntity> {
         val qp = getQP(servant)
         val items = getItems(servant)
         return items.mapIndexed { idx, it -> it + Item("qp", qp[idx]) }

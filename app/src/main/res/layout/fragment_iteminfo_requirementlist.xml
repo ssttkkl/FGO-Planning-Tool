@@ -4,4 +4,4 @@
     android:id="@+id/recView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:listitem="@layout/item_costitemlist_requirementlist" />
+    tools:listitem="@layout/item_requirementlist" />

@@ -56,18 +56,17 @@ class ItemInfoDialogFragment : DialogFragment() {
     private fun generateRequirementEntities(getItems: (Servant) -> List<Collection<Item>>): List<RequirementListEntity> {
         val list = ArrayList<RequirementListEntity>()
         ResourcesProvider.instance.servants.values.sortedBy { it.id }.forEach { servant ->
-            val requirement = getItems.invoke(servant).sumBy { cur ->
-                cur.sumBy { item ->
+            var requirement = 0L
+            getItems.invoke(servant).forEach { cur ->
+                cur.forEach { item ->
                     if (item.codename == codename)
-                        item.count
-                    else
-                        0
+                        requirement += item.count
                 }
             }
             if (requirement > 0)
                 list.add(RequirementListEntity(servantID = servant.id,
                         name = servant.localizedName,
-                        require = requirement,
+                        requirement = requirement,
                         avatarFile = servant.avatarFile))
         }
         return list

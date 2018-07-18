@@ -6,8 +6,8 @@ import java.io.File
 
 data class CostItemListEntity(val name: String,
                               val type: ItemType?,
-                              val need: Int,
-                              val own: Int,
+                              val need: Long,
+                              val own: Long,
                               val imgFile: File?,
                               val codename: String,
-                              val requireServants: List<RequirementListEntity>)
+                              val requirements: List<RequirementListEntity>)

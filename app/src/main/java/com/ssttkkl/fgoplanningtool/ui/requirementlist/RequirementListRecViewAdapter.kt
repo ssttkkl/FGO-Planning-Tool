@@ -34,7 +34,7 @@ class RequirementListRecViewAdapter(val context: Context) : RecyclerView.Adapter
         val item = data[pos]
         holder.itemView.apply {
             name_textView.text = item.name
-            count_textView.text = item.require.toStringWithSplitter()
+            count_textView.text = item.requirement.toStringWithSplitter()
             Glide.with(context).load(item.avatarFile).error(R.drawable.avatar_placeholder).into(avatar_imageView)
         }
     }

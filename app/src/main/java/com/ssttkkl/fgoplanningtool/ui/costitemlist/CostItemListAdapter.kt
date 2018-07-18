@@ -104,7 +104,7 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
 
             Glide.with(context).load(item.imgFile).into(avatar_imageView)
 
-            (recView.adapter as RequirementListRecViewAdapter).data = item.requireServants
+            (recView.adapter as RequirementListRecViewAdapter).data = item.requirements
             expLayout.setExpanded(expendedPosition == pos, false)
         }
     }

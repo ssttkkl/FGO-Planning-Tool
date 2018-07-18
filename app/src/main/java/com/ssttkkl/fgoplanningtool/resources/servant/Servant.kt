@@ -24,12 +24,12 @@ data class Servant(val id: Int,
             else -> enName
         }
 
-    val ascensionQP
+    val ascensionQP: List<Long>
         get() = if (id == 1) listOf(0, 0, 0, 0) else ResourcesProvider.instance.ascensionQPInfo[star]
 
-    val skillQP
+    val skillQP: List<Long>
         get() = ResourcesProvider.instance.skillQPInfo[star]
 
-    val palingenesisQP
+    val palingenesisQP: List<Long>
         get() = ResourcesProvider.instance.palingenesisQPInfo[star]
 }
