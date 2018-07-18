@@ -4,10 +4,20 @@
 
     <PreferenceCategory android:title="@string/group_res_pref">
         <Preference
-            android:key="updateRes"
-            android:title="@string/updateRes_pref"
-            android:summary="@string/loadingCurResVersion_pref" />
-        <Preference android:title="@string/getRes_pref">
+            android:key="curResPackVersion"
+            android:title="@string/title_curResPackVersion_pref"
+            tools:summary="@string/summary_curResPackVersion_pref" />
+        <Preference
+            android:key="autoUpdateRes"
+            android:title="@string/title_autoUpdateResPack_pref"
+            android:summary="@string/summary_autoUpdateResPack_pref" />
+        <Preference
+            android:key="manuallyUpdateRes"
+            android:title="@string/title_manuallyUpdateResPack_pref"
+            android:summary="@string/summary_manuallyUpdateResPack_pref" />
+        <Preference
+            android:title="@string/title_helpResPack_pref"
+            android:summary="@string/summary_helpResPack_pref">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/getResLink_pref" />

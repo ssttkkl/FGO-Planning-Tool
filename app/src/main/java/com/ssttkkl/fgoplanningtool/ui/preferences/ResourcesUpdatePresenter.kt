@@ -1,80 +1,49 @@
 package com.ssttkkl.fgoplanningtool.ui.preferences
 
 import android.content.Intent
+import android.support.v7.app.AppCompatActivity
 import android.webkit.MimeTypeMap
 import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.utils.unzip
+import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
+import com.ssttkkl.fgoplanningtool.ui.updaterespack.UpdateResPackDialogFragment
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
-import org.apache.commons.io.IOUtils
-import java.io.File
-import java.io.InputStream
-import java.util.*
 
-class ResourcesUpdatePresenter(val view: PreferencesFragment) {
-    fun process(input: InputStream) {
-        val tempFile = File(MyApp.context.cacheDir, "${UUID.randomUUID()}.zip")
-        tempFile.createNewFile()
-        tempFile.outputStream().use { output ->
-            IOUtils.copy(input, output)
-        }
-        process(tempFile)
-        tempFile.delete()
-    }
-
-    fun process(file: File) {
-        val cacheDir = File(MyApp.context.cacheDir.path, UUID.randomUUID().toString())
-        cacheDir.mkdirs()
-        unzip(file, cacheDir)
-        check(cacheDir)
-
-        val localResDir = ResourcesProvider.instance.resourcesDir
-        localResDir.deleteRecursively()
-        cacheDir.copyRecursively(localResDir, true)
-        cacheDir.deleteRecursively()
-    }
-
-    private fun check(dir: File) {
-        if (!dir.isDirectory)
-            throw Exception("$dir isn't a directory.")
-
-        val sub = dir.listFiles()
-        listOf(ResourcesProvider.FILENAME_SERVANT_INFO,
-                ResourcesProvider.FILENAME_ITEM_INFO,
-                ResourcesProvider.FILENAME_QP_INFO,
-                ResourcesProvider.FILENAME_VERSION).forEach { req ->
-            val reqFile = sub.firstOrNull { it.name == req }
-            if (reqFile == null)
-                throw Exception("$dir doesn't contain file $req.")
-            else if (!reqFile.isFile)
-                throw Exception("$reqFile isn't a file.")
-        }
-
-        listOf(ResourcesProvider.DIRECTORYNAME_AVATAR,
-                ResourcesProvider.DIRECTORYNAME_ITEM).forEach { req ->
-            val reqFile = sub.firstOrNull { it.name == req }
-            if (reqFile == null)
-                throw Exception("$dir doesn't contain file $req.")
-            else if (!reqFile.isDirectory)
-                throw Exception("$reqFile isn't a directory.")
-        }
-    }
-
+class ResPackGroupPresenter(val view: PreferencesFragment) {
     init {
-        val pref = view.findPreference(KEY_UPDATE_RES)
-        launch(Dispatchers.file) {
-            pref.summary = if (ResourcesProvider.instance.isAbsent)
-                view.getString(R.string.noRes_pref)
-            else if (ResourcesProvider.instance.isBroken)
-                view.getString(R.string.brokenCurResVersion_pref, ResourcesProvider.instance.version)
-            else
-                view.getString(R.string.curResVersion_pref, ResourcesProvider.instance.version)
+        val curVersion = view.findPreference(KEY_CUR_VERSION)
+        curVersion.summary = when {
+            ResourcesProvider.instance.isAbsent -> view.getString(R.string.summary_curResPackVersion_absent_pref)
+            ResourcesProvider.instance.isNotTargeted -> {
+                if (ResourcesProvider.instance.resPackInfo.targetVersion < ResourcesProvider.TARGET_VERSION)
+                    view.getString(R.string.summary_curResPackVersion_lowTargetVersion_pref,
+                            ResourcesProvider.instance.resPackInfo.content,
+                            ResourcesProvider.instance.resPackInfo.releaseDate)
+                else
+                    view.getString(R.string.summary_curResPackVersion_highTargetVersion_pref,
+                            ResourcesProvider.instance.resPackInfo.content,
+                            ResourcesProvider.instance.resPackInfo.releaseDate)
+            }
+            ResourcesProvider.instance.isBroken -> view.getString(R.string.summary_curResPackVersion_broken_pref,
+                    ResourcesProvider.instance.resPackInfo.content,
+                    ResourcesProvider.instance.resPackInfo.releaseDate)
+            else -> view.getString(R.string.summary_curResPackVersion_pref,
+                    ResourcesProvider.instance.resPackInfo.content,
+                    ResourcesProvider.instance.resPackInfo.releaseDate)
         }
-        pref.setOnPreferenceClickListener {
+
+        view.findPreference(KEY_AUTO_UPDATE).setOnPreferenceClickListener {
+            val tag = UpdateResPackDialogFragment::class.qualifiedName
+            val fm = (view.activity as AppCompatActivity).supportFragmentManager
+            if (fm.findFragmentByTag(tag) == null)
+                UpdateResPackDialogFragment().show(fm, tag)
+            true
+        }
+
+        view.findPreference(KEY_MANUALLY_UPDATE).setOnPreferenceClickListener {
             gotoOpenZipUi(REQUEST_CODE_UPDATE_RES)
             true
         }
@@ -89,14 +58,13 @@ class ResourcesUpdatePresenter(val view: PreferencesFragment) {
 
     fun onActivityResultOK(requestCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE_UPDATE_RES) {
-            runBlocking(Dispatchers.file) {
+            launch(Dispatchers.file) {
                 try {
                     view.activity.contentResolver.openInputStream(data!!.data).use { stream ->
-                        process(stream)
+                        ResourcesUpdater.update(stream)
                         launch(UI) {
                             view.showMessage(view.getString(R.string.updateResSuccessful_pref))
-                            ResourcesProvider.renewInstance()
-                            view.activity.startActivity(view.activity.packageManager.getLaunchIntentForPackage(view.activity.packageName).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)) // restart all activity
+                            MyApp.restart()
                         }
                     }
                 } catch (e: Exception) {
@@ -110,6 +78,8 @@ class ResourcesUpdatePresenter(val view: PreferencesFragment) {
 
     companion object {
         private const val REQUEST_CODE_UPDATE_RES = 1
-        private const val KEY_UPDATE_RES = "updateRes"
+        private const val KEY_CUR_VERSION = "curResPackVersion"
+        private const val KEY_AUTO_UPDATE = "autoUpdateRes"
+        private const val KEY_MANUALLY_UPDATE = "manuallyUpdateRes"
     }
 }

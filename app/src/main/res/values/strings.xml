@@ -11,8 +11,10 @@
     <string name="openDrawer_main">打开侧边栏</string>
     <string name="closeDrawer_main">关闭侧边栏</string>
     <string name="backAgain_main">再按一次返回键退出应用</string>
-    <string name="resMissed_main">当前尚未加载资源文件。请到“选项”界面加载。</string>
-    <string name="resBroken_main">当前资源文件不完整。请到“选项”界面重新加载。</string>
+    <string name="resAbsent_main">尚未加载资源包。请到“选项”界面更新资源包。</string>
+    <string name="resBroken_main">资源包不完整。请到“选项”界面重新更新资源包。</string>
+    <string name="resHighTargetVersion_main">资源包的目标APP版本高于当前APP版本。请更新APP。</string>
+    <string name="resLowTargetVersion_main">当前APP版本高于资源包目标APP版本。请到“选项”界面更新资源包。</string>
 
     <string name="planlist_nav">规划列表</string>
     <string name="ownitemlist_nav">材料仓库</string>
@@ -141,15 +143,36 @@
 
     <string name="title_pref">选项</string>
     <string name="group_res_pref">资源包</string>
-    <string name="updateRes_pref">加载/更新资源包</string>
-    <string name="loadingCurResVersion_pref">当前版本：读取中……</string>
-    <string name="curResVersion_pref">当前版本：%1$s</string>
-    <string name="brokenCurResVersion_pref">当前版本：%1$s（不完整）</string>
-    <string name="noRes_pref">当前还没有加载资源包</string>
-    <string name="updateResSuccessful_pref">更新资源包成功</string>
-    <string name="updateResFailed_pref">更新资源包失败（%1$s）</string>
-    <string name="getRes_pref">下载资源包</string>
+    <string name="title_curResPackVersion_pref">当前资源包版本</string>
+    <string name="summary_curResPackVersion_pref">%1$s（%2$d）</string>
+    <string name="summary_curResPackVersion_broken_pref">%1$s（%2$d）（资源包不完整，请尝试更新资源包）</string>
+    <string name="summary_curResPackVersion_highTargetVersion_pref">%1$s（%2$d）（目标APP版本高于当前APP版本，请尝试更新APP）</string>
+    <string name="summary_curResPackVersion_lowTargetVersion_pref">%1$s（%2$d）（当前APP版本高于目标APP版本，请尝试更新资源包）</string>
+    <string name="summary_curResPackVersion_absent_pref">（当前还没有加载资源包，请尝试更新资源包）</string>
+    <string name="title_autoUpdateResPack_pref">自动更新资源包</string>
+    <string name="summary_autoUpdateResPack_pref">可能会耗费2~4M流量</string>
+    <string name="title_manuallyUpdateResPack_pref">手动更新资源包</string>
+    <string name="summary_manuallyUpdateResPack_pref">请参阅下面的帮助</string>
+    <string name="title_helpResPack_pref">资源包相关帮助</string>
+    <string name="summary_helpResPack_pref">什么是资源包？如何手动更新资源包？</string>
     <string name="getResLink_pref">https://github.com/ssttkkl/FGO-Planning-Tool/wiki/%E8%B5%84%E6%BA%90%E5%8C%85</string>
     <string name="version_pref">版本号</string>
     <string name="repo_pref">Github 项目主页</string>
+
+    <string name="updateResSuccessful_pref">更新资源包成功，正在重启APP。</string>
+    <string name="updateResFailed_pref">更新资源包失败，请重试。（%1$s）</string>
+
+    <string name="releaseDate_updaterespack">发布日期</string>
+    <string name="releaseDate_pattern_updaterespack">%1$d/%2$d/%3$d</string>
+    <string name="content_updaterespack">内容进度</string>
+    <string name="size_updaterespack">文件大小</string>
+    <string name="size_pattern_updaterespack">%1$.2fMB</string>
+    <string name="status_updaterespack">状态</string>
+    <string name="status_loading_updaterespack">查询更新中……</string>
+    <string name="status_loadSuccessful_updaterespack">查询更新成功</string>
+    <string name="status_loadFailed_updaterespack">查询更新失败</string>
+    <string name="status_downloading_updaterespack">下载中……</string>
+    <string name="status_downloadFailed_updaterespack">下载失败</string>
+    <string name="status_updating_updaterespack">更新中……</string>
+    <string name="status_updateFailed_updaterespack">更新失败</string>
 </resources>

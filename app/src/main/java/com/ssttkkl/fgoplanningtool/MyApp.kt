@@ -4,11 +4,15 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import com.downloader.PRDownloader
 
 class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+        PRDownloader.initialize(context)
+
+        cacheDir.listFiles().forEach { it.deleteRecursively() }
     }
 
     companion object {

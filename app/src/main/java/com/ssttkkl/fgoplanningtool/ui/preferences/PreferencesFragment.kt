@@ -9,7 +9,7 @@ import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 
 class PreferencesFragment : PreferenceFragment() {
-    private lateinit var resourcesUpdatePresenter: ResourcesUpdatePresenter
+    private lateinit var resPackGroupPresenter: ResPackGroupPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,12 +17,12 @@ class PreferencesFragment : PreferenceFragment() {
 
         findPreference(KEY_VERSION).summary = MyApp.versionName
 
-        resourcesUpdatePresenter = ResourcesUpdatePresenter(this)
+        resPackGroupPresenter = ResPackGroupPresenter(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK)
-            resourcesUpdatePresenter.onActivityResultOK(requestCode, data)
+            resPackGroupPresenter.onActivityResultOK(requestCode, data)
     }
 
     fun showMessage(message: String) {
