@@ -146,7 +146,7 @@ class DatabaseImportAndExportHelper(val view: DatabaseManageActivity) {
         performExportAsync(uri, view.getString(R.string.exportSuccessful_databasemanage), view.getString(R.string.exportError_databasemanage)) {
             val items = runBlocking(Dispatchers.db) {
                 val db = RepoDatabase.getInstance(databaseToExport!!.uuid)
-                db.itemsDao.all.filter { it.count != 0 }
+                db.itemsDao.all.filter { it.count != 0L }
             }
             gson.toJson(items, ItemCollectionGsonTypeAdapter.typeToken.type, it)
         }

@@ -93,7 +93,7 @@
                 app:autoSizeMinTextSize="10sp"
                 app:autoSizeTextType="uniform"
                 app:layout_row="0"
-                tools:text="999,999,999" />
+                tools:text="999,999,999,999" />
 
             <TextView
                 android:layout_width="wrap_content"
