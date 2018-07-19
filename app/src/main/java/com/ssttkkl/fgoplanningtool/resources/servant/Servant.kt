@@ -1,9 +1,11 @@
 package com.ssttkkl.fgoplanningtool.resources.servant
 
+import android.preference.PreferenceManager
+import com.ssttkkl.fgoplanningtool.MyApp
+import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import java.io.File
-import java.util.*
 
 data class Servant(val id: Int,
                    val jaName: String,
@@ -21,10 +23,10 @@ data class Servant(val id: Int,
         get() = File(ResourcesProvider.instance.avatarDir, "$id.jpg")
 
     val localizedName
-        get() = when (Locale.getDefault().language) {
-            Locale.CHINESE.language -> zhName
-            Locale.JAPANESE.language -> jaName
-            else -> enName
+        get() = when (PreferenceManager.getDefaultSharedPreferences(MyApp.context).getString(PreferenceKeys.KEY_NAME_LANGUAGE, "zh")) {
+            "ja" -> jaName
+            "en" -> enName
+            else -> zhName
         }
 
     val ascensionQP: List<Long>

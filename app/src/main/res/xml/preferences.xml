@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <PreferenceCategory android:title="@string/group_display">
+        <ListPreference
+            android:key="nameLanguage"
+            android:title="@string/title_nameLanguage"
+            tools:summary="简体中文"
+            android:entries="@array/entities_nameLanguage"
+            android:entryValues="@array/entityValues_nameLanguage"
+            android:defaultValue="zh" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/group_res_pref">
         <Preference
             android:key="curResPackVersion"
@@ -9,15 +17,15 @@
             tools:summary="@string/summary_curResPackVersion_pref" />
         <Preference
             android:key="autoUpdateRes"
-            android:title="@string/title_autoUpdateResPack_pref"
-            android:summary="@string/summary_autoUpdateResPack_pref" />
+            android:summary="@string/summary_autoUpdateResPack_pref"
+            android:title="@string/title_autoUpdateResPack_pref" />
         <Preference
             android:key="manuallyUpdateRes"
-            android:title="@string/title_manuallyUpdateResPack_pref"
-            android:summary="@string/summary_manuallyUpdateResPack_pref" />
+            android:summary="@string/summary_manuallyUpdateResPack_pref"
+            android:title="@string/title_manuallyUpdateResPack_pref" />
         <Preference
-            android:title="@string/title_helpResPack_pref"
-            android:summary="@string/summary_helpResPack_pref">
+            android:summary="@string/summary_helpResPack_pref"
+            android:title="@string/title_helpResPack_pref">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/getResLink_pref" />
@@ -29,8 +37,8 @@
             android:title="@string/version_pref"
             tools:summary="v1.0.0" />
         <Preference
-            android:title="@string/repo_pref"
-            android:summary="@string/app_repo">
+            android:summary="@string/app_repo"
+            android:title="@string/repo_pref">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/app_repo" />

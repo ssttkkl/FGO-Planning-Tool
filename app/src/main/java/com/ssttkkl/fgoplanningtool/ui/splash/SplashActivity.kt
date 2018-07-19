@@ -1,8 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.splash
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceActivity
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -21,6 +21,8 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
         val uuid = pref.getString(PreferenceKeys.KEY_DEFAULT_DB_UUID, "")

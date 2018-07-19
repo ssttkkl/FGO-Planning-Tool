@@ -96,8 +96,9 @@ class ServantListFragment : BackHandlerFragment(),
             (recView.adapter as ServantListAdapter).data = it ?: listOf()
         })
 
-        viewModel.viewType = ViewType.valueOf(activity?.getPreferences(Activity.MODE_PRIVATE)
-                ?.getString(KEY_VIEW_TYPE, ViewType.List.name) ?: ViewType.List.name)
+        viewModel.viewType = ViewType.valueOf(PreferenceManager.getDefaultSharedPreferences(context)
+                ?.getString(PreferenceKeys.KEY_SERVANT_LIST_VIEW_TYPE, ViewType.List.name)
+                ?: ViewType.List.name)
 
         if (viewModel.viewType == ViewType.List)
             onSwitchToListView()
@@ -170,9 +171,9 @@ class ServantListFragment : BackHandlerFragment(),
         viewModel.viewType = ViewType.Grid
         activity?.invalidateOptionsMenu()
 
-        activity?.getPreferences(Activity.MODE_PRIVATE)?.edit()
-                ?.putString(KEY_VIEW_TYPE, ViewType.Grid.name)
-                ?.apply()
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putString(PreferenceKeys.KEY_SERVANT_LIST_VIEW_TYPE, ViewType.Grid.name)
+                .apply()
     }
 
     private fun onSwitchToListView() {
@@ -184,9 +185,9 @@ class ServantListFragment : BackHandlerFragment(),
         viewModel.viewType = ViewType.List
         activity?.invalidateOptionsMenu()
 
-        activity?.getPreferences(Activity.MODE_PRIVATE)?.edit()
-                ?.putString(KEY_VIEW_TYPE, ViewType.List.name)
-                ?.apply()
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putString(PreferenceKeys.KEY_SERVANT_LIST_VIEW_TYPE, ViewType.List.name)
+                .apply()
     }
 
     companion object {
@@ -197,6 +198,5 @@ class ServantListFragment : BackHandlerFragment(),
         }
 
         private const val KEY_HIDDEN = "hidden"
-        private const val KEY_VIEW_TYPE = "servant_list_view_type"
     }
 }

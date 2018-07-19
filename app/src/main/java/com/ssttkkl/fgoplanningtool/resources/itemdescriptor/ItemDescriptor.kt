@@ -1,5 +1,8 @@
 package com.ssttkkl.fgoplanningtool.resources.itemdescriptor
 
+import android.preference.PreferenceManager
+import com.ssttkkl.fgoplanningtool.MyApp
+import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import java.io.File
 import java.io.Serializable
@@ -15,9 +18,9 @@ data class ItemDescriptor(val codename: String,
         get() = File(ResourcesProvider.instance.itemImgDir, "$codename.jpg")
 
     val localizedName
-        get() = when (Locale.getDefault().language) {
-            Locale.CHINESE.language -> cnName
-            Locale.JAPANESE.language -> jpName
-            else -> enName
+        get() = when (PreferenceManager.getDefaultSharedPreferences(MyApp.context).getString(PreferenceKeys.KEY_NAME_LANGUAGE, "zh")) {
+            "ja" -> jpName
+            "en" -> enName
+            else -> cnName
         }
 }

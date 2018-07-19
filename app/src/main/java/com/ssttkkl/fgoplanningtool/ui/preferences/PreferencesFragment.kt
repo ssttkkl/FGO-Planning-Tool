@@ -3,12 +3,14 @@ package com.ssttkkl.fgoplanningtool.ui.preferences
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.preference.ListPreference
+import android.preference.Preference
 import android.preference.PreferenceFragment
-import android.widget.Toast
 import com.ssttkkl.fgoplanningtool.MyApp
+import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.R
 
-class PreferencesFragment : PreferenceFragment() {
+class PreferencesFragment : PreferenceFragment(), Preference.OnPreferenceChangeListener {
     private lateinit var resPackGroupPresenter: ResPackGroupPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,6 +18,7 @@ class PreferencesFragment : PreferenceFragment() {
         addPreferencesFromResource(R.xml.preferences)
 
         findPreference(KEY_VERSION).summary = MyApp.versionName
+        setListPreferenceListener(findPreference(PreferenceKeys.KEY_NAME_LANGUAGE) as ListPreference)
 
         resPackGroupPresenter = ResPackGroupPresenter(this)
     }
@@ -25,8 +28,19 @@ class PreferencesFragment : PreferenceFragment() {
             resPackGroupPresenter.onActivityResultOK(requestCode, data)
     }
 
-    fun showMessage(message: String) {
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+    override fun onPreferenceChange(pref: Preference?, newValue: Any?): Boolean {
+        when (pref?.key) {
+            PreferenceKeys.KEY_NAME_LANGUAGE -> {
+                pref.summary = (pref as? ListPreference)?.entry
+                (activity as? PreferencesActivity)?.requireRestart = true
+            }
+        }
+        return true
+    }
+
+    private fun setListPreferenceListener(pref: ListPreference) {
+        pref.onPreferenceChangeListener = this
+        onPreferenceChange(pref, pref.value)
     }
 
     companion object {
