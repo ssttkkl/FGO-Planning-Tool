@@ -14,9 +14,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.ClassFilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.OrderFilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.StarFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.*
 import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.ItemFilterPresenter
 import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.additem.AddItemDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
@@ -59,6 +57,7 @@ class ServantListFragment : BackHandlerFragment(),
     private lateinit var orderFilterPresenter: OrderFilterPresenter
     private lateinit var starFilterPresenter: StarFilterPresenter
     private lateinit var classFilterPresenter: ClassFilterPresenter
+    private lateinit var wayToGetFilterPresenter: WayToGetFilterPresenter
     private lateinit var itemFilterPresenter: ItemFilterPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -112,6 +111,7 @@ class ServantListFragment : BackHandlerFragment(),
         starFilterPresenter = StarFilterPresenter(this)
         classFilterPresenter = ClassFilterPresenter(this)
         itemFilterPresenter = ItemFilterPresenter(this)
+        wayToGetFilterPresenter = WayToGetFilterPresenter(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

@@ -7,6 +7,7 @@ import android.preference.PreferenceManager
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
+import com.ssttkkl.fgoplanningtool.resources.servant.WayToGet
 
 class ServantListViewModel : ViewModel() {
     val data = ServantListLiveData(ResourcesProvider.instance.servants.values)
@@ -74,6 +75,21 @@ class ServantListViewModel : ViewModel() {
     fun setClassPositionUnselected(pos: Int) {
         (classSelectedPosition as MutableSet<Int>).remove(pos)
         data.classFilter.remove(ServantClass.values()[pos])
+        data.notifyFiltersChanged()
+    }
+
+    // wayToGet
+    val wayToGetSelectedPosition: Set<Int> = HashSet()
+
+    fun setWayToGetPositionSelected(pos: Int) {
+        (wayToGetSelectedPosition as MutableSet<Int>).add(pos)
+        data.wayToGetFilter.add(WayToGet.values()[pos])
+        data.notifyFiltersChanged()
+    }
+
+    fun setWayToGetPositionUnselected(pos: Int) {
+        (wayToGetSelectedPosition as MutableSet<Int>).remove(pos)
+        data.wayToGetFilter.remove(WayToGet.values()[pos])
         data.notifyFiltersChanged()
     }
 

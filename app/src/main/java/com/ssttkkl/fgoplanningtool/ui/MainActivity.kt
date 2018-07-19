@@ -38,17 +38,6 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
 
         if (supportFragmentManager.fragments.isEmpty())
             switchToFragment(PlanListFragment::class)
-
-        when {
-            ResourcesProvider.instance.isAbsent -> showIndefiniteMessage(getString(R.string.resAbsent_main))
-            ResourcesProvider.instance.isNotTargeted -> {
-                if (ResourcesProvider.instance.resPackInfo.targetVersion < ResourcesProvider.TARGET_VERSION)
-                    showIndefiniteMessage(getString(R.string.resLowTargetVersion_main))
-                else
-                    showIndefiniteMessage(getString(R.string.resHighTargetVersion_main))
-            }
-            ResourcesProvider.instance.isBroken -> showIndefiniteMessage(getString(R.string.resBroken_main))
-        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -103,10 +92,6 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
                         .show()
             }
         }
-    }
-
-    fun showIndefiniteMessage(message: String) {
-        Snackbar.make(frameLayout, message, Snackbar.LENGTH_INDEFINITE).show()
     }
 
     companion object {

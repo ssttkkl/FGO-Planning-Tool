@@ -68,6 +68,8 @@
 
             <include layout="@layout/content_servantlist_class" />
 
+            <include layout="@layout/content_servantlist_waytoget" />
+
             <include layout="@layout/content_servantlist_item" />
 
             <Space

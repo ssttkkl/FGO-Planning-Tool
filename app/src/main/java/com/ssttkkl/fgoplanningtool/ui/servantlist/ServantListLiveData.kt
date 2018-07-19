@@ -3,6 +3,7 @@ package com.ssttkkl.fgoplanningtool.ui.servantlist
 import android.arch.lifecycle.LiveData
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
+import com.ssttkkl.fgoplanningtool.resources.servant.WayToGet
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import java.util.*
@@ -13,6 +14,8 @@ class ServantListLiveData(private val origin: Collection<Servant>) : LiveData<Li
     val classFilter: MutableSet<ServantClass> = HashSet()
 
     val starFilter: MutableSet<Int> = HashSet()
+
+    val wayToGetFilter: MutableSet<WayToGet> = HashSet()
 
     val itemFilter: MutableSet<String> = HashSet()
 
@@ -47,6 +50,8 @@ class ServantListLiveData(private val origin: Collection<Servant>) : LiveData<Li
             }
         if (classFilter.isNotEmpty())
             list = list.filter { cur -> classFilter.any { cur.theClass == it } }
+        if (wayToGetFilter.isNotEmpty())
+            list = list.filter { cur -> wayToGetFilter.any { cur.wayToGet == it } }
         if (starFilter.isNotEmpty())
             list = list.filter { cur -> starFilter.any { cur.star == it } }
         if (itemFilter.isNotEmpty()) {

@@ -2,7 +2,9 @@
     <string name="app_name" translatable="false">FGO Planning Tool</string>
     <string name="app_repo" translatable="false">https://github.com/ssttkkl/FGO-Planning-Tool</string>
 
-    <string name="splash_loadingRes">加载资源中……</string>
+    <string name="resAbsent_splash">看上去您还没有加载资源包。您可以在进入APP后，到“选项”界面更新资源包。</string>
+    <string name="resBroken_splash">资源包读取失败。可能是因为资源包和APP版本不匹配。您可以在进入APP后，到“选项”界面重新更新资源包。</string>
+    <string name="enterApp_splash">进入APP</string>
 
     <string name="emptyHint">什么都没有</string>
 
@@ -13,10 +15,6 @@
     <string name="openDrawer_main">打开侧边栏</string>
     <string name="closeDrawer_main">关闭侧边栏</string>
     <string name="backAgain_main">再按一次返回键退出应用</string>
-    <string name="resAbsent_main">尚未加载资源包。请到“选项”界面更新资源包。</string>
-    <string name="resBroken_main">资源包不完整。请到“选项”界面重新更新资源包。</string>
-    <string name="resHighTargetVersion_main">资源包的目标APP版本高于当前APP版本。请更新APP。</string>
-    <string name="resLowTargetVersion_main">当前APP版本高于资源包目标APP版本。请到“选项”界面更新资源包。</string>
 
     <string name="planlist_nav">规划列表</string>
     <string name="ownitemlist_nav">材料仓库</string>
@@ -104,6 +102,7 @@
     </string-array>
     <string name="star_servantlist">按星级过滤</string>
     <string name="class_servantlist">按职介过滤</string>
+    <string name="wayToGet_servantlist">按获得方式过滤</string>
     <string name="item_servantlist">按消耗材料过滤</string>
     <string name="add_item_servantlist">添加</string>
     <string-array name="mode_item_servantlist">
@@ -135,6 +134,14 @@
         <item>银素材</item>
         <item>金素材</item>
         <item>活动英灵再临素材</item>
+    </string-array>
+
+    <string-array name="wayToGet">
+        <item>初始获得</item>
+        <item>常驻</item>
+        <item>限定</item>
+        <item>剧情池限定</item>
+        <item>活动赠送</item>
     </string-array>
 
     <string name="deductItems_changeplanwarning">扣除消耗的材料</string>

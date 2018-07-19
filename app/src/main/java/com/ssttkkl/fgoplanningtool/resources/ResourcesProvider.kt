@@ -29,11 +29,8 @@ class ResourcesProvider(context: Context) {
 
     val isNotTargeted = resPackInfo.targetVersion != TARGET_VERSION
 
-    val isBroken = !isAbsent && listOf(FILENAME_SERVANT_INFO, FILENAME_ITEM_INFO, FILENAME_QP_INFO, FILENAME_RES_PACK_INFO).any {
-        resourcesDir.listFiles().none { file -> file.name == it && file.isFile }
-    } && listOf(DIRECTORYNAME_AVATAR, DIRECTORYNAME_ITEM).any {
-        resourcesDir.listFiles().none { file -> file.name == it && file.isDirectory }
-    }
+    var isBroken = false
+        private set
 
     val servants: Map<Int, Servant> = buildServants()
 
@@ -55,6 +52,7 @@ class ResourcesProvider(context: Context) {
             }
         } catch (exc: Exception) {
             Log.e("ResProvider", "Failed to build ResPackInfo. $exc")
+            isBroken = true
             return ResPackInfo(0, "", 1)
         }
     }
@@ -66,6 +64,7 @@ class ResourcesProvider(context: Context) {
             }
         } catch (exc: Exception) {
             Log.e("ResProvider", "Failed to build ItemDescriptor list. $exc")
+            isBroken = true
             return listOf()
         }
     }
@@ -77,6 +76,7 @@ class ResourcesProvider(context: Context) {
             }
         } catch (exc: Exception) {
             Log.e("ResProvider", "Failed to build Servant map. $exc")
+            isBroken = true
             return mapOf()
         }
     }
@@ -88,6 +88,7 @@ class ResourcesProvider(context: Context) {
             }
         } catch (exc: Exception) {
             Log.e("ResProvider", "Failed to build QPInfo map. $exc")
+            isBroken = true
             return QPInfo(ascension = List(6) { List(4) { 0L } },
                     skill = List(6) { List(9) { 0L } },
                     palingenesis = List(6) { List(10) { 0L } },
@@ -106,21 +107,12 @@ class ResourcesProvider(context: Context) {
         const val FILENAME_QP_INFO = "qp_info.json"
         const val FILENAME_RES_PACK_INFO = "res_pack_info.json"
 
-        private const val ASCENSION = "ascension"
-        private const val SKILL = "skill"
-        private const val PALINGENESIS = "palingenesis"
-        private const val CLOTHES = "clothes"
-
         private var INSTANCE: ResourcesProvider? = null
 
         val instance: ResourcesProvider
             get() {
-                if (INSTANCE == null) {
-                    synchronized(ResourcesProvider.Companion::class.java) {
-                        if (INSTANCE == null)
-                            INSTANCE = ResourcesProvider(MyApp.context)
-                    }
-                }
+                if (INSTANCE == null)
+                    renewInstance()
                 return INSTANCE!!
             }
 
