@@ -2,6 +2,8 @@
     <string name="app_name" translatable="false">FGO Planning Tool</string>
     <string name="app_repo" translatable="false">https://github.com/ssttkkl/FGO-Planning-Tool</string>
 
+    <string name="splash_loadingRes">加载资源中……</string>
+
     <string name="emptyHint">什么都没有</string>
 
     <string name="databaseFromMigrationName">从旧版本迁移的数据库</string>
@@ -140,6 +142,8 @@
     <string name="remove_changeplanwarning">删除</string>
     <string name="edit_changeplanwarning">编辑</string>
     <string name="cancel_changeplanwarning">取消</string>
+
+    <string name="gotoWiki_servantinfo">去 Wiki (%1$s) 查阅资料</string>
 
     <string name="title_pref">选项</string>
     <string name="group_res_pref">资源包</string>

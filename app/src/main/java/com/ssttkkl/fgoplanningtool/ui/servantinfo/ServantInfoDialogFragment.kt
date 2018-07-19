@@ -1,10 +1,12 @@
 package com.ssttkkl.fgoplanningtool.ui.servantinfo
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v7.widget.PopupMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +34,39 @@ class ServantInfoDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         name_textView.text = servant?.localizedName
         Glide.with(this).load(servant?.avatarFile).error(R.drawable.avatar_placeholder).into(avatar_imageView)
+
+        val link = servant?.wikiLinks?.entries?.firstOrNull()
+        if (link != null) {
+            gotoWiki_button.text = getString(R.string.gotoWiki_servantinfo, link.key)
+            gotoWiki_button.setOnClickListener {
+                startActivity(Intent().apply {
+                    action = Intent.ACTION_VIEW
+                    data = Uri.parse(link.value)
+                })
+            }
+
+            more_button.setOnClickListener {
+                PopupMenu(context!!, it).apply {
+                    servant?.wikiLinks?.forEach { title, _ ->
+                        menu.add(title)
+                    }
+                    setOnMenuItemClickListener {
+                        val link = servant?.wikiLinks?.get(it.title)
+                        if (link != null) {
+                            startActivity(Intent().apply {
+                                action = Intent.ACTION_VIEW
+                                data = Uri.parse(link)
+                            })
+                        }
+                        true
+                    }
+                    show()
+                }
+            }
+        } else {
+            gotoWiki_button.visibility = View.GONE
+            more_button.visibility = View.GONE
+        }
 
         viewPager.adapter = object : FragmentPagerAdapter(childFragmentManager) {
             override fun getCount(): Int = 2

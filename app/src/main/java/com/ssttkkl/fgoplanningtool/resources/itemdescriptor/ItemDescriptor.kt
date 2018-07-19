@@ -9,7 +9,8 @@ data class ItemDescriptor(val codename: String,
                           val cnName: String,
                           val jpName: String,
                           val enName: String,
-                          val type: ItemType) : Serializable {
+                          val type: ItemType,
+                          val wikiLinks: Map<String, String>) : Serializable {
     val imgFile
         get() = File(ResourcesProvider.instance.itemImgDir, "$codename.jpg")
 

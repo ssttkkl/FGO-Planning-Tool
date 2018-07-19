@@ -46,16 +46,7 @@ class ResourcesProvider(context: Context) {
         itemRank = list.mapIndexed { idx, it -> Pair(it.codename, idx) }.toMap(HashMap())
     }
 
-    val ascensionQPInfo: List<List<Long>>
-    val skillQPInfo: List<List<Long>>
-    val palingenesisQPInfo: List<List<Long>>
-
-    init {
-        val map = buildQPInfo()
-        ascensionQPInfo = map[ASCENSION] ?: List(6) { List(4) { 0L } }
-        skillQPInfo = map[SKILL] ?: List(6) { List(9) { 0L } }
-        palingenesisQPInfo = map[PALINGENESIS] ?: List(6) { List(10) { 0L } }
-    }
+    val qpInfo = buildQPInfo()
 
     private fun buildResPackInfo(): ResPackInfo {
         try {
@@ -63,7 +54,7 @@ class ResourcesProvider(context: Context) {
                 return gson.fromJson(reader, ResPackInfo::class.java)
             }
         } catch (exc: Exception) {
-            Log.d("ResProvider", "Failed to build ResPackInfo.")
+            Log.e("ResProvider", "Failed to build ResPackInfo. $exc")
             return ResPackInfo(0, "", 1)
         }
     }
@@ -74,7 +65,7 @@ class ResourcesProvider(context: Context) {
                 return gson.fromJson(reader, object : TypeToken<List<ItemDescriptor>>() {}.type)
             }
         } catch (exc: Exception) {
-            Log.d("ResProvider", "Failed to build ItemDescriptor list.")
+            Log.e("ResProvider", "Failed to build ItemDescriptor list. $exc")
             return listOf()
         }
     }
@@ -85,19 +76,22 @@ class ResourcesProvider(context: Context) {
                 return gson.fromJson(reader, ServantMapGsonTypeAdapter.typeToken.type)
             }
         } catch (exc: Exception) {
-            Log.d("ResProvider", "Failed to build Servant map.")
+            Log.e("ResProvider", "Failed to build Servant map. $exc")
             return mapOf()
         }
     }
 
-    private fun buildQPInfo(): Map<String, List<List<Long>>> {
+    private fun buildQPInfo(): QPInfo {
         try {
             File(resourcesDir, FILENAME_QP_INFO).bufferedReader().use { reader ->
-                return gson.fromJson(reader, object : TypeToken<Map<String, List<List<Long>>>>() {}.type)
+                return gson.fromJson(reader, QPInfo::class.java)
             }
         } catch (exc: Exception) {
-            Log.d("ResProvider", "Failed to build QPInfo map.")
-            return mapOf()
+            Log.e("ResProvider", "Failed to build QPInfo map. $exc")
+            return QPInfo(ascension = List(6) { List(4) { 0L } },
+                    skill = List(6) { List(9) { 0L } },
+                    palingenesis = List(6) { List(10) { 0L } },
+                    clothes = 0)
         }
     }
 
@@ -115,6 +109,7 @@ class ResourcesProvider(context: Context) {
         private const val ASCENSION = "ascension"
         private const val SKILL = "skill"
         private const val PALINGENESIS = "palingenesis"
+        private const val CLOTHES = "clothes"
 
         private var INSTANCE: ResourcesProvider? = null
 

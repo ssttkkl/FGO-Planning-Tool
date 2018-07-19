@@ -37,13 +37,23 @@ object ResourcesUpdater {
         if (!dir.isDirectory)
             throw Exception("$dir isn't a directory.")
 
-        val sub = dir.listFiles()
+        val resPackInfoFile = File(dir, ResourcesProvider.FILENAME_RES_PACK_INFO)
+        if (resPackInfoFile.exists()) {
+            resPackInfoFile.bufferedReader().use {
+                val resPackInfo = Gson().fromJson<ResPackInfo>(it, ResPackInfo::class.java)
+                if (resPackInfo.targetVersion < ResourcesProvider.TARGET_VERSION)
+                    throw Exception("Resource Pack's target version(${resPackInfo.targetVersion}) is lower than APP's(${ResourcesProvider.TARGET_VERSION}).")
+                if (resPackInfo.targetVersion > ResourcesProvider.TARGET_VERSION)
+                    throw Exception("APP's target version(${ResourcesProvider.TARGET_VERSION}) is lower than Resource Pack's(${resPackInfo.targetVersion}).")
+            }
+        }
+
         listOf(ResourcesProvider.FILENAME_SERVANT_INFO,
                 ResourcesProvider.FILENAME_ITEM_INFO,
                 ResourcesProvider.FILENAME_QP_INFO,
                 ResourcesProvider.FILENAME_RES_PACK_INFO).forEach { req ->
-            val reqFile = sub.firstOrNull { it.name == req }
-            if (reqFile == null)
+            val reqFile = File(dir, req)
+            if (!reqFile.exists())
                 throw Exception("$dir doesn't contain file $req.")
             else if (!reqFile.isFile)
                 throw Exception("$reqFile isn't a file.")
@@ -51,19 +61,11 @@ object ResourcesUpdater {
 
         listOf(ResourcesProvider.DIRECTORYNAME_AVATAR,
                 ResourcesProvider.DIRECTORYNAME_ITEM).forEach { req ->
-            val reqFile = sub.firstOrNull { it.name == req }
-            if (reqFile == null)
+            val reqFile = File(dir, req)
+            if (!reqFile.exists())
                 throw Exception("$dir doesn't contain file $req.")
             else if (!reqFile.isDirectory)
                 throw Exception("$reqFile isn't a directory.")
-        }
-
-        File(dir, ResourcesProvider.FILENAME_RES_PACK_INFO).bufferedReader().use {
-            val resPackInfo = Gson().fromJson<ResPackInfo>(it, ResPackInfo::class.java)
-            if (resPackInfo.targetVersion < ResourcesProvider.TARGET_VERSION)
-                throw Exception("Resource Pack's target version(${resPackInfo.targetVersion}) is lower than APP's(${ResourcesProvider.TARGET_VERSION}).")
-            if (resPackInfo.targetVersion > ResourcesProvider.TARGET_VERSION)
-                throw Exception("APP's target version(${ResourcesProvider.TARGET_VERSION}) is lower than Resource Pack's(${resPackInfo.targetVersion}).")
         }
     }
 }

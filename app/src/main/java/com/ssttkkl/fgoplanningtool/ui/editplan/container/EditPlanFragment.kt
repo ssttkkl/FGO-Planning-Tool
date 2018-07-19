@@ -107,7 +107,7 @@ class EditPlanFragment : Fragment(), LifecycleOwner {
                 }
             }
         }
-        avatar_imageView.setOnClickListener {
+        info_button.setOnClickListener {
             val servantID = viewModel.servantId.value
             if (servantID != null && servantID > 0)
                 ServantInfoDialogFragment.newInstance(servantID)
