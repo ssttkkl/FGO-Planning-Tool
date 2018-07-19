@@ -1,10 +1,12 @@
 package com.ssttkkl.fgoplanningtool.ui.servantlist
 
+import android.app.Activity
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
@@ -12,9 +14,13 @@ import android.view.*
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.*
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.ClassFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.OrderFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.StarFilterPresenter
+import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.WayToGetFilterPresenter
 import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.ItemFilterPresenter
 import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.additem.AddItemDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
@@ -90,6 +96,9 @@ class ServantListFragment : BackHandlerFragment(),
             (recView.adapter as ServantListAdapter).data = it ?: listOf()
         })
 
+        viewModel.viewType = ViewType.valueOf(activity?.getPreferences(Activity.MODE_PRIVATE)
+                ?.getString(KEY_VIEW_TYPE, ViewType.List.name) ?: ViewType.List.name)
+
         if (viewModel.viewType == ViewType.List)
             onSwitchToListView()
         else
@@ -151,7 +160,7 @@ class ServantListFragment : BackHandlerFragment(),
 
     private fun onSwitchToGridView() {
         recView?.apply {
-            layoutManager = FlexboxLayoutManager(activity!!).apply {
+            layoutManager = FlexboxLayoutManager(activity).apply {
                 flexWrap = FlexWrap.WRAP
                 justifyContent = JustifyContent.SPACE_AROUND
                 removeItemDecoration(itemDecoration)
@@ -160,16 +169,24 @@ class ServantListFragment : BackHandlerFragment(),
         }
         viewModel.viewType = ViewType.Grid
         activity?.invalidateOptionsMenu()
+
+        activity?.getPreferences(Activity.MODE_PRIVATE)?.edit()
+                ?.putString(KEY_VIEW_TYPE, ViewType.Grid.name)
+                ?.apply()
     }
 
     private fun onSwitchToListView() {
         recView?.apply {
-            layoutManager = LinearLayoutManager(activity!!, LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             (adapter as? ServantListAdapter)?.viewType = ViewType.List
             addItemDecoration(itemDecoration)
         }
         viewModel.viewType = ViewType.List
         activity?.invalidateOptionsMenu()
+
+        activity?.getPreferences(Activity.MODE_PRIVATE)?.edit()
+                ?.putString(KEY_VIEW_TYPE, ViewType.List.name)
+                ?.apply()
     }
 
     companion object {
@@ -180,5 +197,6 @@ class ServantListFragment : BackHandlerFragment(),
         }
 
         private const val KEY_HIDDEN = "hidden"
+        private const val KEY_VIEW_TYPE = "servant_list_view_type"
     }
 }

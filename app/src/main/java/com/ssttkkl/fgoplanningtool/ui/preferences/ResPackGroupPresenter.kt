@@ -11,6 +11,10 @@ import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
 import com.ssttkkl.fgoplanningtool.ui.updaterespack.UpdateResPackDialogFragment
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import org.apache.commons.io.IOUtils
+import java.io.File
+import java.io.InputStream
+import java.util.*
 
 class ResPackGroupPresenter(val view: PreferencesFragment) {
     init {
@@ -59,18 +63,20 @@ class ResPackGroupPresenter(val view: PreferencesFragment) {
     fun onActivityResultOK(requestCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE_UPDATE_RES) {
             launch(Dispatchers.file) {
-                try {
-                    view.activity.contentResolver.openInputStream(data!!.data).use { stream ->
-                        ResourcesUpdater.update(stream)
-                        launch(UI) {
-                            view.showMessage(view.getString(R.string.updateResSuccessful_pref))
-                            MyApp.restart()
-                        }
-                    }
-                } catch (e: Exception) {
-                    launch(UI) {
-                        view.showMessage(view.getString(R.string.updateResFailed_pref, e.localizedMessage))
-                    }
+                val input = view.activity.contentResolver.openInputStream(data!!.data)
+                val tempFile = File(MyApp.context.cacheDir, "${UUID.randomUUID()}.zip").apply { deleteOnExit() }
+                tempFile.createNewFile()
+                tempFile.outputStream().use { output ->
+                    IOUtils.copy(input, output)
+                }
+                input.close()
+
+                launch(UI) {
+                    val tag = UpdateResPackDialogFragment::class.qualifiedName
+                    val fm = (view.activity as AppCompatActivity).supportFragmentManager
+                    if (fm.findFragmentByTag(tag) == null)
+                        UpdateResPackDialogFragment.newInstanceForManuallyUpdate(tempFile)
+                                .show(fm, tag)
                 }
             }
         }

@@ -12,15 +12,7 @@ import com.ssttkkl.fgoplanningtool.resources.servant.WayToGet
 class ServantListViewModel : ViewModel() {
     val data = ServantListLiveData(ResourcesProvider.instance.servants.values)
 
-    private val prefs = MyApp.context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
-    var viewType: ViewType = ViewType.values()[prefs.getInt(KEY_VIEW_TYPE, 0)]
-        set(value) {
-            field = value
-            prefs.edit()
-                    .putInt(KEY_VIEW_TYPE, value.ordinal)
-                    .apply()
-        }
+    var viewType: ViewType = ViewType.List
 
     // search
     var searchText: CharSequence = ""
@@ -113,10 +105,5 @@ class ServantListViewModel : ViewModel() {
         (items as MutableSet<String>).remove(codename)
         data.itemFilter.remove(codename)
         data.notifyFiltersChanged()
-    }
-
-    companion object {
-        private const val PREFS_NAME = "ServantListViewModel"
-        private const val KEY_VIEW_TYPE = "viewType"
     }
 }

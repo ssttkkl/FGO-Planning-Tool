@@ -9,16 +9,6 @@ import java.io.InputStream
 import java.util.*
 
 object ResourcesUpdater {
-    fun update(input: InputStream) {
-        val tempFile = File(MyApp.context.cacheDir, "${UUID.randomUUID()}.zip")
-        tempFile.createNewFile()
-        tempFile.outputStream().use { output ->
-            IOUtils.copy(input, output)
-        }
-        update(tempFile)
-        tempFile.delete()
-    }
-
     fun update(file: File) {
         val cacheDir = File(MyApp.context.cacheDir.path, UUID.randomUUID().toString())
         cacheDir.mkdirs()

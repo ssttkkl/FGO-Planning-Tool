@@ -1,11 +1,16 @@
 package com.ssttkkl.fgoplanningtool.ui.splash
 
+import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.ssttkkl.fgoplanningtool.Dispatchers
+import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.Repo
+import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptorManager
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -16,6 +21,10 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        val uuid = pref.getString(PreferenceKeys.KEY_DEFAULT_DB_UUID, "")
+        Repo.switchDatabase(if (DatabaseDescriptorManager[uuid] != null) uuid else DatabaseDescriptorManager.firstOrCreate.uuid)
 
         launch(Dispatchers.file) {
             ResourcesProvider.renewInstance()

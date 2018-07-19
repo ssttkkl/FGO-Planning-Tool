@@ -1,7 +1,10 @@
 package com.ssttkkl.fgoplanningtool.ui.databasemanage
 
 import android.arch.lifecycle.Observer
+import android.content.Context
 import android.content.Intent
+import android.preference.PreferenceManager
+import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.RepoDatabase
@@ -28,6 +31,9 @@ class DatabaseManageActivityPresenter(val view: DatabaseManageActivity) : Databa
 
     override fun onSelectedPositionChanged(newPos: Int, newItem: DatabaseDescriptor) {
         Repo.switchDatabase(newItem.uuid)
+        PreferenceManager.getDefaultSharedPreferences(view).edit()
+                .putString(PreferenceKeys.KEY_DEFAULT_DB_UUID, newItem.uuid)
+                .apply()
     }
 
     override fun onItemNameChange(pos: Int, item: DatabaseDescriptor, newName: String) {

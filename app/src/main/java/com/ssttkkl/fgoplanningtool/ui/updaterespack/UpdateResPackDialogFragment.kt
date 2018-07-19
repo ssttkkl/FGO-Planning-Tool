@@ -16,6 +16,7 @@ import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.net.LatestInfo
 import com.ssttkkl.fgoplanningtool.net.ResPackDownloader
+import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
 import kotlinx.android.synthetic.main.fragment_updaterespack.*
 import kotlinx.coroutines.experimental.android.UI
@@ -23,16 +24,22 @@ import kotlinx.coroutines.experimental.launch
 import java.io.File
 
 class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_TITLE, R.style.AppTheme_Dialog_NoTitle)
-    }
-
     private lateinit var viewModel: UpdateResPackViewModel
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         viewModel = ViewModelProviders.of(this).get(UpdateResPackViewModel::class.java)
+    }
+
+    private var manually: Boolean = false
+
+    private var resPackFile: File? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_TITLE, R.style.AppTheme_Dialog_NoTitle)
+        manually = arguments?.getBoolean(KEY_MANUALLY, false) ?: false
+        resPackFile = arguments?.getSerializable(KEY_RES_PACK_FILE) as? File
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -56,8 +63,14 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
             onProgressChanged(it ?: 0)
         })
 
-        viewModel.updater.setCallback(this)
-        viewModel.updater.start()
+        if (!manually) {
+            viewModel.updater.setCallback(this)
+            viewModel.updater.start()
+        } else {
+            viewModel.status.value = Status.Updating
+            viewModel.size.value = resPackFile?.length()
+            performUpdate(resPackFile!!)
+        }
     }
 
     private var isProgressIndeterminate: Boolean = false
@@ -176,6 +189,15 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
 
     override fun onCompleteDownloading(file: File) {
         viewModel.status.value = Status.Updating
+        performUpdate(file)
+    }
+
+    override fun onFailOnDownloading(message: String) {
+        viewModel.status.value = Status.FailedOnDownloading
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun performUpdate(file: File) {
         launch(Dispatchers.file) {
             try {
                 ResourcesUpdater.update(file)
@@ -193,8 +215,15 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
         }
     }
 
-    override fun onFailOnDownloading(message: String) {
-        viewModel.status.value = Status.FailedOnDownloading
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    companion object {
+        private const val KEY_MANUALLY = "manually"
+        private const val KEY_RES_PACK_FILE = "res_pack_file"
+
+        fun newInstanceForManuallyUpdate(resPackFile: File) = UpdateResPackDialogFragment().apply {
+            arguments = Bundle().apply {
+                putBoolean(KEY_MANUALLY, true)
+                putSerializable(KEY_RES_PACK_FILE, resPackFile)
+            }
+        }
     }
 }
