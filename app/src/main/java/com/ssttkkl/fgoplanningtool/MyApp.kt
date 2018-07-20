@@ -29,7 +29,7 @@ class MyApp : Application() {
 
         fun restart() {
             val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             context.startActivity(intent)
         }
     }

@@ -1,16 +1,16 @@
 package com.ssttkkl.fgoplanningtool.ui.preferences
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.fragment_ownitemlist.*
 
 class PreferencesActivity : AppCompatActivity() {
-    var requireRestart = false
+    var requestRestart = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,19 +20,12 @@ class PreferencesActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState != null)
-            requireRestart = savedInstanceState.getBoolean(KEY_REQUIRE_RESTART, false)
+            requestRestart = savedInstanceState.getBoolean(KEY_REQUEST_RESTART, false)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            android.R.id.home -> {
-                if (requireRestart)
-                    startActivity(Intent(this, MainActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    })
-                else
-                    finish()
-            }
+            android.R.id.home -> onBackPressed()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -40,10 +33,17 @@ class PreferencesActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putBoolean(KEY_REQUIRE_RESTART, requireRestart)
+        outState?.putBoolean(KEY_REQUEST_RESTART, requestRestart)
+    }
+
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_OK, Intent().apply {
+            putExtra(KEY_REQUEST_RESTART, requestRestart)
+        })
+        super.onBackPressed()
     }
 
     companion object {
-        private const val KEY_REQUIRE_RESTART = "require_restart"
+        const val KEY_REQUEST_RESTART = "request_restart"
     }
 }

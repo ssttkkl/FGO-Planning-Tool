@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
-import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageActivity
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragment
 import com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragment
@@ -46,7 +45,7 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
             R.id.planlist_nav -> switchToFragment(PlanListFragment::class)
             R.id.ownitemlist_nav -> switchToFragment(OwnItemListFragment::class)
             R.id.servantdetaillist_nav -> switchToFragment(ServantBaseListFragment::class)
-            R.id.preferences_nav -> gotoActivity(PreferencesActivity::class.java)
+            R.id.preferences_nav -> gotoActivityForResult(PreferencesActivity::class.java, REQUEST_CODE_PREF)
         }
         drawerlayout.closeDrawer(GravityCompat.START)
         return true
@@ -65,6 +64,10 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
 
     private fun gotoActivity(activityClass: Class<out Activity>) {
         startActivity(Intent(this, activityClass))
+    }
+
+    private fun gotoActivityForResult(activityClass: Class<out Activity>, requestCode: Int) {
+        startActivityForResult(Intent(this, activityClass), requestCode)
     }
 
     private lateinit var toggle: ActionBarDrawerToggle
@@ -94,8 +97,20 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            REQUEST_CODE_PREF -> {
+                if (resultCode == Activity.RESULT_OK && data?.getBooleanExtra(PreferencesActivity.KEY_REQUEST_RESTART, false) == true)
+                    recreate()
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
     companion object {
         // same to android.support.design.widget.LONG_DURATION_MS
         private const val BACK_AGAIN_DURATION = 2750
+
+        private const val REQUEST_CODE_PREF = 1
     }
 }

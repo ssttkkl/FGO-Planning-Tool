@@ -36,6 +36,10 @@
             android:key="version"
             android:title="@string/version_pref"
             tools:summary="v1.0.0" />
+        <CheckBoxPreference
+            android:key="checkUpdateOnStart"
+            android:title="@string/title_checkUpdateOnStart_pref"
+            android:defaultValue="true" />
         <Preference
             android:summary="@string/app_repo"
             android:title="@string/repo_pref">

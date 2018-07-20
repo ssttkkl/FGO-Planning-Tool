@@ -174,6 +174,7 @@
     <string name="summary_curResPackVersion_highTargetVersion_pref">%1$s（%2$d）（目标APP版本高于当前APP版本，请尝试更新APP）</string>
     <string name="summary_curResPackVersion_lowTargetVersion_pref">%1$s（%2$d）（当前APP版本高于目标APP版本，请尝试更新资源包）</string>
     <string name="summary_curResPackVersion_absent_pref">（当前还没有加载资源包，请尝试更新资源包）</string>
+    <string name="title_checkUpdateOnStart_pref">启动时检查更新</string>
     <string name="title_autoUpdateResPack_pref">自动更新资源包</string>
     <string name="summary_autoUpdateResPack_pref">可能会耗费2~4M流量</string>
     <string name="title_manuallyUpdateResPack_pref">手动更新资源包</string>
@@ -184,9 +185,8 @@
     <string name="version_pref">版本号</string>
     <string name="repo_pref">Github 项目主页</string>
 
-    <string name="updateResSuccessful_pref">更新资源包成功，正在重启APP。</string>
-    <string name="updateResFailed_pref">更新资源包失败，请重试。（%1$s）</string>
-
+    <string name="cancel_updaterespack">取消</string>
+    <string name="back_updaterespack">返回</string>
     <string name="releaseDate_updaterespack">发布日期</string>
     <string name="releaseDate_pattern_updaterespack">%1$d/%2$d/%3$d</string>
     <string name="content_updaterespack">内容进度</string>
@@ -200,6 +200,10 @@
     <string name="status_downloadFailed_updaterespack">下载失败</string>
     <string name="status_updating_updaterespack">更新中……</string>
     <string name="status_updateFailed_updaterespack">更新失败</string>
+    <string name="status_updateSuccessful_updaterespack">更新成功</string>
+
+    <string name="resPackUpdateAvailable_checkupdate">资源包更新可用</string>
+    <string name="appUpdateAvailable_checkupdate">APP更新可用</string>
 
     <string name="exc_lowTargetVersion_resUpdater">资源包的目标APP版本小于当前APP版本。请下载最新资源包。</string>
     <string name="exc_highTargetVersion_resUpdater">资源包的目标APP版本大于当前APP版本。请先升级APP。</string>

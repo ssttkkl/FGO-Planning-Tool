@@ -28,19 +28,23 @@ class PreferencesFragment : PreferenceFragment(), Preference.OnPreferenceChangeL
             resPackGroupPresenter.onActivityResultOK(requestCode, data)
     }
 
-    override fun onPreferenceChange(pref: Preference?, newValue: Any?): Boolean {
-        when (pref?.key) {
-            PreferenceKeys.KEY_NAME_LANGUAGE -> {
-                pref.summary = (pref as? ListPreference)?.entry
-                (activity as? PreferencesActivity)?.requireRestart = true
-            }
+    override fun onPreferenceChange(pref: Preference, newValue: Any): Boolean {
+        if (pref is ListPreference) {
+            val entries = pref.entries
+            val values = pref.entryValues
+            pref.summary = entries[values.indexOf(newValue)]
+        }
+
+        when (pref.key) {
+            PreferenceKeys.KEY_NAME_LANGUAGE ->
+                (activity as? PreferencesActivity)?.requestRestart = true
         }
         return true
     }
 
     private fun setListPreferenceListener(pref: ListPreference) {
         pref.onPreferenceChangeListener = this
-        onPreferenceChange(pref, pref.value)
+        pref.summary = pref.entry
     }
 
     companion object {

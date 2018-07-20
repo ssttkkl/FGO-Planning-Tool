@@ -1,12 +1,16 @@
 package com.ssttkkl.fgoplanningtool.net
 
 import android.content.Context
+import android.widget.Toast
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.downloader.request.DownloadRequest
 import com.google.gson.Gson
 import com.ssttkkl.fgoplanningtool.Dispatchers
+import com.ssttkkl.fgoplanningtool.MyApp
+import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
+import com.ssttkkl.fgoplanningtool.ui.updaterespack.Status
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -19,10 +23,12 @@ class ResPackDownloader(val context: Context) {
     interface Callback {
         fun onStartLoadingLatestInfo()
         fun onFailOnLoadingLatestInfo(message: String)
-        fun onCompleteLoadingLatestInfo(latestInfo: LatestInfo)
+        fun onCompleteLoadingLatestInfo(latestInfo: ResPackLatestInfo)
         fun onDownloadProgress(progress: Int, downloadRequest: DownloadRequest)
-        fun onCompleteDownloading(file: File)
+        fun onCompleteDownloading()
         fun onFailOnDownloading(message: String)
+        fun onCompleteUpdating()
+        fun onFailOnUpdating(message: String)
     }
 
     private var callback: Callback? = null
@@ -31,7 +37,7 @@ class ResPackDownloader(val context: Context) {
         callback = newCallback
     }
 
-    private lateinit var latestInfo: LatestInfo
+    private lateinit var latestInfo: ResPackLatestInfo
 
     private lateinit var downloadRequest: DownloadRequest
 
@@ -39,8 +45,8 @@ class ResPackDownloader(val context: Context) {
         launch(UI) { callback?.onStartLoadingLatestInfo() }
         val latestInfoFile = File(this@ResPackDownloader.context.cacheDir, "${UUID.randomUUID()}.json").apply { deleteOnExit() }
         try {
-            FileUtils.copyURLToFile(URL(urlPattern.format(latestInfoFilename)), latestInfoFile)
-            latestInfo = Gson().fromJson<LatestInfo>(latestInfoFile.readText(), LatestInfo::class.java)
+            FileUtils.copyURLToFile(URL(ConstantLinks.urlPattern.format(ConstantLinks.resPackLatestInfoFilename)), latestInfoFile)
+            latestInfo = Gson().fromJson<ResPackLatestInfo>(latestInfoFile.readText(), ResPackLatestInfo::class.java)
         } catch (exc: Exception) {
             launch(UI) { callback?.onFailOnLoadingLatestInfo(exc.localizedMessage) }
             return@launch
@@ -60,7 +66,15 @@ class ResPackDownloader(val context: Context) {
 
         downloadRequest.start(object : OnDownloadListener {
             override fun onDownloadComplete() {
-                callback?.onCompleteDownloading(resPackFile)
+                callback?.onCompleteDownloading()
+                launch(Dispatchers.file) {
+                    try {
+                        ResourcesUpdater.update(resPackFile)
+                        launch(UI) { callback?.onCompleteUpdating() }
+                    } catch (exc: Exception) {
+                        launch(UI) { callback?.onFailOnUpdating(exc.toString()) }
+                    }
+                }
             }
 
             override fun onError(error: Error) {
@@ -80,10 +94,5 @@ class ResPackDownloader(val context: Context) {
         work.cancel()
         if (::downloadRequest.isInitialized)
             downloadRequest.cancel()
-    }
-
-    companion object {
-        const val urlPattern = "https://github.com/ssttkkl/FGO-Planning-Tool/raw/res-pack/%s"
-        const val latestInfoFilename = "latest.json"
     }
 }

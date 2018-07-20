@@ -14,9 +14,8 @@ import com.downloader.request.DownloadRequest
 import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.net.LatestInfo
 import com.ssttkkl.fgoplanningtool.net.ResPackDownloader
-import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
+import com.ssttkkl.fgoplanningtool.net.ResPackLatestInfo
 import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
 import kotlinx.android.synthetic.main.fragment_updaterespack.*
 import kotlinx.coroutines.experimental.android.UI
@@ -69,7 +68,21 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
         } else {
             viewModel.status.value = Status.Updating
             viewModel.size.value = resPackFile?.length()
-            performUpdate(resPackFile!!)
+
+            launch(Dispatchers.file) {
+                try {
+                    ResourcesUpdater.update(resPackFile!!)
+                    launch(UI) { onCompleteUpdating() }
+                } catch (exc: Exception) {
+                    launch(UI) { onFailOnUpdating(exc.toString()) }
+                }
+            }
+        }
+
+        button.setOnClickListener {
+            if (viewModel.status.value == Status.CompleteUpdating)
+                MyApp.restart()
+            dialog?.cancel()
         }
     }
 
@@ -116,9 +129,9 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
         size_textView?.text = getString(R.string.size_pattern_updaterespack, size.toDouble() / 1024 / 1024)
     }
 
-    private fun onLatestInfoChanged(latestInfo: LatestInfo?) {
-        Log.d("UpdateResPack", "LatestInfo Loaded: $latestInfo")
-        content_textView?.text = if (latestInfo != null) latestInfo.content else ""
+    private fun onLatestInfoChanged(latestInfo: ResPackLatestInfo?) {
+        Log.d("UpdateResPack", "ResPackLatestInfo Loaded: $latestInfo")
+        content_textView?.text = latestInfo?.content ?: ""
         releaseDate_textView?.text = if (latestInfo != null) getString(R.string.releaseDate_pattern_updaterespack,
                 latestInfo.releaseDate / 10000,
                 latestInfo.releaseDate % 10000 / 100,
@@ -157,8 +170,9 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
                 isProgressVisible = true
             }
             Status.CompleteUpdating -> {
-                isProgressIndeterminate = true
-                isProgressVisible = true
+                status_textView?.text = getString(R.string.status_updateSuccessful_updaterespack)
+                button?.text = getString(R.string.back_updaterespack)
+                isProgressVisible = false
             }
             Status.FailedOnUpdating -> {
                 status_textView?.text = getString(R.string.status_updateFailed_updaterespack)
@@ -171,7 +185,7 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
         viewModel.status.value = Status.LoadingLatestInfo
     }
 
-    override fun onCompleteLoadingLatestInfo(latestInfo: LatestInfo) {
+    override fun onCompleteLoadingLatestInfo(latestInfo: ResPackLatestInfo) {
         viewModel.status.value = Status.CompleteLoadingLatestInfo
         viewModel.latestInfo.value = latestInfo
     }
@@ -187,9 +201,8 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
         viewModel.progress.value = progress
     }
 
-    override fun onCompleteDownloading(file: File) {
+    override fun onCompleteDownloading() {
         viewModel.status.value = Status.Updating
-        performUpdate(file)
     }
 
     override fun onFailOnDownloading(message: String) {
@@ -197,22 +210,13 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun performUpdate(file: File) {
-        launch(Dispatchers.file) {
-            try {
-                ResourcesUpdater.update(file)
-                launch(UI) {
-                    viewModel.status.value = Status.CompleteUpdating
-                    Toast.makeText(MyApp.context, R.string.updateResSuccessful_pref, Toast.LENGTH_SHORT).show()
-                }
-                MyApp.restart()
-            } catch (exc: Exception) {
-                launch(UI) {
-                    viewModel.status.value = Status.FailedOnUpdating
-                    Toast.makeText(MyApp.context, exc.toString(), Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+    override fun onCompleteUpdating() {
+        viewModel.status.value = Status.CompleteUpdating
+    }
+
+    override fun onFailOnUpdating(message: String) {
+        viewModel.status.value = Status.FailedOnUpdating
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     companion object {
