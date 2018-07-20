@@ -4,20 +4,21 @@ import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.ui.ownitemlist.edititem.EditItemDialogFragment
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import com.ssttkkl.fgoplanningtool.ui.iteminfo.ItemInfoDialogFragment
 
 class OwnItemListFragmentPresenter(val view: OwnItemListFragment) {
-    fun onItemClick(codename: String) {
-        gotoChangeItemUi(Repo.itemRepo[codename])
+    fun onItemEditAction(codename: String) {
+        EditItemDialogFragment.newInstance(Repo.itemRepo[codename])
+                .show(view.childFragmentManager, EditItemDialogFragment::class.qualifiedName)
+    }
+
+    fun onItemInfoAction(codename: String) {
+        ItemInfoDialogFragment.newInstance(codename)
+                .show(view.childFragmentManager, ItemInfoDialogFragment::class.qualifiedName)
     }
 
     fun updateItem(item: Item) {
         Repo.itemRepo.update(item, HowToPerform.Launch)
     }
 
-    private fun gotoChangeItemUi(item: Item) {
-        EditItemDialogFragment.newInstance(item)
-                .show(view.childFragmentManager, EditItemDialogFragment.tag)
-    }
 }

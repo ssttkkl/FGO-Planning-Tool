@@ -3,39 +3,79 @@ package com.ssttkkl.fgoplanningtool.ui.costitemlist
 import android.content.Context
 import android.graphics.Typeface
 import android.support.v4.content.res.ResourcesCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.Repo
-import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
+import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListRecViewAdapter
+import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_costitemlist.view.*
+import net.cachapa.expandablelayout.ExpandableLayout
 
 class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemListAdapter.ViewHolder>() {
-    var data: List<CostItemListEntity> = listOf()
-        private set
+    private var recyclerView: RecyclerView? = null
 
-    fun setNewData(items: Collection<Item>) {
-        data = items.groupBy { it.descriptor?.type }.toList().sortedBy { it.first } // group items and sort groups by type
-                .map { it.second.sortedBy { ResourcesProvider.instance.itemRank[it.codename] } }.flatMap { it } // sort each group's items and flat
-                .map {
-                    CostItemListEntity(it.descriptor?.localizedName ?: it.codename,
-                            it.descriptor?.type?.localizedName ?: "",
-                            it.count,
-                            Repo.itemRepo[it.codename].count,
-                            it.descriptor?.imgFile)
-                }
-        notifyDataSetChanged()
+    override fun onAttachedToRecyclerView(recView: RecyclerView) {
+        super.onAttachedToRecyclerView(recView)
+        recyclerView = recView
     }
+
+    override fun onDetachedFromRecyclerView(recView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recView)
+        recyclerView = null
+    }
+
+    var data: List<CostItemListEntity> = listOf()
+        set(value) {
+            if (field == value)
+                return
+            field = value
+            expendedPosition = -1
+            notifyDataSetChanged()
+        }
 
     override fun getItemCount() = data.size
 
+    private var listener: ((servantID: Int) -> Unit)? = null
+
+    fun setOnServantClickListener(newListener: ((servantID: Int) -> Unit)?) {
+        listener = newListener
+    }
+
+    var expendedPosition = -1
+        set(value) {
+            if (field >= 0)
+                recyclerView?.findViewHolderForAdapterPosition(field)?.itemView?.expLayout?.collapse()
+            if (field != value && value >= 0) {
+                recyclerView?.findViewHolderForAdapterPosition(value)?.itemView?.expLayout?.expand()
+                recyclerView?.smoothScrollToPosition(value)
+            }
+            field = value
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_costitemlist, parent, false))
+            ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_costitemlist, parent, false)).apply {
+                itemView.constLayout.setOnClickListener {
+                    expendedPosition = if (expendedPosition != adapterPosition) adapterPosition else -1
+                }
+                itemView.recView.apply {
+                    adapter = RequirementListRecViewAdapter(context).apply {
+                        setOnItemClickListener { _, item -> listener?.invoke(item.servantID) }
+                    }
+                    layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+                    addItemDecoration(CommonRecViewItemDecoration(context!!))
+                }
+                itemView.expLayout.setOnExpansionUpdateListener { _, state ->
+                    itemView.recView.visibility = if (state == ExpandableLayout.State.COLLAPSED)
+                        View.GONE
+                    else
+                        View.VISIBLE
+                }
+            }
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         val item = data[pos]
@@ -44,7 +84,7 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
             if (pos == 0 || (data[pos - 1].type != data[pos].type)) {
                 divider.visibility = if (pos != 0) View.VISIBLE else View.GONE
                 type_textView.visibility = View.VISIBLE
-                type_textView.text = item.type
+                type_textView.text = item.type?.localizedName ?: ""
             } else {
                 divider.visibility = View.GONE
                 type_textView.visibility = View.GONE
@@ -63,6 +103,9 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
             }
 
             Glide.with(context).load(item.imgFile).into(avatar_imageView)
+
+            (recView.adapter as RequirementListRecViewAdapter).data = item.requirements
+            expLayout.setExpanded(expendedPosition == pos, false)
         }
     }
 

@@ -2,9 +2,11 @@ package com.ssttkkl.fgoplanningtool.data.plan
 
 import android.arch.lifecycle.Observer
 import android.util.Log
+import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.RepoDatabase
 import com.ssttkkl.fgoplanningtool.data.perform
+import kotlinx.coroutines.experimental.runBlocking
 import java.util.concurrent.ConcurrentHashMap
 
 class PlanRepo(private val database: RepoDatabase) : Observer<List<Plan>> {
@@ -25,7 +27,10 @@ class PlanRepo(private val database: RepoDatabase) : Observer<List<Plan>> {
     val all: List<Plan>
         get() = cache.values.sortedBy { it.servantId }
 
-    operator fun get(servantId: Int) = cache[servantId]
+    operator fun get(servantID: Int): Plan? {
+        return cache[servantID]
+                ?: runBlocking(Dispatchers.db) { database.plansDao.getByServantID(servantID) }
+    }
 
     fun insert(plans: Collection<Plan>, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
         perform(howToPerform) {

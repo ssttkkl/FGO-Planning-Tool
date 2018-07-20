@@ -7,11 +7,13 @@ import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
+import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_changeplanwarning.*
 
 class ChangePlanWarningDialogFragment : DialogFragment() {
@@ -26,7 +28,7 @@ class ChangePlanWarningDialogFragment : DialogFragment() {
         listener = when {
             parentFragment is OnActionListener -> parentFragment as OnActionListener
             activity is OnActionListener -> activity as OnActionListener
-            else -> throw Exception("Either parent fragment or activity must impl OnActionListener interface.")
+            else -> throw NoInterfaceImplException(OnActionListener::class)
         }
     }
 
@@ -97,7 +99,8 @@ class ChangePlanWarningDialogFragment : DialogFragment() {
                     nowSkill2 = old.nowSkill2,
                     planSkill2 = new.nowSkill2,
                     nowSkill3 = old.nowSkill3,
-                    planSkill3 = new.nowSkill3
+                    planSkill3 = new.nowSkill3,
+                    dress = old.dress - old.dress.intersect(new.dress)
             )))
         }
 

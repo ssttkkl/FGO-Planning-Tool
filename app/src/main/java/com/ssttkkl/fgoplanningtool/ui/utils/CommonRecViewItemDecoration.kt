@@ -14,7 +14,7 @@ class CommonRecViewItemDecoration(context: Context,
         val pos = parent.getChildAdapterPosition(view)
         if (pos == 0 && top)
             outRect.top = px
-        else if (pos == parent.adapter.itemCount - 1 && bottom)
+        if (pos == parent.adapter.itemCount - 1 && bottom)
             outRect.bottom = px
     }
 }

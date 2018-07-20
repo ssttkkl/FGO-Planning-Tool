@@ -6,17 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.ui.utils.RecViewAdapterDataSetChanger
+import com.ssttkkl.fgoplanningtool.ui.utils.getScaledDrawable
 import kotlinx.android.synthetic.main.item_planlist.view.*
 
 class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanListRecViewAdapter.ViewHolder>() {
     val data: List<Plan> = ArrayList()
 
     fun setNewData(newData: List<Plan>) {
-        isInSelectMode = false
-        RecViewAdapterDataSetChanger.perform(this, data as ArrayList<Plan>, newData) { it.servantId }
+        synchronized(data) {
+            var equal = data.size == newData.size
+            if (equal)
+                data.indices.forEach {
+                    equal = equal && data[it] == newData[it]
+                }
+            if (equal)
+                return
+
+            isInSelectMode = false
+            RecViewAdapterDataSetChanger.perform(this, data as ArrayList<Plan>, newData) { it.servantId }
+        }
     }
 
     // callback start
@@ -29,8 +41,8 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
 
     private var callback: Callback? = null
 
-    fun setCallback(callback: Callback?) {
-        this.callback = callback
+    fun setCallback(newCallback: Callback?) {
+        callback = newCallback
     }
 
     // selection start
@@ -118,9 +130,9 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
     // core start
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_planlist, parent, false)).apply {
-                itemView.card.apply {
-                    setOnClickListener { onPositionClicked(adapterPosition) }
-                    setOnLongClickListener { onPositionLongClicked(adapterPosition) }
+                itemView.apply {
+                    card.setOnClickListener { onPositionClicked(adapterPosition) }
+                    card.setOnLongClickListener { onPositionLongClicked(adapterPosition) }
                 }
             }
 
@@ -128,26 +140,33 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
 
     private val times = context.getString(R.string.times_item_planlist)
 
+    private val holyGrailWidth = context.resources.getDimensionPixelOffset(R.dimen.holy_grail_width)
+
+    private val holyGrailDrawable = context.getScaledDrawable(R.drawable.holy_grail, holyGrailWidth, holyGrailWidth)
+
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         val plan = data[pos]
         holder.itemView.apply {
             if (plan.nowStage <= 4) {
                 nowStage_textView.text = plan.nowStage.toString()
-                nowHolyGrail_imageView.visibility = View.GONE
+                nowStage_textView.setCompoundDrawablesRelative(null, null, null, null)
             } else {
                 nowStage_textView.text = times.format(plan.nowStage - 4)
-                nowHolyGrail_imageView.visibility = View.VISIBLE
+                nowStage_textView.setCompoundDrawablesRelativeWithIntrinsicBounds(holyGrailDrawable, null, null, null)
             }
 
             if (plan.planStage <= 4) {
                 planStage_textView.text = plan.planStage.toString()
-                planHolyGrail_imageView.visibility = View.GONE
+                planStage_textView.setCompoundDrawablesRelative(null, null, null, null)
             } else {
                 planStage_textView.text = times.format(plan.planStage - 4)
-                planHolyGrail_imageView.visibility = View.VISIBLE
+                planStage_textView.setCompoundDrawablesRelativeWithIntrinsicBounds(holyGrailDrawable, null, null, null)
             }
 
-            stageLabel_textView.setText(if (plan.nowStage <= 4 && plan.planStage <= 4) R.string.stage_item_planlist else R.string.stageAndHolyGrail_item_planlist)
+            stageLabel_textView.setText(if (plan.nowStage <= 4 && plan.planStage <= 4)
+                R.string.stage_item_planlist
+            else
+                R.string.stageAndHolyGrail_item_planlist)
 
             nowSkill1_textView.text = plan.nowSkill1.toString()
             planSkill1_textView.text = plan.planSkill1.toString()
@@ -156,7 +175,15 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
             nowSkill3_textView.text = plan.nowSkill3.toString()
             planSkill3_textView.text = plan.planSkill3.toString()
 
-            selectedFlag_imageView.visibility = if (isInSelectMode && isPositionSelected(pos)) View.VISIBLE else View.INVISIBLE
+            dress_imageView.visibility = if (plan.dress.isNotEmpty())
+                View.VISIBLE
+            else
+                View.GONE
+
+            selectedFlag_imageView.visibility = if (isInSelectMode && isPositionSelected(pos))
+                View.VISIBLE
+            else
+                View.INVISIBLE
 
             // if servant resources doesn't exist, show its servantId and avatar_placeholder instead
             name_textView.text = plan.servant?.localizedName ?: plan.servantId.toString()

@@ -43,6 +43,11 @@ val Plan.costItems: Collection<Item>
                 qp += servant!!.skillQP[cur]
             }
 
+        for (dress in dress.map { servant!!.dress[it] }) {
+            map.putItems(dress.items)
+            qp += dress.qp
+        }
+
         if (qp > 0)
             map[QP] = qp
         if (holyGrail > 0)

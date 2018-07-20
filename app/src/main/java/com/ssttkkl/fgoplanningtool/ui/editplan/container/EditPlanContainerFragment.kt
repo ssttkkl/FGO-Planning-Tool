@@ -10,10 +10,10 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.view.*
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListFragment
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanActivity
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanViewModel
+import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_editplan_container.*
 
 class EditPlanContainerFragment : Fragment() {
@@ -38,7 +38,7 @@ class EditPlanContainerFragment : Fragment() {
         callback = when {
             parentFragment is Callback -> parentFragment as Callback
             activity is Callback -> activity as Callback
-            else -> throw Exception("Either parent fragment or activity must impl Callback interface.")
+            else -> throw NoInterfaceImplException(Callback::class)
         }
         viewModel = ViewModelProviders.of(activity!!).get(EditPlanViewModel::class.java)
     }
@@ -75,7 +75,7 @@ class EditPlanContainerFragment : Fragment() {
             override fun instantiateItem(container: ViewGroup, position: Int) =
                     super.instantiateItem(container, position).also {
                         if (it is CostItemListFragment)
-                            it.data = viewModel.plan.costItems
+                            it.plans = listOf(viewModel.plan)
                     }
         }
         tabLayout.setupWithViewPager(viewPager)
@@ -87,6 +87,7 @@ class EditPlanContainerFragment : Fragment() {
                     planSkillI, planSkillI, planSkillIII).forEach {
                 it.observe(this@EditPlanContainerFragment, Observer { onPlanChanged() })
             }
+            dress.observe(this@EditPlanContainerFragment, Observer { onPlanChanged() })
         }
     }
 
@@ -107,7 +108,7 @@ class EditPlanContainerFragment : Fragment() {
 
     private fun onPlanChanged() {
         (childFragmentManager.fragments.firstOrNull { it is CostItemListFragment } as? CostItemListFragment)
-                ?.data = viewModel.plan.costItems
+                ?.plans = listOf(viewModel.plan)
     }
 
     companion object {

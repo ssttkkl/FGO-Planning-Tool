@@ -16,6 +16,7 @@ class EditPlanViewModel : ViewModel() {
     val planSkillII = MutableLiveData<Int>()
     val nowSkillIII = MutableLiveData<Int>()
     val planSkillIII = MutableLiveData<Int>()
+    val dress = MutableLiveData<Set<Int>>()
 
     init {
         servantId.value = 0
@@ -27,6 +28,7 @@ class EditPlanViewModel : ViewModel() {
         planSkillII.value = 10
         nowSkillIII.value = 1
         planSkillIII.value = 10
+        dress.value = setOf()
     }
 
     val plan: Plan
@@ -38,7 +40,8 @@ class EditPlanViewModel : ViewModel() {
                 nowSkillIII.value!!,
                 planSkillI.value!!,
                 planSkillII.value!!,
-                planSkillIII.value!!)
+                planSkillIII.value!!,
+                dress.value!!)
 
     var oldPlan: Plan? = null
 }

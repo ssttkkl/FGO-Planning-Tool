@@ -1,0 +1,113 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "8462164e0e0f00f45ab442424c5797e1",
+    "entities": [
+      {
+        "tableName": "Plan",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`servantId` INTEGER NOT NULL, `nowStage` INTEGER NOT NULL, `planStage` INTEGER NOT NULL, `nowSkill1` INTEGER NOT NULL, `nowSkill2` INTEGER NOT NULL, `nowSkill3` INTEGER NOT NULL, `planSkill1` INTEGER NOT NULL, `planSkill2` INTEGER NOT NULL, `planSkill3` INTEGER NOT NULL, `dress` TEXT NOT NULL, PRIMARY KEY(`servantId`))",
+        "fields": [
+          {
+            "fieldPath": "servantId",
+            "columnName": "servantId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nowStage",
+            "columnName": "nowStage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "planStage",
+            "columnName": "planStage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nowSkill1",
+            "columnName": "nowSkill1",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nowSkill2",
+            "columnName": "nowSkill2",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nowSkill3",
+            "columnName": "nowSkill3",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "planSkill1",
+            "columnName": "planSkill1",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "planSkill2",
+            "columnName": "planSkill2",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "planSkill3",
+            "columnName": "planSkill3",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dress",
+            "columnName": "dress",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "servantId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Item",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`codename` TEXT NOT NULL, `count` INTEGER NOT NULL, PRIMARY KEY(`codename`))",
+        "fields": [
+          {
+            "fieldPath": "codename",
+            "columnName": "codename",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "count",
+            "columnName": "count",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "codename"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8462164e0e0f00f45ab442424c5797e1\")"
+    ]
+  }
+}

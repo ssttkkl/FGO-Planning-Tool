@@ -49,7 +49,7 @@
         app:layout_constraintStart_toEndOf="@+id/name_editText"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_check_white_24dp"
-        android:tint="@android:color/tertiary_text_light" />
+        android:tint="@color/colorAccent" />
 
     <ImageView
         android:id="@+id/abort_button"

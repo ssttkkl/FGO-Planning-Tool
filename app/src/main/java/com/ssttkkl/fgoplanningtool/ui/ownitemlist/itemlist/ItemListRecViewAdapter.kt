@@ -11,7 +11,8 @@ import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_ownitemlist.view.*
 
-class ItemListRecViewAdapter(val context: Context) : RecyclerView.Adapter<ItemListRecViewAdapter.ViewHolder>() {
+class ItemListRecViewAdapter(val context: Context,
+                             val showInfoButton: Boolean = true) : RecyclerView.Adapter<ItemListRecViewAdapter.ViewHolder>() {
     val data: List<Item> = ArrayList()
 
     fun setNewData(newData: List<Item>) {
@@ -31,17 +32,26 @@ class ItemListRecViewAdapter(val context: Context) : RecyclerView.Adapter<ItemLi
         }
     }
 
-    private var onItemClickListener: ((codename: String) -> Unit)? = null
+    interface Callback {
+        fun onItemInfoAction(codename: String)
+        fun onItemEditAction(codename: String)
+    }
 
-    fun setOnButtonClickListener(listener: ((codename: String) -> Unit)?) {
-        onItemClickListener = listener
+    private var callback: Callback? = null
+
+    fun setCallback(newCallback: Callback?) {
+        callback = newCallback
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ownitemlist, parent, false)).apply {
-                itemView.setOnClickListener {
-                    onItemClickListener?.invoke(data[adapterPosition].codename)
-                }
+                itemView.setOnClickListener { callback?.onItemEditAction(data[adapterPosition].codename) }
+                itemView.edit_button.setOnClickListener { callback?.onItemEditAction(data[adapterPosition].codename) }
+                itemView.info_button.setOnClickListener { callback?.onItemInfoAction(data[adapterPosition].codename) }
+                itemView.info_button.visibility = if (showInfoButton)
+                    View.VISIBLE
+                else
+                    View.GONE
             }
 
     override fun getItemCount(): Int = data.size

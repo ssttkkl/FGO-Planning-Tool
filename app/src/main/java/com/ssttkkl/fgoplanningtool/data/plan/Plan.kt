@@ -2,12 +2,15 @@ package com.ssttkkl.fgoplanningtool.data.plan
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.TypeConverters
 import android.os.Parcel
 import android.os.Parcelable
+import com.ssttkkl.fgoplanningtool.data.utils.IntSetConverter
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 
 @Entity(tableName = "Plan")
+@TypeConverters(IntSetConverter::class)
 data class Plan(@PrimaryKey val servantId: Int,
                 var nowStage: Int,
                 var planStage: Int,
@@ -16,9 +19,22 @@ data class Plan(@PrimaryKey val servantId: Int,
                 var nowSkill3: Int,
                 var planSkill1: Int,
                 var planSkill2: Int,
-                var planSkill3: Int) : Parcelable {
+                var planSkill3: Int,
+                var dress: Set<Int>) : Parcelable {
     val servant: Servant?
         get() = ResourcesProvider.instance.servants[servantId]
+
+    constructor(parcel: Parcel) : this(
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.createIntArray().toSet())
 
     constructor(plan: Plan) : this(plan.servantId,
             plan.nowStage,
@@ -28,30 +44,24 @@ data class Plan(@PrimaryKey val servantId: Int,
             plan.nowSkill3,
             plan.planSkill1,
             plan.planSkill2,
-            plan.planSkill3)
+            plan.planSkill3,
+            plan.dress)
 
-    constructor(parcel: Parcel) : this(parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt())
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(servantId)
+        parcel.writeInt(nowStage)
+        parcel.writeInt(planStage)
+        parcel.writeInt(nowSkill1)
+        parcel.writeInt(nowSkill2)
+        parcel.writeInt(nowSkill3)
+        parcel.writeInt(planSkill1)
+        parcel.writeInt(planSkill2)
+        parcel.writeInt(planSkill3)
+        parcel.writeIntArray(dress.toIntArray())
+    }
 
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeInt(servantId)
-        dest.writeInt(nowStage)
-        dest.writeInt(planStage)
-        dest.writeInt(nowSkill1)
-        dest.writeInt(nowSkill2)
-        dest.writeInt(nowSkill3)
-        dest.writeInt(planSkill1)
-        dest.writeInt(planSkill2)
-        dest.writeInt(planSkill3)
+    override fun describeContents(): Int {
+        return 0
     }
 
     companion object CREATOR : Parcelable.Creator<Plan> {

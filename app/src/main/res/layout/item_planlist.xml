@@ -50,11 +50,12 @@
             android:id="@+id/name_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:gravity="center_vertical|start"
             android:maxLines="1"
             android:textAppearance="@style/ListItem"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dress_imageView"
             app:layout_constraintStart_toEndOf="@id/frameLayout"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="姓名" />
@@ -70,7 +71,7 @@
             android:textSize="10sp"
             app:layout_column="0"
             app:layout_columnWeight="1"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/linearLayout2"
             app:layout_constraintTop_toBottomOf="@+id/name_textView"
@@ -87,7 +88,7 @@
             android:textSize="10sp"
             app:layout_column="1"
             app:layout_columnWeight="1"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
             app:layout_constraintStart_toStartOf="@+id/linearLayout4"
             app:layout_constraintTop_toBottomOf="@+id/name_textView"
             app:layout_row="0" />
@@ -103,7 +104,7 @@
             android:textSize="10sp"
             app:layout_column="2"
             app:layout_columnWeight="1"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="@+id/linearLayout"
             app:layout_constraintTop_toBottomOf="@+id/name_textView"
             app:layout_row="0" />
@@ -137,15 +138,8 @@
             app:layout_constraintStart_toEndOf="@+id/frameLayout"
             app:layout_constraintTop_toBottomOf="@+id/stageLabel_textView"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.27"
+            app:layout_constraintWidth_percent="0.25"
             app:layout_row="1">
-
-            <ImageView
-                android:id="@+id/nowHolyGrail_imageView"
-                android:layout_width="12dp"
-                android:layout_height="match_parent"
-                android:visibility="visible"
-                app:srcCompat="@drawable/holy_grail" />
 
             <TextView
                 android:id="@+id/nowStage_textView"
@@ -156,19 +150,11 @@
                 tools:text="×0" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="16dp"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
                 android:tint="@android:color/tertiary_text_light"
-                app:srcCompat="@drawable/ic_trending_flat_white_24dp" />
-
-            <ImageView
-                android:id="@+id/planHolyGrail_imageView"
-                android:layout_width="12dp"
-                android:layout_height="match_parent"
-                android:visibility="visible"
-                app:srcCompat="@drawable/holy_grail" />
+                app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
             <TextView
                 android:id="@+id/planStage_textView"
@@ -202,12 +188,11 @@
                 tools:text="1" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="16dp"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
                 android:tint="@android:color/tertiary_text_light"
-                app:srcCompat="@drawable/ic_trending_flat_white_24dp" />
+                app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
             <TextView
                 android:id="@+id/planSkill1_textView"
@@ -240,12 +225,11 @@
                 tools:text="1" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="16dp"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
                 android:tint="@android:color/tertiary_text_light"
-                app:srcCompat="@drawable/ic_trending_flat_white_24dp" />
+                app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
             <TextView
                 android:id="@+id/planSkill2_textView"
@@ -278,12 +262,11 @@
                 tools:text="1" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="16dp"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
                 android:tint="@android:color/tertiary_text_light"
-                app:srcCompat="@drawable/ic_trending_flat_white_24dp" />
+                app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
             <TextView
                 android:id="@+id/planSkill3_textView"
@@ -293,6 +276,17 @@
                 android:textAppearance="@style/ListItemSecondary"
                 tools:text="10" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/dress_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:tint="@android:color/primary_text_light"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_clothes_fill_black_24dp" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

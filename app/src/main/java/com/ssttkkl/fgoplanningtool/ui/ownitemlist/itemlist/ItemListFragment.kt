@@ -16,27 +16,24 @@ import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
+import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_ownitemlist_itemlist.*
 
 class ItemListFragment : Fragment() {
-    interface OnItemClickListener {
-        fun onItemClick(codename: String)
-    }
-
-    private var onItemClickListener: OnItemClickListener? = null
+    private var callback: ItemListRecViewAdapter.Callback? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        onItemClickListener = when {
-            parentFragment is OnItemClickListener -> parentFragment as OnItemClickListener
-            activity is OnItemClickListener -> activity as OnItemClickListener
-            else -> throw Exception("Either parent fragment or activity must impl OnItemClickListener interface.")
+        callback = when {
+            parentFragment is ItemListRecViewAdapter.Callback -> parentFragment as ItemListRecViewAdapter.Callback
+            activity is ItemListRecViewAdapter.Callback -> activity as ItemListRecViewAdapter.Callback
+            else -> throw NoInterfaceImplException(ItemListRecViewAdapter.Callback::class)
         }
     }
 
     override fun onDetach() {
         super.onDetach()
-        onItemClickListener = null
+        callback = null
     }
 
     private lateinit var type: ItemType
@@ -52,8 +49,8 @@ class ItemListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recView.apply {
-            adapter = ItemListRecViewAdapter(context!!).apply {
-                setOnButtonClickListener { onItemClickListener?.onItemClick(it) }
+            adapter = ItemListRecViewAdapter(context!!, type != ItemType.General).apply {
+                setCallback(callback)
             }
             layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!))

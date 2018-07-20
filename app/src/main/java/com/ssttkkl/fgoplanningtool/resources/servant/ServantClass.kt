@@ -11,7 +11,7 @@ enum class ServantClass {
     Ruler,
     Avenger,
     Shielder,
-    AlterEgo,
+    Alterego,
     MoonCancer,
-    Foreigner
+    Foreigner;
 }
