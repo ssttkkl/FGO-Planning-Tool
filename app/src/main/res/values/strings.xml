@@ -8,9 +8,9 @@
 
     <string name="emptyHint">什么都没有</string>
 
-    <string name="databaseFromMigrationName">从旧版本迁移的数据库</string>
-    <string name="newDatabaseName">新数据库</string>
-    <string name="newDatabaseNameMultiple">新数据库 (%1$d)</string>
+    <string name="databaseFromMigrationName">从旧版本迁移的账号</string>
+    <string name="newDatabaseName">新账号</string>
+    <string name="newDatabaseNameMultiple">新账号 (%1$d)</string>
 
     <string name="openDrawer_main">打开侧边栏</string>
     <string name="closeDrawer_main">关闭侧边栏</string>
@@ -22,7 +22,7 @@
     <string name="preferences_nav">选项</string>
     <string name="databaseManage_nav">管理</string>
 
-    <string name="title_databasemanage">管理数据库</string>
+    <string name="title_databasemanage">管理账号</string>
     <string name="add_databasemanage">添加</string>
     <string name="rename_databasemanage">重命名</string>
     <string name="remove_databasemanage">删除</string>
