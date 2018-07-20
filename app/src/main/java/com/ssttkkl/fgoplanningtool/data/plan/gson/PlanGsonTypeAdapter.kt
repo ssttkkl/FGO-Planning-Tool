@@ -37,6 +37,13 @@ class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
         writer.value(it.planSkill3)
         writer.endArray()
 
+        writer.name(NAME_DRESS)
+        writer.beginArray()
+        it.dress.forEach {
+            writer.value(it)
+        }
+        writer.endArray()
+
         writer.endObject()
     }
 
@@ -50,6 +57,7 @@ class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
         var planSkill2 = -1
         var nowSkill3 = -1
         var planSkill3 = -1
+        val dress = HashSet<Int>()
 
         reader.beginObject()
         while (reader.hasNext()) {
@@ -79,6 +87,13 @@ class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
                     planSkill3 = reader.nextInt()
                     reader.endArray()
                 }
+                NAME_DRESS -> {
+                    reader.beginArray()
+                    while (reader.hasNext())
+                        dress.add(reader.nextInt())
+                    reader.endArray()
+                }
+                else -> reader.skipValue()
             }
         }
         reader.endObject()
@@ -86,7 +101,7 @@ class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
         if (listOf(servantId, nowStage, planStage, nowSkill1, nowSkill2, nowSkill3, planSkill1, planSkill2, planSkill3).any { it == -1 })
             throw JsonSyntaxException("Some values are not found when serializer a plan. ")
 
-        return Plan(servantId, nowStage, planStage, nowSkill1, nowSkill2, nowSkill3, planSkill1, planSkill2, planSkill3)
+        return Plan(servantId, nowStage, planStage, nowSkill1, nowSkill2, nowSkill3, planSkill1, planSkill2, planSkill3, dress)
     }
 
     companion object {
@@ -95,5 +110,6 @@ class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
         private const val NAME_SKILL_1 = "skill_1"
         private const val NAME_SKILL_2 = "skill_2"
         private const val NAME_SKILL_3 = "skill_3"
+        private const val NAME_DRESS = "dress"
     }
 }

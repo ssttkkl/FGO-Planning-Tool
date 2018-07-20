@@ -97,7 +97,8 @@ class ChangePlanWarningDialogFragment : DialogFragment() {
                     nowSkill2 = old.nowSkill2,
                     planSkill2 = new.nowSkill2,
                     nowSkill3 = old.nowSkill3,
-                    planSkill3 = new.nowSkill3
+                    planSkill3 = new.nowSkill3,
+                    dress = old.dress - old.dress.intersect(new.dress)
             )))
         }
 

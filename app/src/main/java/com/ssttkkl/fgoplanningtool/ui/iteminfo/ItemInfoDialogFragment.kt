@@ -69,27 +69,29 @@ class ItemInfoDialogFragment : DialogFragment() {
         }
 
         viewPager.adapter = object : FragmentPagerAdapter(childFragmentManager) {
-            override fun getCount(): Int = 2
-            override fun getItem(position: Int): Fragment = RequirementListFragment()
+            val ascensionItemEntities = generateEntities { it.ascensionItems }
+            val skillItemEntities = generateEntities { it.skillItems }
+            val dressItemEntities = generateEntities { it.dress.map { it.items } }
 
-            override fun getPageTitle(pos: Int): CharSequence = if (pos == 0)
-                getString(R.string.ascension_iteminfo)
-            else
-                getString(R.string.skill_iteminfo)
+            val pairs = listOf(Pair(getString(R.string.ascension_iteminfo), ascensionItemEntities),
+                    Pair(getString(R.string.skill_iteminfo), skillItemEntities),
+                    Pair(getString(R.string.dress_iteminfo), dressItemEntities)).filter { it.second.isNotEmpty() }
+
+            override fun getCount(): Int = pairs.size
+            override fun getItem(pos: Int): Fragment = RequirementListFragment()
+
+            override fun getPageTitle(pos: Int): CharSequence = pairs[pos].first
 
             override fun instantiateItem(container: ViewGroup, pos: Int): Any {
                 return (super.instantiateItem(container, pos) as RequirementListFragment).apply {
-                    data = if (pos == 0)
-                        generateRequirementEntities { it.ascensionItems }
-                    else
-                        generateRequirementEntities { it.skillItems }
+                    data = pairs[pos].second
                 }
             }
         }
         tabLayout.setupWithViewPager(viewPager)
     }
 
-    private fun generateRequirementEntities(getItems: (Servant) -> List<Collection<Item>>): List<RequirementListEntity> {
+    private fun generateEntities(getItems: (Servant) -> List<Collection<Item>>): List<RequirementListEntity> {
         val list = ArrayList<RequirementListEntity>()
         ResourcesProvider.instance.servants.values.sortedBy { it.id }.forEach { servant ->
             var requirement = 0L

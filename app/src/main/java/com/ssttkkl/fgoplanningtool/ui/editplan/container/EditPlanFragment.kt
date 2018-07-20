@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import android.widget.AdapterView
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
+import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanDressListRecViewAdapter
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanViewModel
 import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.DrawableAndTextSpinnerAdapter
@@ -105,6 +107,29 @@ class EditPlanFragment : Fragment(), LifecycleOwner {
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
                 }
+            }
+
+            if (servant?.dress?.isNotEmpty() == true) {
+                dress_recView.apply {
+                    adapter = EditPlanDressListRecViewAdapter(context!!).apply {
+                        data = servant?.dress ?: listOf()
+                        setOnCheckedChangeListener { pos, isChecked ->
+                            if (isChecked)
+                                dress.value = dress.value?.plus(pos) ?: setOf(pos)
+                            else
+                                dress.value = dress.value?.minus(pos)
+                        }
+                    }
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    isNestedScrollingEnabled = false
+                }
+                dress.observe(this@EditPlanFragment, Observer {
+                    (dress_recView.adapter as EditPlanDressListRecViewAdapter).setChecked(it
+                            ?: setOf())
+                })
+            } else {
+                dress_recView.visibility = View.GONE
+                dressLabel_textView.visibility = View.GONE
             }
         }
         info_button.setOnClickListener {

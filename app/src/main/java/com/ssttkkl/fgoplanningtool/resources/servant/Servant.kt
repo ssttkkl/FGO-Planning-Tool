@@ -17,7 +17,7 @@ data class Servant(val id: Int,
                    val wayToGet: WayToGet,
                    val ascensionItems: List<Collection<Item>>,
                    val skillItems: List<Collection<Item>>,
-                   val clothesItems: List<Collection<Item>>,
+                   val dress: List<Dress>,
                    val wikiLinks: Map<String, String>) {
     val avatarFile
         get() = File(ResourcesProvider.instance.avatarDir, "$id.jpg")
@@ -37,7 +37,4 @@ data class Servant(val id: Int,
 
     val palingenesisQP: List<Long>
         get() = ResourcesProvider.instance.qpInfo.palingenesis[star]
-
-    val clothesQP: Long
-        get() = ResourcesProvider.instance.qpInfo.clothes
 }

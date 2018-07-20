@@ -92,7 +92,7 @@ class ResourcesProvider(context: Context) {
             return QPInfo(ascension = List(6) { List(4) { 0L } },
                     skill = List(6) { List(9) { 0L } },
                     palingenesis = List(6) { List(10) { 0L } },
-                    clothes = 0)
+                    dress = 0)
         }
     }
 

@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.view.*
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListFragment
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanActivity
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanViewModel
@@ -87,6 +86,7 @@ class EditPlanContainerFragment : Fragment() {
                     planSkillI, planSkillI, planSkillIII).forEach {
                 it.observe(this@EditPlanContainerFragment, Observer { onPlanChanged() })
             }
+            dress.observe(this@EditPlanContainerFragment, Observer { onPlanChanged() })
         }
     }
 

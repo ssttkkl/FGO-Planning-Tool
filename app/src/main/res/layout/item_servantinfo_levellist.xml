@@ -27,7 +27,7 @@
             tools:text="0" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/horizontalArrow_imageView"
             android:layout_width="16dp"
             android:layout_height="wrap_content"
             android:tint="@color/colorAccent"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/SubHeader"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/horizontalArrow_imageView"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1" />
 

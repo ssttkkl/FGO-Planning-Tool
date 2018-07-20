@@ -30,6 +30,7 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
                     planSkillII.value = it.planSkill2
                     nowSkillIII.value = it.nowSkill3
                     planSkillIII.value = it.planSkill3
+                    dress.value = it.dress
                 }
             }
             if (servantId.value == 0)

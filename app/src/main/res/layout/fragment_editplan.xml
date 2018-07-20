@@ -214,6 +214,26 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/dressLabel_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/dress_editplan"
+                android:textAppearance="@style/Caption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nowSkill3_spinner" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/dress_recView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dressLabel_textView"
+                tools:listitem="@layout/item_editplan_dress" />
+
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>

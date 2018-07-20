@@ -69,45 +69,60 @@ class ServantInfoDialogFragment : DialogFragment() {
         }
 
         viewPager.adapter = object : FragmentPagerAdapter(childFragmentManager) {
-            override fun getCount(): Int = 2
-            override fun getItem(position: Int): Fragment = ServantInfoLevelListFragment()
+            val ascensionItemEntities = generateEntities({ _, cur -> cur.toString() },
+                    { _, cur -> (cur + 1).toString() },
+                    { it.ascensionItems.plus(it.dress.map { it.items }) },
+                    { it.ascensionQP.plus(it.dress.map { it.qp }) },
+                    true)
 
-            override fun getPageTitle(pos: Int): CharSequence = if (pos == 0)
-                getString(R.string.ascension_iteminfo)
-            else
-                getString(R.string.skill_iteminfo)
+            val skillItemEntities = generateEntities({ _, cur -> (cur + 1).toString() },
+                    { _, cur -> (cur + 2).toString() },
+                    { it.skillItems },
+                    { it.skillQP },
+                    true)
+
+            val dressItemEntities = generateEntities({ servant, cur -> servant.dress[cur].localizedName },
+                    { _, _ -> "" },
+                    { it.dress.map { it.items } },
+                    { it.dress.map { it.qp } },
+                    false)
+
+            val pairs = listOf(Pair(getString(R.string.ascension_iteminfo), ascensionItemEntities),
+                    Pair(getString(R.string.skill_iteminfo), skillItemEntities),
+                    Pair(getString(R.string.dress_iteminfo), dressItemEntities)).filter { it.second.isNotEmpty() }
+
+            override fun getCount(): Int = pairs.size
+            override fun getItem(pos: Int): Fragment = ServantInfoLevelListFragment()
+
+            override fun getPageTitle(pos: Int): CharSequence = pairs[pos].first
 
             override fun instantiateItem(container: ViewGroup, pos: Int): Any {
                 return (super.instantiateItem(container, pos) as ServantInfoLevelListFragment).apply {
-                    data = if (pos == 0)
-                        generateEntities({ it.toString() },
-                                { (it + 1).toString() },
-                                { it?.ascensionItems ?: listOf() },
-                                { it?.ascensionQP ?: listOf() })
-                    else
-                        generateEntities({ (it + 1).toString() },
-                                { (it + 2).toString() },
-                                { it?.skillItems ?: listOf() },
-                                { it?.skillQP ?: listOf() })
+                    data = pairs[pos].second
                 }
             }
         }
         tabLayout.setupWithViewPager(viewPager)
     }
 
-    private fun generateEntities(getStart: (Int) -> String,
-                                 getTo: (Int) -> String,
-                                 getItems: (Servant?) -> List<Collection<Item>>,
-                                 getQP: (Servant?) -> List<Long>): List<ServantInfoLevelListEntity> {
-        val qp = getQP(servant)
-        val items = getItems(servant)
-        return items.mapIndexed { idx, it -> it + Item("qp", qp[idx]) }
-                .mapIndexed { idx, it ->
-                    ServantInfoLevelListEntity(start = getStart.invoke(idx),
-                            to = getTo.invoke(idx),
-                            items = it.groupBy { it.descriptor?.type }.toList().sortedBy { it.first }
-                                    .flatMap { it.second.sortedBy { ResourcesProvider.instance.itemRank[it.codename] } })
-                }
+    private fun generateEntities(getStart: (Servant, Int) -> String,
+                                 getTo: (Servant, Int) -> String,
+                                 getItems: (Servant) -> List<Collection<Item>>,
+                                 getQP: (Servant) -> List<Long>,
+                                 isArrowVisible: Boolean): List<ServantInfoLevelListEntity> {
+        servant?.also { servant ->
+            val qp = getQP(servant)
+            val items = getItems(servant)
+            return items.mapIndexed { idx, it -> it + Item("qp", qp[idx]) }
+                    .mapIndexed { idx, it ->
+                        ServantInfoLevelListEntity(start = getStart.invoke(servant, idx),
+                                to = getTo.invoke(servant, idx),
+                                isHorizontalArrowVisible = isArrowVisible,
+                                items = it.groupBy { it.descriptor?.type }.toList().sortedBy { it.first }
+                                        .flatMap { it.second.sortedBy { ResourcesProvider.instance.itemRank[it.codename] } })
+                    }
+        }
+        return listOf()
     }
 
     companion object {

@@ -84,6 +84,12 @@ class ServantInfoLevelListRecViewAdapter(val context: Context) : RecyclerView.Ad
         holder.itemView.apply {
             start_textView.text = item.start
             to_textView.text = item.to
+
+            horizontalArrow_imageView.visibility = if (item.isHorizontalArrowVisible)
+                View.VISIBLE
+            else
+                View.GONE
+
             (recView.adapter as ServantInfoItemListRecViewAdapter).data = item.items
             expLayout.setExpanded(expandedPosition == pos, false)
         }

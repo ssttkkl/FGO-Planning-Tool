@@ -5,6 +5,7 @@ import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.gson.ItemCollectionGsonTypeAdapter
+import com.ssttkkl.fgoplanningtool.resources.servant.Dress
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
 import com.ssttkkl.fgoplanningtool.resources.servant.WayToGet
@@ -12,6 +13,8 @@ import java.util.*
 
 class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
     private val itemCollectionAdapter = ItemCollectionGsonTypeAdapter()
+    private val dressGsonTypeAdapter = DressGsonTypeAdapter()
+
     override fun read(reader: JsonReader): Servant {
         var id = 0
         var jaName = ""
@@ -23,7 +26,7 @@ class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
         var wayToGet = WayToGet.BeginnerGift
         var ascensionItems: List<Collection<Item>> = List(4) { listOf<Item>() }
         var skillItems: List<Collection<Item>> = List(9) { listOf<Item>() }
-        var clothesItems: List<Collection<Item>> = listOf()
+        var dress: List<Dress> = listOf()
         var wikiLinks: Map<String, String> = mapOf()
 
         reader.beginObject()
@@ -58,10 +61,9 @@ class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
                 }
                 NAME_CLOTHES_ITEMS -> {
                     reader.beginArray()
-                    clothesItems = ArrayList()
-                    while (reader.hasNext()) {
-                        clothesItems.add(itemCollectionAdapter.read(reader))
-                    }
+                    dress = ArrayList()
+                    while (reader.hasNext())
+                        dress.add(dressGsonTypeAdapter.read(reader))
                     reader.endArray()
                 }
                 NAME_WIKI_LINKS -> {
@@ -72,6 +74,7 @@ class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
                     }
                     reader.endObject()
                 }
+                else -> reader.skipValue()
             }
         }
         reader.endObject()
@@ -86,7 +89,7 @@ class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
                 wayToGet = wayToGet,
                 ascensionItems = ascensionItems,
                 skillItems = skillItems,
-                clothesItems = clothesItems,
+                dress = dress,
                 wikiLinks = wikiLinks)
     }
 
@@ -137,8 +140,8 @@ class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
 
         writer.name(NAME_CLOTHES_ITEMS)
         writer.beginArray()
-        it.clothesItems.forEach {
-            itemCollectionAdapter.write(writer, it)
+        it.dress.forEach {
+            dressGsonTypeAdapter.write(writer, it)
         }
         writer.endArray()
 
@@ -163,7 +166,7 @@ class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
         private const val NAME_WAY_TO_GET = "wayToGet"
         private const val NAME_ASCENSION_ITEMS = "ascensionItems"
         private const val NAME_SKILL_ITEMS = "skillItems"
-        private const val NAME_CLOTHES_ITEMS = "clothesItems"
+        private const val NAME_CLOTHES_ITEMS = "dress"
         private const val NAME_WIKI_LINKS = "wikiLinks"
     }
 }

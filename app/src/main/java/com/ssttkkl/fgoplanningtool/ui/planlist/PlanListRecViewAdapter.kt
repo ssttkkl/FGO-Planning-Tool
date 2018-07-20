@@ -174,6 +174,11 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
             nowSkill3_textView.text = plan.nowSkill3.toString()
             planSkill3_textView.text = plan.planSkill3.toString()
 
+            dress_imageView.visibility = if (plan.dress.isNotEmpty())
+                View.VISIBLE
+            else
+                View.GONE
+
             selectedFlag_imageView.visibility = if (isInSelectMode && isPositionSelected(pos))
                 View.VISIBLE
             else

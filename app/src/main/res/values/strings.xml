@@ -56,6 +56,7 @@
     <string name="remove_editplan">删除</string>
     <string name="tab_edit_editplan">编辑</string>
     <string name="tab_items_editplan">消耗材料</string>
+    <string name="dress_editplan">灵衣开放</string>
     <string-array name="stage_editplan">
         <item>0</item>
         <item>1</item>
@@ -125,6 +126,7 @@
 
     <string name="ascension_iteminfo">灵基再临</string>
     <string name="skill_iteminfo">技能升级</string>
+    <string name="dress_iteminfo">灵衣开放</string>
 
     <string-array name="itemType">
         <item>通用</item>
