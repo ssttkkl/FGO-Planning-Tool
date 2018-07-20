@@ -17,12 +17,6 @@ object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
 
     private val database = DatabaseDescriptorDatabase.instance.apply {
         DatabaseDescriptorDatabaseCommonMigration1.migration(this)
-
-        Log.d("DBDescriptorManager", "Loading database...")
-        synchronized(cache) {
-            cache.putAll(runBlocking(Dispatchers.db) { databaseDescriptorDao.all }.associate { Pair(it.uuid, it) })
-        }
-        Log.d("DBDescriptorManager", "Database loaded.")
     }
 
     val liveData = database.databaseDescriptorDao.allLiveData
@@ -40,7 +34,10 @@ object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
     val all
         get() = cache.values.sortedBy { it.createTime }
 
-    operator fun get(uuid: String) = cache[uuid]
+    operator fun get(uuid: String): DatabaseDescriptor? {
+        return cache[uuid]
+                ?: runBlocking(Dispatchers.db) { database.databaseDescriptorDao.getByUUID(uuid) }
+    }
 
     fun getLiveData(uuid: String) = database.databaseDescriptorDao.getLiveDataByUUID(uuid)
 
@@ -107,6 +104,8 @@ object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
 
     val firstOrCreate: DatabaseDescriptor
         get() {
-            return all.firstOrNull() ?: generateAndInsert()
+            return all.firstOrNull()
+                    ?: runBlocking(Dispatchers.db) { database.databaseDescriptorDao.all.firstOrNull() }
+                    ?: generateAndInsert()
         }
 }

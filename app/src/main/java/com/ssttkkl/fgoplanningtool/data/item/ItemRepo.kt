@@ -2,9 +2,11 @@ package com.ssttkkl.fgoplanningtool.data.item
 
 import android.arch.lifecycle.Observer
 import android.util.Log
+import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.RepoDatabase
 import com.ssttkkl.fgoplanningtool.data.perform
+import kotlinx.coroutines.experimental.runBlocking
 import java.util.concurrent.ConcurrentHashMap
 
 class ItemRepo(private val database: RepoDatabase) : Observer<List<Item>> {
@@ -26,7 +28,9 @@ class ItemRepo(private val database: RepoDatabase) : Observer<List<Item>> {
         get() = cache.values.sortedBy { it.codename }
 
     operator fun get(codename: String): Item {
-        return cache[codename] ?: Item(codename, 0).also { update(it, HowToPerform.Launch) }
+        return cache[codename]
+                ?: runBlocking(Dispatchers.db) { database.itemsDao.getByName(codename) }
+                ?: Item(codename, 0)
     }
 
     fun update(items: Collection<Item>, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
