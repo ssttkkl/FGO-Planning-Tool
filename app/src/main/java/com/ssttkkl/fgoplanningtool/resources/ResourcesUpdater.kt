@@ -18,6 +18,8 @@ object ResourcesUpdater {
         localResDir.deleteRecursively()
         cacheDir.copyRecursively(localResDir, true)
         cacheDir.deleteRecursively()
+
+        ResourcesProvider.renewInstance()
     }
 
     private fun check(dir: File) {

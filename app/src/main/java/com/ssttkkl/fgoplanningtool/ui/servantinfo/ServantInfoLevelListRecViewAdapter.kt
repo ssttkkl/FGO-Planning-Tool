@@ -77,6 +77,7 @@ class ServantInfoLevelListRecViewAdapter(val context: Context) : RecyclerView.Ad
                     else
                         View.VISIBLE
                 }
+                itemView.arrow_imageView.drawable.mutate()
             }
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
@@ -91,7 +92,13 @@ class ServantInfoLevelListRecViewAdapter(val context: Context) : RecyclerView.Ad
                 View.GONE
 
             (recView.adapter as ServantInfoItemListRecViewAdapter).data = item.items
-            expLayout.setExpanded(expandedPosition == pos, false)
+            if (expandedPosition == pos) {
+                expLayout.expand(false)
+                (arrow_imageView.drawable as RotateDrawable).level = 10000
+            } else {
+                expLayout.collapse(false)
+                (arrow_imageView.drawable as RotateDrawable).level = 0
+            }
         }
     }
 

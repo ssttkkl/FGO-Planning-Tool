@@ -1,8 +1,9 @@
-package com.ssttkkl.fgoplanningtool.ui.updaterespack
+package com.ssttkkl.fgoplanningtool.ui.preferences.updaterespack
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.Log
@@ -17,6 +18,7 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.net.ResPackDownloader
 import com.ssttkkl.fgoplanningtool.net.ResPackLatestInfo
 import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
+import com.ssttkkl.fgoplanningtool.ui.preferences.PreferencesActivity
 import kotlinx.android.synthetic.main.fragment_updaterespack.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -27,6 +29,8 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        if (activity !is PreferencesActivity)
+            throw Exception("UpdateResPackDialogFragment must be attached on PreferencesActivity")
         viewModel = ViewModelProviders.of(this).get(UpdateResPackViewModel::class.java)
     }
 
@@ -79,11 +83,7 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
             }
         }
 
-        button.setOnClickListener {
-            if (viewModel.status.value == Status.CompleteUpdating)
-                MyApp.restart()
-            dialog?.cancel()
-        }
+        button.setOnClickListener { dialog?.cancel() }
     }
 
     private var isProgressIndeterminate: Boolean = false
@@ -173,6 +173,8 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
                 status_textView?.text = getString(R.string.status_updateSuccessful_updaterespack)
                 button?.text = getString(R.string.back_updaterespack)
                 isProgressVisible = false
+
+                (activity as? PreferencesActivity)?.requestRestart = true
             }
             Status.FailedOnUpdating -> {
                 status_textView?.text = getString(R.string.status_updateFailed_updaterespack)

@@ -1,16 +1,13 @@
 package com.ssttkkl.fgoplanningtool.net
 
 import android.content.Context
-import android.widget.Toast
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.downloader.request.DownloadRequest
 import com.google.gson.Gson
 import com.ssttkkl.fgoplanningtool.Dispatchers
-import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
-import com.ssttkkl.fgoplanningtool.ui.updaterespack.Status
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch

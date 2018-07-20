@@ -7,13 +7,11 @@ import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
-import com.ssttkkl.fgoplanningtool.ui.updaterespack.UpdateResPackDialogFragment
+import com.ssttkkl.fgoplanningtool.ui.preferences.updaterespack.UpdateResPackDialogFragment
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.apache.commons.io.IOUtils
 import java.io.File
-import java.io.InputStream
 import java.util.*
 
 class ResPackGroupPresenter(val view: PreferencesFragment) {

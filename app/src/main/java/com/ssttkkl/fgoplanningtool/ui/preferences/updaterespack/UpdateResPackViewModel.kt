@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.updaterespack
+package com.ssttkkl.fgoplanningtool.ui.preferences.updaterespack
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel

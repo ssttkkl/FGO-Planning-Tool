@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.updaterespack
+package com.ssttkkl.fgoplanningtool.ui.preferences.updaterespack
 
 enum class Status {
     LoadingLatestInfo,

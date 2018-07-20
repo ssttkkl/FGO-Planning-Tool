@@ -17,6 +17,7 @@ abstract class FilterPresenter(val view: ServantListFragment) {
     protected fun expandLayout(textView: TextView, expLayout: ExpandableLayout) {
         view.apply {
             val drawable = textView.compoundDrawables.first { it is RotateDrawable } as RotateDrawable
+            drawable.mutate()
             val animator = AnimatorInflater.loadAnimator(context, if (!expLayout.isExpanded) R.animator.rotate else R.animator.rotate_reversed) as ValueAnimator
             animator.addUpdateListener {
                 drawable.level = it.animatedValue as Int

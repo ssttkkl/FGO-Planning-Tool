@@ -26,11 +26,5 @@ class MyApp : Application() {
 
         val versionCode
             get() = context.packageManager.getPackageInfo(context.packageName, 0).versionCode
-
-        fun restart() {
-            val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            context.startActivity(intent)
-        }
     }
 }
