@@ -47,7 +47,7 @@ class ServantInfoDialogFragment : DialogFragment() {
 
             more_button.setOnClickListener {
                 PopupMenu(context!!, it).apply {
-                    servant?.wikiLinks?.forEach { title, _ ->
+                    servant?.wikiLinks?.forEach { (title, _) ->
                         menu.add(title)
                     }
                     setOnMenuItemClickListener {

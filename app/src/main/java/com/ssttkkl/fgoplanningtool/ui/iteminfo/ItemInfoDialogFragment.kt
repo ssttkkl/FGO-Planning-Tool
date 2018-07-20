@@ -47,7 +47,7 @@ class ItemInfoDialogFragment : DialogFragment() {
 
             more_button.setOnClickListener {
                 PopupMenu(context!!, it).apply {
-                    descriptor.wikiLinks.forEach { title, _ ->
+                    descriptor.wikiLinks.forEach { (title, _) ->
                         menu.add(title)
                     }
                     setOnMenuItemClickListener {
