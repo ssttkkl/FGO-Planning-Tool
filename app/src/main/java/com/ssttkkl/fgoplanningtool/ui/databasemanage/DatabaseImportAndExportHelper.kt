@@ -85,7 +85,7 @@ class DatabaseImportAndExportHelper(val view: DatabaseManageActivity) {
         } catch (e: Exception) {
             launch(UI) {
                 view.showMessage(view.getString(R.string.errorMessageFormat_databasemanage,
-                        errorMessage, e.localizedMessage))
+                        errorMessage, e.toString()))
             }
         }
     }
@@ -104,7 +104,7 @@ class DatabaseImportAndExportHelper(val view: DatabaseManageActivity) {
         } catch (e: Exception) {
             launch(UI) {
                 view.showMessage(view.getString(R.string.errorMessageFormat_databasemanage,
-                        errorMessage, e.localizedMessage))
+                        errorMessage, e.toString()))
             }
         }
     }

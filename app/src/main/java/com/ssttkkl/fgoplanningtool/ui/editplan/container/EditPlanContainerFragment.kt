@@ -13,6 +13,7 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListFragment
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanActivity
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanViewModel
+import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_editplan_container.*
 
 class EditPlanContainerFragment : Fragment() {
@@ -37,7 +38,7 @@ class EditPlanContainerFragment : Fragment() {
         callback = when {
             parentFragment is Callback -> parentFragment as Callback
             activity is Callback -> activity as Callback
-            else -> throw Exception("Either parent fragment or activity must impl Callback interface.")
+            else -> throw NoInterfaceImplException(Callback::class)
         }
         viewModel = ViewModelProviders.of(activity!!).get(EditPlanViewModel::class.java)
     }

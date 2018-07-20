@@ -2,12 +2,9 @@ package com.ssttkkl.fgoplanningtool.data.item
 
 import android.arch.lifecycle.Observer
 import android.util.Log
-import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.RepoDatabase
 import com.ssttkkl.fgoplanningtool.data.perform
-import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import kotlinx.coroutines.experimental.launch
 import java.util.concurrent.ConcurrentHashMap
 
 class ItemRepo(private val database: RepoDatabase) : Observer<List<Item>> {

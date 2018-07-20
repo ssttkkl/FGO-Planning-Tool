@@ -16,6 +16,7 @@ import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
+import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_ownitemlist_itemlist.*
 
 class ItemListFragment : Fragment() {
@@ -26,7 +27,7 @@ class ItemListFragment : Fragment() {
         callback = when {
             parentFragment is ItemListRecViewAdapter.Callback -> parentFragment as ItemListRecViewAdapter.Callback
             activity is ItemListRecViewAdapter.Callback -> activity as ItemListRecViewAdapter.Callback
-            else -> throw Exception("Either parent fragment or activity must impl ItemListRecViewAdapter.Callback interface.")
+            else -> throw NoInterfaceImplException(ItemListRecViewAdapter.Callback::class)
         }
     }
 

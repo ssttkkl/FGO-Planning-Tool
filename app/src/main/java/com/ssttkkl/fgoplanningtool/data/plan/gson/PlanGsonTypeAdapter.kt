@@ -1,9 +1,10 @@
 package com.ssttkkl.fgoplanningtool.data.plan.gson
 
-import com.google.gson.JsonSyntaxException
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
+import com.ssttkkl.fgoplanningtool.MyApp
+import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 
 class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
@@ -99,7 +100,7 @@ class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
         reader.endObject()
 
         if (listOf(servantId, nowStage, planStage, nowSkill1, nowSkill2, nowSkill3, planSkill1, planSkill2, planSkill3).any { it == -1 })
-            throw JsonSyntaxException("Some values are not found when serializer a plan. ")
+            throw Exception(MyApp.context.getString(R.string.exc_fileFormatError_planGsonTypeAdapter))
 
         return Plan(servantId, nowStage, planStage, nowSkill1, nowSkill2, nowSkill3, planSkill1, planSkill2, planSkill3, dress)
     }

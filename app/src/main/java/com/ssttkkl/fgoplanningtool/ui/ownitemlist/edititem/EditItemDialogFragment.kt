@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
+import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_edititem.*
 
 class EditItemDialogFragment : DialogFragment() {
@@ -32,7 +33,7 @@ class EditItemDialogFragment : DialogFragment() {
         listener = when {
             parentFragment is OnChangeItemActionListener -> parentFragment as OnChangeItemActionListener
             activity is OnChangeItemActionListener -> activity as OnChangeItemActionListener
-            else -> throw Exception("Either parent fragment or activity must impl OnChangeItemActionListener interface.")
+            else -> throw NoInterfaceImplException(OnChangeItemActionListener::class)
         }
     }
 
@@ -77,22 +78,11 @@ class EditItemDialogFragment : DialogFragment() {
     private fun performOnValue(action: (data: Long) -> Unit) {
         try {
             val value = if (count_editText.text.isNotEmpty()) count_editText.text.toString().toLong() else item.count
-            if (value > MAX_VALUE)
-                throw Exception("The value mustn't be larger than $MAX_VALUE.")
-            else if (value < MIN_VALUE)
-                throw Exception("The value mustn't be smaller than $MIN_VALUE.")
-
-            try {
-                action.invoke(value)
-            } catch (exc: Exception) {
-                Toast.makeText(context!!, getString(R.string.errorMessageFormat_databasemanage)
-                        .format(getString(R.string.unknownError_edititem), exc.localizedMessage),
-                        Toast.LENGTH_SHORT).show()
-            }
+            if (value > MAX_VALUE || value < MIN_VALUE)
+                throw Exception(getString(R.string.exc_outOfBounds_edititem, MIN_VALUE, MAX_VALUE))
+            action.invoke(value)
         } catch (exc: Exception) {
-            Toast.makeText(context!!, getString(R.string.errorMessageFormat_databasemanage)
-                    .format(getString(R.string.illegalError_edititem), exc.localizedMessage),
-                    Toast.LENGTH_SHORT).show()
+            Toast.makeText(context!!, exc.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 

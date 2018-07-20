@@ -50,8 +50,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun gotoMainActivity() {
-        startActivity(Intent(this@SplashActivity, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        })
+        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+        finish()
     }
 }

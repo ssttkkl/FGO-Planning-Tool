@@ -200,4 +200,13 @@
     <string name="status_downloadFailed_updaterespack">下载失败</string>
     <string name="status_updating_updaterespack">更新中……</string>
     <string name="status_updateFailed_updaterespack">更新失败</string>
+
+    <string name="exc_lowTargetVersion_resUpdater">资源包的目标APP版本小于当前APP版本。请下载最新资源包。</string>
+    <string name="exc_highTargetVersion_resUpdater">资源包的目标APP版本大于当前APP版本。请先升级APP。</string>
+    <string name="exc_fileNotExists_resUpdater">文件 %1$s 不存在。</string>
+    <string name="exc_dirNotExists_resUpdater">目录 %1$s 不存在。</string>
+    <string name="exc_isNotDir_resUpdater">%1$s 不是一个目录。</string>
+    <string name="exc_isNotFile_resUpdater">%1$s 不是一个文件。</string>
+    <string name="exc_outOfBounds_edititem">值必须在 %1$d~%2$d 范围之内。</string>
+    <string name="exc_fileFormatError_planGsonTypeAdapter">文件格式错误。</string>
 </resources>

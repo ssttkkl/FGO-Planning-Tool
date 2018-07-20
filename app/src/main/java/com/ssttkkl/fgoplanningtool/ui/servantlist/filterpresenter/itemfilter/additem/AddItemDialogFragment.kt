@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
+import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_servantlist_additem.*
 
 class AddItemDialogFragment : DialogFragment(), ItemListFragment.OnItemClickListener {
@@ -23,7 +24,7 @@ class AddItemDialogFragment : DialogFragment(), ItemListFragment.OnItemClickList
         listener = when {
             parentFragment is OnAddItemActionListener -> parentFragment as OnAddItemActionListener
             activity is OnAddItemActionListener -> activity as OnAddItemActionListener
-            else -> throw Exception("Either parent fragment or activity must impl OnAddItemActionListener interface.")
+            else -> throw NoInterfaceImplException(OnAddItemActionListener::class)
         }
     }
 

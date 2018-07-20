@@ -112,7 +112,7 @@ class EditPlanFragment : Fragment(), LifecycleOwner {
             if (servant?.dress?.isNotEmpty() == true) {
                 dress_recView.apply {
                     adapter = EditPlanDressListRecViewAdapter(context!!).apply {
-                        data = servant?.dress ?: listOf()
+                        data = servant.dress
                         setOnCheckedChangeListener { pos, isChecked ->
                             if (isChecked)
                                 dress.value = dress.value?.plus(pos) ?: setOf(pos)

@@ -25,6 +25,7 @@ import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.Ite
 import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.additem.AddItemDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
+import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_servantlist.*
 
 class ServantListFragment : BackHandlerFragment(),
@@ -43,7 +44,7 @@ class ServantListFragment : BackHandlerFragment(),
         listener = when {
             parentFragment is OnServantSelectedListener -> parentFragment as OnServantSelectedListener
             activity is OnServantSelectedListener -> activity as OnServantSelectedListener
-            else -> throw Exception("Either parent fragment or activity must impl OnServantSelectedListener interface.")
+            else -> throw NoInterfaceImplException(OnServantSelectedListener::class)
         }
         viewModel = ViewModelProviders.of(this).get(ServantListViewModel::class.java)
     }

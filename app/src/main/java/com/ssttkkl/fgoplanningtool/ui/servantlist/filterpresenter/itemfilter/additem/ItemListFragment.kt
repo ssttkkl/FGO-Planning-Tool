@@ -10,6 +10,7 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
+import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_servantlist_additem_itemlist.*
 
 class ItemListFragment : Fragment() {
@@ -27,7 +28,7 @@ class ItemListFragment : Fragment() {
         listener = when {
             parentFragment is OnItemClickListener -> parentFragment as OnItemClickListener
             activity is OnItemClickListener -> activity as OnItemClickListener
-            else -> throw Exception()
+            else -> throw NoInterfaceImplException(OnItemClickListener::class)
         }
     }
 
