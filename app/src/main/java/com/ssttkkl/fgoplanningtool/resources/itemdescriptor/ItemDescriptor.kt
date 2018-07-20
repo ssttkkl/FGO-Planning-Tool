@@ -6,11 +6,10 @@ import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import java.io.File
 import java.io.Serializable
-import java.util.*
 
 data class ItemDescriptor(val codename: String,
-                          val cnName: String,
-                          val jpName: String,
+                          val zhName: String,
+                          val jaName: String,
                           val enName: String,
                           val type: ItemType,
                           val wikiLinks: Map<String, String>) : Serializable {
@@ -19,8 +18,8 @@ data class ItemDescriptor(val codename: String,
 
     val localizedName
         get() = when (PreferenceManager.getDefaultSharedPreferences(MyApp.context).getString(PreferenceKeys.KEY_NAME_LANGUAGE, "zh")) {
-            "ja" -> jpName
+            "ja" -> jaName
             "en" -> enName
-            else -> cnName
+            else -> zhName
         }
 }
