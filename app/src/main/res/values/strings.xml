@@ -202,6 +202,7 @@
     <string name="status_updateFailed_updaterespack">更新失败</string>
     <string name="status_updateSuccessful_updaterespack">更新成功</string>
 
+    <string name="channel_updateNotification_checkupdare">更新提醒</string>
     <string name="resPackUpdateAvailable_checkupdate">资源包更新可用</string>
     <string name="appUpdateAvailable_checkupdate">APP更新可用</string>
 
