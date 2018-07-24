@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan
+package com.ssttkkl.fgoplanningtool.ui.editplan.container
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

@@ -14,7 +14,6 @@ import android.widget.AdapterView
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanDressListRecViewAdapter
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanViewModel
 import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.DrawableAndTextSpinnerAdapter

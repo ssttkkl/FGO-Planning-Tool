@@ -83,8 +83,8 @@ class EditPlanContainerFragment : Fragment() {
         // observe the plan changing
         viewModel.apply {
             listOf(servantId, nowStage, planStage,
-                    nowSkillI, nowSkillIII, nowSkillIII,
-                    planSkillI, planSkillI, planSkillIII).forEach {
+                    nowSkillI, nowSkillII, nowSkillIII,
+                    planSkillI, planSkillII, planSkillIII).forEach {
                 it.observe(this@EditPlanContainerFragment, Observer { onPlanChanged() })
             }
             dress.observe(this@EditPlanContainerFragment, Observer { onPlanChanged() })
