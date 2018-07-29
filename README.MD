@@ -2,4 +2,4 @@
 
 这里是资源包的发布分支。
 
-最新：[20180720.zip](https://github.com/ssttkkl/FGO-Planning-Tool/raw/res-pack/20180720.zip)（Lostbelt No.2 無間氷焔世紀 消えぬ炎の快男児）
+最新：[latest.zip](https://github.com/ssttkkl/FGO-Planning-Tool/raw/res-pack/latest.zip)（Fate/Grand Order Fes. 2018 ～3rd Anniversary～）
