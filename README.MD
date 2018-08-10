@@ -2,4 +2,4 @@
 
 这里是资源包的发布分支。
 
-最新：[latest.zip](https://github.com/ssttkkl/FGO-Planning-Tool/raw/res-pack/latest.zip)（Fate/Grand Order Fes. 2018 ～3rd Anniversary～）
+最新：[latest.zip](https://github.com/ssttkkl/FGO-Planning-Tool/raw/res-pack/latest.zip)（サーヴァント･サマー･フェスティバル！（2018年泳装活动前期））
