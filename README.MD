@@ -6,8 +6,8 @@
 
 数据来源：
 
-- [Mooncell](fgo.wiki)
-- [FGO Wikia](fategrandorder.wikia.com)
+- [Mooncell](http://fgo.wiki/)
+- [FGO Wikia](http://fategrandorder.wikia.com/)
 
 ## 屏幕截图
 
