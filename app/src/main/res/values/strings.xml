@@ -168,6 +168,8 @@
         <item>ja</item>
         <item>en</item>
     </string-array>
+    <string name="title_unlockRealName_pref">真名解放</string>
+    <string name="summary_unlockRealName_pref">解放在 Epic of Remnant 中登场的某些隐藏真名的从者的真名</string>
     <string name="group_res_pref">资源包</string>
     <string name="title_curResPackVersion_pref">当前资源包版本</string>
     <string name="summary_curResPackVersion_pref">%1$s（%2$d）</string>

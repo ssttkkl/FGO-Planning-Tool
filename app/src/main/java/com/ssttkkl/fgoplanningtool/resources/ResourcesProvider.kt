@@ -97,7 +97,7 @@ class ResourcesProvider(context: Context) {
     }
 
     companion object {
-        const val TARGET_VERSION = 2
+        const val TARGET_VERSION = 3
 
         const val DIRECTORYNAME_RESOURCES = "resources"
         const val DIRECTORYNAME_AVATAR = "avatar"

@@ -20,6 +20,10 @@ class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
         var jaName = ""
         var zhName = ""
         var enName = ""
+        var hideRealName = false
+        var realJaName = ""
+        var realZhName = ""
+        var realEnName = ""
         var star = 0
         var theClass = ServantClass.Shielder
         val nickname = ArrayList<String>()
@@ -36,6 +40,10 @@ class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
                 NAME_JA_NAME -> jaName = reader.nextString()
                 NAME_ZH_NAME -> zhName = reader.nextString()
                 NAME_EN_NAME -> enName = reader.nextString()
+                NAME_HIDE_REAL_NAME -> hideRealName = reader.nextBoolean()
+                NAME_REAL_JA_NAME -> realJaName = reader.nextString()
+                NAME_REAL_ZH_NAME -> realZhName = reader.nextString()
+                NAME_REAL_EN_NAME -> realEnName = reader.nextString()
                 NAME_STAR -> star = reader.nextInt()
                 NAME_CLASS -> theClass = ServantClass.valueOf(reader.nextString())
                 NAME_NICKNAME -> {
@@ -83,6 +91,10 @@ class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
                 jaName = jaName,
                 zhName = zhName,
                 enName = enName,
+                hideRealName = hideRealName,
+                realJaName = realJaName,
+                realEnName = realEnName,
+                realZhName = realZhName,
                 star = star,
                 theClass = theClass,
                 nickname = nickname,
@@ -107,6 +119,18 @@ class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
 
         writer.name(NAME_EN_NAME)
         writer.value(it.enName)
+
+        writer.name(NAME_HIDE_REAL_NAME)
+        writer.value(it.hideRealName)
+
+        writer.name(NAME_REAL_JA_NAME)
+        writer.value(it.realJaName)
+
+        writer.name(NAME_REAL_ZH_NAME)
+        writer.value(it.realZhName)
+
+        writer.name(NAME_REAL_EN_NAME)
+        writer.value(it.realEnName)
 
         writer.name(NAME_STAR)
         writer.value(it.star)
@@ -160,6 +184,10 @@ class ServantGsonTypeAdapter : TypeAdapter<Servant>() {
         private const val NAME_JA_NAME = "jaName"
         private const val NAME_ZH_NAME = "zhName"
         private const val NAME_EN_NAME = "enName"
+        private const val NAME_HIDE_REAL_NAME = "hideRealName"
+        private const val NAME_REAL_JA_NAME = "realJaName"
+        private const val NAME_REAL_ZH_NAME = "realZhName"
+        private const val NAME_REAL_EN_NAME = "realEnName"
         private const val NAME_STAR = "star"
         private const val NAME_CLASS = "class"
         private const val NAME_NICKNAME = "nickname"

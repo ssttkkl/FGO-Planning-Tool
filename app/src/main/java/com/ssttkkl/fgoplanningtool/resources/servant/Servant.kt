@@ -11,6 +11,10 @@ data class Servant(val id: Int,
                    val jaName: String,
                    val zhName: String,
                    val enName: String,
+                   val hideRealName: Boolean,
+                   val realJaName: String,
+                   val realZhName: String,
+                   val realEnName: String,
                    val star: Int,
                    val theClass: ServantClass,
                    val nickname: Collection<String>,
@@ -22,11 +26,15 @@ data class Servant(val id: Int,
     val avatarFile
         get() = File(ResourcesProvider.instance.avatarDir, "$id.jpg")
 
-    val localizedName
-        get() = when (PreferenceManager.getDefaultSharedPreferences(MyApp.context).getString(PreferenceKeys.KEY_NAME_LANGUAGE, "zh")) {
-            "ja" -> jaName
-            "en" -> enName
-            else -> zhName
+    val localizedName: String
+        get() {
+            val pref = PreferenceManager.getDefaultSharedPreferences(MyApp.context)
+            val unlockRealName = pref.getBoolean(PreferenceKeys.KEY_UNLOCK_REAL_NAME, false) && hideRealName
+            return when (pref.getString(PreferenceKeys.KEY_NAME_LANGUAGE, "zh")) {
+                "ja" -> if (unlockRealName) realJaName else jaName
+                "en" -> if (unlockRealName) realEnName else enName
+                else -> if (unlockRealName) realZhName else zhName
+            }
         }
 
     val ascensionQP: List<Long>
