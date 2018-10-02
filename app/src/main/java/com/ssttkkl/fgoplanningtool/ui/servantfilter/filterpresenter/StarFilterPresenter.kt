@@ -16,7 +16,7 @@ class StarFilterPresenter(view: ServantFilterFragment) : MultipleSelectFilterPre
         }
     }
 
-    override fun setSelection(selection: Set<Int>) {
+    override fun setUISelection(selection: Set<Int>) {
         (view.star_recView.adapter as ServantListMultipleSelectAdapter<Int>).apply {
             for (it in 0 until data.size)
                 setPositionDeselected(it)

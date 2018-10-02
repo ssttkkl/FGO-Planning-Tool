@@ -18,7 +18,7 @@ class ItemFilterPresenter(view: ServantFilterFragment) : FilterPresenter(view) {
             item_mode_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                     viewModel.itemFilterMode = ItemFilterMode.values()[pos]
-                    postFiltered()
+                    postToListener()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -40,17 +40,21 @@ class ItemFilterPresenter(view: ServantFilterFragment) : FilterPresenter(view) {
 
     fun onAddItemAction(codename: String) {
         viewModel.itemFilter.add(codename)
-        view.postFiltered()
+        view.postToListener()
         (view.item_recView.adapter as ItemFilterRecViewAdapter).addItem(codename)
     }
 
     private fun onRemoveItemAction(codename: String) {
         viewModel.itemFilter.remove(codename)
-        view.postFiltered()
+        view.postToListener()
         (view.item_recView.adapter as ItemFilterRecViewAdapter).removeItem(codename)
     }
 
-    fun setNewData(data: Set<String>) {
+    fun setUINewData(data: Set<String>) {
         (view.item_recView.adapter as ItemFilterRecViewAdapter).setNewData(data)
+    }
+
+    fun setUIItemFilterMode(mode: ItemFilterMode) {
+        view.item_mode_spinner.setSelection(mode.ordinal)
     }
 }

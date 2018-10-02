@@ -19,11 +19,11 @@ class OrderFilterPresenter(view: ServantFilterFragment) : SingleSelectFilterPres
                 { viewModel.orderBy = OrderBy.values()[it] })
     }
 
-    override fun setSelection(selection: Order) {
+    override fun setUISelection(selection: Order) {
         (view.order_recView.adapter as ServantListSingleSelectAdapter<Order>).setPositionSelected(selection.ordinal)
     }
 
-    fun setOrderBySelection(selection: OrderBy) {
+    fun setUIOrderBySelection(selection: OrderBy) {
         (view.orderby_recView.adapter as ServantListSingleSelectAdapter<OrderBy>).setPositionSelected(selection.ordinal)
     }
 }

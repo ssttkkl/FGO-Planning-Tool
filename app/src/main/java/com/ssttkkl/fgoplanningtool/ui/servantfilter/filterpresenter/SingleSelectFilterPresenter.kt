@@ -17,7 +17,7 @@ abstract class SingleSelectFilterPresenter<T>(view: ServantFilterFragment) : Fil
                 data = initData
                 setOnItemSelectedListener {
                     onItemSelectedListener(it)
-                    this@SingleSelectFilterPresenter.view.postFiltered()
+                    this@SingleSelectFilterPresenter.view.postToListener()
                 }
                 setPositionSelected(initSelectedPosition)
             }
@@ -30,5 +30,5 @@ abstract class SingleSelectFilterPresenter<T>(view: ServantFilterFragment) : Fil
         return this
     }
 
-    abstract fun setSelection(selection: T)
+    abstract fun setUISelection(selection: T)
 }

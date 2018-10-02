@@ -37,6 +37,7 @@
     <Button
         android:id="@+id/reset_button"
         style="@style/Widget.AppCompat.Button.Colored"
+        android:drawableStart="@drawable/ic_refresh_white_24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"

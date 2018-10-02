@@ -17,11 +17,11 @@ abstract class MultipleSelectFilterPresenter<T>(view: ServantFilterFragment) : F
                 data = initData
                 setOnItemSelectedListener {
                     onItemSelectedListener(it)
-                    this@MultipleSelectFilterPresenter.view.postFiltered()
+                    this@MultipleSelectFilterPresenter.view.postToListener()
                 }
                 setOnItemDeselectedListener {
                     onItemDeselectedListener(it)
-                    this@MultipleSelectFilterPresenter.view.postFiltered()
+                    this@MultipleSelectFilterPresenter.view.postToListener()
                 }
                 initSelectedPositions.forEach { setPositionSelected(it) }
             }
@@ -34,5 +34,5 @@ abstract class MultipleSelectFilterPresenter<T>(view: ServantFilterFragment) : F
         return this
     }
 
-    abstract fun setSelection(selection: Set<T>)
+    abstract fun setUISelection(selection: Set<T>)
 }

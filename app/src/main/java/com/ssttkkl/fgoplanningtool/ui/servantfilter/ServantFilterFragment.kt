@@ -11,10 +11,13 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
+import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
+import com.ssttkkl.fgoplanningtool.resources.servant.WayToGet
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.filterpresenter.*
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.filterpresenter.itemfilter.additem.AddItemDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_servantfilter.*
+import java.util.concurrent.ConcurrentSkipListSet
 
 class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemActionListener {
     interface OnFilterListener {
@@ -45,6 +48,20 @@ class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemActionL
             inflater.inflate(R.layout.fragment_servantfilter, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        activity?.getPreferences(Context.MODE_PRIVATE)?.apply {
+            viewModel.classFilter = ConcurrentSkipListSet(getStringSet(KEY_CLASS, setOf()).map { ServantClass.valueOf(it) })
+            viewModel.starFilter = ConcurrentSkipListSet(getStringSet(KEY_STAR, setOf()).map { it.toInt() })
+            viewModel.wayToGetFilter = ConcurrentSkipListSet(getStringSet(KEY_WAY_TO_GET, setOf()).map { WayToGet.valueOf(it) })
+            viewModel.itemFilter = ConcurrentSkipListSet(getStringSet(KEY_ITEM, setOf()))
+            viewModel.itemFilterMode = ItemFilterMode.valueOf(getString(KEY_ITEM_MODE, ItemFilterMode.And.name))
+            viewModel.orderBy = OrderBy.valueOf(getString(KEY_ORDER_BY, OrderBy.ID.name))
+            viewModel.order = Order.valueOf(getString(KEY_ORDER, Order.Increase.name))
+
+            postToListener()
+            // when presenters are initiating, they will fetch selection from viewModel automatically.
+            // so there is no need to post initial data to UI
+        }
+
         orderFilterPresenter = OrderFilterPresenter(this)
         starFilterPresenter = StarFilterPresenter(this)
         classFilterPresenter = ClassFilterPresenter(this)
@@ -52,14 +69,17 @@ class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemActionL
         wayToGetFilterPresenter = WayToGetFilterPresenter(this)
 
         reset_button.setOnClickListener {
-            viewModel.reset()
-            orderFilterPresenter.setSelection(viewModel.order)
-            orderFilterPresenter.setOrderBySelection(viewModel.orderBy)
-            starFilterPresenter.setSelection(viewModel.starFilter)
-            classFilterPresenter.setSelection(viewModel.classFilter)
-            itemFilterPresenter.setNewData(viewModel.itemFilter)
-            wayToGetFilterPresenter.setSelection(viewModel.wayToGetFilter)
-            postFiltered()
+            viewModel.nameFilter = ""
+            viewModel.classFilter.clear()
+            viewModel.starFilter.clear()
+            viewModel.wayToGetFilter.clear()
+            viewModel.itemFilter.clear()
+            viewModel.itemFilterMode = ItemFilterMode.And
+            viewModel.orderBy = OrderBy.ID
+            viewModel.order = Order.Increase
+
+            postToListener()
+            postToUI()
         }
     }
 
@@ -67,14 +87,14 @@ class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemActionL
         get() = viewModel.nameFilter
         set(value) {
             viewModel.nameFilter = value
-            postFiltered()
+            postToListener()
         }
 
     var origin
         get() = viewModel.origin
         set(value) {
             viewModel.origin = value
-            postFiltered()
+            postToListener()
         }
 
     var planGetter: ((servantID: Int) -> Plan?)? = null // to get a plan for a servant when filter by cost items
@@ -122,11 +142,44 @@ class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemActionL
             return if (viewModel.order == Order.Increase) list else list.reversed()
         }
 
-    fun postFiltered() {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.getPreferences(Context.MODE_PRIVATE)?.edit()
+                ?.putStringSet(KEY_CLASS, viewModel.classFilter.asSequence().map { it.name }.toSet())
+                ?.putStringSet(KEY_STAR, viewModel.starFilter.asSequence().map { it.toString() }.toSet())
+                ?.putStringSet(KEY_WAY_TO_GET, viewModel.wayToGetFilter.asSequence().map { it.name }.toSet())
+                ?.putStringSet(KEY_ITEM, viewModel.itemFilter.toSet())
+                ?.putString(KEY_ITEM_MODE, viewModel.itemFilterMode.name)
+                ?.putString(KEY_ORDER, viewModel.order.name)
+                ?.putString(KEY_ORDER_BY, viewModel.orderBy.name)
+                ?.apply()
+    }
+
+    fun postToListener() {
+        reset_button.isEnabled = !viewModel.isDefaultState
         listener?.onFilter(filtered)
+    }
+
+    private fun postToUI() {
+        orderFilterPresenter.setUISelection(viewModel.order)
+        orderFilterPresenter.setUIOrderBySelection(viewModel.orderBy)
+        starFilterPresenter.setUISelection(viewModel.starFilter)
+        classFilterPresenter.setUISelection(viewModel.classFilter)
+        itemFilterPresenter.setUINewData(viewModel.itemFilter)
+        wayToGetFilterPresenter.setUISelection(viewModel.wayToGetFilter)
     }
 
     override fun onAddItemAction(codename: String) {
         itemFilterPresenter.onAddItemAction(codename)
+    }
+
+    companion object {
+        private const val KEY_CLASS = "class"
+        private const val KEY_STAR = "star"
+        private const val KEY_WAY_TO_GET = "wayToGet"
+        private const val KEY_ITEM = "item"
+        private const val KEY_ITEM_MODE = "itemMode"
+        private const val KEY_ORDER = "order"
+        private const val KEY_ORDER_BY = "orderBy"
     }
 }

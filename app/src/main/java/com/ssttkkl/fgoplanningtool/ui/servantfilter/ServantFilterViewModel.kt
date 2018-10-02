@@ -31,14 +31,16 @@ class ServantFilterViewModel : ViewModel() {
 
     var order = Order.Increase
 
-    fun reset() {
-        nameFilter = ""
-        classFilter.clear()
-        starFilter.clear()
-        wayToGetFilter.clear()
-        itemFilter.clear()
-        itemFilterMode = ItemFilterMode.And
-        orderBy = OrderBy.ID
-        order = Order.Increase
-    }
+    val isDefaultState: Boolean
+        get() {
+            var ans = true
+            ans = ans && classFilter.isEmpty()
+            ans = ans && starFilter.isEmpty()
+            ans = ans && wayToGetFilter.isEmpty()
+            ans = ans && itemFilter.isEmpty()
+            ans = ans && itemFilterMode == ItemFilterMode.And
+            ans = ans && orderBy == OrderBy.ID
+            ans = ans && order == Order.Increase
+            return ans
+        }
 }

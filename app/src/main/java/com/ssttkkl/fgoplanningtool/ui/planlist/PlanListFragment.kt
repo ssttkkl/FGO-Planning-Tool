@@ -25,6 +25,9 @@ class PlanListFragment : BackHandlerFragment(),
     private val adapter
         get() = recView?.adapter as? PlanListRecViewAdapter
 
+    private val servantFilterFragment
+        get() = childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) as? ServantFilterFragment
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_planlist, container, false)
 
@@ -126,10 +129,9 @@ class PlanListFragment : BackHandlerFragment(),
         }
 
     var origin
-        get() = (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) as? ServantFilterFragment)?.origin
-                ?: listOf()
+        get() = servantFilterFragment?.origin ?: listOf()
         set(value) {
-            (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) as? ServantFilterFragment)?.origin = value
+            servantFilterFragment?.origin = value
         }
 
     var isInSelectMode

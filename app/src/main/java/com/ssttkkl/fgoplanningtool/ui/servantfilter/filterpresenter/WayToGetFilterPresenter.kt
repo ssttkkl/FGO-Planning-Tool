@@ -17,7 +17,7 @@ class WayToGetFilterPresenter(view: ServantFilterFragment) : MultipleSelectFilte
         }
     }
 
-    override fun setSelection(selection: Set<WayToGet>) {
+    override fun setUISelection(selection: Set<WayToGet>) {
         (view.wayToGet_recView.adapter as ServantListMultipleSelectAdapter<WayToGet>).apply {
             for (it in 0 until data.size)
                 setPositionDeselected(it)
