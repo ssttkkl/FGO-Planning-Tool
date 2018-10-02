@@ -10,27 +10,18 @@ import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
+import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
+import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanActivity
+import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
 import kotlinx.android.synthetic.main.fragment_planlist.*
 
 class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAdapter.Callback {
-    private val adapter
-        get() = view.recView.adapter as PlanListRecViewAdapter
-
     init {
-        Repo.planListLiveData.observe(view, Observer { onDataChanged(it) })
-
-        if (adapter.isInSelectMode)
-            onSelectModeEnabled()
+        Repo.planListLiveData.observe(view, Observer { onDatabaseChanged(it ?: listOf()) })
     }
-
-    val inSelectMode
-        get() = adapter.isInSelectMode
-
-    val selectedPositions
-        get() = adapter.selectedPositions
 
     // access database
     fun removePlan(plans: Collection<Plan>, deductItems: Boolean) {
@@ -41,14 +32,14 @@ class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAda
 
     // handle ui events
     fun onBackPressed(): Boolean {
-        return if (adapter.isInSelectMode) {
-            adapter.isInSelectMode = false
+        return if (view.isInSelectMode) {
+            view.isInSelectMode = false
             true
         } else false
     }
 
     fun onCalcResultAction() {
-        gotoCalcResultUi(if (adapter.isInSelectMode) adapter.selectedPositions.map { view.data[it] }.toTypedArray()
+        gotoCalcResultUi(if (view.isInSelectMode) view.selectedPositions.map { view.data[it] }.toTypedArray()
         else view.data.toTypedArray())
     }
 
@@ -56,28 +47,44 @@ class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAda
         gotoNewPlanUi()
     }
 
-    fun onRemoveAction() {
-        if (adapter.isAnyPositionSelected)
-            ChangePlanWarningDialogFragment.newInstanceForRemove(adapter.selectedPositions.map { view.data[it] })
+    fun onRemovePlanAction() {
+        if (view.isAnySelected)
+            ChangePlanWarningDialogFragment.newInstanceForRemove(view.selectedPositions.map { view.data[it] })
                     .show(view.childFragmentManager, ChangePlanWarningDialogFragment.tag)
         else
-            adapter.isInSelectMode = false
+            view.isInSelectMode = false
     }
 
     fun onSelectAllAction() {
-        adapter.isInSelectMode = true // maybe no sense
-        if (!adapter.isAllPositionsSelected)
-            adapter.selectAllPositions()
+        if (view.isAllSelected)
+            view.deselectAll()
         else
-            adapter.unselectAllPositions()
+            view.selectAll()
     }
 
     fun onGetInSelectModeAction() {
-        adapter.isInSelectMode = true
+        view.isInSelectMode = true
     }
 
     fun onExitSelectModeAction() {
-        adapter.isInSelectMode = false
+        view.isInSelectMode = false
+    }
+
+    fun onFiltered(filtered: List<Servant>) {
+        val isInSelectMode = view.isInSelectMode
+        val selectedServantIDs = view.selectedPositions.map { view.data[it].servantId }
+        val servantIDs = filtered.map { it.id }
+        view.data = Repo.planRepo.all.asSequence()
+                .sortedBy { servantIDs.indexOf(it.servantId) }
+                .filter { servantIDs.contains(it.servantId) }
+                .toList()
+        if (isInSelectMode) {
+            view.isInSelectMode = true
+            view.data.forEachIndexed { idx, it ->
+                if (selectedServantIDs.contains(it.servantId))
+                    view.select(idx)
+            }
+        }
     }
 
     // handle adapter events
@@ -91,7 +98,7 @@ class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAda
         (view.activity as? AppCompatActivity)?.apply {
             setSupportActionBar(view.toolbar_inSelectMode)
             supportActionBar?.apply {
-                title = view.getString(R.string.selectedCount_planlist).format(adapter.selectedPositions.size, adapter.data.size)
+                title = view.getString(R.string.selectedCount_planlist).format(view.selectedPositions.size, view.data.size)
                 setDisplayHomeAsUpEnabled(true)
             }
             invalidateOptionsMenu()
@@ -109,9 +116,9 @@ class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAda
         view.setupDrawerToggle()
     }
 
-    override fun onPositionSelectStateChanged(pos: Int, selected: Boolean) {
+    override fun onSelectStateChanged(pos: Int, selected: Boolean) {
         (view.activity as? AppCompatActivity)?.supportActionBar?.title =
-                view.getString(R.string.selectedCount_planlist).format(adapter.selectedPositions.size, adapter.data.size)
+                view.getString(R.string.selectedCount_planlist).format(view.selectedPositions.size, view.data.size)
     }
 
     // private methods
@@ -134,8 +141,8 @@ class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAda
         })
     }
 
-    private fun onDataChanged(data: List<Plan>?) {
-        view.data = data ?: ArrayList()
+    private fun onDatabaseChanged(data: List<Plan>) {
+        view.origin = data.map { ResourcesProvider.instance.servants[it.servantId]!! }
         Log.d("PlanList", "Data Changed.")
     }
 }

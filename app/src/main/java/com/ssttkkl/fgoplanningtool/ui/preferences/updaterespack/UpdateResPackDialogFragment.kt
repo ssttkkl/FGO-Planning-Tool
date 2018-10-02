@@ -3,7 +3,6 @@ package com.ssttkkl.fgoplanningtool.ui.preferences.updaterespack
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.Log
@@ -13,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.downloader.request.DownloadRequest
 import com.ssttkkl.fgoplanningtool.Dispatchers
-import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.net.ResPackDownloader
 import com.ssttkkl.fgoplanningtool.net.ResPackLatestInfo

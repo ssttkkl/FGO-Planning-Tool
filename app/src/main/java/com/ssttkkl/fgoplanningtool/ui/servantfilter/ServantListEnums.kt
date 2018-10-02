@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.servantlist
+package com.ssttkkl.fgoplanningtool.ui.servantfilter
 
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R

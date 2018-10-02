@@ -19,7 +19,7 @@
         android:gravity="center_vertical"
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:text="@string/item_servantlist"
+        android:text="@string/item_servantfilter"
         android:textAppearance="@style/SubHeader" />
 
     <net.cachapa.expandablelayout.ExpandableLayout
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:drawableStart="@drawable/ic_add_white_24dp"
-                android:text="@string/add_item_servantlist"
+                android:text="@string/add_item_servantfilter"
                 app:layout_constraintEnd_toStartOf="@+id/item_mode_spinner"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +51,7 @@
                 android:id="@+id/item_mode_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:entries="@array/mode_item_servantlist"
+                android:entries="@array/mode_item_servantfilter"
                 app:layout_constraintBottom_toBottomOf="@+id/item_add_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

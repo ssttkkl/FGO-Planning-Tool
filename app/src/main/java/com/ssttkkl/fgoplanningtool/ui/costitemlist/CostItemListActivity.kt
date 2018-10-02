@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.activity_costitemlist.*

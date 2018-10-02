@@ -1,14 +1,15 @@
-package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter
+package com.ssttkkl.fgoplanningtool.ui.servantfilter.filterpresenter
 
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.AdapterView
-import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
-import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.FilterPresenter
-import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.additem.AddItemDialogFragment
+import com.ssttkkl.fgoplanningtool.ui.servantfilter.ItemFilterMode
+import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
+import com.ssttkkl.fgoplanningtool.ui.servantfilter.filterpresenter.itemfilter.ItemFilterRecViewAdapter
+import com.ssttkkl.fgoplanningtool.ui.servantfilter.filterpresenter.itemfilter.additem.AddItemDialogFragment
 import kotlinx.android.synthetic.main.content_servantlist_item.*
 
-class ItemFilterPresenter(view: ServantListFragment) : FilterPresenter(view) {
+class ItemFilterPresenter(view: ServantFilterFragment) : FilterPresenter(view) {
     init {
         view.apply {
             // Setup the CostItem RecView
@@ -16,14 +17,15 @@ class ItemFilterPresenter(view: ServantListFragment) : FilterPresenter(view) {
             item_add_button.setOnClickListener { gotoAddItemFilterUi() }
             item_mode_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-                    viewModel.itemFilterModeSpinnerPosition = pos
+                    viewModel.itemFilterMode = ItemFilterMode.values()[pos]
+                    postFiltered()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
             item_recView.apply {
                 adapter = ItemFilterRecViewAdapter(context!!).apply {
-                    setNewData(viewModel.items)
+                    setNewData(viewModel.itemFilter)
                     setOnRemoveActionListener { onRemoveItemAction(it) }
                 }
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -37,12 +39,18 @@ class ItemFilterPresenter(view: ServantListFragment) : FilterPresenter(view) {
     }
 
     fun onAddItemAction(codename: String) {
-        viewModel.addItem(codename)
+        viewModel.itemFilter.add(codename)
+        view.postFiltered()
         (view.item_recView.adapter as ItemFilterRecViewAdapter).addItem(codename)
     }
 
     private fun onRemoveItemAction(codename: String) {
-        viewModel.removeItem(codename)
+        viewModel.itemFilter.remove(codename)
+        view.postFiltered()
         (view.item_recView.adapter as ItemFilterRecViewAdapter).removeItem(codename)
+    }
+
+    fun setNewData(data: Set<String>) {
+        (view.item_recView.adapter as ItemFilterRecViewAdapter).setNewData(data)
     }
 }

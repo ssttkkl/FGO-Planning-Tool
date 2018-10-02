@@ -91,25 +91,26 @@
     <string name="switchToListView_servantlist">切换到列表视图</string>
     <string name="sortAndFilter_servantlist">排序与过滤</string>
     <string name="search_servantlist">搜索</string>
-    <string name="order_servantlist">排序</string>
-    <string-array name="order_servantlist">
+    <string name="order_servantfilter">排序</string>
+    <string-array name="order_servantfilter">
         <item>升序</item>
         <item>降序</item>
     </string-array>
-    <string-array name="orderBy_servantlist">
+    <string-array name="orderBy_servantfilter">
         <item>编号</item>
         <item>职介</item>
         <item>星级</item>
     </string-array>
-    <string name="star_servantlist">按星级过滤</string>
-    <string name="class_servantlist">按职介过滤</string>
-    <string name="wayToGet_servantlist">按获得方式过滤</string>
-    <string name="item_servantlist">按消耗材料过滤</string>
-    <string name="add_item_servantlist">添加</string>
-    <string-array name="mode_item_servantlist">
+    <string name="star_servantfilter">按星级过滤</string>
+    <string name="class_servantfilter">按职介过滤</string>
+    <string name="wayToGet_servantfilter">按获得方式过滤</string>
+    <string name="item_servantfilter">按消耗材料过滤</string>
+    <string name="add_item_servantfilter">添加</string>
+    <string-array name="mode_item_servantfilter">
         <item>与</item>
         <item>或</item>
     </string-array>
+    <string name="reset_servantfilter">重置</string>
 
     <string name="title_costitemlist">消耗材料</string>
     <string name="own_item_costitemlist">持有</string>
