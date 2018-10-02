@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
-import com.ssttkkl.fgoplanningtool.data.item.costItems
+import com.ssttkkl.fgoplanningtool.data.item.groupedCostItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
@@ -29,19 +29,12 @@ class CostItemListFragment : Fragment() {
         // key: item's codename
         // value: a set contains pairs, each stands for a servant requires this item.
         //        the first is servantID, the second is requirement.
-        val map = HashMap<String, HashSet<Pair<Int, Long>>>()
-        plans.forEach { plan ->
-            plan.costItems.forEach { item ->
-                if (!map.containsKey(item.codename))
-                    map[item.codename] = HashSet()
-                map[item.codename]!!.add(Pair(plan.servantId, item.count))
-            }
-        }
+        val map = plans.groupedCostItems
 
         val entities = map.map { (codename, req) ->
             var need = 0L
             req.forEach {
-                need += it.second
+                need += it.value
             }
 
             val descriptor = ResourcesProvider.instance.itemDescriptors[codename]
@@ -51,16 +44,16 @@ class CostItemListFragment : Fragment() {
                     own = Repo.itemRepo[codename].count,
                     imgFile = descriptor?.imgFile,
                     codename = codename,
-                    requirements = req.sortedBy { it.first }.map { (servantID, count) ->
+                    requirements = req.entries.asSequence().sortedBy { it.key }.map { (servantID, count) ->
                         val servant = ResourcesProvider.instance.servants[servantID]
                         RequirementListEntity(servantID = servantID,
                                 name = servant?.localizedName ?: servantID.toString(),
                                 requirement = count,
                                 avatarFile = servant?.avatarFile)
-                    })
+                    }.toList())
         }
-        return entities.groupBy { it.type }.toList().sortedBy { it.first } // group items and sort groups by type
-                .map { it.second.sortedBy { ResourcesProvider.instance.itemRank[it.codename] } }.flatMap { it } // sort each group's items and flat
+        return entities.asSequence().groupBy { it.type }.toList().sortedBy { it.first } // group items and sort groups by type
+                .map { it.second.sortedBy { ResourcesProvider.instance.itemRank[it.codename] } }.toList().flatMap { it } // sort each group's items and flat
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

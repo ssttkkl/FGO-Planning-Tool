@@ -31,7 +31,11 @@ class SplashActivity : AppCompatActivity() {
             startService(Intent(this, CheckUpdateService::class.java))
 
         val uuid = pref.getString(PreferenceKeys.KEY_DEFAULT_DB_UUID, "")
-        Repo.switchDatabase(if (DatabaseDescriptorManager[uuid] != null) uuid else DatabaseDescriptorManager.firstOrCreate.uuid)
+        val dbDescriptor = if (DatabaseDescriptorManager[uuid] != null)
+            uuid
+        else
+            DatabaseDescriptorManager.firstOrCreate.uuid
+        Repo.switchDatabase(dbDescriptor)
 
         launch(UI) {
             viewModel.loadResTask.join()

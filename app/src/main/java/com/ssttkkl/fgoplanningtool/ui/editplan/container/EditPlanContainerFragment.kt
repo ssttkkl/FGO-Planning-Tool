@@ -17,13 +17,6 @@ import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_editplan_container.*
 
 class EditPlanContainerFragment : Fragment() {
-    private lateinit var mode: EditPlanActivity.Companion.Mode
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mode = arguments!![ARG_MODE] as EditPlanActivity.Companion.Mode
-    }
-
     interface Callback {
         fun onSaveAction()
         fun onRemoveAction()
@@ -59,9 +52,9 @@ class EditPlanContainerFragment : Fragment() {
             setSupportActionBar(toolbar)
             supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
-                title = when (mode) {
-                    EditPlanActivity.Companion.Mode.New -> getString(R.string.title_new_editplan)
-                    EditPlanActivity.Companion.Mode.Edit -> getString(R.string.title_edit_editplan)
+                title = when (viewModel.mode) {
+                    EditPlanActivity.Mode.New -> getString(R.string.title_new_editplan)
+                    EditPlanActivity.Mode.Edit -> getString(R.string.title_edit_editplan)
                 }
             }
         }
@@ -82,9 +75,12 @@ class EditPlanContainerFragment : Fragment() {
 
         // observe the plan changing
         viewModel.apply {
-            listOf(servantId, nowStage, planStage,
+            listOf(servantId, nowExp, planExp,
                     nowSkillI, nowSkillII, nowSkillIII,
                     planSkillI, planSkillII, planSkillIII).forEach {
+                it.observe(this@EditPlanContainerFragment, Observer { onPlanChanged() })
+            }
+            listOf(ascendedOnNowStage, ascendedOnPlanStage).forEach {
                 it.observe(this@EditPlanContainerFragment, Observer { onPlanChanged() })
             }
             dress.observe(this@EditPlanContainerFragment, Observer { onPlanChanged() })
@@ -109,18 +105,5 @@ class EditPlanContainerFragment : Fragment() {
     private fun onPlanChanged() {
         (childFragmentManager.fragments.firstOrNull { it is CostItemListFragment } as? CostItemListFragment)
                 ?.plans = listOf(viewModel.plan)
-    }
-
-    companion object {
-        private const val ARG_MODE = "mode"
-
-        fun newInstance(mode: EditPlanActivity.Companion.Mode) = EditPlanContainerFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable(ARG_MODE, mode)
-            }
-        }
-
-        val tag
-            get() = EditPlanContainerFragment::class.qualifiedName
     }
 }

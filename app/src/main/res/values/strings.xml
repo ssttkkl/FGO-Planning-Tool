@@ -43,8 +43,7 @@
     <string name="enterSelectMode_planlist">进入多选模式</string>
     <string name="remove_planlist">删除</string>
     <string name="selectAll_planlist">选择全部</string>
-    <string name="stage_item_planlist">再临阶段</string>
-    <string name="stageAndHolyGrail_item_planlist">再临 / 圣杯</string>
+    <string name="level_item_planlist">等级</string>
     <string name="skill1_item_planlist">技能 I</string>
     <string name="skill2_item_planlist">技能 II</string>
     <string name="skill3_item_planlist">技能 III</string>
@@ -56,6 +55,8 @@
     <string name="remove_editplan">删除</string>
     <string name="tab_edit_editplan">编辑</string>
     <string name="tab_items_editplan">消耗材料</string>
+    <string name="ascendedInCurStage_editplan">当前阶段完成再临</string>
+    <string name="remainedExp_editplan">升级剩余经验</string>
     <string name="dress_editplan">灵衣开放</string>
     <string-array name="stage_editplan">
         <item>0</item>
@@ -86,6 +87,7 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+    <string name="illegalRemainedExp_editplan_editlevel">“升级剩余经验值”大于该等级升级需要的经验值</string>
 
     <string name="switchToGridView_servantlist">切换到网格视图</string>
     <string name="switchToListView_servantlist">切换到列表视图</string>

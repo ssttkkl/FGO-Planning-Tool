@@ -15,7 +15,6 @@ import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanActivity
-import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
 import kotlinx.android.synthetic.main.fragment_planlist.*
 
 class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAdapter.Callback {
@@ -124,13 +123,13 @@ class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAda
     // private methods
     private fun gotoNewPlanUi() {
         view.startActivity(Intent(view.activity, EditPlanActivity::class.java).apply {
-            putExtra(EditPlanActivity.ARG_MODE, EditPlanActivity.Companion.Mode.New)
+            putExtra(EditPlanActivity.ARG_MODE, EditPlanActivity.Mode.New)
         })
     }
 
     private fun gotoEditPlanUi(plan: Plan) {
         view.startActivity(Intent(view.activity, EditPlanActivity::class.java).apply {
-            putExtra(EditPlanActivity.ARG_MODE, EditPlanActivity.Companion.Mode.Edit)
+            putExtra(EditPlanActivity.ARG_MODE, EditPlanActivity.Mode.Edit)
             putExtra(EditPlanActivity.ARG_PLAN, plan)
         })
     }

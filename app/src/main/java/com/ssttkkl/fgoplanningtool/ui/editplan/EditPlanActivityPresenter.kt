@@ -12,18 +12,20 @@ import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogF
 import com.ssttkkl.fgoplanningtool.ui.editplan.container.EditPlanContainerFragment
 import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 
-class EditPlanActivityPresenter(val view: EditPlanActivity) {
-    private val mode: EditPlanActivity.Companion.Mode = view.intent.extras[EditPlanActivity.ARG_MODE] as EditPlanActivity.Companion.Mode
-
+class EditPlanActivityPresenter(val view: EditPlanActivity,
+                                mode: EditPlanActivity.Mode) {
     private val viewModel = ViewModelProviders.of(view).get(EditPlanViewModel::class.java).apply {
         // when this view is created the first time,
         // set all the values of the Plan to the ViewModel.
         if (firstCreate) {
-            if (mode == EditPlanActivity.Companion.Mode.Edit) {
+            this.mode = mode
+            if (mode == EditPlanActivity.Mode.Edit) {
                 oldPlan = (view.intent.extras[EditPlanActivity.ARG_PLAN] as Plan).also {
                     servantId.value = it.servantId
-                    nowStage.value = it.nowStage
-                    planStage.value = it.planStage
+                    nowExp.value = it.nowExp
+                    planExp.value = it.planExp
+                    ascendedOnNowStage.value = it.ascendedOnNowStage
+                    ascendedOnPlanStage.value = it.ascendedOnPlanStage
                     nowSkillI.value = it.nowSkill1
                     planSkillI.value = it.planSkill1
                     nowSkillII.value = it.nowSkill2
@@ -48,12 +50,12 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
     }
 
     fun onSaveAction() {
-        when (mode) {
-            EditPlanActivity.Companion.Mode.New -> {
+        when (viewModel.mode) {
+            EditPlanActivity.Mode.New -> {
                 Repo.planRepo.insert(viewModel.plan, HowToPerform.Launch)
                 view.finish()
             }
-            EditPlanActivity.Companion.Mode.Edit -> {
+            EditPlanActivity.Mode.Edit -> {
                 if (viewModel.plan != viewModel.oldPlan)
                     ChangePlanWarningDialogFragment.newInstanceForEdit(viewModel.oldPlan!!, viewModel.plan)
                             .show(view.supportFragmentManager, ChangePlanWarningDialogFragment.tag)
@@ -64,9 +66,9 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
     }
 
     fun onRemoveAction() {
-        when (mode) {
-            EditPlanActivity.Companion.Mode.New -> view.finish()
-            EditPlanActivity.Companion.Mode.Edit ->
+        when (viewModel.mode) {
+            EditPlanActivity.Mode.New -> view.finish()
+            EditPlanActivity.Mode.Edit ->
                 ChangePlanWarningDialogFragment.newInstanceForRemove(viewModel.oldPlan!!)
                         .show(view.supportFragmentManager, ChangePlanWarningDialogFragment.tag)
         }
@@ -97,8 +99,8 @@ class EditPlanActivityPresenter(val view: EditPlanActivity) {
     }
 
     private fun gotoEditPlanUi() {
-        if (view.supportFragmentManager.findFragmentByTag(EditPlanContainerFragment.tag) == null) {
-            switchToFragment(EditPlanContainerFragment.newInstance(mode), EditPlanContainerFragment.tag)
+        if (view.supportFragmentManager.findFragmentByTag(EditPlanContainerFragment::class.qualifiedName) == null) {
+            switchToFragment(EditPlanContainerFragment(), EditPlanContainerFragment::class.qualifiedName)
         }
     }
 }

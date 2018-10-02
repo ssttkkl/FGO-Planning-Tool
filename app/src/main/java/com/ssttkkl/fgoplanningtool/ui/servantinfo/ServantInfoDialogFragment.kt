@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
+import com.ssttkkl.fgoplanningtool.resources.ConstantValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import kotlinx.android.synthetic.main.fragment_servantinfo.*
@@ -72,7 +73,7 @@ class ServantInfoDialogFragment : DialogFragment() {
             val ascensionItemEntities = generateEntities({ _, cur -> cur.toString() },
                     { _, cur -> (cur + 1).toString() },
                     { it.ascensionItems.plus(it.dress.map { it.items }) },
-                    { it.ascensionQP.plus(it.dress.map { it.qp }) },
+                    { it.ascensionQP.plus(it.dress.map { ConstantValues.dressQP }) },
                     true)
 
             val skillItemEntities = generateEntities({ _, cur -> (cur + 1).toString() },
@@ -84,7 +85,7 @@ class ServantInfoDialogFragment : DialogFragment() {
             val dressItemEntities = generateEntities({ servant, cur -> servant.dress[cur].localizedName },
                     { _, _ -> "" },
                     { it.dress.map { it.items } },
-                    { it.dress.map { it.qp } },
+                    { it.dress.map { ConstantValues.dressQP } },
                     false)
 
             val pairs = listOf(Pair(getString(R.string.ascension_iteminfo), ascensionItemEntities),
