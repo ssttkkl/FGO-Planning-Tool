@@ -100,7 +100,7 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_CODE_PREF -> {
-                if (resultCode == Activity.RESULT_OK && data?.getBooleanExtra(PreferencesActivity.KEY_REQUEST_RESTART, false) == true)
+                if (resultCode == Activity.RESULT_OK)
                     recreate()
             }
             else -> super.onActivityResult(requestCode, resultCode, data)

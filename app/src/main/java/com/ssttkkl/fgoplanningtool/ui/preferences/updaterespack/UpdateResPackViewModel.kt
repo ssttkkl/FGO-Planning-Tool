@@ -4,8 +4,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
 import com.ssttkkl.fgoplanningtool.MyApp
-import com.ssttkkl.fgoplanningtool.net.ResPackLatestInfo
 import com.ssttkkl.fgoplanningtool.net.ResPackDownloader
+import com.ssttkkl.fgoplanningtool.net.ResPackLatestInfo
 
 class UpdateResPackViewModel : ViewModel() {
     val updater = ResPackDownloader(MyApp.context)
@@ -13,6 +13,10 @@ class UpdateResPackViewModel : ViewModel() {
     var status = MutableLiveData<Status>()
 
     var latestInfo = MutableLiveData<ResPackLatestInfo>()
+
+    var releaseDate = MutableLiveData<String>()
+
+    var content = MutableLiveData<String>()
 
     var size = MutableLiveData<Long>().apply {
         value = 0

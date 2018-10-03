@@ -34,11 +34,6 @@ class PreferencesFragment : PreferenceFragment(), Preference.OnPreferenceChangeL
             val values = pref.entryValues
             pref.summary = entries[values.indexOf(newValue)]
         }
-
-        when (pref.key) {
-            PreferenceKeys.KEY_NAME_LANGUAGE ->
-                (activity as? PreferencesActivity)?.requestRestart = true
-        }
         return true
     }
 
