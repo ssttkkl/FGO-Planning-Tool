@@ -50,8 +50,7 @@ class PlanListFragmentPresenter(val view: PlanListFragment) : PlanListRecViewAda
         if (view.isAnySelected)
             ChangePlanWarningDialogFragment.newInstanceForRemove(view.selectedPositions.map { view.data[it] })
                     .show(view.childFragmentManager, ChangePlanWarningDialogFragment.tag)
-        else
-            view.isInSelectMode = false
+        view.isInSelectMode = false
     }
 
     fun onSelectAllAction() {
