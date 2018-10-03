@@ -57,24 +57,9 @@
     <string name="tab_items_editplan">消耗材料</string>
     <string name="ascendedInCurStage_editplan">当前阶段完成再临</string>
     <string name="remainedExp_editplan">升级剩余经验</string>
+    <string name="max_editplan">再临MAX</string>
+    <string name="mmax_editplan">圣杯MAX</string>
     <string name="dress_editplan">灵衣开放</string>
-    <string-array name="stage_editplan">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>×1</item>
-        <item>×2</item>
-        <item>×3</item>
-        <item>×4</item>
-        <item>×5</item>
-        <item>×6</item>
-        <item>×7</item>
-        <item>×8</item>
-        <item>×9</item>
-        <item>×10</item>
-    </string-array>
     <string-array name="skill_editplan">
         <item>1</item>
         <item>2</item>
@@ -87,7 +72,8 @@
         <item>9</item>
         <item>10</item>
     </string-array>
-    <string name="illegalRemainedExp_editplan_editlevel">“升级剩余经验值”大于该等级升级需要的经验值</string>
+    <string name="illegalRemainedExp_editplan_editlevel">“升级剩余经验”不能大于该等级升级需要的经验值</string>
+    <string name="illegalLevel_editplan_editlevel">“等级”不能大于该角色的最大等级</string>
 
     <string name="switchToGridView_servantlist">切换到网格视图</string>
     <string name="switchToListView_servantlist">切换到列表视图</string>

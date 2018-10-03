@@ -39,13 +39,19 @@ data class Servant(val id: Int,
         }
 
     val ascensionQP: List<Long>
-        get() = if (id == 1) listOf(0, 0, 0, 0) else ConstantValues.ascensionQP[star]
+        get() =
+            if (id == 1) listOf(0, 0, 0, 0) else ConstantValues.ascensionQP[star]
 
     val skillQP: List<Long>
-        get() = ConstantValues.skillQP[star]
+        get() =
+            ConstantValues.skillQP[star]
 
     val stageMapToMaxLevel: List<Int>
-        get() = ConstantValues.stageMapToMaxLevel[star]
+        get() =
+            if (id == 1)
+                ConstantValues.stageMapToMaxLevel[star].slice(0..4)
+            else
+                ConstantValues.stageMapToMaxLevel[star]
 
     fun calcExpCardQP(curLevel: Int): Long {
         val (a, b) = ConstantValues.expCardQP[star]

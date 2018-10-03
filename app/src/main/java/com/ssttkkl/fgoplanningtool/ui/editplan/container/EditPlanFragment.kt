@@ -51,7 +51,7 @@ class EditPlanFragment : Fragment(), LifecycleOwner, EditLevelDialogFragment.OnS
                 onExpChanged(nowLevel_button, nowExp_progressBar, nowExp.value!!, ascendedOnNowStage.value == true)
             })
             nowLevel_button.setOnClickListener {
-                EditLevelDialogFragment.newInstance(servant!!.star, nowExp.value!!, ascendedOnNowStage.value == true, "now")
+                EditLevelDialogFragment.newInstance(servantId.value!!, nowExp.value!!, ascendedOnNowStage.value == true, "now")
                         .show(childFragmentManager, EditLevelDialogFragment::class.qualifiedName)
             }
             planExp.observe(this@EditPlanFragment, Observer {
@@ -61,7 +61,7 @@ class EditPlanFragment : Fragment(), LifecycleOwner, EditLevelDialogFragment.OnS
                 onExpChanged(planLevel_button, planExp_progressBar, planExp.value!!, ascendedOnPlanStage.value == true)
             })
             planLevel_button.setOnClickListener {
-                EditLevelDialogFragment.newInstance(servant!!.star, planExp.value!!, ascendedOnPlanStage.value == true, "plan")
+                EditLevelDialogFragment.newInstance(servantId.value!!, planExp.value!!, ascendedOnPlanStage.value == true, "plan")
                         .show(childFragmentManager, EditLevelDialogFragment::class.qualifiedName)
             }
 

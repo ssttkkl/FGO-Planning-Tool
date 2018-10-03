@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:minWidth="200dp">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout2"
@@ -52,7 +53,7 @@
 
     <CheckBox
         android:id="@+id/ascendedOnStage_checkBox"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -72,7 +73,7 @@
         android:text="@string/save_editplan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox" />
+        app:layout_constraintTop_toBottomOf="@+id/max_button" />
 
     <Button
         android:id="@+id/cancel_button"
@@ -85,7 +86,43 @@
         android:text="@string/cancel_edititem"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/save_button"
+        app:layout_constraintTop_toBottomOf="@+id/max_button" />
+
+    <Button
+        android:id="@+id/min_button"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@id/max_button"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
-        app:layout_constraintVertical_bias="0.0" />
+        tools:text="1" />
+
+    <Button
+        android:id="@+id/max_button"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@id/mmax_button"
+        app:layout_constraintStart_toEndOf="@+id/min_button"
+        app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
+        tools:text="80" />
+
+    <Button
+        android:id="@+id/mmax_button"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/max_button"
+        app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
+        tools:text="100" />
 
 </android.support.constraint.ConstraintLayout>
