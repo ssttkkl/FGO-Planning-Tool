@@ -3,8 +3,8 @@ package com.ssttkkl.fgoplanningtool.resources.servant.gson
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
+import com.ssttkkl.fgoplanningtool.data.gson.ItemCollectionGsonTypeAdapter
 import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.data.item.gson.ItemCollectionGsonTypeAdapter
 import com.ssttkkl.fgoplanningtool.resources.servant.Dress
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass

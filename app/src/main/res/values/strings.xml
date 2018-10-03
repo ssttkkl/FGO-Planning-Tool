@@ -26,10 +26,8 @@
     <string name="add_databasemanage">添加</string>
     <string name="rename_databasemanage">重命名</string>
     <string name="remove_databasemanage">删除</string>
-    <string name="importItems_databasemanage">导入持有材料</string>
-    <string name="exportItems_databasemanage">导出持有材料</string>
-    <string name="importPlans_databasemanage">导入规划</string>
-    <string name="exportPlans_databasemanage">导出规划</string>
+    <string name="import_databasemanage">导入</string>
+    <string name="export_databasemanage">导出</string>
     <string name="importSuccessful_databasemanage">导入成功</string>
     <string name="importError_databasemanage">导入失败</string>
     <string name="exportSuccessful_databasemanage">导出成功</string>
