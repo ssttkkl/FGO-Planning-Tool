@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.data.item.gson
+package com.ssttkkl.fgoplanningtool.data.gson
 
 import com.google.gson.TypeAdapter
 import com.google.gson.reflect.TypeToken

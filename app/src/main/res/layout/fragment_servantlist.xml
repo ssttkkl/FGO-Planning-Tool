@@ -50,33 +50,10 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="250dp"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:background="?android:attr/colorBackground"
-        android:orientation="vertical">
+        android:layout_gravity="end" />
 
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include layout="@layout/content_servantlist_orderby" />
-
-            <include layout="@layout/content_servantlist_star" />
-
-            <include layout="@layout/content_servantlist_class" />
-
-            <include layout="@layout/content_servantlist_waytoget" />
-
-            <include layout="@layout/content_servantlist_item" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp" />
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
 </android.support.v4.widget.DrawerLayout>

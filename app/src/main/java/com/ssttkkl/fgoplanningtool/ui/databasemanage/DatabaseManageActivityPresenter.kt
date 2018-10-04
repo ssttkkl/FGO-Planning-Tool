@@ -1,7 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.databasemanage
 
 import android.arch.lifecycle.Observer
-import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
 import com.ssttkkl.fgoplanningtool.PreferenceKeys
@@ -50,20 +49,12 @@ class DatabaseManageActivityPresenter(val view: DatabaseManageActivity) : Databa
         helper.onActivityResultOK(requestCode, data)
     }
 
-    override fun onImportPlans(pos: Int, item: DatabaseDescriptor) {
-        helper.onImportPlans(item)
+    override fun onImport(pos: Int, item: DatabaseDescriptor) {
+        helper.onImport(item)
     }
 
-    override fun onImportItems(pos: Int, item: DatabaseDescriptor) {
-        helper.onImportItems(item)
-    }
-
-    override fun onExportPlans(pos: Int, item: DatabaseDescriptor) {
-        helper.onExportPlans(item)
-    }
-
-    override fun onExportItems(pos: Int, item: DatabaseDescriptor) {
-        helper.onExportItems(item)
+    override fun onExport(pos: Int, item: DatabaseDescriptor) {
+        helper.onExport(item)
     }
 
     fun onAddAction() {

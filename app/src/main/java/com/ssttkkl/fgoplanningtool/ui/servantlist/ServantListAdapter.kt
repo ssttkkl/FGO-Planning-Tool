@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import kotlinx.android.synthetic.main.item_servantlist.view.*
 

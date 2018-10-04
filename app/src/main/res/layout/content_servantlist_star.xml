@@ -19,7 +19,7 @@
         android:gravity="center_vertical"
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:text="@string/star_servantlist"
+        android:text="@string/star_servantfilter"
         android:textAppearance="@style/SubHeader" />
 
     <net.cachapa.expandablelayout.ExpandableLayout

@@ -7,7 +7,6 @@ import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
@@ -92,8 +91,10 @@ class ChangePlanWarningDialogFragment : DialogFragment() {
             if (old.servantId != new.servantId)
                 throw Exception("servantId of the old and the new must be same.")
             return newInstance(Mode.Edit, listOf(Plan(servantId = old.servantId,
-                    nowStage = old.nowStage,
-                    planStage = new.nowStage,
+                    nowExp = old.nowExp,
+                    planExp = new.nowExp,
+                    ascendedOnNowStage = old.ascendedOnNowStage,
+                    ascendedOnPlanStage = new.ascendedOnNowStage,
                     nowSkill1 = old.nowSkill1,
                     planSkill1 = new.nowSkill1,
                     nowSkill2 = old.nowSkill2,

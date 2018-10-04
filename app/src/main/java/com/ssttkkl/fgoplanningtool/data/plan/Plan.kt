@@ -6,14 +6,17 @@ import android.arch.persistence.room.TypeConverters
 import android.os.Parcel
 import android.os.Parcelable
 import com.ssttkkl.fgoplanningtool.data.utils.IntSetConverter
+import com.ssttkkl.fgoplanningtool.resources.ConstantValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 
 @Entity(tableName = "Plan")
 @TypeConverters(IntSetConverter::class)
 data class Plan(@PrimaryKey val servantId: Int,
-                var nowStage: Int,
-                var planStage: Int,
+                var nowExp: Int,
+                var planExp: Int,
+                var ascendedOnNowStage: Boolean,
+                var ascendedOnPlanStage: Boolean,
                 var nowSkill1: Int,
                 var nowSkill2: Int,
                 var nowSkill3: Int,
@@ -24,10 +27,24 @@ data class Plan(@PrimaryKey val servantId: Int,
     val servant: Servant?
         get() = ResourcesProvider.instance.servants[servantId]
 
+    val nowLevel
+        get() = ConstantValues.getLevel(nowExp)
+
+    val planLevel
+        get() = ConstantValues.getLevel(planExp)
+
+    val nowStage
+        get() = ConstantValues.getStage(servant!!.star, nowLevel) + if (ascendedOnNowStage) 1 else 0
+
+    val planStage
+        get() = ConstantValues.getStage(servant!!.star, planLevel) + if (ascendedOnPlanStage) 1 else 0
+
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
             parcel.readInt(),
             parcel.readInt(),
+            parcel.readByte() != 0.toByte(),
+            parcel.readByte() != 0.toByte(),
             parcel.readInt(),
             parcel.readInt(),
             parcel.readInt(),
@@ -37,8 +54,10 @@ data class Plan(@PrimaryKey val servantId: Int,
             parcel.createIntArray().toSet())
 
     constructor(plan: Plan) : this(plan.servantId,
-            plan.nowStage,
-            plan.planStage,
+            plan.nowExp,
+            plan.planExp,
+            plan.ascendedOnNowStage,
+            plan.ascendedOnPlanStage,
             plan.nowSkill1,
             plan.nowSkill2,
             plan.nowSkill3,
@@ -49,8 +68,10 @@ data class Plan(@PrimaryKey val servantId: Int,
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(servantId)
-        parcel.writeInt(nowStage)
-        parcel.writeInt(planStage)
+        parcel.writeInt(nowExp)
+        parcel.writeInt(planExp)
+        parcel.writeByte(if (ascendedOnNowStage) 1 else 0)
+        parcel.writeByte(if (ascendedOnPlanStage) 1 else 0)
         parcel.writeInt(nowSkill1)
         parcel.writeInt(nowSkill2)
         parcel.writeInt(nowSkill3)
@@ -73,4 +94,5 @@ data class Plan(@PrimaryKey val servantId: Int,
             return arrayOfNulls(size)
         }
     }
+
 }

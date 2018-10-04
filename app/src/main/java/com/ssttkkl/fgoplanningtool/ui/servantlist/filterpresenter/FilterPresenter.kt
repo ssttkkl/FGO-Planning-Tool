@@ -4,7 +4,6 @@ import android.animation.AnimatorInflater
 import android.animation.ValueAnimator
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.drawable.RotateDrawable
-import android.view.View
 import android.widget.TextView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment

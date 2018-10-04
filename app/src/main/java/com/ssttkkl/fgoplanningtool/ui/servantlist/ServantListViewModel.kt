@@ -1,10 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.servantlist
 
 import android.arch.lifecycle.ViewModel
-import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
-import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
 import com.ssttkkl.fgoplanningtool.resources.servant.WayToGet

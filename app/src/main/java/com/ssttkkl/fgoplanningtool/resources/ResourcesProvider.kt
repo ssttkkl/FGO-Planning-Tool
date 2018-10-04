@@ -43,8 +43,6 @@ class ResourcesProvider(context: Context) {
         itemRank = list.mapIndexed { idx, it -> Pair(it.codename, idx) }.toMap(HashMap())
     }
 
-    val qpInfo = buildQPInfo()
-
     private fun buildResPackInfo(): ResPackInfo {
         try {
             File(resourcesDir, FILENAME_RES_PACK_INFO).bufferedReader().use { reader ->
@@ -81,30 +79,14 @@ class ResourcesProvider(context: Context) {
         }
     }
 
-    private fun buildQPInfo(): QPInfo {
-        try {
-            File(resourcesDir, FILENAME_QP_INFO).bufferedReader().use { reader ->
-                return gson.fromJson(reader, QPInfo::class.java)
-            }
-        } catch (exc: Exception) {
-            Log.e("ResProvider", "Failed to build QPInfo map. $exc")
-            isBroken = true
-            return QPInfo(ascension = List(6) { List(4) { 0L } },
-                    skill = List(6) { List(9) { 0L } },
-                    palingenesis = List(6) { List(10) { 0L } },
-                    dress = 0)
-        }
-    }
-
     companion object {
-        const val TARGET_VERSION = 2
+        const val TARGET_VERSION = 3
 
         const val DIRECTORYNAME_RESOURCES = "resources"
         const val DIRECTORYNAME_AVATAR = "avatar"
         const val DIRECTORYNAME_ITEM = "item"
         const val FILENAME_ITEM_INFO = "item_info.json"
         const val FILENAME_SERVANT_INFO = "servant_info.json"
-        const val FILENAME_QP_INFO = "qp_info.json"
         const val FILENAME_RES_PACK_INFO = "res_pack_info.json"
 
         private var INSTANCE: ResourcesProvider? = null

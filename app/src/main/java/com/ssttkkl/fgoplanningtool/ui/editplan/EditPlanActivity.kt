@@ -22,7 +22,7 @@ class EditPlanActivity : BackHandlerActivity(),
         setStatusBarColor()
         setContentView(R.layout.activity_editplan)
 
-        presenter = EditPlanActivityPresenter(this)
+        presenter = EditPlanActivityPresenter(this, intent.extras[EditPlanActivity.ARG_MODE] as EditPlanActivity.Mode)
     }
 
     // callback of ChangePlanWarningDialogFragment
@@ -44,12 +44,12 @@ class EditPlanActivity : BackHandlerActivity(),
         presenter.onServantSelected(servantId)
     }
 
+    enum class Mode {
+        New, Edit
+    }
+
     companion object {
         const val ARG_MODE = "mode"
         const val ARG_PLAN = "plan"
-
-        enum class Mode {
-            New, Edit
-        }
     }
 }

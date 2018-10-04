@@ -39,7 +39,6 @@ object ResourcesUpdater {
 
         listOf(ResourcesProvider.FILENAME_SERVANT_INFO,
                 ResourcesProvider.FILENAME_ITEM_INFO,
-                ResourcesProvider.FILENAME_QP_INFO,
                 ResourcesProvider.FILENAME_RES_PACK_INFO).forEach { req ->
             val reqFile = File(dir, req)
             if (!reqFile.exists())

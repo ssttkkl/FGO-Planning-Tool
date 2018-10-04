@@ -8,15 +8,9 @@
         android:id="@+id/remove_action"
         android:title="@string/remove_databasemanage" />
     <item
-        android:id="@+id/importPlans_action"
-        android:title="@string/importPlans_databasemanage" />
+        android:id="@+id/import_action"
+        android:title="@string/import_databasemanage" />
     <item
-        android:id="@+id/importItems_action"
-        android:title="@string/importItems_databasemanage" />
-    <item
-        android:id="@+id/exportPlans_action"
-        android:title="@string/exportPlans_databasemanage" />
-    <item
-        android:id="@+id/exportItems_action"
-        android:title="@string/exportItems_databasemanage" />
+        android:id="@+id/export_action"
+        android:title="@string/export_databasemanage" />
 </menu>

@@ -26,10 +26,8 @@
     <string name="add_databasemanage">添加</string>
     <string name="rename_databasemanage">重命名</string>
     <string name="remove_databasemanage">删除</string>
-    <string name="importItems_databasemanage">导入持有材料</string>
-    <string name="exportItems_databasemanage">导出持有材料</string>
-    <string name="importPlans_databasemanage">导入规划</string>
-    <string name="exportPlans_databasemanage">导出规划</string>
+    <string name="import_databasemanage">导入</string>
+    <string name="export_databasemanage">导出</string>
     <string name="importSuccessful_databasemanage">导入成功</string>
     <string name="importError_databasemanage">导入失败</string>
     <string name="exportSuccessful_databasemanage">导出成功</string>
@@ -43,8 +41,7 @@
     <string name="enterSelectMode_planlist">进入多选模式</string>
     <string name="remove_planlist">删除</string>
     <string name="selectAll_planlist">选择全部</string>
-    <string name="stage_item_planlist">再临阶段</string>
-    <string name="stageAndHolyGrail_item_planlist">再临 / 圣杯</string>
+    <string name="level_item_planlist">等级</string>
     <string name="skill1_item_planlist">技能 I</string>
     <string name="skill2_item_planlist">技能 II</string>
     <string name="skill3_item_planlist">技能 III</string>
@@ -56,24 +53,11 @@
     <string name="remove_editplan">删除</string>
     <string name="tab_edit_editplan">编辑</string>
     <string name="tab_items_editplan">消耗材料</string>
+    <string name="ascendedInCurStage_editplan">当前阶段完成再临</string>
+    <string name="remainedExp_editplan">升级剩余经验</string>
+    <string name="max_editplan">再临MAX</string>
+    <string name="mmax_editplan">圣杯MAX</string>
     <string name="dress_editplan">灵衣开放</string>
-    <string-array name="stage_editplan">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>×1</item>
-        <item>×2</item>
-        <item>×3</item>
-        <item>×4</item>
-        <item>×5</item>
-        <item>×6</item>
-        <item>×7</item>
-        <item>×8</item>
-        <item>×9</item>
-        <item>×10</item>
-    </string-array>
     <string-array name="skill_editplan">
         <item>1</item>
         <item>2</item>
@@ -86,30 +70,33 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+    <string name="illegalRemainedExp_editplan_editlevel">“升级剩余经验”不能大于该等级升级需要的经验值</string>
+    <string name="illegalLevel_editplan_editlevel">“等级”不能大于该角色的最大等级</string>
 
     <string name="switchToGridView_servantlist">切换到网格视图</string>
     <string name="switchToListView_servantlist">切换到列表视图</string>
     <string name="sortAndFilter_servantlist">排序与过滤</string>
     <string name="search_servantlist">搜索</string>
-    <string name="order_servantlist">排序</string>
-    <string-array name="order_servantlist">
+    <string name="order_servantfilter">排序</string>
+    <string-array name="order_servantfilter">
         <item>升序</item>
         <item>降序</item>
     </string-array>
-    <string-array name="orderBy_servantlist">
+    <string-array name="orderBy_servantfilter">
         <item>编号</item>
         <item>职介</item>
         <item>星级</item>
     </string-array>
-    <string name="star_servantlist">按星级过滤</string>
-    <string name="class_servantlist">按职介过滤</string>
-    <string name="wayToGet_servantlist">按获得方式过滤</string>
-    <string name="item_servantlist">按消耗材料过滤</string>
-    <string name="add_item_servantlist">添加</string>
-    <string-array name="mode_item_servantlist">
+    <string name="star_servantfilter">按星级过滤</string>
+    <string name="class_servantfilter">按职介过滤</string>
+    <string name="wayToGet_servantfilter">按获得方式过滤</string>
+    <string name="item_servantfilter">按消耗材料过滤</string>
+    <string name="add_item_servantfilter">添加</string>
+    <string-array name="mode_item_servantfilter">
         <item>与</item>
         <item>或</item>
     </string-array>
+    <string name="reset_servantfilter">重置</string>
 
     <string name="title_costitemlist">消耗材料</string>
     <string name="own_item_costitemlist">持有</string>
@@ -167,6 +154,8 @@
         <item>ja</item>
         <item>en</item>
     </string-array>
+    <string name="title_unlockRealName_pref">真名解放</string>
+    <string name="summary_unlockRealName_pref">解放在 Epic of Remnant 中登场的某些隐藏真名的从者的真名</string>
     <string name="group_res_pref">资源包</string>
     <string name="title_curResPackVersion_pref">当前资源包版本</string>
     <string name="summary_curResPackVersion_pref">%1$s（%2$d）</string>

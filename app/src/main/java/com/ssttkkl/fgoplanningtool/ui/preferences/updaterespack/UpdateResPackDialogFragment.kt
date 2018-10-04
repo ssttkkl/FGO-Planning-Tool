@@ -13,10 +13,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.downloader.request.DownloadRequest
 import com.ssttkkl.fgoplanningtool.Dispatchers
-import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.net.ResPackDownloader
 import com.ssttkkl.fgoplanningtool.net.ResPackLatestInfo
+import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
 import com.ssttkkl.fgoplanningtool.ui.preferences.PreferencesActivity
 import kotlinx.android.synthetic.main.fragment_updaterespack.*
@@ -58,6 +58,14 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
             onLatestInfoChanged(it)
         })
 
+        viewModel.releaseDate.observe(this, Observer {
+            onReleaseDateChanged(it ?: "")
+        })
+
+        viewModel.content.observe(this, Observer {
+            onContentChanged(it ?: "")
+        })
+
         viewModel.size.observe(this, Observer {
             onSizeChanged(it ?: 0)
         })
@@ -76,14 +84,31 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
             launch(Dispatchers.file) {
                 try {
                     ResourcesUpdater.update(resPackFile!!)
-                    launch(UI) { onCompleteUpdating() }
+                    launch(UI) {
+                        viewModel.content.value = ResourcesProvider.instance.resPackInfo.content
+
+                        val releaseDate = ResourcesProvider.instance.resPackInfo.releaseDate
+                        viewModel.releaseDate.value = getString(R.string.releaseDate_pattern_updaterespack,
+                                releaseDate / 10000,
+                                releaseDate % 10000 / 100,
+                                releaseDate % 100)
+                        onCompleteUpdating()
+                    }
                 } catch (exc: Exception) {
                     launch(UI) { onFailOnUpdating(exc.toString()) }
                 }
             }
         }
 
-        button.setOnClickListener { dialog?.cancel() }
+        button.setOnClickListener {
+            dialog?.dismiss()
+        }
+    }
+
+    override fun onDismiss(dialog: DialogInterface?) {
+        super.onDismiss(dialog)
+        if (viewModel.status.value == Status.CompleteUpdating)
+            activity?.recreate()
     }
 
     private var isProgressIndeterminate: Boolean = false
@@ -131,11 +156,19 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
 
     private fun onLatestInfoChanged(latestInfo: ResPackLatestInfo?) {
         Log.d("UpdateResPack", "ResPackLatestInfo Loaded: $latestInfo")
-        content_textView?.text = latestInfo?.content ?: ""
-        releaseDate_textView?.text = if (latestInfo != null) getString(R.string.releaseDate_pattern_updaterespack,
+        viewModel.releaseDate.value = if (latestInfo != null) getString(R.string.releaseDate_pattern_updaterespack,
                 latestInfo.releaseDate / 10000,
                 latestInfo.releaseDate % 10000 / 100,
                 latestInfo.releaseDate % 100) else ""
+        viewModel.content.value = latestInfo?.content ?: ""
+    }
+
+    private fun onReleaseDateChanged(releaseDate: String) {
+        releaseDate_textView?.text = releaseDate
+    }
+
+    private fun onContentChanged(content: String) {
+        content_textView?.text = content
     }
 
     private fun onStatusChanged(status: Status?) {
@@ -173,8 +206,6 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
                 status_textView?.text = getString(R.string.status_updateSuccessful_updaterespack)
                 button?.text = getString(R.string.back_updaterespack)
                 isProgressVisible = false
-
-                (activity as? PreferencesActivity)?.requestRestart = true
             }
             Status.FailedOnUpdating -> {
                 status_textView?.text = getString(R.string.status_updateFailed_updaterespack)

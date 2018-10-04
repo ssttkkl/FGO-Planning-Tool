@@ -11,16 +11,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ProgressBar
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.resources.ConstantValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanViewModel
 import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
-import com.ssttkkl.fgoplanningtool.ui.utils.DrawableAndTextSpinnerAdapter
 import kotlinx.android.synthetic.main.fragment_editplan.*
 
-class EditPlanFragment : Fragment(), LifecycleOwner {
+class EditPlanFragment : Fragment(), LifecycleOwner, EditLevelDialogFragment.OnSaveListener {
     private lateinit var viewModel: EditPlanViewModel
+
+    private val servant
+        get() = ResourcesProvider.instance.servants[viewModel.servantId.value]
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -33,85 +39,71 @@ class EditPlanFragment : Fragment(), LifecycleOwner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.apply {
-            val servant = ResourcesProvider.instance.servants[servantId.value]
-            name_textView.text = servant?.localizedName ?: servantId.value?.toString()
+            name_textView.text = servant?.localizedName
             class_textView.text = servant?.theClass?.name
-            Glide.with(this@EditPlanFragment).load(servant?.avatarFile).error(R.drawable.avatar_placeholder).into(avatar_imageView)
+            Glide.with(this@EditPlanFragment).load(servant?.avatarFile).into(avatar_imageView)
 
-            var stageArr = resources.getStringArray(R.array.stage_editplan)
-            if (servantId.value == 1)
-                stageArr = stageArr.sliceArray(0..4)
-            else {
-                when (ResourcesProvider.instance.servants[servantId.value]?.star) {
-                    5 -> stageArr = stageArr.sliceArray(0..9)
-                    4 -> stageArr = stageArr.sliceArray(0..11)
-                    3 -> stageArr = stageArr.sliceArray(0..13)
-                }
+            // level
+            nowExp.observe(this@EditPlanFragment, Observer {
+                onExpChanged(nowLevel_button, nowExp_progressBar, nowExp.value!!, ascendedOnNowStage.value == true)
+            })
+            ascendedOnNowStage.observe(this@EditPlanFragment, Observer {
+                onExpChanged(nowLevel_button, nowExp_progressBar, nowExp.value!!, ascendedOnNowStage.value == true)
+            })
+            nowLevel_button.setOnClickListener {
+                EditLevelDialogFragment.newInstance(servantId.value!!, nowExp.value!!, ascendedOnNowStage.value == true, "now")
+                        .show(childFragmentManager, EditLevelDialogFragment::class.qualifiedName)
+            }
+            planExp.observe(this@EditPlanFragment, Observer {
+                onExpChanged(planLevel_button, planExp_progressBar, planExp.value!!, ascendedOnPlanStage.value == true)
+            })
+            ascendedOnPlanStage.observe(this@EditPlanFragment, Observer {
+                onExpChanged(planLevel_button, planExp_progressBar, planExp.value!!, ascendedOnPlanStage.value == true)
+            })
+            planLevel_button.setOnClickListener {
+                EditLevelDialogFragment.newInstance(servantId.value!!, planExp.value!!, ascendedOnPlanStage.value == true, "plan")
+                        .show(childFragmentManager, EditLevelDialogFragment::class.qualifiedName)
             }
 
-            listOf(Pair(nowStage_spinner, nowStage),
-                    Pair(planStage_spinner, planStage)
-            ).forEach { (spinner, data) ->
-                spinner.adapter = DrawableAndTextSpinnerAdapter(context,
-                        stageArr, R.drawable.holy_grail) { it > 4 }
-                spinner.setSelection(data.value!!)
-
-                // observe values changing
-                data.observe(this@EditPlanFragment, Observer {
-                    // check if value really changed
-                    if (spinner.selectedItemPosition != it!!)
-                        spinner.setSelection(it)
-                })
-
-                // setup spinners' listeners
-                spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-                        // check if value really changed
-                        if (data.value != pos) {
-                            data.value = pos
-                        }
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-                }
-            }
-
+            // skill
             listOf(Pair(nowSkill1_spinner, nowSkillI),
                     Pair(nowSkill2_spinner, nowSkillII),
                     Pair(nowSkill3_spinner, nowSkillIII),
                     Pair(planSkill1_spinner, planSkillI),
                     Pair(planSkill2_spinner, planSkillII),
-                    Pair(planSkill3_spinner, planSkillIII)
-            ).forEach { (spinner, data) ->
-                // first fill the values in spinners
-                spinner.adapter = DrawableAndTextSpinnerAdapter(context,
-                        resources.getStringArray(R.array.skill_editplan), 0) { false }
-                spinner.setSelection(data.value!! - 1)
+                    Pair(planSkill3_spinner, planSkillIII))
+                    .forEach { (spinner, data) ->
+                        // first fill the values in spinners
+                        spinner.adapter = ArrayAdapter<String>(context,
+                                android.R.layout.simple_spinner_dropdown_item,
+                                resources.getStringArray(R.array.skill_editplan))
+                        spinner.setSelection(data.value!! - 1)
 
-                // observe values changing
-                data.observe(this@EditPlanFragment, Observer {
-                    // check if value really changed
-                    if (spinner.selectedItemPosition != it!! - 1)
-                        spinner.setSelection(it - 1)
-                })
+                        // observe values' changing
+                        data.observe(this@EditPlanFragment, Observer {
+                            // check if value really changed
+                            if (spinner.selectedItemPosition != it!! - 1)
+                                spinner.setSelection(it - 1)
+                        })
 
-                // setup spinners' listeners
-                spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-                        // check if value really changed
-                        if (data.value != pos + 1) {
-                            data.value = pos + 1
+                        // setup spinners' listeners
+                        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                                // check if value really changed
+                                if (data.value != pos + 1) {
+                                    data.value = pos + 1
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {}
                         }
                     }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-                }
-            }
-
+            // dress
             if (servant?.dress?.isNotEmpty() == true) {
                 dress_recView.apply {
                     adapter = EditPlanDressListRecViewAdapter(context!!).apply {
-                        data = servant.dress
+                        data = servant!!.dress
                         setOnCheckedChangeListener { pos, isChecked ->
                             if (isChecked)
                                 dress.value = dress.value?.plus(pos) ?: setOf(pos)
@@ -131,11 +123,42 @@ class EditPlanFragment : Fragment(), LifecycleOwner {
                 dressLabel_textView.visibility = View.GONE
             }
         }
+
         info_button.setOnClickListener {
             val servantID = viewModel.servantId.value
             if (servantID != null && servantID > 0)
                 ServantInfoDialogFragment.newInstance(servantID)
                         .show(childFragmentManager, ServantInfoDialogFragment::class.qualifiedName)
+        }
+    }
+
+    private fun onExpChanged(button: Button,
+                             progressBar: ProgressBar,
+                             exp: Int,
+                             ascendOnStage: Boolean) {
+        val level = ConstantValues.getLevel(exp)
+        button.text = level.toString()
+        progressBar.apply {
+            if (servant?.stageMapToMaxLevel?.contains(level) == true && !ascendOnStage) {
+                max = 100
+                progress = 100
+            } else {
+                max = ConstantValues.nextLevelExp[level]
+                progress = max - (ConstantValues.getExp(level + 1) - exp)
+            }
+        }
+    }
+
+    override fun onSave(exp: Int, ascendedOnStage: Boolean, extraTag: String) {
+        when (extraTag) {
+            "now" -> {
+                viewModel.nowExp.value = exp
+                viewModel.ascendedOnNowStage.value = ascendedOnStage
+            }
+            "plan" -> {
+                viewModel.planExp.value = exp
+                viewModel.ascendedOnPlanStage.value = ascendedOnStage
+            }
         }
     }
 }

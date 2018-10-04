@@ -9,6 +9,11 @@
             android:entries="@array/entities_nameLanguage"
             android:entryValues="@array/entityValues_nameLanguage"
             android:defaultValue="zh" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="unlockRealName"
+            android:summary="@string/summary_unlockRealName_pref"
+            android:title="@string/title_unlockRealName_pref" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/group_res_pref">
         <Preference

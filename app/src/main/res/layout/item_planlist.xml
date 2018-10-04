@@ -61,12 +61,12 @@
             tools:text="姓名" />
 
         <TextView
-            android:id="@+id/stageLabel_textView"
+            android:id="@+id/levelLabel_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:maxLines="1"
-            android:text="@string/stage_item_planlist"
+            android:text="@string/level_item_planlist"
             android:textAppearance="@style/ListItemTertiary"
             android:textSize="10sp"
             app:layout_column="0"
@@ -136,18 +136,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
             app:layout_constraintStart_toEndOf="@+id/frameLayout"
-            app:layout_constraintTop_toBottomOf="@+id/stageLabel_textView"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.25"
+            app:layout_constraintTop_toBottomOf="@+id/levelLabel_textView"
             app:layout_row="1">
 
             <TextView
-                android:id="@+id/nowStage_textView"
+                android:id="@+id/nowLevel_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:textAppearance="@style/ListItemSecondary"
-                tools:text="×0" />
+                tools:text="0" />
 
             <ImageView
                 android:layout_width="16dp"
@@ -157,12 +155,12 @@
                 app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
             <TextView
-                android:id="@+id/planStage_textView"
+                android:id="@+id/planLevel_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:maxLines="1"
                 android:textAppearance="@style/ListItemSecondary"
-                tools:text="×4" />
+                tools:text="80" />
 
         </LinearLayout>
 

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        android:id="@+id/sortAndFilter_action"
+        android:icon="@drawable/ic_sort_white_24dp"
+        android:title="@string/sortAndFilter_servantlist"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/selectAll_action"
         android:icon="@drawable/ic_select_all_white_24dp"

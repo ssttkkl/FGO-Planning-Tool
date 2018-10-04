@@ -38,10 +38,8 @@ class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<
         fun onSelectedPositionChanged(newPos: Int, newItem: DatabaseDescriptor)
         fun onItemNameChange(pos: Int, item: DatabaseDescriptor, newName: String)
         fun onItemRemove(pos: Int, item: DatabaseDescriptor)
-        fun onImportPlans(pos: Int, item: DatabaseDescriptor)
-        fun onImportItems(pos: Int, item: DatabaseDescriptor)
-        fun onExportPlans(pos: Int, item: DatabaseDescriptor)
-        fun onExportItems(pos: Int, item: DatabaseDescriptor)
+        fun onImport(pos: Int, item: DatabaseDescriptor)
+        fun onExport(pos: Int, item: DatabaseDescriptor)
     }
 
     private var callback: Callback? = null
@@ -54,10 +52,8 @@ class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<
         when (menuId) {
             R.id.rename_action -> setPositionInEditMode(pos, data[pos].name)
             R.id.remove_action -> callback?.onItemRemove(pos, data[pos])
-            R.id.importPlans_action -> callback?.onImportPlans(pos, data[pos])
-            R.id.importItems_action -> callback?.onImportItems(pos, data[pos])
-            R.id.exportPlans_action -> callback?.onExportPlans(pos, data[pos])
-            R.id.exportItems_action -> callback?.onExportItems(pos, data[pos])
+            R.id.import_action -> callback?.onImport(pos, data[pos])
+            R.id.export_action -> callback?.onExport(pos, data[pos])
         }
     }
 

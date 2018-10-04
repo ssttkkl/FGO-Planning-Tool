@@ -9,11 +9,12 @@ import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.ItemsDao
 import com.ssttkkl.fgoplanningtool.data.migration.RepoDatabaseVersionMigration1To2
 import com.ssttkkl.fgoplanningtool.data.migration.RepoDatabaseVersionMigration2To3
+import com.ssttkkl.fgoplanningtool.data.migration.RepoDatabaseVersionMigration3To4
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.data.plan.PlansDao
 import kotlinx.coroutines.experimental.launch
 
-@Database(entities = [Plan::class, Item::class], version = 3)
+@Database(entities = [Plan::class, Item::class], version = 4)
 abstract class RepoDatabase : RoomDatabase() {
     abstract val plansDao: PlansDao
     abstract val itemsDao: ItemsDao
@@ -28,7 +29,8 @@ abstract class RepoDatabase : RoomDatabase() {
                         instances[filename] = Room.databaseBuilder(MyApp.context,
                                 RepoDatabase::class.java, "$filename.db")
                                 .addMigrations(RepoDatabaseVersionMigration1To2,
-                                        RepoDatabaseVersionMigration2To3).build()
+                                        RepoDatabaseVersionMigration2To3,
+                                        RepoDatabaseVersionMigration3To4).build()
                 }
             }
             return instances[filename]!!

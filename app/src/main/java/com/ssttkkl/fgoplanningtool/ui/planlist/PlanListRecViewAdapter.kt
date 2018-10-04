@@ -6,26 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.ui.utils.RecViewAdapterDataSetChanger
-import com.ssttkkl.fgoplanningtool.ui.utils.getScaledDrawable
 import kotlinx.android.synthetic.main.item_planlist.view.*
+import java.util.concurrent.ConcurrentHashMap
 
 class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanListRecViewAdapter.ViewHolder>() {
     val data: List<Plan> = ArrayList()
 
     fun setNewData(newData: List<Plan>) {
         synchronized(data) {
-            var equal = data.size == newData.size
-            if (equal)
-                data.indices.forEach {
-                    equal = equal && data[it] == newData[it]
-                }
-            if (equal)
-                return
-
             isInSelectMode = false
             RecViewAdapterDataSetChanger.perform(this, data as ArrayList<Plan>, newData) { it.servantId }
         }
@@ -36,7 +27,7 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
         fun onItemClickedInNormalMode(pos: Int)
         fun onSelectModeEnabled()
         fun onSelectModeDisabled()
-        fun onPositionSelectStateChanged(pos: Int, selected: Boolean)
+        fun onSelectStateChanged(pos: Int, selected: Boolean)
     }
 
     private var callback: Callback? = null
@@ -46,50 +37,50 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
     }
 
     // selection start
-    private val selection = HashMap<Int, Boolean>()
+    private val selection = ConcurrentHashMap<Int, Boolean>()
 
     val selectedPositions: Set<Int>
         get() = selection.filterValues { it }.keys
 
-    fun isPositionSelected(pos: Int) = isInSelectMode && (selection[pos] ?: false)
+    fun isSelected(pos: Int) = isInSelectMode && (selection[pos] ?: false)
 
-    fun setPositionSelected(pos: Int) {
+    fun select(pos: Int) {
         if (!isInSelectMode)
-            throw Exception("You must be in select mode before you set a position selected/unselected.")
-        if (!isPositionSelected(pos)) {
+            isInSelectMode = true
+        if (!isSelected(pos)) {
             selection[pos] = true
             notifyItemChanged(pos)
-            callback?.onPositionSelectStateChanged(pos, true)
+            callback?.onSelectStateChanged(pos, true)
         }
     }
 
-    fun setPositionUnselected(pos: Int) {
+    fun deselect(pos: Int) {
         if (!isInSelectMode)
-            throw Exception("You must be in select mode before set position selected/unselected.")
-        if (isPositionSelected(pos)) {
+            isInSelectMode = true
+        if (isSelected(pos)) {
             selection[pos] = false
             notifyItemChanged(pos)
-            callback?.onPositionSelectStateChanged(pos, false)
+            callback?.onSelectStateChanged(pos, false)
         }
     }
 
-    val isAllPositionsSelected
-        get() = (0 until itemCount).all { isPositionSelected(it) }
+    val isAllSelected
+        get() = (0 until itemCount).all { isSelected(it) }
 
-    val isAnyPositionSelected
-        get() = (0 until itemCount).any { isPositionSelected(it) }
+    val isAnySelected
+        get() = (0 until itemCount).any { isSelected(it) }
 
-    fun selectAllPositions() {
+    fun selectAll() {
         for (pos in 0 until itemCount) {
-            if (!isPositionSelected(pos))
-                setPositionSelected(pos)
+            if (!isSelected(pos))
+                select(pos)
         }
     }
 
-    fun unselectAllPositions() {
+    fun deselectAll() {
         for (pos in 0 until itemCount) {
-            if (isPositionSelected(pos))
-                setPositionUnselected(pos)
+            if (isSelected(pos))
+                deselect(pos)
         }
     }
 
@@ -109,10 +100,10 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
 
     private fun onPositionClicked(pos: Int) {
         if (isInSelectMode) {
-            if (isPositionSelected(pos))
-                setPositionUnselected(pos)
+            if (isSelected(pos))
+                deselect(pos)
             else
-                setPositionSelected(pos)
+                select(pos)
         } else {
             callback?.onItemClickedInNormalMode(pos)
         }
@@ -121,7 +112,7 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
     private fun onPositionLongClicked(pos: Int): Boolean {
         if (!isInSelectMode) {
             isInSelectMode = true
-            setPositionSelected(pos)
+            select(pos)
             return true
         }
         return false
@@ -138,36 +129,11 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
 
     override fun getItemCount() = data.size
 
-    private val times = context.getString(R.string.times_item_planlist)
-
-    private val holyGrailWidth = context.resources.getDimensionPixelOffset(R.dimen.holy_grail_width)
-
-    private val holyGrailDrawable = context.getScaledDrawable(R.drawable.holy_grail, holyGrailWidth, holyGrailWidth)
-
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         val plan = data[pos]
         holder.itemView.apply {
-            if (plan.nowStage <= 4) {
-                nowStage_textView.text = plan.nowStage.toString()
-                nowStage_textView.setCompoundDrawablesRelative(null, null, null, null)
-            } else {
-                nowStage_textView.text = times.format(plan.nowStage - 4)
-                nowStage_textView.setCompoundDrawablesRelativeWithIntrinsicBounds(holyGrailDrawable, null, null, null)
-            }
-
-            if (plan.planStage <= 4) {
-                planStage_textView.text = plan.planStage.toString()
-                planStage_textView.setCompoundDrawablesRelative(null, null, null, null)
-            } else {
-                planStage_textView.text = times.format(plan.planStage - 4)
-                planStage_textView.setCompoundDrawablesRelativeWithIntrinsicBounds(holyGrailDrawable, null, null, null)
-            }
-
-            stageLabel_textView.setText(if (plan.nowStage <= 4 && plan.planStage <= 4)
-                R.string.stage_item_planlist
-            else
-                R.string.stageAndHolyGrail_item_planlist)
-
+            nowLevel_textView.text = plan.nowLevel.toString()
+            planLevel_textView.text = plan.planLevel.toString()
             nowSkill1_textView.text = plan.nowSkill1.toString()
             planSkill1_textView.text = plan.planSkill1.toString()
             nowSkill2_textView.text = plan.nowSkill2.toString()
@@ -180,7 +146,7 @@ class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanLi
             else
                 View.GONE
 
-            selectedFlag_imageView.visibility = if (isInSelectMode && isPositionSelected(pos))
+            selectedFlag_imageView.visibility = if (isInSelectMode && isSelected(pos))
                 View.VISIBLE
             else
                 View.INVISIBLE
