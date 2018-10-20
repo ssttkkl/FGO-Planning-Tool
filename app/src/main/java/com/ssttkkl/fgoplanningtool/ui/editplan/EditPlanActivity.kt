@@ -3,49 +3,59 @@ package com.ssttkkl.fgoplanningtool.ui.editplan
 import android.arch.lifecycle.LifecycleOwner
 import android.os.Bundle
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
-import com.ssttkkl.fgoplanningtool.ui.editplan.container.EditPlanContainerFragment
 import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerActivity
+import com.ssttkkl.fgoplanningtool.ui.utils.replaceFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor
 
 class EditPlanActivity : BackHandlerActivity(),
         LifecycleOwner,
-        EditPlanContainerFragment.Callback,
-        ServantListFragment.OnServantSelectedListener,
-        ChangePlanWarningDialogFragment.OnActionListener {
-    private lateinit var presenter: EditPlanActivityPresenter
+        ServantListFragment.OnServantSelectedListener {
+    private lateinit var mode: Mode
+    private var plan: Plan? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStatusBarColor()
         setContentView(R.layout.activity_editplan)
 
-        presenter = EditPlanActivityPresenter(this, intent.extras[EditPlanActivity.ARG_MODE] as EditPlanActivity.Mode)
+        mode = intent.extras[ARG_MODE] as Mode
+        if (mode == Mode.Edit)
+            plan = intent.extras[ARG_PLAN] as Plan
+
+        if (supportFragmentManager.fragments.isEmpty()) {
+            when (mode) {
+                Mode.New -> gotoServantListUI()
+                Mode.Edit -> gotoEditPlanUI(plan!!)
+            }
+        }
     }
 
-    // callback of ChangePlanWarningDialogFragment
-    override fun onAction(mode: ChangePlanWarningDialogFragment.Companion.Mode, plans: Collection<Plan>, deductItems: Boolean) {
-        presenter.onWarningFragmentAction(mode, plans.first(), deductItems)
+    private fun gotoServantListUI() {
+        val existingServantIDs = Repo.planRepo.all.map { it.servantId }.toSet()
+        replaceFragment(R.id.frameLayout,
+                ServantListFragment.newInstance(existingServantIDs),
+                ServantListFragment::class.qualifiedName)
     }
 
-    // callback of EditPlanContainerFragment
-    override fun onSaveAction() {
-        presenter.onSaveAction()
+    private fun gotoEditPlanUI(plan: Plan) {
+        replaceFragment(R.id.frameLayout,
+                EditPlanFragment.newInstance(mode, plan),
+                EditPlanFragment::class.qualifiedName)
     }
 
-    override fun onRemoveAction() {
-        presenter.onRemoveAction()
+    override fun onBackPressed() {
+        if (supportFragmentManager.findFragmentByTag(EditPlanFragment::class.qualifiedName) != null && mode == Mode.New)
+            gotoServantListUI()
+        else
+            super.onBackPressed()
     }
 
     // callback of ServantListFragment
     override fun onServantSelected(servantId: Int) {
-        presenter.onServantSelected(servantId)
-    }
-
-    enum class Mode {
-        New, Edit
+        gotoEditPlanUI(Plan(servantId))
     }
 
     companion object {

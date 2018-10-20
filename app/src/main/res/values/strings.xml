@@ -47,6 +47,10 @@
     <string name="skill3_item_planlist">技能 III</string>
     <string name="times_item_planlist">×%1$d</string>
 
+    <string-array name="tabTitles">
+        <item>编辑规划</item>
+        <item>消耗材料</item>
+    </string-array>
     <string name="title_new_editplan">新建规划</string>
     <string name="title_edit_editplan">编辑规划</string>
     <string name="save_editplan">保存</string>

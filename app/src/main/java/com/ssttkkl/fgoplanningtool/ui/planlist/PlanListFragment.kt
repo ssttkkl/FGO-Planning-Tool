@@ -1,173 +1,166 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist
 
 import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
+import com.ssttkkl.fgoplanningtool.databinding.FragmentPlanlistBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
+import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
+import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanActivity
+import com.ssttkkl.fgoplanningtool.ui.editplan.Mode
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
-import kotlinx.android.synthetic.main.fragment_planlist.*
 
 class PlanListFragment : BackHandlerFragment(),
         LifecycleOwner,
         ChangePlanWarningDialogFragment.OnActionListener,
         ServantFilterFragment.OnFilterListener {
-    private lateinit var presenter: PlanListFragmentPresenter
-
-    private val adapter
-        get() = recView?.adapter as? PlanListRecViewAdapter
+    private lateinit var binding: FragmentPlanlistBinding
 
     private val servantFilterFragment
         get() = childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) as? ServantFilterFragment
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_planlist, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentPlanlistBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this)[PlanListFragmentViewModel::class.java]
+        binding.setLifecycleOwner(this)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // setup Toolbar
         setHasOptionsMenu(true)
-        (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
-        (activity as? MainActivity)?.setupDrawerToggle(toolbar)
+        onRefreshToolbar(false)
 
         // setup Fab
-        fab.setOnClickListener { presenter.onCalcResultAction() }
-
-        // setup presenter
-        presenter = PlanListFragmentPresenter(this)
+        binding.fab.setOnClickListener { binding.viewModel?.onFabClick() }
 
         // setup ServantFilterFragment
         if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
             childFragmentManager.beginTransaction()
                     .replace(R.id.frameLayout, ServantFilterFragment().apply {
-                        planGetter = { Repo.planRepo[it] }
+                        planGetter = { binding.viewModel?.getPlanByServantID(it) }
                     }, ServantFilterFragment::class.qualifiedName)
                     .commit()
         }
 
         // setup RecView
-        recView.apply {
-            adapter = PlanListRecViewAdapter(context!!).apply {
-                setCallback(presenter)
-            }
+        binding.recView.apply {
+            adapter = PlanListRecViewAdapter(context!!, binding.viewModel!!)
             layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!, true, false))
             hasFixedSize()
         }
 
-
-        // restore select state
-        if (savedInstanceState != null) {
-            data = (savedInstanceState.getParcelableArray(KEY_DATA).map { it as Plan })
-            if (savedInstanceState.getBoolean(KEY_IN_SELECT_MODE, false)) {
-                val selectedServantIDs = savedInstanceState.getIntArray(KEY_SELECTED_SERVANT_IDS)
-                data.forEachIndexed { idx, it ->
-                    if (selectedServantIDs.contains(it.servantId))
-                        adapter?.select(idx)
-                }
-            }
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelableArray(KEY_DATA, data.toTypedArray())
-        if (isInSelectMode) {
-            outState.putBoolean(KEY_IN_SELECT_MODE, true)
-            outState.putIntArray(KEY_SELECTED_SERVANT_IDS, selectedPositions.map { data[it].servantId }.toIntArray())
-        } else {
-            outState.putBoolean(KEY_IN_SELECT_MODE, false)
+        binding.viewModel?.apply {
+            addPlanEvent.observe(this@PlanListFragment, Observer { onAddPlan() })
+            editPlanEvent.observe(this@PlanListFragment, Observer {
+                onEditPlan(it ?: return@Observer)
+            })
+            calcResultEvent.observe(this@PlanListFragment, Observer {
+                onCalcResult(it ?: return@Observer)
+            })
+            removePlansEvent.observe(this@PlanListFragment, Observer {
+                onRemovePlans(it ?: return@Observer)
+            })
+            changeOriginEvent.observe(this@PlanListFragment, Observer {
+                onChangeOrigin(it ?: listOf())
+            })
+            inSelectMode.observe(this@PlanListFragment, Observer {
+                onRefreshToolbar(it == true)
+            })
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         menu?.clear()
-        inflater?.inflate(if (isInSelectMode) R.menu.planlist_inselectmode else R.menu.planlist, menu)
+        inflater?.inflate(if (binding.viewModel?.inSelectMode?.value == true)
+            R.menu.planlist_inselectmode
+        else
+            R.menu.planlist, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> presenter.onExitSelectModeAction()
-            R.id.sortAndFilter_action -> drawerlayout.openDrawer(Gravity.END)
-            R.id.enterSelectMode_action -> presenter.onGetInSelectModeAction()
-            R.id.add_action -> presenter.onNewPlanAction()
-            R.id.selectAll_action -> presenter.onSelectAllAction()
-            R.id.remove_action -> presenter.onRemovePlanAction()
+            android.R.id.home -> binding.viewModel?.onHomeClick()
+            R.id.sortAndFilter_action -> binding.drawerlayout.openDrawer(Gravity.END)
+            R.id.enterSelectMode_action -> binding.viewModel?.onEnterSelectModeClick()
+            R.id.add_action -> binding.viewModel?.onAddClick()
+            R.id.selectAll_action -> binding.viewModel?.onSelectAllClick()
+            R.id.remove_action -> binding.viewModel?.onRemoveClick()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
 
     override fun onBackPressed(): Boolean {
-        return if (presenter.onBackPressed()) true
-        else super.onBackPressed()
+        return if (binding.viewModel?.onBackPressed() == true)
+            true
+        else
+            super.onBackPressed()
     }
 
     override fun onAction(mode: ChangePlanWarningDialogFragment.Companion.Mode,
                           plans: Collection<Plan>,
                           deductItems: Boolean) {
-        presenter.removePlan(plans, deductItems)
+        binding.viewModel?.onRemoveWarningUIResult(plans, deductItems)
     }
 
     override fun onFilter(filtered: List<Servant>) {
-        presenter.onFiltered(filtered)
+        binding.viewModel?.onFilter(filtered)
     }
 
-    // interface for presenter to control ui
-    var data: List<Plan>
-        get() = adapter?.data ?: listOf()
-        set(value) {
-            adapter?.setNewData(value)
-            recView?.invalidateItemDecorations()
+    private fun onAddPlan() {
+        startActivity(Intent(activity, EditPlanActivity::class.java).apply {
+            putExtra(EditPlanActivity.ARG_MODE, Mode.New)
+        })
+    }
+
+    private fun onEditPlan(plan: Plan) {
+        startActivity(Intent(activity, EditPlanActivity::class.java).apply {
+            putExtra(EditPlanActivity.ARG_MODE, Mode.Edit)
+            putExtra(EditPlanActivity.ARG_PLAN, plan)
+        })
+    }
+
+    private fun onCalcResult(plans: Collection<Plan>) {
+        startActivity(Intent(activity, CostItemListActivity::class.java).apply {
+            putExtra(CostItemListActivity.ARG_PLANS, plans.toTypedArray())
+        })
+    }
+
+    private fun onRemovePlans(plans: Collection<Plan>) {
+        ChangePlanWarningDialogFragment.newInstanceForRemove(plans)
+                .show(childFragmentManager, ChangePlanWarningDialogFragment.tag)
+    }
+
+    private fun onChangeOrigin(servants: Collection<Servant>) {
+        servantFilterFragment?.origin = servants
+    }
+
+    private fun onRefreshToolbar(inSelectMode: Boolean) {
+        (activity as? MainActivity)?.apply {
+            if (inSelectMode) {
+                binding.toolbarInSelectMode.visibility = View.VISIBLE
+                binding.toolbar.visibility = View.GONE
+                setSupportActionBar(binding.toolbarInSelectMode)
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            } else {
+                binding.toolbarInSelectMode.visibility = View.GONE
+                binding.toolbar.visibility = View.VISIBLE
+                setSupportActionBar(binding.toolbar)
+                setupDrawerToggle(binding.toolbar)
+            }
+            invalidateOptionsMenu()
         }
-
-    var origin
-        get() = servantFilterFragment?.origin ?: listOf()
-        set(value) {
-            servantFilterFragment?.origin = value
-        }
-
-    var isInSelectMode
-        get() = adapter?.isInSelectMode == true
-        set(value) {
-            adapter?.isInSelectMode = value
-        }
-
-    val selectedPositions
-        get() = adapter?.selectedPositions ?: setOf()
-
-    val isAllSelected
-        get() = adapter?.isAllSelected == true
-
-    val isAnySelected
-        get() = adapter?.isAnySelected == true
-
-    fun selectAll() {
-        adapter?.selectAll()
-    }
-
-    fun deselectAll() {
-        adapter?.deselectAll()
-    }
-
-    fun select(pos: Int) {
-        adapter?.select(pos)
-    }
-
-    fun setupDrawerToggle() {
-        (activity as? MainActivity)?.setupDrawerToggle(toolbar)
-    }
-
-    companion object {
-        private const val KEY_DATA = "data"
-        private const val KEY_IN_SELECT_MODE = "inSelectMode"
-        private const val KEY_SELECTED_SERVANT_IDS = "selectedServantIDs"
     }
 }

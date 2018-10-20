@@ -9,38 +9,40 @@ import java.util.*
 // using an Edit Distance algorithm based-on Dynamic Programming
 object RecViewAdapterDataSetChanger {
     fun <T> perform(adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>,
-                    old: ArrayList<T>,
+                    old: MutableList<T>,
                     new: List<T>,
                     judgeSameItemBy: (T) -> Any) {
-        try {
-            val f = runBlocking(CommonPool) { dp(old, new, judgeSameItemBy) }
-            var cur = f[Pair(old.size - 1, new.size - 1)]
-            while (cur != null) {
-                when (cur.decision) {
-                    0 -> {
-                        if (old[cur.i] != new[cur.j]) {
-                            old[cur.i] = new[cur.j]
-                            adapter.notifyItemChanged(cur.i)
+        synchronized(old) {
+            try {
+                val f = runBlocking(CommonPool) { dp(old, new, judgeSameItemBy) }
+                var cur = f[Pair(old.size - 1, new.size - 1)]
+                while (cur != null) {
+                    when (cur.decision) {
+                        0 -> {
+                            if (old[cur.i] != new[cur.j]) {
+                                old[cur.i] = new[cur.j]
+                                adapter.notifyItemChanged(cur.i)
+                            }
+                        }
+                        1 -> {
+                            old.removeAt(cur.i)
+                            adapter.notifyItemRemoved(cur.i)
+                        }
+                        2 -> {
+                            old.add(cur.i + 1, new[cur.j])
+                            adapter.notifyItemInserted(cur.i + 1)
                         }
                     }
-                    1 -> {
-                        old.removeAt(cur.i)
-                        adapter.notifyItemRemoved(cur.i)
-                    }
-                    2 -> {
-                        old.add(cur.i + 1, new[cur.j])
-                        adapter.notifyItemInserted(cur.i + 1)
-                    }
+                    cur = cur.previous
                 }
-                cur = cur.previous
+                if (old.size != new.size || (old.indices.any { old[it] != new[it] }))
+                    throw Exception("Unknown error.")
+            } catch (exc: Exception) {
+                Log.e("DataSetChanger", exc.message)
+                old.clear()
+                old.addAll(new)
+                adapter.notifyDataSetChanged()
             }
-            if (old.size != new.size || (old.indices.any { old[it] != new[it] }))
-                throw Exception("Unknown error.")
-        } catch (exc: Exception) {
-            Log.e("DataSetChanger", exc.message)
-            old.clear()
-            old.addAll(new)
-            adapter.notifyDataSetChanged()
         }
     }
 

@@ -3,159 +3,58 @@ package com.ssttkkl.fgoplanningtool.ui.planlist
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
+import com.ssttkkl.fgoplanningtool.databinding.ItemPlanlistBinding
 import com.ssttkkl.fgoplanningtool.ui.utils.RecViewAdapterDataSetChanger
-import kotlinx.android.synthetic.main.item_planlist.view.*
-import java.util.concurrent.ConcurrentHashMap
+import com.ssttkkl.fgoplanningtool.ui.utils.databinding.MultipleSelectableAdapter
 
-class PlanListRecViewAdapter(val context: Context) : RecyclerView.Adapter<PlanListRecViewAdapter.ViewHolder>() {
-    val data: List<Plan> = ArrayList()
+class PlanListRecViewAdapter(val context: Context,
+                             private val viewModel: PlanListFragmentViewModel) : RecyclerView.Adapter<PlanListRecViewAdapter.ViewHolder>(),
+        MultipleSelectableAdapter {
+    private val _data = ArrayList<Plan>()
 
-    fun setNewData(newData: List<Plan>) {
-        synchronized(data) {
-            isInSelectMode = false
-            RecViewAdapterDataSetChanger.perform(this, data as ArrayList<Plan>, newData) { it.servantId }
-        }
-    }
-
-    // callback start
-    interface Callback {
-        fun onItemClickedInNormalMode(pos: Int)
-        fun onSelectModeEnabled()
-        fun onSelectModeDisabled()
-        fun onSelectStateChanged(pos: Int, selected: Boolean)
-    }
-
-    private var callback: Callback? = null
-
-    fun setCallback(newCallback: Callback?) {
-        callback = newCallback
-    }
-
-    // selection start
-    private val selection = ConcurrentHashMap<Int, Boolean>()
-
-    val selectedPositions: Set<Int>
-        get() = selection.filterValues { it }.keys
-
-    fun isSelected(pos: Int) = isInSelectMode && (selection[pos] ?: false)
-
-    fun select(pos: Int) {
-        if (!isInSelectMode)
-            isInSelectMode = true
-        if (!isSelected(pos)) {
-            selection[pos] = true
-            notifyItemChanged(pos)
-            callback?.onSelectStateChanged(pos, true)
-        }
-    }
-
-    fun deselect(pos: Int) {
-        if (!isInSelectMode)
-            isInSelectMode = true
-        if (isSelected(pos)) {
-            selection[pos] = false
-            notifyItemChanged(pos)
-            callback?.onSelectStateChanged(pos, false)
-        }
-    }
-
-    val isAllSelected
-        get() = (0 until itemCount).all { isSelected(it) }
-
-    val isAnySelected
-        get() = (0 until itemCount).any { isSelected(it) }
-
-    fun selectAll() {
-        for (pos in 0 until itemCount) {
-            if (!isSelected(pos))
-                select(pos)
-        }
-    }
-
-    fun deselectAll() {
-        for (pos in 0 until itemCount) {
-            if (isSelected(pos))
-                deselect(pos)
-        }
-    }
-
-    var isInSelectMode: Boolean = false
+    var data: List<Plan>
+        get() = _data
         set(value) {
+            selection = selection.filter { it < value.size }.toSet()
+            RecViewAdapterDataSetChanger.perform(this, _data, value) { it.servantId }
+        }
+
+    private var onSelectionChangedListener: ((selection: Set<Int>) -> Unit)? = null
+
+    override fun setOnSelectionChangedListener(newListener: ((selection: Set<Int>) -> Unit)?) {
+        onSelectionChangedListener = newListener
+    }
+
+    override var selection: Set<Int> = setOf()
+        set(value) {
+            if (field == value)
+                return
             val old = field
             field = value
-            if (!old && value) {
-                callback?.onSelectModeEnabled()
-            } else if (old && !value) {
-                val oldSelectedPositions = selectedPositions
-                selection.clear()
-                oldSelectedPositions.forEach { notifyItemChanged(it) }
-                callback?.onSelectModeDisabled()
+            old.forEach {
+                if (!value.contains(it))
+                    notifyItemChanged(it)
             }
-        }
-
-    private fun onPositionClicked(pos: Int) {
-        if (isInSelectMode) {
-            if (isSelected(pos))
-                deselect(pos)
-            else
-                select(pos)
-        } else {
-            callback?.onItemClickedInNormalMode(pos)
-        }
-    }
-
-    private fun onPositionLongClicked(pos: Int): Boolean {
-        if (!isInSelectMode) {
-            isInSelectMode = true
-            select(pos)
-            return true
-        }
-        return false
-    }
-
-    // core start
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_planlist, parent, false)).apply {
-                itemView.apply {
-                    card.setOnClickListener { onPositionClicked(adapterPosition) }
-                    card.setOnLongClickListener { onPositionLongClicked(adapterPosition) }
-                }
+            value.forEach {
+                if (!old.contains(it))
+                    notifyItemChanged(it)
             }
+            onSelectionChangedListener?.invoke(value)
+        }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+            ViewHolder(ItemPlanlistBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
-        val plan = data[pos]
-        holder.itemView.apply {
-            nowLevel_textView.text = plan.nowLevel.toString()
-            planLevel_textView.text = plan.planLevel.toString()
-            nowSkill1_textView.text = plan.nowSkill1.toString()
-            planSkill1_textView.text = plan.planSkill1.toString()
-            nowSkill2_textView.text = plan.nowSkill2.toString()
-            planSkill2_textView.text = plan.planSkill2.toString()
-            nowSkill3_textView.text = plan.nowSkill3.toString()
-            planSkill3_textView.text = plan.planSkill3.toString()
-
-            dress_imageView.visibility = if (plan.dress.isNotEmpty())
-                View.VISIBLE
-            else
-                View.GONE
-
-            selectedFlag_imageView.visibility = if (isInSelectMode && isSelected(pos))
-                View.VISIBLE
-            else
-                View.INVISIBLE
-
-            // if servant resources doesn't exist, show its servantId and avatar_placeholder instead
-            name_textView.text = plan.servant?.localizedName ?: plan.servantId.toString()
-            Glide.with(context).load(plan.servant?.avatarFile).error(R.drawable.avatar_placeholder).into(avatar_imageView)
-        }
+        holder.binding.plan = data[pos]
+        holder.binding.selected = selection.contains(pos)
+        holder.binding.card.setOnClickListener { viewModel.onPlanClick(holder.binding.plan as Plan) }
+        holder.binding.card.setOnLongClickListener { viewModel.onPlanLongClick(holder.binding.plan as Plan) }
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(val binding: ItemPlanlistBinding) : RecyclerView.ViewHolder(binding.root)
 }

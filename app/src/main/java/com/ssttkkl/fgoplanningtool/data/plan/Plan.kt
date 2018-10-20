@@ -1,6 +1,7 @@
 package com.ssttkkl.fgoplanningtool.data.plan
 
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverters
 import android.os.Parcel
@@ -12,7 +13,7 @@ import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 
 @Entity(tableName = "Plan")
 @TypeConverters(IntSetConverter::class)
-data class Plan(@PrimaryKey val servantId: Int,
+data class Plan(@PrimaryKey var servantId: Int,
                 var nowExp: Int,
                 var planExp: Int,
                 var ascendedOnNowStage: Boolean,
@@ -38,6 +39,15 @@ data class Plan(@PrimaryKey val servantId: Int,
 
     val planStage
         get() = ConstantValues.getStage(servant!!.star, planLevel) + if (ascendedOnPlanStage) 1 else 0
+
+    @Ignore
+    constructor(servantId: Int) : this(
+            servantId, 0,
+            ConstantValues.getExp(ResourcesProvider.instance.servants[servantId]!!.stageMapToMaxLevel[4]),
+            false, false,
+            1, 1, 1,
+            10, 10, 10,
+            setOf())
 
     constructor(parcel: Parcel) : this(
             parcel.readInt(),

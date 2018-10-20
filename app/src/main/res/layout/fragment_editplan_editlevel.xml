@@ -1,128 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:minWidth="200dp">
+<layout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <data>
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/level_editText"
-            android:layout_width="match_parent"
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.editplan.EditLevelDialogFragmentViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/level_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="4"
+                android:gravity="end"
+                android:hint="@string/level_item_planlist"
+                android:inputType="number"
+                android:singleLine="true"
+                android:text="@={viewModel.level}"
+                tools:text="90" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="4"
-            android:gravity="end"
-            android:hint="@string/level_item_planlist"
-            android:inputType="number"
-            android:singleLine="true"
-            tools:text="90" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/remainedExp_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="4"
+                android:enabled="@{viewModel.enableRemainedExpEditText}"
+                android:gravity="end"
+                android:hint="@string/remainedExp_editplan"
+                android:inputType="number"
+                android:singleLine="true"
+                android:text="@={viewModel.remainedExp}"
+                tools:text="233333" />
+        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/remainedExp_editText"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/ascendedOnStage_checkBox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="4"
-            android:gravity="end"
-            android:hint="@string/remainedExp_editplan"
-            android:inputType="number"
-            android:singleLine="true"
-            tools:text="233333" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:checked="@={viewModel.ascendedOnStage}"
+            android:enabled="@{viewModel.enableAscendedOnStageCheckBox}"
+            android:text="@string/ascendedInCurStage_editplan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-    <CheckBox
-        android:id="@+id/ascendedOnStage_checkBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/ascendedInCurStage_editplan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+        <Button
+            android:id="@+id/save_button"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/save_editplan"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/max_button" />
 
-    <Button
-        android:id="@+id/save_button"
-        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/save_editplan"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/max_button" />
+        <Button
+            android:id="@+id/cancel_button"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/cancel_edititem"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/save_button"
+            app:layout_constraintTop_toBottomOf="@+id/max_button" />
 
-    <Button
-        android:id="@+id/cancel_button"
-        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/cancel_edititem"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/save_button"
-        app:layout_constraintTop_toBottomOf="@+id/max_button" />
+        <Button
+            android:id="@+id/min_button"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{String.valueOf(viewModel.minLevel)}"
+            app:layout_constraintEnd_toStartOf="@id/max_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
+            tools:text="1" />
 
-    <Button
-        android:id="@+id/min_button"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@id/max_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
-        tools:text="1" />
+        <Button
+            android:id="@+id/max_button"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{String.valueOf(viewModel.maxLevel)}"
+            app:layout_constraintEnd_toStartOf="@id/mmax_button"
+            app:layout_constraintStart_toEndOf="@+id/min_button"
+            app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
+            tools:text="80" />
 
-    <Button
-        android:id="@+id/max_button"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@id/mmax_button"
-        app:layout_constraintStart_toEndOf="@+id/min_button"
-        app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
-        tools:text="80" />
+        <Button
+            android:id="@+id/mmax_button"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{String.valueOf(viewModel.mmaxLevel)}"
+            android:visibility="@{viewModel.showMmaxLevelButton ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/max_button"
+            app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
+            tools:text="100" />
 
-    <Button
-        android:id="@+id/mmax_button"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/max_button"
-        app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
-        tools:text="100" />
-
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>

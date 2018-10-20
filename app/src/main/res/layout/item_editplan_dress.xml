@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/checkBox"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:text="dress" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="text"
+            type="String" />
+
+        <variable
+            name="checked"
+            type="Boolean" />
+    </data>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="@={checked}"
+        android:text="@{text}" />
+</layout>
