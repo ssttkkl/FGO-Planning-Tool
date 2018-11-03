@@ -1,6 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
@@ -32,24 +34,33 @@ class PlanListFragmentViewModel : ViewModel() {
         }
     }
 
-    val data: MutableLiveData<List<Plan>> = object : MutableLiveData<List<Plan>>() {
-        override fun setValue(value: List<Plan>?) {
-            val old = this.value ?: listOf()
-            val oldSelected = selection.value?.map { old[it] } ?: listOf()
-            super.setValue(value)
-            selection.value = oldSelected.filter { value?.contains(it) == true }.mapNotNull { value?.indexOf(it) }.toSet()
+    val data = MutableLiveData<List<Plan>>()
+
+    val existsServantIDs: LiveData<Set<Int>> = Transformations.map(data) { data ->
+        data.map { it.servantId }.toSet()
+    }
+
+    val selectedServantIDs = object : MutableLiveData<Set<Int>>() {
+        init {
+            existsServantIDs.observeForever { existsServantID ->
+                value = value?.filter { existsServantID?.contains(it) == true }?.toSet()
+            }
+            inSelectMode.observeForever {
+                value = setOf()
+            }
         }
     }
 
-    val selection = MutableLiveData<Set<Int>>()
+    val selection
+        get() = selectedServantIDs.value?.mapNotNull { servantID -> Repo.planRepo[servantID] }
+                ?: listOf()
 
     fun onPlanClick(plan: Plan) {
         if (inSelectMode.value == true) {
-            val idx = data.value?.indexOf(plan) ?: return
-            if (selection.value?.contains(idx) == true)
-                selection.value = selection.value?.minus(idx)
+            if (selectedServantIDs.value?.contains(plan.servantId) == true)
+                selectedServantIDs.value = selectedServantIDs.value?.minus(plan.servantId)
             else
-                selection.value = selection.value?.plus(idx) ?: setOf()
+                selectedServantIDs.value = selectedServantIDs.value?.plus(plan.servantId) ?: setOf()
         } else
             editPlanEvent.call(plan)
     }
@@ -57,14 +68,14 @@ class PlanListFragmentViewModel : ViewModel() {
     fun onPlanLongClick(plan: Plan): Boolean {
         return if (inSelectMode.value != true) {
             inSelectMode.value = true
-            selection.value = setOf(data.value?.indexOf(plan) ?: return true)
+            selectedServantIDs.value = setOf(plan.servantId)
             true
         } else false
     }
 
     fun onFabClick() {
         val plans = if (inSelectMode.value == true)
-            selection.value?.mapNotNull { data.value?.get(it) }
+            selection
         else
             data.value
         calcResultEvent.call(plans)
@@ -91,16 +102,14 @@ class PlanListFragmentViewModel : ViewModel() {
     }
 
     fun onSelectAllClick() {
-        val all = (0 until (data.value?.size ?: 0)).toSet()
-        selection.value = if (selection.value == all)
+        selectedServantIDs.value = if (selectedServantIDs.value == existsServantIDs.value)
             setOf()
         else
-            all
+            existsServantIDs.value
     }
 
     fun onRemoveClick() {
-        val selected = selection.value?.mapNotNull { data.value?.get(it) }
-        removePlansEvent.call(selected)
+        removePlansEvent.call(selection)
         inSelectMode.value = false
     }
 

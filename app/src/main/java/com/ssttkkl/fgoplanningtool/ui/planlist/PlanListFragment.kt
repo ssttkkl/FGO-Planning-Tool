@@ -41,9 +41,6 @@ class PlanListFragment : BackHandlerFragment(),
         setHasOptionsMenu(true)
         onRefreshToolbar(false)
 
-        // setup Fab
-        binding.fab.setOnClickListener { binding.viewModel?.onFabClick() }
-
         // setup ServantFilterFragment
         if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
             childFragmentManager.beginTransaction()
@@ -55,7 +52,7 @@ class PlanListFragment : BackHandlerFragment(),
 
         // setup RecView
         binding.recView.apply {
-            adapter = PlanListRecViewAdapter(context!!, binding.viewModel!!)
+            adapter = PlanListRecViewAdapter(context!!, this@PlanListFragment, binding.viewModel!!)
             layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!, true, false))
             hasFixedSize()

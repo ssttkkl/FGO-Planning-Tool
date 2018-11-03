@@ -41,7 +41,7 @@
                     android:layout_height="?android:attr/actionBarSize"
                     android:background="@color/colorPrimary"
                     app:popupTheme="@style/AppTheme.PopupOverlay"
-                    app:title="@{@string/selectedCount_planlist(viewModel.selection.size, viewModel.data.size)}" />
+                    app:title="@{@string/selectedCount_planlist(viewModel.selectedServantIDs.size, viewModel.data.size)}" />
 
             </android.support.design.widget.AppBarLayout>
 
@@ -49,9 +49,7 @@
                 android:id="@+id/recView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:data="@{viewModel.data}"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:selection="@{viewModel.selection}"
                 tools:listitem="@layout/item_planlist" />
 
             <android.support.design.widget.FloatingActionButton
@@ -60,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@drawable/ic_chrome_reader_mode_white_24dp" />
+                app:srcCompat="@drawable/ic_chrome_reader_mode_white_24dp"
+                android:onClick="@{() -> viewModel.onFabClick()}" />
 
         </android.support.design.widget.CoordinatorLayout>
 
