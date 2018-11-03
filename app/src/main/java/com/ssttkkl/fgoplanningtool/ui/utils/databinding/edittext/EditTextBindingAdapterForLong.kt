@@ -1,13 +1,13 @@
-package com.ssttkkl.fgoplanningtool.ui.utils.databinding
+package com.ssttkkl.fgoplanningtool.ui.utils.databinding.edittext
 
 import android.databinding.BindingAdapter
 import android.databinding.InverseBindingAdapter
 import android.widget.EditText
 
-object EditTextBindingAdapter {
+object EditTextBindingAdapterForLong {
     @BindingAdapter("android:text")
     @JvmStatic
-    fun setText(editText: EditText, text: Int?) {
+    fun setText(editText: EditText, text: Long?) {
         val value = text?.toString() ?: ""
         if (editText.text.toString() != value)
             editText.setText(value)
@@ -15,7 +15,7 @@ object EditTextBindingAdapter {
 
     @InverseBindingAdapter(attribute = "android:text", event = "android:textAttrChanged")
     @JvmStatic
-    fun getText(editText: EditText): Int? {
-        return editText.text.toString().toIntOrNull()
+    fun getText(editText: EditText): Long? {
+        return editText.text.toString().toLongOrNull()
     }
 }

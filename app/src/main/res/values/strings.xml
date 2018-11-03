@@ -107,6 +107,7 @@
     <string name="need_item_costitemlist">需要</string>
 
     <string name="title_ownitemlist">材料仓库</string>
+    <string name="enterEditMode_ownitemlist">进入批量编辑模式</string>
     <string name="own_item_ownitemlist">持有</string>
 
     <string name="hint_edititem">持有数量</string>

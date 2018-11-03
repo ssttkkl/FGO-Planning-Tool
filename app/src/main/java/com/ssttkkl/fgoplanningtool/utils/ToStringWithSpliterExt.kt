@@ -1,10 +1,10 @@
 package com.ssttkkl.fgoplanningtool.utils
 
-fun Int.toStringWithSplitter(splitter: String = ",", groupLength: Int = 3): String {
+fun Int.toStringWithSplitter(splitter: String, groupLength: Int): String {
     return toLong().toStringWithSplitter(splitter, groupLength)
 }
 
-fun Long.toStringWithSplitter(splitter: String = ",", groupLength: Int = 3): String {
+fun Long.toStringWithSplitter(splitter: String, groupLength: Int): String {
     if (this < 0)
         return (0 - this).toStringWithSplitter(splitter, groupLength)
     val sb = StringBuilder()
@@ -15,3 +15,6 @@ fun Long.toStringWithSplitter(splitter: String = ",", groupLength: Int = 3): Str
     }
     return sb.toString().reversed()
 }
+
+fun Int.toStringWithSplitter() = this.toStringWithSplitter(",", 3)
+fun Long.toStringWithSplitter() = this.toStringWithSplitter(",", 3)

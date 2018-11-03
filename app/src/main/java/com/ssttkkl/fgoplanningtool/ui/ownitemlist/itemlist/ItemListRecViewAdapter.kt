@@ -1,71 +1,73 @@
 package com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist
 
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
-import kotlinx.android.synthetic.main.item_ownitemlist.view.*
+import com.ssttkkl.fgoplanningtool.databinding.ItemOwnitemlistBinding
+import com.ssttkkl.fgoplanningtool.databinding.ItemOwnitemlistEditmodeBinding
+import com.ssttkkl.fgoplanningtool.ui.utils.changeDataSetSmoothly
 
 class ItemListRecViewAdapter(val context: Context,
-                             val showInfoButton: Boolean = true) : RecyclerView.Adapter<ItemListRecViewAdapter.ViewHolder>() {
-    val data: List<Item> = ArrayList()
-
-    fun setNewData(newData: List<Item>) {
-        if (newData.size == data.size && newData.indices.all { newData[it].codename == data[it].codename }) {
-            newData.indices.forEach {
-                if (newData[it] != data[it]) {
-                    (data as MutableList<Item>)[it] = newData[it]
-                    notifyItemChanged(it)
-                }
-            }
-        } else {
-            (data as MutableList<Item>).apply {
-                clear()
-                addAll(newData)
-            }
-            notifyDataSetChanged()
+                             lifecycleOwner: LifecycleOwner,
+                             private val viewModel: ItemListFragmentViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private var data: List<Item> = ArrayList()
+        set(value) {
+            changeDataSetSmoothly(field as ArrayList<Item>, value) { it.codename }
         }
-    }
 
-    interface Callback {
-        fun onItemInfoAction(codename: String)
-        fun onItemEditAction(codename: String)
-    }
-
-    private var callback: Callback? = null
-
-    fun setCallback(newCallback: Callback?) {
-        callback = newCallback
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ownitemlist, parent, false)).apply {
-                itemView.setOnClickListener { callback?.onItemEditAction(data[adapterPosition].codename) }
-                itemView.edit_button.setOnClickListener { callback?.onItemEditAction(data[adapterPosition].codename) }
-                itemView.info_button.setOnClickListener { callback?.onItemInfoAction(data[adapterPosition].codename) }
-                itemView.info_button.visibility = if (showInfoButton)
-                    View.VISIBLE
-                else
-                    View.GONE
+    private var inEditMode: Set<String> = setOf()
+        set(value) {
+            if (field == value)
+                return
+            val old = field
+            field = value
+            old.forEach { oldCodeName ->
+                if (!value.contains(oldCodeName))
+                    notifyItemChanged(data.indexOfFirst { it.codename == oldCodeName })
             }
+            value.forEach { newCodeName ->
+                if (!old.contains(newCodeName))
+                    notifyItemChanged(data.indexOfFirst { it.codename == newCodeName })
+            }
+        }
+
+    init {
+        viewModel.data.observe(lifecycleOwner, Observer { data = it ?: listOf() })
+        viewModel.inEditMode.observe(lifecycleOwner, Observer { inEditMode = it ?: setOf() })
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (!inEditMode.contains(data[position].codename)) 1 else 2
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = if (viewType == 1)
+        NormalViewHolder(ItemOwnitemlistBinding.inflate(LayoutInflater.from(context), parent, false))
+    else
+        EditModeViewHolder(ItemOwnitemlistEditmodeBinding.inflate(LayoutInflater.from(context), parent, false))
 
     override fun getItemCount(): Int = data.size
 
-    override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
-        val item = data[pos]
-        holder.apply {
-            itemView.apply {
-                name_textView.text = item.descriptor?.localizedName ?: item.codename
-                own_textView.text = item.count.toStringWithSplitter()
-                Glide.with(context).load(item.descriptor?.imgFile).error(R.drawable.item_placeholder).into(avatar_imageView)
-            }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, pos: Int) {
+        if (holder is NormalViewHolder) {
+            holder.binding.item = data[pos]
+        } else if (holder is EditModeViewHolder) {
+            holder.binding.item = data[pos]
         }
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class NormalViewHolder(val binding: ItemOwnitemlistBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.viewModel = viewModel
+        }
+    }
+
+    inner class EditModeViewHolder(val binding: ItemOwnitemlistEditmodeBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.viewModel = viewModel
+        }
+    }
 }

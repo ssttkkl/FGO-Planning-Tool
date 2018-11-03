@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptor
-import com.ssttkkl.fgoplanningtool.ui.utils.RecViewAdapterDataSetChanger
+import com.ssttkkl.fgoplanningtool.ui.utils.changeDataSetSmoothly
 import kotlinx.android.synthetic.main.item_databasemanage.view.*
 import kotlinx.android.synthetic.main.item_editmode_databasemanage.view.*
 import java.util.concurrent.ConcurrentHashMap
@@ -30,7 +30,7 @@ class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<
                 return
 
             inEditModePositions.filter { it.value }.keys.forEach { setPositionInNormalMode(it) }
-            RecViewAdapterDataSetChanger.perform(this, data as ArrayList<DatabaseDescriptor>, newData) { it.uuid }
+            changeDataSetSmoothly(data as ArrayList<DatabaseDescriptor>, newData) { it.uuid }
         }
     }
 

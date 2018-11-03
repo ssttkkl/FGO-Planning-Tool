@@ -1,77 +1,62 @@
 package com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist
 
-
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.Repo
-import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
+import com.ssttkkl.fgoplanningtool.databinding.FragmentOwnitemlistItemlistBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
+import com.ssttkkl.fgoplanningtool.ui.iteminfo.ItemInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
-import kotlinx.android.synthetic.main.fragment_ownitemlist_itemlist.*
 
 class ItemListFragment : Fragment() {
-    private var callback: ItemListRecViewAdapter.Callback? = null
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        callback = when {
-            parentFragment is ItemListRecViewAdapter.Callback -> parentFragment as ItemListRecViewAdapter.Callback
-            activity is ItemListRecViewAdapter.Callback -> activity as ItemListRecViewAdapter.Callback
-            else -> throw NoInterfaceImplException(ItemListRecViewAdapter.Callback::class)
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        callback = null
-    }
-
-    private lateinit var type: ItemType
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        type = arguments!!.getSerializable("type") as ItemType
-    }
+    private lateinit var binding: FragmentOwnitemlistItemlistBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_ownitemlist_itemlist, container, false)
+                              savedInstanceState: Bundle?): View {
+        binding = FragmentOwnitemlistItemlistBinding.inflate(inflater, container, false)
+        binding.setLifecycleOwner(this)
+        binding.viewModel = ViewModelProviders.of(this)[ItemListFragmentViewModel::class.java].apply {
+            type.value = arguments!!.getSerializable(ARG_TYPE) as ItemType
+        }
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recView.apply {
-            adapter = ItemListRecViewAdapter(context!!, type != ItemType.General).apply {
-                setCallback(callback)
-            }
+        binding.recView.apply {
+            adapter = ItemListRecViewAdapter(context!!, this@ItemListFragment, binding.viewModel!!)
             layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!))
         }
-        Repo.itemListLiveData.observe(this, Observer {
-            onDataChanged(it ?: listOf())
-        })
+
+        binding.viewModel?.apply {
+            showItemInfoEvent.observe(this@ItemListFragment, Observer {
+                showItemInfo(it ?: return@Observer)
+            })
+            showMessageEvent.observe(this@ItemListFragment, Observer {
+                showMessage(it ?: return@Observer)
+            })
+        }
     }
 
-    private fun onDataChanged(data: List<Item>) {
-        val map = data.associate { Pair(it.codename, it) }
-        val newData = ResourcesProvider.instance.itemDescriptors.values.filter { it.type == type }
-                .map { Item(it.codename, map[it.codename]?.count ?: 0) }
-                .sortedBy { ResourcesProvider.instance.itemRank[it.codename] }
+    private fun showItemInfo(codename: String) {
+        ItemInfoDialogFragment.newInstance(codename)
+                .show(fragmentManager, ItemInfoDialogFragment::class.qualifiedName)
+    }
 
-        (recView?.adapter as? ItemListRecViewAdapter)?.setNewData(newData)
-        Log.d("OwnItemList", "DataSet Changed. ($type)")
+    private fun showMessage(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 
     companion object {
-        fun getInstance(type: ItemType) = ItemListFragment().apply {
+        fun newInstance(type: ItemType) = ItemListFragment().apply {
             arguments = Bundle().apply {
                 putSerializable(ARG_TYPE, type)
             }

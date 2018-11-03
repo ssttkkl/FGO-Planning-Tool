@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.ItemPlanlistBinding
-import com.ssttkkl.fgoplanningtool.ui.utils.RecViewAdapterDataSetChanger
+import com.ssttkkl.fgoplanningtool.ui.utils.changeDataSetSmoothly
 import com.ssttkkl.fgoplanningtool.ui.utils.databinding.MultipleSelectableAdapter
 
 class PlanListRecViewAdapter(val context: Context,
@@ -18,7 +18,7 @@ class PlanListRecViewAdapter(val context: Context,
         get() = _data
         set(value) {
             selection = selection.filter { it < value.size }.toSet()
-            RecViewAdapterDataSetChanger.perform(this, _data, value) { it.servantId }
+            changeDataSetSmoothly(_data, value) { it.servantId }
         }
 
     private var onSelectionChangedListener: ((selection: Set<Int>) -> Unit)? = null
