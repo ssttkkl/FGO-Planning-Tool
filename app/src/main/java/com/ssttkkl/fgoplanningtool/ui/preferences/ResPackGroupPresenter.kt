@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.preferences
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.webkit.MimeTypeMap
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R

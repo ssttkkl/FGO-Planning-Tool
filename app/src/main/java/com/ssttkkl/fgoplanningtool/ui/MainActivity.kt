@@ -1,16 +1,16 @@
 package com.ssttkkl.fgoplanningtool.ui
 
 import android.app.Activity
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.core.view.GravityCompat
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
@@ -51,10 +51,10 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
         return true
     }
 
-    private fun switchToFragment(fragmentClass: KClass<out Fragment>) {
+    private fun switchToFragment(fragmentClass: KClass<out androidx.fragment.app.Fragment>) {
         if (supportFragmentManager.findFragmentByTag(fragmentClass.qualifiedName) == null) {
             supportFragmentManager.apply {
-                beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                beginTransaction().setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.frameLayout, fragmentClass.createInstance())
                         .commit()
                 executePendingTransactions()

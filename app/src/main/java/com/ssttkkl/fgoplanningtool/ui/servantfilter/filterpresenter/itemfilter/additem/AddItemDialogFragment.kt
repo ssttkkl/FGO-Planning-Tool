@@ -1,8 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.servantfilter.filterpresenter.itemfilter.additem
 
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_servantlist_additem.*
 
-class AddItemDialogFragment : DialogFragment(), ItemListFragment.OnItemClickListener {
+class AddItemDialogFragment : androidx.fragment.app.DialogFragment(), ItemListFragment.OnItemClickListener {
     interface OnAddItemActionListener {
         fun onAddItemAction(codename: String)
     }
@@ -39,7 +39,7 @@ class AddItemDialogFragment : DialogFragment(), ItemListFragment.OnItemClickList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val types = ItemType.values().filter { it != ItemType.General }
         viewPager.apply {
-            adapter = object : FragmentPagerAdapter(childFragmentManager) {
+            adapter = object : androidx.fragment.app.FragmentPagerAdapter(childFragmentManager) {
                 override fun getItem(pos: Int) = ItemListFragment.newInstance(types[pos])
                 override fun getCount() = types.size
                 override fun getPageTitle(pos: Int) = types[pos].localizedName

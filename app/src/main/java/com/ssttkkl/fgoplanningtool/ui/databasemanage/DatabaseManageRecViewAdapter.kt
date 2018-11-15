@@ -1,8 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.databasemanage
 
 import android.content.Context
-import android.support.v7.widget.PopupMenu
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.widget.PopupMenu
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_databasemanage.view.*
 import kotlinx.android.synthetic.main.item_editmode_databasemanage.view.*
 import java.util.concurrent.ConcurrentHashMap
 
-class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<DatabaseManageRecViewAdapter.ViewHolder>() {
+class DatabaseManageRecViewAdapter(val context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<DatabaseManageRecViewAdapter.ViewHolder>() {
     val data: List<DatabaseDescriptor> = ArrayList()
 
     fun setNewData(newData: List<DatabaseDescriptor>) {
@@ -133,7 +133,7 @@ class DatabaseManageRecViewAdapter(val context: Context) : RecyclerView.Adapter<
         }
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 
     companion object {
         private const val ITEM_TYPE_NORMAL = 1

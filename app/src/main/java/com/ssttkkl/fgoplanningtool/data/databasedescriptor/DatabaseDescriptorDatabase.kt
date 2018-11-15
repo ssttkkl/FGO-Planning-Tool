@@ -1,8 +1,8 @@
 package com.ssttkkl.fgoplanningtool.data.databasedescriptor
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.ssttkkl.fgoplanningtool.MyApp
 
 @Database(entities = [DatabaseDescriptor::class], version = 1)

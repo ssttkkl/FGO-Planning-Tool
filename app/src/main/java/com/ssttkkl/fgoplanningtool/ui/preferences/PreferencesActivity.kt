@@ -3,7 +3,7 @@ package com.ssttkkl.fgoplanningtool.ui.preferences
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor

@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.data.migration
 
-import android.arch.persistence.db.SupportSQLiteDatabase
-import android.arch.persistence.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.room.migration.Migration
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import com.ssttkkl.fgoplanningtool.resources.ConstantValues

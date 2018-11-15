@@ -1,11 +1,11 @@
 package com.ssttkkl.fgoplanningtool.ui.servantlist
 
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.SearchView
 import android.view.*
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -132,7 +132,7 @@ class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.OnFilte
 
     private fun onSwitchToListView() {
         recView?.apply {
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
             (adapter as? ServantListAdapter)?.viewType = ViewType.List
             addItemDecoration(itemDecoration)
         }

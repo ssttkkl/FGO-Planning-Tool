@@ -1,6 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.splash
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

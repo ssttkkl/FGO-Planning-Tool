@@ -1,18 +1,18 @@
 package com.ssttkkl.fgoplanningtool.ui.editplan
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEditplanDetailBinding
 import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 
-class EditPlanDetailFragment : Fragment(), LifecycleOwner, EditLevelDialogFragment.OnSaveListener {
+class EditPlanDetailFragment : androidx.fragment.app.Fragment(), LifecycleOwner, EditLevelDialogFragment.OnSaveListener {
     private lateinit var binding: FragmentEditplanDetailBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +27,7 @@ class EditPlanDetailFragment : Fragment(), LifecycleOwner, EditLevelDialogFragme
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.dressRecView.apply {
             adapter = EditPlanDressListRecViewAdapter(context!!)
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
             isNestedScrollingEnabled = false
         }
 

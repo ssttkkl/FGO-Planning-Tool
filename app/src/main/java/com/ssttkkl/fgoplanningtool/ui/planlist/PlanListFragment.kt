@@ -1,11 +1,11 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.*
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
@@ -53,7 +53,7 @@ class PlanListFragment : BackHandlerFragment(),
         // setup RecView
         binding.recView.apply {
             adapter = PlanListRecViewAdapter(context!!, this@PlanListFragment, binding.viewModel!!)
-            layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!, true, false))
             hasFixedSize()
         }

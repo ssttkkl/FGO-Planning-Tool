@@ -1,6 +1,6 @@
 package com.ssttkkl.fgoplanningtool.data.item
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.util.Log
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.RepoDatabase

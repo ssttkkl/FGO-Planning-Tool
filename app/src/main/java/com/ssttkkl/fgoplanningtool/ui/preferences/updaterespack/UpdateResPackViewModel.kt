@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.preferences.updaterespack
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.util.Log
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.net.ResPackDownloader

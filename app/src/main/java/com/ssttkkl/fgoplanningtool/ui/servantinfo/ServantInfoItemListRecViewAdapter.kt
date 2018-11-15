@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.servantinfo
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_servantinfo_itemlist.view.*
 
-class ServantInfoItemListRecViewAdapter(val context: Context) : RecyclerView.Adapter<ServantInfoItemListRecViewAdapter.ViewHolder>() {
+class ServantInfoItemListRecViewAdapter(val context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<ServantInfoItemListRecViewAdapter.ViewHolder>() {
     var data: List<Item> = listOf()
         set(value) {
             field = value
@@ -40,5 +40,5 @@ class ServantInfoItemListRecViewAdapter(val context: Context) : RecyclerView.Ada
         }
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 }

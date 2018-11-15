@@ -1,11 +1,11 @@
 package com.ssttkkl.fgoplanningtool.ui.preferences.updaterespack
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +25,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
 
-class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback {
+class UpdateResPackDialogFragment : androidx.fragment.app.DialogFragment(), ResPackDownloader.Callback {
     private lateinit var viewModel: UpdateResPackViewModel
 
     override fun onAttach(context: Context?) {

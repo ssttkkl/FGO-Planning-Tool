@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.servantlist
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import kotlinx.android.synthetic.main.item_servantlist.view.*
 
 class ServantListAdapter(val context: Context,
-                         private val hidden: Set<Int>) : RecyclerView.Adapter<ServantListAdapter.ViewHolder>() {
+                         private val hidden: Set<Int>) : androidx.recyclerview.widget.RecyclerView.Adapter<ServantListAdapter.ViewHolder>() {
     var data: List<Servant> = listOf()
         set(value) {
             field = value
@@ -62,7 +62,7 @@ class ServantListAdapter(val context: Context,
         }
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 
     companion object {
         private const val disabledAlpha = 0.4f

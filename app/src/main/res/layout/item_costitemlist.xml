@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="au" />
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constLayout"
         android:layout_width="match_parent"
         android:layout_height="72dp"
@@ -67,7 +67,7 @@
             app:layout_row="0"
             tools:text="heart" />
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linearLayoutCompat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                 android:text="@string/need_item_costitemlist"
                 android:textAppearance="@style/ListItemTertiary" />
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/require_textView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                 android:text="@string/own_item_costitemlist"
                 android:textAppearance="@style/ListItemTertiary" />
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/own_textView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -121,9 +121,9 @@
                 app:autoSizeMinTextSize="10sp"
                 app:autoSizeTextType="uniform"
                 tools:text="999,999,999" />
-        </android.support.v7.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/expLayout"
@@ -132,7 +132,7 @@
         android:background="?android:attr/colorBackground"
         app:el_expanded="true">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

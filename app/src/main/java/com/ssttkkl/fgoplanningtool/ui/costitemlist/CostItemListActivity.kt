@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.costitemlist
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan

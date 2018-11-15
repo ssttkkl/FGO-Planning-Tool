@@ -1,13 +1,13 @@
 package com.ssttkkl.fgoplanningtool.ui.editplan
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.databinding.TitlesHolder
 
-class EditPlanFragmentPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm), TitlesHolder {
+class EditPlanFragmentPagerAdapter(fm: androidx.fragment.app.FragmentManager) : androidx.fragment.app.FragmentPagerAdapter(fm), TitlesHolder {
     override var titles: List<String> = listOf()
         set(value) {
             field = value
@@ -49,7 +49,7 @@ class EditPlanFragmentPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(f
 
     override fun getPageTitle(pos: Int): String? = titles.getOrNull(pos)
 
-    override fun getItem(pos: Int): Fragment =
+    override fun getItem(pos: Int): androidx.fragment.app.Fragment =
             if (pos == 0)
                 editPlanDetail
             else

@@ -1,10 +1,10 @@
 package com.ssttkkl.fgoplanningtool.ui.editplan
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import com.ssttkkl.fgoplanningtool.databinding.FragmentEditplanEditlevelBinding
 import com.ssttkkl.fgoplanningtool.resources.ConstantValues
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 
-class EditLevelDialogFragment : DialogFragment() {
+class EditLevelDialogFragment : androidx.fragment.app.DialogFragment() {
     interface OnSaveListener {
         fun onSave(exp: Int, ascendedOnStage: Boolean, extraTag: String?)
     }

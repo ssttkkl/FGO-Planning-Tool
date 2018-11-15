@@ -1,6 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.editplan
 
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import android.os.Bundle
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo

@@ -1,11 +1,11 @@
 package com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +14,7 @@ import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.iteminfo.ItemInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
-class ItemListFragment : Fragment() {
+class ItemListFragment : androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentOwnitemlistItemlistBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +30,7 @@ class ItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.recView.apply {
             adapter = ItemListRecViewAdapter(context!!, this@ItemListFragment, binding.viewModel!!)
-            layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!))
         }
 

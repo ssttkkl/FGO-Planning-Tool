@@ -1,9 +1,9 @@
 package com.ssttkkl.fgoplanningtool.ui.utils.databinding
 
-import android.databinding.BindingAdapter
-import android.databinding.InverseBindingAdapter
-import android.databinding.InverseBindingListener
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
+import androidx.recyclerview.widget.RecyclerView
 
 interface MultipleSelectableAdapter {
     var selection: Set<Int>
@@ -14,7 +14,7 @@ interface MultipleSelectableAdapter {
 object MultipleSelectableAdapterBindingAdapter {
     @BindingAdapter("onSelectionChanged")
     @JvmStatic
-    fun setOnSelectionChanged(recView: RecyclerView, listener: InverseBindingListener) {
+    fun setOnSelectionChanged(recView: androidx.recyclerview.widget.RecyclerView, listener: InverseBindingListener) {
         (recView.adapter as? MultipleSelectableAdapter)?.setOnSelectionChangedListener {
             listener.onChange()
         }
@@ -22,13 +22,13 @@ object MultipleSelectableAdapterBindingAdapter {
 
     @BindingAdapter("selection")
     @JvmStatic
-    fun setSelection(recView: RecyclerView, selection: Set<Int>) {
+    fun setSelection(recView: androidx.recyclerview.widget.RecyclerView, selection: Set<Int>) {
         (recView.adapter as? MultipleSelectableAdapter)?.selection = selection
     }
 
     @InverseBindingAdapter(attribute = "selection", event = "onSelectionChanged")
     @JvmStatic
-    fun getSelection(recView: RecyclerView): Set<Int> {
+    fun getSelection(recView: androidx.recyclerview.widget.RecyclerView): Set<Int> {
         return (recView.adapter as? MultipleSelectableAdapter)?.selection ?: setOf()
     }
 }

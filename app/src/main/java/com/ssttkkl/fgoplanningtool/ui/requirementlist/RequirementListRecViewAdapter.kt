@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.requirementlist
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_requirementlist.view.*
 
-class RequirementListRecViewAdapter(val context: Context) : RecyclerView.Adapter<RequirementListRecViewAdapter.ViewHolder>() {
+class RequirementListRecViewAdapter(val context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<RequirementListRecViewAdapter.ViewHolder>() {
     var data: List<RequirementListEntity> = listOf()
         set(value) {
             field = value
@@ -39,5 +39,5 @@ class RequirementListRecViewAdapter(val context: Context) : RecyclerView.Adapter
         }
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 }

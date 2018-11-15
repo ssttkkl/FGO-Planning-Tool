@@ -1,17 +1,17 @@
 package com.ssttkkl.fgoplanningtool.ui.editplan
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import android.view.*
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEditplanBinding
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
 
-class EditPlanFragment : Fragment(),
+class EditPlanFragment : androidx.fragment.app.Fragment(),
         ChangePlanWarningDialogFragment.OnActionListener {
     private lateinit var binding: FragmentEditplanBinding
     private val viewModel

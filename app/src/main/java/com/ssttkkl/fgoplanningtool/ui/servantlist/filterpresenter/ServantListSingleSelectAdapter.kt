@@ -2,14 +2,14 @@ package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter
 
 import android.app.Activity
 import android.graphics.Typeface
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.ssttkkl.fgoplanningtool.R
 import kotlinx.android.synthetic.main.item_servantlist_filter.view.*
 
-class ServantListSingleSelectAdapter<T>(val activity: Activity, private val getText: ((item: T) -> String)) : RecyclerView.Adapter<ServantListSingleSelectAdapter<T>.ViewHolder>() {
+class ServantListSingleSelectAdapter<T>(val activity: Activity, private val getText: ((item: T) -> String)) : androidx.recyclerview.widget.RecyclerView.Adapter<ServantListSingleSelectAdapter<T>.ViewHolder>() {
     var data: List<T> = listOf()
         set(value) {
             field = value
@@ -67,5 +67,5 @@ class ServantListSingleSelectAdapter<T>(val activity: Activity, private val getT
         }
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 }

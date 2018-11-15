@@ -1,8 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.editplan
 
 import android.content.Context
-import android.databinding.Observable
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.Observable
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import com.ssttkkl.fgoplanningtool.databinding.ItemEditplanDressBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Dress
 import com.ssttkkl.fgoplanningtool.ui.utils.databinding.MultipleSelectableAdapter
 
-class EditPlanDressListRecViewAdapter(val context: Context) : RecyclerView.Adapter<EditPlanDressListRecViewAdapter.ViewHolder>()
+class EditPlanDressListRecViewAdapter(val context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<EditPlanDressListRecViewAdapter.ViewHolder>()
         , MultipleSelectableAdapter {
     var data: List<Dress> = listOf()
         set(value) {
@@ -71,5 +71,5 @@ class EditPlanDressListRecViewAdapter(val context: Context) : RecyclerView.Adapt
         }
     }
 
-    inner class ViewHolder(val binding: ItemEditplanDressBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemEditplanDressBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root)
 }

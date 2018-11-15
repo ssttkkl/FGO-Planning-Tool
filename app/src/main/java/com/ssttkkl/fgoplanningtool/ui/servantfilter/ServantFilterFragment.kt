@@ -1,9 +1,9 @@
 package com.ssttkkl.fgoplanningtool.ui.servantfilter
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_servantfilter.*
 import java.util.concurrent.ConcurrentSkipListSet
 
-class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemActionListener {
+class ServantFilterFragment : androidx.fragment.app.Fragment(), AddItemDialogFragment.OnAddItemActionListener {
     interface OnFilterListener {
         fun onFilter(filtered: List<Servant>)
     }

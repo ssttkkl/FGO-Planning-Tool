@@ -31,7 +31,7 @@
         app:el_duration="300"
         tools:el_expanded="true">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/wayToGet_recView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

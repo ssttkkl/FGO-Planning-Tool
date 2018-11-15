@@ -1,6 +1,6 @@
 package com.ssttkkl.fgoplanningtool.data.databasedescriptor
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.util.Log
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R

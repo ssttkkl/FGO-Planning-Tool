@@ -3,9 +3,9 @@ package com.ssttkkl.fgoplanningtool.ui.databasemanage
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
@@ -48,7 +48,7 @@ class DatabaseManageActivity : AppCompatActivity() {
                         }
                     }
                 }
-                layoutManager = LinearLayoutManager(this@DatabaseManageActivity, LinearLayoutManager.VERTICAL, false)
+                layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@DatabaseManageActivity, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
                 addItemDecoration(CommonRecViewItemDecoration(context))
             }
         }

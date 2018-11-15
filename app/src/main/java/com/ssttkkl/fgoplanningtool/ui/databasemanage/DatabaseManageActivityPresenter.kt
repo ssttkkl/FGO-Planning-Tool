@@ -1,6 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.databasemanage
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.preference.PreferenceManager
 import com.ssttkkl.fgoplanningtool.PreferenceKeys

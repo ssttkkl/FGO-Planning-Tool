@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -56,7 +56,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/rotate_arrow" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/expLayout"
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         app:el_expanded="false">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

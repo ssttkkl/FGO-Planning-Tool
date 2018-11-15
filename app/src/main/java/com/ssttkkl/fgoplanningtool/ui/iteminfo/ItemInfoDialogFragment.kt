@@ -3,10 +3,10 @@ package com.ssttkkl.fgoplanningtool.ui.iteminfo
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v7.widget.PopupMenu
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.appcompat.widget.PopupMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +18,7 @@ import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
 import kotlinx.android.synthetic.main.fragment_iteminfo.*
 
-class ItemInfoDialogFragment : DialogFragment() {
+class ItemInfoDialogFragment : androidx.fragment.app.DialogFragment() {
     private lateinit var codename: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +68,7 @@ class ItemInfoDialogFragment : DialogFragment() {
             more_button.visibility = View.GONE
         }
 
-        viewPager.adapter = object : FragmentPagerAdapter(childFragmentManager) {
+        viewPager.adapter = object : androidx.fragment.app.FragmentPagerAdapter(childFragmentManager) {
             val ascensionItemEntities = generateEntities { it.ascensionItems }
             val skillItemEntities = generateEntities { it.skillItems }
             val dressItemEntities = generateEntities { it.dress.map { it.items } }
@@ -78,7 +78,7 @@ class ItemInfoDialogFragment : DialogFragment() {
                     Pair(getString(R.string.dress_iteminfo), dressItemEntities)).filter { it.second.isNotEmpty() }
 
             override fun getCount(): Int = pairs.size
-            override fun getItem(pos: Int): Fragment = RequirementListFragment()
+            override fun getItem(pos: Int): androidx.fragment.app.Fragment = RequirementListFragment()
 
             override fun getPageTitle(pos: Int): CharSequence = pairs[pos].first
 

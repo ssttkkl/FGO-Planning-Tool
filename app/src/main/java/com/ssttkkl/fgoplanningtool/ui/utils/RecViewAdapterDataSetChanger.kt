@@ -1,15 +1,15 @@
 package com.ssttkkl.fgoplanningtool.ui.utils
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import java.util.*
 
 // using an Edit Distance algorithm based-on Dynamic Programming
-fun <T> RecyclerView.Adapter<out RecyclerView.ViewHolder>.changeDataSetSmoothly(old: MutableList<T>,
-                                                                                new: List<T>,
-                                                                                judgeSameItemBy: (T) -> Any) {
+fun <T> androidx.recyclerview.widget.RecyclerView.Adapter<out androidx.recyclerview.widget.RecyclerView.ViewHolder>.changeDataSetSmoothly(old: MutableList<T>,
+                                                                                                                                          new: List<T>,
+                                                                                                                                          judgeSameItemBy: (T) -> Any) {
     synchronized(old) {
         try {
             val f = runBlocking(Dispatchers.Default) { dp(old, new, judgeSameItemBy) }

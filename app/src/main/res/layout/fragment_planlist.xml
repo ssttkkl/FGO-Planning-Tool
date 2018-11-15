@@ -12,22 +12,22 @@
             type="com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragmentViewModel" />
     </data>
 
-    <android.support.v4.widget.DrawerLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <android.support.design.widget.CoordinatorLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.design.widget.AppBarLayout
+            <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/AppTheme.AppBarOverlay">
 
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?android:attr/actionBarSize"
@@ -35,7 +35,7 @@
                     app:popupTheme="@style/AppTheme.PopupOverlay"
                     app:title="@string/planlist_nav" />
 
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar_inSelectMode"
                     android:layout_width="match_parent"
                     android:layout_height="?android:attr/actionBarSize"
@@ -43,16 +43,16 @@
                     app:popupTheme="@style/AppTheme.PopupOverlay"
                     app:title="@{@string/selectedCount_planlist(viewModel.selectedServantIDs.size, viewModel.data.size)}" />
 
-            </android.support.design.widget.AppBarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:listitem="@layout/item_planlist" />
 
-            <android.support.design.widget.FloatingActionButton
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                 app:srcCompat="@drawable/ic_chrome_reader_mode_white_24dp"
                 android:onClick="@{() -> viewModel.onFabClick()}" />
 
-        </android.support.design.widget.CoordinatorLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <FrameLayout
             android:id="@+id/frameLayout"
@@ -69,5 +69,5 @@
             android:layout_height="match_parent"
             android:layout_gravity="end" />
 
-    </android.support.v4.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

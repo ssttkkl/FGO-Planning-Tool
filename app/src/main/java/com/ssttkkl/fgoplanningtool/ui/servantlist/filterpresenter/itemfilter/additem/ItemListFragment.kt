@@ -1,8 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.additem
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_servantlist_additem_itemlist.*
 
-class ItemListFragment : Fragment() {
+class ItemListFragment : androidx.fragment.app.Fragment() {
     interface OnItemClickListener {
         fun onItemClick(codename: String)
     }
@@ -47,7 +47,7 @@ class ItemListFragment : Fragment() {
                         .sortedBy { ResourcesProvider.instance.itemRank[it.codename] })
                 setOnItemClickListener { listener?.onItemClick(it) }
             }
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!))
             setHasFixedSize(true)
         }

@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import kotlinx.android.synthetic.main.item_servantlist_item.view.*
 
-class ItemFilterRecViewAdapter(val context: Context) : RecyclerView.Adapter<ItemFilterRecViewAdapter.ViewHolder>() {
+class ItemFilterRecViewAdapter(val context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<ItemFilterRecViewAdapter.ViewHolder>() {
     var data: List<ItemEntity> = arrayListOf()
         private set
 
@@ -60,5 +60,5 @@ class ItemFilterRecViewAdapter(val context: Context) : RecyclerView.Adapter<Item
         }
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 }

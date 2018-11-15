@@ -1,6 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.servantlist
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
 import com.ssttkkl.fgoplanningtool.resources.servant.WayToGet

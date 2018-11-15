@@ -1,9 +1,9 @@
 package com.ssttkkl.fgoplanningtool.ui.editplan
 
-import android.databinding.BindingAdapter
-import android.databinding.InverseBindingAdapter
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.viewpager.widget.ViewPager
+import androidx.recyclerview.widget.RecyclerView
 import android.widget.Spinner
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.resources.servant.Dress
@@ -23,13 +23,13 @@ object EditPlanDetailBindingAdapter {
 
     @BindingAdapter("data")
     @JvmStatic
-    fun setData(recView: RecyclerView, items: List<Dress>) {
+    fun setData(recView: androidx.recyclerview.widget.RecyclerView, items: List<Dress>) {
         (recView.adapter as EditPlanDressListRecViewAdapter).data = items
     }
 
     @BindingAdapter("plan")
     @JvmStatic
-    fun setPlan(pager: ViewPager, plan: Plan?) {
+    fun setPlan(pager: androidx.viewpager.widget.ViewPager, plan: Plan?) {
         (pager.adapter as EditPlanFragmentPagerAdapter).plan = plan
     }
 }

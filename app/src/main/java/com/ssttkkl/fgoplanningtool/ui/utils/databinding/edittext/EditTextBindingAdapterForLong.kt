@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.utils.databinding.edittext
 
-import android.databinding.BindingAdapter
-import android.databinding.InverseBindingAdapter
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
 import android.widget.EditText
 
 object EditTextBindingAdapterForLong {

@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.utils
 
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 
 abstract class BackHandlerActivity : AppCompatActivity() {
     protected fun spreadBackPressedEvent(): Boolean {
@@ -18,7 +18,7 @@ abstract class BackHandlerActivity : AppCompatActivity() {
     }
 }
 
-abstract class BackHandlerFragment : Fragment() {
+abstract class BackHandlerFragment : androidx.fragment.app.Fragment() {
     open fun onBackPressed(): Boolean {
         childFragmentManager.fragments.forEach {
             if (it is BackHandlerFragment && it.onBackPressed())

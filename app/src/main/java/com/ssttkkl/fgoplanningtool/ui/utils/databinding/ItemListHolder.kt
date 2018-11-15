@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.utils.databinding
 
-import android.databinding.BindingAdapter
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.data.item.Item
 
 interface ItemListHolder {
@@ -11,7 +11,7 @@ interface ItemListHolder {
 object ItemListBindingAdapter {
     @BindingAdapter("data")
     @JvmStatic
-    fun setData(recView: RecyclerView, data: List<Item>) {
+    fun setData(recView: androidx.recyclerview.widget.RecyclerView, data: List<Item>) {
         (recView.adapter as? ItemListHolder)?.data = data
     }
 }

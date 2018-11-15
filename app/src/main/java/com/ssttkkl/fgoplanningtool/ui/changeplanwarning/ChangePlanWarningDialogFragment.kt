@@ -3,7 +3,7 @@ package com.ssttkkl.fgoplanningtool.ui.changeplanwarning
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_changeplanwarning.*
 
-class ChangePlanWarningDialogFragment : DialogFragment() {
+class ChangePlanWarningDialogFragment : androidx.fragment.app.DialogFragment() {
     interface OnActionListener {
         fun onAction(mode: Mode, plans: Collection<Plan>, deductItems: Boolean)
     }
@@ -46,7 +46,7 @@ class ChangePlanWarningDialogFragment : DialogFragment() {
             plans = getParcelableArray(ARG_PLANS).map { it as Plan }
             mode = getSerializable(ARG_MODE) as Mode
         }
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme_Dialog_NoTitle)
+        setStyle(androidx.fragment.app.DialogFragment.STYLE_NO_TITLE, R.style.AppTheme_Dialog_NoTitle)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =

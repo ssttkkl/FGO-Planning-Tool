@@ -2,9 +2,9 @@ package com.ssttkkl.fgoplanningtool.ui.costitemlist
 
 import android.content.Context
 import android.graphics.Typeface
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +16,15 @@ import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_costitemlist.view.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
-class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemListAdapter.ViewHolder>() {
-    private var recyclerView: RecyclerView? = null
+class CostItemListAdapter(val context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<CostItemListAdapter.ViewHolder>() {
+    private var recyclerView: androidx.recyclerview.widget.RecyclerView? = null
 
-    override fun onAttachedToRecyclerView(recView: RecyclerView) {
+    override fun onAttachedToRecyclerView(recView: androidx.recyclerview.widget.RecyclerView) {
         super.onAttachedToRecyclerView(recView)
         recyclerView = recView
     }
 
-    override fun onDetachedFromRecyclerView(recView: RecyclerView) {
+    override fun onDetachedFromRecyclerView(recView: androidx.recyclerview.widget.RecyclerView) {
         super.onDetachedFromRecyclerView(recView)
         recyclerView = null
     }
@@ -66,7 +66,7 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
                     adapter = RequirementListRecViewAdapter(context).apply {
                         setOnItemClickListener { _, item -> listener?.invoke(item.servantID) }
                     }
-                    layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+                    layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(CommonRecViewItemDecoration(context!!))
                 }
                 itemView.expLayout.setOnExpansionUpdateListener { _, state ->
@@ -109,5 +109,5 @@ class CostItemListAdapter(val context: Context) : RecyclerView.Adapter<CostItemL
         }
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 }

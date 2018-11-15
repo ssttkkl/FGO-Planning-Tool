@@ -1,7 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.utils.databinding
 
-import android.databinding.BindingAdapter
-import android.databinding.InverseBindingListener
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingListener
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner

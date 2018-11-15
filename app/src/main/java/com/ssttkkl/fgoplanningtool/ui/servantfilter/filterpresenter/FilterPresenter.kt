@@ -2,7 +2,7 @@ package com.ssttkkl.fgoplanningtool.ui.servantfilter.filterpresenter
 
 import android.animation.AnimatorInflater
 import android.animation.ValueAnimator
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.graphics.drawable.RotateDrawable
 import android.widget.TextView
 import com.ssttkkl.fgoplanningtool.R

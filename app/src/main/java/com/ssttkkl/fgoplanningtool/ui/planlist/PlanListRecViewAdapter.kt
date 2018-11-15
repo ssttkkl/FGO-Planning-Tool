@@ -1,9 +1,9 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
@@ -12,7 +12,7 @@ import com.ssttkkl.fgoplanningtool.ui.utils.changeDataSetSmoothly
 
 class PlanListRecViewAdapter(val context: Context,
                              lifecycleOwner: LifecycleOwner,
-                             private val viewModel: PlanListFragmentViewModel) : RecyclerView.Adapter<PlanListRecViewAdapter.ViewHolder>() {
+                             private val viewModel: PlanListFragmentViewModel) : androidx.recyclerview.widget.RecyclerView.Adapter<PlanListRecViewAdapter.ViewHolder>() {
     private var data: List<Plan> = ArrayList()
         set(value) {
             selection = selection.filter { it < value.size }.toSet()
@@ -49,7 +49,7 @@ class PlanListRecViewAdapter(val context: Context,
         holder.binding.plan = data[pos]
     }
 
-    inner class ViewHolder(val binding: ItemPlanlistBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemPlanlistBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
         init {
             binding.viewModel = viewModel
         }

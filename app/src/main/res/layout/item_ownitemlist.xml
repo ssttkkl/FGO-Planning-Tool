@@ -18,7 +18,7 @@
             type="com.ssttkkl.fgoplanningtool.data.item.Item" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="72dp">
 
@@ -106,5 +106,5 @@
             app:layout_constraintEnd_toStartOf="@+id/info_button"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_edit_white_24dp" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

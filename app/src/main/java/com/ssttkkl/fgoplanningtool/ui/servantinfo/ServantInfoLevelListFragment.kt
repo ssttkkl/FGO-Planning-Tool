@@ -1,8 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.servantinfo
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import com.ssttkkl.fgoplanningtool.ui.iteminfo.ItemInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.item_servantinfo_levellist.*
 
-class ServantInfoLevelListFragment : Fragment() {
+class ServantInfoLevelListFragment : androidx.fragment.app.Fragment() {
     var data: List<ServantInfoLevelListEntity> = listOf()
         set(value) {
             field = value
@@ -32,7 +32,7 @@ class ServantInfoLevelListFragment : Fragment() {
                 if (savedInstanceState != null)
                     expandedPosition = savedInstanceState.getInt(KEY_EXPANDED, -1)
             }
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context))
         }
     }

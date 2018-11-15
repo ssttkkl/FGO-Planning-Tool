@@ -3,10 +3,10 @@ package com.ssttkkl.fgoplanningtool.ui.servantinfo
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v7.widget.PopupMenu
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.appcompat.widget.PopupMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +18,7 @@ import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import kotlinx.android.synthetic.main.fragment_servantinfo.*
 
-class ServantInfoDialogFragment : DialogFragment() {
+class ServantInfoDialogFragment : androidx.fragment.app.DialogFragment() {
     var servant: Servant? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +69,7 @@ class ServantInfoDialogFragment : DialogFragment() {
             more_button.visibility = View.GONE
         }
 
-        viewPager.adapter = object : FragmentPagerAdapter(childFragmentManager) {
+        viewPager.adapter = object : androidx.fragment.app.FragmentPagerAdapter(childFragmentManager) {
             val ascensionItemEntities = generateEntities({ _, cur -> cur.toString() },
                     { _, cur -> (cur + 1).toString() },
                     { it.ascensionItems.plus(it.dress.map { it.items }) },
@@ -93,7 +93,7 @@ class ServantInfoDialogFragment : DialogFragment() {
                     Pair(getString(R.string.dress_iteminfo), dressItemEntities)).filter { it.second.isNotEmpty() }
 
             override fun getCount(): Int = pairs.size
-            override fun getItem(pos: Int): Fragment = ServantInfoLevelListFragment()
+            override fun getItem(pos: Int): androidx.fragment.app.Fragment = ServantInfoLevelListFragment()
 
             override fun getPageTitle(pos: Int): CharSequence = pairs[pos].first
 

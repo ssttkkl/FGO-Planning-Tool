@@ -1,8 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.iteminfo
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.fragment_iteminfo_requirementlist.*
 
-class RequirementListFragment : Fragment() {
+class RequirementListFragment : androidx.fragment.app.Fragment() {
     var data: List<RequirementListEntity> = listOf()
         set(value) {
             field = value
@@ -29,7 +29,7 @@ class RequirementListFragment : Fragment() {
                 data = this@RequirementListFragment.data
                 setOnItemClickListener { _, item -> gotoServantDetailUi(item.servantID) }
             }
-            layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!))
             isNestedScrollingEnabled = false
         }

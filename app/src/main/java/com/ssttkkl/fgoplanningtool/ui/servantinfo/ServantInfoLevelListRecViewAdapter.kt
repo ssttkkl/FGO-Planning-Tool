@@ -4,8 +4,8 @@ import android.animation.AnimatorInflater
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.drawable.RotateDrawable
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +14,15 @@ import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.item_servantinfo_levellist.view.*
 import net.cachapa.expandablelayout.ExpandableLayout
 
-class ServantInfoLevelListRecViewAdapter(val context: Context) : RecyclerView.Adapter<ServantInfoLevelListRecViewAdapter.ViewHolder>() {
-    private var recyclerView: RecyclerView? = null
+class ServantInfoLevelListRecViewAdapter(val context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<ServantInfoLevelListRecViewAdapter.ViewHolder>() {
+    private var recyclerView: androidx.recyclerview.widget.RecyclerView? = null
 
-    override fun onAttachedToRecyclerView(recView: RecyclerView) {
+    override fun onAttachedToRecyclerView(recView: androidx.recyclerview.widget.RecyclerView) {
         super.onAttachedToRecyclerView(recView)
         recyclerView = recView
     }
 
-    override fun onDetachedFromRecyclerView(recView: RecyclerView) {
+    override fun onDetachedFromRecyclerView(recView: androidx.recyclerview.widget.RecyclerView) {
         super.onDetachedFromRecyclerView(recView)
         recyclerView = null
     }
@@ -68,7 +68,7 @@ class ServantInfoLevelListRecViewAdapter(val context: Context) : RecyclerView.Ad
                     adapter = ServantInfoItemListRecViewAdapter(context).apply {
                         setOnItemClickListener { _, item -> listener?.invoke(item.codename) }
                     }
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
                     addItemDecoration(CommonRecViewItemDecoration(context))
                 }
                 itemView.expLayout.setOnExpansionUpdateListener { _, state ->
@@ -102,7 +102,7 @@ class ServantInfoLevelListRecViewAdapter(val context: Context) : RecyclerView.Ad
         }
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         fun startExpandAnimate() {
             (AnimatorInflater.loadAnimator(context, R.animator.rotate) as ValueAnimator).apply {
                 addUpdateListener {

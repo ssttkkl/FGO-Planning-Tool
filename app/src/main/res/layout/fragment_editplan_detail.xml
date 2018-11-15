@@ -11,7 +11,7 @@
             type="com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanFragmentViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/background_light"
@@ -35,7 +35,7 @@
             app:layout_constraintStart_toEndOf="@id/avatar_imageView"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -278,7 +278,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/nowSkill3_spinner" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/dress_recView"
                     data="@{viewModel.plan.servant.dress}"
                     selection="@={viewModel.plan.dress}"
@@ -290,9 +290,9 @@
                     app:layout_constraintTop_toBottomOf="@+id/dressLabel_textView"
                     tools:listitem="@layout/item_editplan_dress" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
