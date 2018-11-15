@@ -4,11 +4,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-kotlin {
-    experimental {
-        coroutines 'enable'
-    }
-}
 kapt {
     arguments {
         arg("room.schemaLocation", "$projectDir/schemas".toString())
@@ -21,8 +16,8 @@ android {
         applicationId "com.ssttkkl.fgoplanningtool"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 20181003
-        versionName "v1.1.0"
+        versionCode 20181115
+        versionName "v1.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
@@ -63,8 +58,8 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.20"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.20"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
 
     implementation "android.arch.persistence.room:runtime:1.1.1"
     kapt "android.arch.persistence.room:compiler:1.1.1"

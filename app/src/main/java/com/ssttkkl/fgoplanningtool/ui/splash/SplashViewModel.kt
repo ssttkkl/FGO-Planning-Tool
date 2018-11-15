@@ -1,12 +1,13 @@
 package com.ssttkkl.fgoplanningtool.ui.splash
 
 import android.arch.lifecycle.ViewModel
-import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class SplashViewModel : ViewModel() {
-    val loadResTask = launch(Dispatchers.file) {
+    val loadResTask = GlobalScope.launch(Dispatchers.IO) {
         ResourcesProvider.renewInstance()
     }
 

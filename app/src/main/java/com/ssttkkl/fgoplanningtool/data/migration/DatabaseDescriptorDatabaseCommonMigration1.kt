@@ -1,11 +1,11 @@
 package com.ssttkkl.fgoplanningtool.data.migration
 
-import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptor
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptorDatabase
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import java.io.File
 
 object DatabaseDescriptorDatabaseCommonMigration1 {
@@ -17,7 +17,7 @@ object DatabaseDescriptorDatabaseCommonMigration1 {
                 file.renameTo(File(file.parent, file.name.replace("database", descriptor.uuid)))
             }
 
-            runBlocking(Dispatchers.db) { database.databaseDescriptorDao.insert(listOf(descriptor)) }
+            runBlocking(Dispatchers.IO) { database.databaseDescriptorDao.insert(listOf(descriptor)) }
         }
     }
 }

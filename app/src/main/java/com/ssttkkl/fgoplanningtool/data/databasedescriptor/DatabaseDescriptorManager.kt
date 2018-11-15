@@ -2,14 +2,14 @@ package com.ssttkkl.fgoplanningtool.data.databasedescriptor
 
 import android.arch.lifecycle.Observer
 import android.util.Log
-import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.RepoDatabase
 import com.ssttkkl.fgoplanningtool.data.migration.DatabaseDescriptorDatabaseCommonMigration1
 import com.ssttkkl.fgoplanningtool.data.perform
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.ConcurrentHashMap
 
 object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
@@ -36,7 +36,7 @@ object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
 
     operator fun get(uuid: String): DatabaseDescriptor? {
         return cache[uuid]
-                ?: runBlocking(Dispatchers.db) { database.databaseDescriptorDao.getByUUID(uuid) }
+                ?: runBlocking(Dispatchers.IO) { database.databaseDescriptorDao.getByUUID(uuid) }
     }
 
     fun getLiveData(uuid: String) = database.databaseDescriptorDao.getLiveDataByUUID(uuid)
@@ -105,7 +105,7 @@ object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
     val firstOrCreate: DatabaseDescriptor
         get() {
             return all.firstOrNull()
-                    ?: runBlocking(Dispatchers.db) { database.databaseDescriptorDao.all.firstOrNull() }
+                    ?: runBlocking(Dispatchers.IO) { database.databaseDescriptorDao.all.firstOrNull() }
                     ?: generateAndInsert()
         }
 }

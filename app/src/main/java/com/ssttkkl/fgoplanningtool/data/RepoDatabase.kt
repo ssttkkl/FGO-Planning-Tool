@@ -3,7 +3,6 @@ package com.ssttkkl.fgoplanningtool.data
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
-import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.ItemsDao
@@ -12,7 +11,9 @@ import com.ssttkkl.fgoplanningtool.data.migration.RepoDatabaseVersionMigration2T
 import com.ssttkkl.fgoplanningtool.data.migration.RepoDatabaseVersionMigration3To4
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.data.plan.PlansDao
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Database(entities = [Plan::class, Item::class], version = 4)
 abstract class RepoDatabase : RoomDatabase() {
@@ -49,7 +50,7 @@ abstract class RepoDatabase : RoomDatabase() {
 
         fun remove(filename: String) {
             dispose(filename)
-            launch(Dispatchers.db) { MyApp.context.deleteDatabase("$filename.db") }
+            GlobalScope.launch(Dispatchers.IO) { MyApp.context.deleteDatabase("$filename.db") }
         }
     }
 }

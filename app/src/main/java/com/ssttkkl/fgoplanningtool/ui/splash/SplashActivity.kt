@@ -14,8 +14,8 @@ import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.services.CheckUpdateService
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var viewModel: SplashViewModel
@@ -37,7 +37,7 @@ class SplashActivity : AppCompatActivity() {
             DatabaseDescriptorManager.firstOrCreate.uuid
         Repo.switchDatabase(dbDescriptor)
 
-        launch(UI) {
+        GlobalScope.launch {
             viewModel.loadResTask.join()
             if (!ResourcesProvider.instance.isAbsent && !ResourcesProvider.instance.isBroken)
                 gotoMainActivity()

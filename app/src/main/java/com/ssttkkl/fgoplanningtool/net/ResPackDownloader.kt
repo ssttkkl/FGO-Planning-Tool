@@ -6,11 +6,12 @@ import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.downloader.request.DownloadRequest
 import com.google.gson.Gson
-import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
-import kotlinx.coroutines.experimental.CoroutineStart
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.apache.commons.io.FileUtils
 import java.io.File
 import java.net.URL
@@ -38,17 +39,17 @@ class ResPackDownloader(val context: Context) {
 
     private lateinit var downloadRequest: DownloadRequest
 
-    private val work = launch(Dispatchers.net, CoroutineStart.LAZY) {
-        launch(UI) { callback?.onStartLoadingLatestInfo() }
+    private val work = GlobalScope.launch(Dispatchers.Default, CoroutineStart.LAZY) {
+        GlobalScope.launch(Main) { callback?.onStartLoadingLatestInfo() }
         val latestInfoFile = File(this@ResPackDownloader.context.cacheDir, "${UUID.randomUUID()}.json").apply { deleteOnExit() }
         try {
             FileUtils.copyURLToFile(URL(ConstantLinks.urlPattern.format(ConstantLinks.resPackLatestInfoFilename)), latestInfoFile)
             latestInfo = Gson().fromJson<ResPackLatestInfo>(latestInfoFile.readText(), ResPackLatestInfo::class.java)
         } catch (exc: Exception) {
-            launch(UI) { callback?.onFailOnLoadingLatestInfo(exc.localizedMessage) }
+            GlobalScope.launch(Main) { callback?.onFailOnLoadingLatestInfo(exc.localizedMessage) }
             return@launch
         }
-        launch(UI) { callback?.onCompleteLoadingLatestInfo(latestInfo) }
+        GlobalScope.launch(Main) { callback?.onCompleteLoadingLatestInfo(latestInfo) }
 
         val resPackFile = File(this@ResPackDownloader.context.cacheDir, "${UUID.randomUUID()}.zip").apply { deleteOnExit() }
         downloadRequest = PRDownloader.download(latestInfo.downloadLink, resPackFile.parent, resPackFile.name).build()
@@ -57,19 +58,19 @@ class ResPackDownloader(val context: Context) {
         downloadRequest.setOnProgressListener {
             val newProgress = (it.currentBytes.toDouble() / it.totalBytes.toDouble() * 100).toInt()
             if (lastProgress != newProgress)
-                launch(UI) { callback?.onDownloadProgress(newProgress, downloadRequest) }
+                GlobalScope.launch(Main) { callback?.onDownloadProgress(newProgress, downloadRequest) }
             lastProgress = newProgress
         }
 
         downloadRequest.start(object : OnDownloadListener {
             override fun onDownloadComplete() {
                 callback?.onCompleteDownloading()
-                launch(Dispatchers.file) {
+                GlobalScope.launch(Dispatchers.IO) {
                     try {
                         ResourcesUpdater.update(resPackFile)
-                        launch(UI) { callback?.onCompleteUpdating() }
+                        launch(Main) { callback?.onCompleteUpdating() }
                     } catch (exc: Exception) {
-                        launch(UI) { callback?.onFailOnUpdating(exc.toString()) }
+                        launch(Main) { callback?.onFailOnUpdating(exc.toString()) }
                     }
                 }
             }

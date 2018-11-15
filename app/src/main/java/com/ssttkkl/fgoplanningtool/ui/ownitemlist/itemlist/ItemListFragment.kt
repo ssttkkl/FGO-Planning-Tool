@@ -2,7 +2,6 @@ package com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -14,7 +13,6 @@ import com.ssttkkl.fgoplanningtool.databinding.FragmentOwnitemlistItemlistBindin
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.iteminfo.ItemInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
-import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 
 class ItemListFragment : Fragment() {
     private lateinit var binding: FragmentOwnitemlistItemlistBinding

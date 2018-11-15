@@ -4,8 +4,10 @@ import android.arch.lifecycle.LiveData
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
 import com.ssttkkl.fgoplanningtool.resources.servant.WayToGet
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ServantListLiveData(private val origin: Collection<Servant>) : LiveData<List<Servant>>() {
@@ -26,8 +28,8 @@ class ServantListLiveData(private val origin: Collection<Servant>) : LiveData<Li
     var order: Order = Order.Increase
 
     fun notifyFiltersChanged() {
-        launch(CommonPool) {
-            postValue(perform(origin))
+        GlobalScope.launch {
+            value = GlobalScope.async(Dispatchers.Default) { perform(origin) }.await()
         }
     }
 

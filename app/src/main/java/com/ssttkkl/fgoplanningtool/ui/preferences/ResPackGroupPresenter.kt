@@ -3,13 +3,14 @@ package com.ssttkkl.fgoplanningtool.ui.preferences
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.webkit.MimeTypeMap
-import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.ui.preferences.updaterespack.UpdateResPackDialogFragment
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.apache.commons.io.IOUtils
 import java.io.File
 import java.util.*
@@ -60,7 +61,7 @@ class ResPackGroupPresenter(val view: PreferencesFragment) {
 
     fun onActivityResultOK(requestCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE_UPDATE_RES) {
-            launch(Dispatchers.file) {
+            GlobalScope.launch(Dispatchers.IO) {
                 val input = view.activity.contentResolver.openInputStream(data!!.data)
                 val tempFile = File(MyApp.context.cacheDir, "${UUID.randomUUID()}.zip").apply { deleteOnExit() }
                 tempFile.createNewFile()
@@ -69,7 +70,7 @@ class ResPackGroupPresenter(val view: PreferencesFragment) {
                 }
                 input.close()
 
-                launch(UI) {
+                GlobalScope.launch(Main) {
                     val tag = UpdateResPackDialogFragment::class.qualifiedName
                     val fm = (view.activity as AppCompatActivity).supportFragmentManager
                     if (fm.findFragmentByTag(tag) == null)

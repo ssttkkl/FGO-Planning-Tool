@@ -4,16 +4,16 @@ import android.content.Intent
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import com.google.gson.GsonBuilder
-import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.DataSet
 import com.ssttkkl.fgoplanningtool.data.DatabaseImporterAndExporter
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptor
 import com.ssttkkl.fgoplanningtool.data.gson.DataSetGsonTypeAdapter
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
@@ -56,17 +56,17 @@ class DatabaseImportAndExportHelper(val view: DatabaseManageActivity) {
     }
 
     private fun performImport(uri: Uri) {
-        launch(Dispatchers.file) {
+        GlobalScope.launch(Dispatchers.IO) {
             try {
                 view.contentResolver.openInputStream(uri).use { stream ->
                     InputStreamReader(stream).use { reader ->
                         val dataSet = gson.fromJson<DataSet>(reader, DataSet::class.java)
                         DatabaseImporterAndExporter.import(databaseToImport!!, dataSet)
-                        launch(UI) { view.showMessage(view.getString(R.string.importSuccessful_databasemanage)) }
+                        GlobalScope.launch(Main) { view.showMessage(view.getString(R.string.importSuccessful_databasemanage)) }
                     }
                 }
             } catch (e: Exception) {
-                launch(UI) {
+                GlobalScope.launch(Main) {
                     view.showMessage(view.getString(R.string.errorMessageFormat_databasemanage,
                             view.getString(R.string.importError_databasemanage), e.toString()))
                 }
@@ -75,17 +75,17 @@ class DatabaseImportAndExportHelper(val view: DatabaseManageActivity) {
     }
 
     private fun performExport(uri: Uri) {
-        async(Dispatchers.file) {
+        GlobalScope.launch(Dispatchers.IO) {
             try {
                 view.contentResolver.openOutputStream(uri).use { stream ->
                     OutputStreamWriter(stream).use { writer ->
                         val dataSet = DatabaseImporterAndExporter.export(databaseToExport!!)
                         gson.toJson(dataSet, DataSet::class.java, writer)
-                        launch(UI) { view.showMessage(view.getString(R.string.exportSuccessful_databasemanage)) }
+                        launch(Main) { view.showMessage(view.getString(R.string.exportSuccessful_databasemanage)) }
                     }
                 }
             } catch (e: Exception) {
-                launch(UI) {
+                launch(Main) {
                     view.showMessage(view.getString(R.string.errorMessageFormat_databasemanage,
                             view.getString(R.string.exportError_databasemanage), e.toString()))
                 }

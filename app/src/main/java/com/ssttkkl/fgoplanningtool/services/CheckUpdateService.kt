@@ -12,7 +12,6 @@ import android.os.IBinder
 import android.support.v4.app.NotificationCompat
 import android.util.Log
 import com.google.gson.Gson
-import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.net.AppLatestInfo
@@ -20,7 +19,9 @@ import com.ssttkkl.fgoplanningtool.net.ConstantLinks
 import com.ssttkkl.fgoplanningtool.net.ResPackLatestInfo
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.ui.preferences.PreferencesActivity
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.apache.commons.io.FileUtils
 import java.io.File
 import java.net.URL
@@ -30,7 +31,7 @@ class CheckUpdateService : Service() {
     override fun onBind(intent: Intent): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        launch(Dispatchers.net) {
+        GlobalScope.launch(Dispatchers.Default) {
             try {
                 val latestInfoFile = File(cacheDir, "${UUID.randomUUID()}.json")
 

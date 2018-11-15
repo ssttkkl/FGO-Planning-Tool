@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.downloader.request.DownloadRequest
-import com.ssttkkl.fgoplanningtool.Dispatchers
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.net.ResPackDownloader
 import com.ssttkkl.fgoplanningtool.net.ResPackLatestInfo
@@ -20,8 +19,10 @@ import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
 import com.ssttkkl.fgoplanningtool.ui.preferences.PreferencesActivity
 import kotlinx.android.synthetic.main.fragment_updaterespack.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
 
 class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback {
@@ -81,10 +82,10 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
             viewModel.status.value = Status.Updating
             viewModel.size.value = resPackFile?.length()
 
-            launch(Dispatchers.file) {
+            GlobalScope.launch(Dispatchers.IO) {
                 try {
                     ResourcesUpdater.update(resPackFile!!)
-                    launch(UI) {
+                    GlobalScope.launch(Main) {
                         viewModel.content.value = ResourcesProvider.instance.resPackInfo.content
 
                         val releaseDate = ResourcesProvider.instance.resPackInfo.releaseDate
@@ -95,7 +96,7 @@ class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback
                         onCompleteUpdating()
                     }
                 } catch (exc: Exception) {
-                    launch(UI) { onFailOnUpdating(exc.toString()) }
+                    GlobalScope.launch(Main) { onFailOnUpdating(exc.toString()) }
                 }
             }
         }
