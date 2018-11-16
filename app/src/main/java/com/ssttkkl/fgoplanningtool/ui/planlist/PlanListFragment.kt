@@ -5,8 +5,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.*
+import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentPlanlistBinding
@@ -53,7 +55,7 @@ class PlanListFragment : BackHandlerFragment(),
         // setup RecView
         binding.recView.apply {
             adapter = PlanListRecViewAdapter(context!!, this@PlanListFragment, binding.viewModel!!)
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!, true, false))
             hasFixedSize()
         }
@@ -89,10 +91,10 @@ class PlanListFragment : BackHandlerFragment(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> binding.viewModel?.onHomeClick()
-            R.id.sortAndFilter_action -> binding.drawerlayout.openDrawer(Gravity.END)
+            R.id.sortAndFilter_action -> binding.drawerlayout.openDrawer(GravityCompat.END)
             R.id.enterSelectMode_action -> binding.viewModel?.onEnterSelectModeClick()
             R.id.add_action -> binding.viewModel?.onAddClick()
-            R.id.selectAll_action -> binding.viewModel?.onSelectAllClick()
+            R.id.selectAll_action -> binding.viewModel?.onCheckAllClick()
             R.id.remove_action -> binding.viewModel?.onRemoveClick()
             else -> return super.onOptionsItemSelected(item)
         }

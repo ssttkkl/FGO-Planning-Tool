@@ -3,55 +3,38 @@ package com.ssttkkl.fgoplanningtool.ui.planlist
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.ssttkkl.fgoplanningtool.data.plan.Plan
+import androidx.databinding.OnRebindCallback
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.ItemPlanlistBinding
-import com.ssttkkl.fgoplanningtool.ui.utils.changeDataSetSmoothly
 
 class PlanListRecViewAdapter(val context: Context,
                              lifecycleOwner: LifecycleOwner,
-                             private val viewModel: PlanListFragmentViewModel) : androidx.recyclerview.widget.RecyclerView.Adapter<PlanListRecViewAdapter.ViewHolder>() {
-    private var data: List<Plan> = ArrayList()
-        set(value) {
-            selection = selection.filter { it < value.size }.toSet()
-            changeDataSetSmoothly(field as ArrayList<Plan>, value) { it.servantId }
-        }
-
-    private var selection: Set<Int> = setOf()
-        set(value) {
-            if (field == value)
-                return
-            val old = field
-            field = value
-            old.forEach { oldServantID ->
-                if (!value.contains(oldServantID))
-                    notifyItemChanged(data.indexOfFirst { it.servantId == oldServantID })
-            }
-            value.forEach { newServantID ->
-                if (!old.contains(newServantID))
-                    notifyItemChanged(data.indexOfFirst { it.servantId == newServantID })
-            }
-        }
-
+                             private val viewModel: PlanListFragmentViewModel) : ListAdapter<CheckablePlan, PlanListRecViewAdapter.ViewHolder>(CheckablePlan.Differ) {
     init {
-        viewModel.data.observe(lifecycleOwner, Observer { data = it ?: listOf() })
-        viewModel.selectedServantIDs.observe(lifecycleOwner, Observer { selection = it ?: setOf() })
+        viewModel.data.observe(lifecycleOwner, Observer { submitList(it) })
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(ItemPlanlistBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
-    override fun getItemCount() = data.size
-
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
-        holder.binding.plan = data[pos]
+        holder.bind(getItem(pos))
     }
 
-    inner class ViewHolder(val binding: ItemPlanlistBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemPlanlistBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.viewModel = viewModel
+        }
+
+        fun bind(data: CheckablePlan) {
+            binding.apply {
+                plan = data.plan
+                checked = data.checked
+                executePendingBindings()
+            }
         }
     }
 }

@@ -12,6 +12,10 @@
             type="com.ssttkkl.fgoplanningtool.data.plan.Plan" />
 
         <variable
+            name="checked"
+            type="Boolean" />
+
+        <variable
             name="viewModel"
             type="com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragmentViewModel" />
     </data>
@@ -59,7 +63,7 @@
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
-                    android:visibility="@{viewModel.selectedServantIDs.contains(plan.servantId) ? View.VISIBLE : View.INVISIBLE}"
+                    android:visibility="@{checked ? View.VISIBLE : View.INVISIBLE}"
                     app:srcCompat="@drawable/selected_avatar_cover" />
 
             </FrameLayout>
@@ -76,7 +80,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/dress_imageView"
                 app:layout_constraintStart_toEndOf="@id/frameLayout"
                 app:layout_constraintTop_toTopOf="parent"
-                app:text="@{plan.servant.localizedName}" />
+                app:text="@{plan.servant.localizedName}"
+                tools:text="Name" />
 
             <TextView
                 android:id="@+id/levelLabel_textView"
@@ -163,7 +168,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="@{String.valueOf(plan.nowLevel)}"
-                    android:textAppearance="@style/ListItemSecondary" />
+                    android:textAppearance="@style/ListItemSecondary"
+                    tools:text="1" />
 
                 <ImageView
                     android:layout_width="16dp"
@@ -178,7 +184,8 @@
                     android:layout_height="match_parent"
                     android:maxLines="1"
                     android:text="@{String.valueOf(plan.planLevel)}"
-                    android:textAppearance="@style/ListItemSecondary" />
+                    android:textAppearance="@style/ListItemSecondary"
+                    tools:text="80" />
 
             </LinearLayout>
 
@@ -201,7 +208,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="@{String.valueOf(plan.nowSkill1)}"
-                    android:textAppearance="@style/ListItemSecondary" />
+                    android:textAppearance="@style/ListItemSecondary"
+                    tools:text="1" />
 
                 <ImageView
                     android:layout_width="16dp"
@@ -216,7 +224,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="@{String.valueOf(plan.planSkill1)}"
-                    android:textAppearance="@style/ListItemSecondary" />
+                    android:textAppearance="@style/ListItemSecondary"
+                    tools:text="10" />
             </LinearLayout>
 
             <LinearLayout
@@ -238,7 +247,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="@{String.valueOf(plan.nowSkill2)}"
-                    android:textAppearance="@style/ListItemSecondary" />
+                    android:textAppearance="@style/ListItemSecondary"
+                    tools:text="1" />
 
                 <ImageView
                     android:layout_width="16dp"
@@ -253,7 +263,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="@{String.valueOf(plan.planSkill2)}"
-                    android:textAppearance="@style/ListItemSecondary" />
+                    android:textAppearance="@style/ListItemSecondary"
+                    tools:text="10" />
             </LinearLayout>
 
             <LinearLayout
@@ -275,7 +286,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="@{String.valueOf(plan.nowSkill3)}"
-                    android:textAppearance="@style/ListItemSecondary" />
+                    android:textAppearance="@style/ListItemSecondary"
+                    tools:text="1" />
 
                 <ImageView
                     android:layout_width="16dp"
@@ -290,7 +302,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="@{String.valueOf(plan.planSkill3)}"
-                    android:textAppearance="@style/ListItemSecondary" />
+                    android:textAppearance="@style/ListItemSecondary"
+                    tools:text="10" />
             </LinearLayout>
 
             <ImageView

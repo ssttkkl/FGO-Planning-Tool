@@ -40,15 +40,6 @@ data class Plan(@PrimaryKey var servantId: Int,
     val planStage
         get() = ConstantValues.getStage(servant!!.star, planLevel) + if (ascendedOnPlanStage) 1 else 0
 
-    @Ignore
-    constructor(servantId: Int) : this(
-            servantId, 0,
-            ConstantValues.getExp(ResourcesProvider.instance.servants[servantId]!!.stageMapToMaxLevel[4]),
-            false, false,
-            1, 1, 1,
-            10, 10, 10,
-            setOf())
-
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
             parcel.readInt(),
@@ -61,8 +52,18 @@ data class Plan(@PrimaryKey var servantId: Int,
             parcel.readInt(),
             parcel.readInt(),
             parcel.readInt(),
-            parcel.createIntArray().toSet())
+            parcel.createIntArray()?.toSet() ?: setOf())
 
+    @Ignore
+    constructor(servantId: Int) : this(
+            servantId, 0,
+            ConstantValues.getExp(ResourcesProvider.instance.servants[servantId]!!.stageMapToMaxLevel[4]),
+            false, false,
+            1, 1, 1,
+            10, 10, 10,
+            setOf())
+
+    @Ignore
     constructor(plan: Plan) : this(plan.servantId,
             plan.nowExp,
             plan.planExp,
@@ -88,7 +89,6 @@ data class Plan(@PrimaryKey var servantId: Int,
         parcel.writeInt(planSkill1)
         parcel.writeInt(planSkill2)
         parcel.writeInt(planSkill3)
-        parcel.writeIntArray(dress.toIntArray())
     }
 
     override fun describeContents(): Int {

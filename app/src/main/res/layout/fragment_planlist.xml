@@ -41,7 +41,7 @@
                     android:layout_height="?android:attr/actionBarSize"
                     android:background="@color/colorPrimary"
                     app:popupTheme="@style/AppTheme.PopupOverlay"
-                    app:title="@{@string/selectedCount_planlist(viewModel.selectedServantIDs.size, viewModel.data.size)}" />
+                    app:title="@{@string/selectedCount_planlist(viewModel.numOfSelected, viewModel.data.size)}" />
 
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -58,8 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@drawable/ic_chrome_reader_mode_white_24dp"
-                android:onClick="@{() -> viewModel.onFabClick()}" />
+                android:onClick="@{() -> viewModel.onFabClick()}"
+                app:srcCompat="@drawable/ic_chrome_reader_mode_white_24dp" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
