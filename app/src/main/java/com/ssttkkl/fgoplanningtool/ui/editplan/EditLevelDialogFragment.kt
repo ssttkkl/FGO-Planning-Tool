@@ -20,7 +20,7 @@ class EditLevelDialogFragment : androidx.fragment.app.DialogFragment() {
 
     private var listener: OnSaveListener? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = when {
             parentFragment is OnSaveListener -> parentFragment as OnSaveListener
@@ -61,7 +61,7 @@ class EditLevelDialogFragment : androidx.fragment.app.DialogFragment() {
             maxButton.setOnClickListener { viewModel?.onClickMaxButton() }
             mmaxButton.setOnClickListener { viewModel?.onClickMmaxButton() }
             saveButton.setOnClickListener { viewModel?.onClickSaveButton() }
-            cancelButton.setOnClickListener { dialog.cancel() }
+            cancelButton.setOnClickListener { dialog?.cancel() }
         }
 
         binding.viewModel?.apply {

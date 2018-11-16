@@ -28,7 +28,7 @@ class ServantFilterFragment : androidx.fragment.app.Fragment(), AddItemDialogFra
 
     private lateinit var viewModel: ServantFilterViewModel
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel = ViewModelProviders.of(this).get(ServantFilterViewModel::class.java)
         listener = when {

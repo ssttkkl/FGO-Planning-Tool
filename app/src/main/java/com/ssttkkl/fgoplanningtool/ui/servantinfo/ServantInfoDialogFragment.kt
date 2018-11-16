@@ -34,7 +34,7 @@ class ServantInfoDialogFragment : androidx.fragment.app.DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         name_textView.text = servant?.localizedName
-        Glide.with(this).load(servant?.avatarFile).error(R.drawable.avatar_placeholder).into(avatar_imageView)
+        Glide.with(this).load(servant?.avatarFile).into(avatar_imageView)
 
         val link = servant?.wikiLinks?.entries?.firstOrNull()
         if (link != null) {

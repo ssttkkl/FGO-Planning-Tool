@@ -35,7 +35,7 @@ class RequirementListRecViewAdapter(val context: Context) : androidx.recyclervie
         holder.itemView.apply {
             name_textView.text = item.name
             count_textView.text = item.requirement.toStringWithSplitter()
-            Glide.with(context).load(item.avatarFile).error(R.drawable.avatar_placeholder).into(avatar_imageView)
+            Glide.with(context).load(item.avatarFile).into(avatar_imageView)
         }
     }
 

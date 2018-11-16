@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListRecViewAdapter
@@ -29,7 +30,7 @@ class RequirementListFragment : androidx.fragment.app.Fragment() {
                 data = this@RequirementListFragment.data
                 setOnItemClickListener { _, item -> gotoServantDetailUi(item.servantID) }
             }
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!))
             isNestedScrollingEnabled = false
         }

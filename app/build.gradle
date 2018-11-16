@@ -3,6 +3,7 @@ apply plugin: 'kotlin-platform-android'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs"
 
 kapt {
     arguments {
@@ -41,7 +42,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.android.material:material:1.1.0-alpha01'
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha2"
-    implementation 'androidx.cardview:cardview:1.0.0-alpha1'
+    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
@@ -52,7 +53,8 @@ dependencies {
     })
 
     implementation "com.google.code.gson:gson:2.8.5"
-    implementation "com.github.bumptech.glide:glide:3.7.0"
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
     implementation "commons-io:commons-io:2.6"
     implementation "com.mindorks.android:prdownloader:0.4.0"
 
@@ -69,9 +71,17 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata:2.0.0"
     kapt "androidx.lifecycle:lifecycle-compiler:2.0.0"
     implementation "androidx.paging:paging-runtime:2.1.0-beta01"
-    testImplementation "androidx.arch.core:core-testing:2.0.0-alpha1"
+    testImplementation "androidx.arch.core:core-testing:2.0.0"
     testImplementation "androidx.room:room-testing:2.1.0-alpha02"
+    implementation 'androidx.core:core-ktx:1.0.1'
+    implementation 'androidx.fragment:fragment-ktx:1.1.0-alpha01'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
+    implementation 'android.arch.navigation:navigation-common-ktx:1.0.0-alpha07'
+    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07'
+    implementation 'android.arch.navigation:navigation-runtime-ktx:1.0.0-alpha07'
+    implementation 'android.arch.navigation:navigation-testing-ktx:1.0.0-alpha06'
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07'
 
     implementation "net.cachapa.expandablelayout:expandablelayout:2.9.2"
-    implementation 'com.google.android:flexbox:1.0.0'
+    implementation 'com.google.android:flexbox:1.1.0'
 }

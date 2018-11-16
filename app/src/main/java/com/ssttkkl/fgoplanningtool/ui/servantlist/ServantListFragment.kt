@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.SearchView
 import android.view.*
+import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
@@ -27,7 +29,7 @@ class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.OnFilte
 
     private var listener: OnServantSelectedListener? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = when {
             parentFragment is OnServantSelectedListener -> parentFragment as OnServantSelectedListener
@@ -132,25 +134,25 @@ class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.OnFilte
 
     private fun onSwitchToListView() {
         recView?.apply {
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             (adapter as? ServantListAdapter)?.viewType = ViewType.List
             addItemDecoration(itemDecoration)
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
-        inflater?.inflate(R.menu.servantlist, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.servantlist, menu)
         when (viewType) {
-            ViewType.List -> menu?.findItem(R.id.switchToListView_action)?.isVisible = false
-            ViewType.Grid -> menu?.findItem(R.id.switchToGridView_action)?.isVisible = false
+            ViewType.List -> menu.findItem(R.id.switchToListView_action)?.isVisible = false
+            ViewType.Grid -> menu.findItem(R.id.switchToGridView_action)?.isVisible = false
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> activity?.finish()
-            R.id.sortAndFilter_action -> drawerlayout.openDrawer(Gravity.END)
+            R.id.sortAndFilter_action -> drawerlayout.openDrawer(GravityCompat.END)
             R.id.switchToGridView_action -> viewType = ViewType.Grid
             R.id.switchToListView_action -> viewType = ViewType.List
             else -> super.onOptionsItemSelected(item)
@@ -159,8 +161,8 @@ class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.OnFilte
     }
 
     override fun onBackPressed(): Boolean {
-        return if (drawerlayout.isDrawerOpen(Gravity.END)) {
-            drawerlayout.closeDrawer(Gravity.END)
+        return if (drawerlayout.isDrawerOpen(GravityCompat.END)) {
+            drawerlayout.closeDrawer(GravityCompat.END)
             true
         } else super.onBackPressed()
     }

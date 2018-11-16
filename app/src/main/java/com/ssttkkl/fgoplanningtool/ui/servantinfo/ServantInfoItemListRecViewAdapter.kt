@@ -36,7 +36,7 @@ class ServantInfoItemListRecViewAdapter(val context: Context) : androidx.recycle
         holder.itemView.apply {
             name_textView.text = item.descriptor?.localizedName ?: item.codename
             count_textView.text = item.count.toStringWithSplitter()
-            Glide.with(context).load(item.descriptor?.imgFile).error(R.drawable.item_placeholder).into(imageView)
+            Glide.with(context).load(item.descriptor?.imgFile).into(imageView)
         }
     }
 

@@ -22,7 +22,7 @@ class ChangePlanWarningDialogFragment : androidx.fragment.app.DialogFragment() {
 
     private var listener: OnActionListener? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = when {
             parentFragment is OnActionListener -> parentFragment as OnActionListener
@@ -66,12 +66,12 @@ class ChangePlanWarningDialogFragment : androidx.fragment.app.DialogFragment() {
         preform_button.apply {
             setText(if (mode == Mode.Remove) R.string.remove_changeplanwarning else R.string.edit_changeplanwarning)
             setOnClickListener {
-                listener?.onAction(mode, plans, dialog.deductItems_checkBox.isChecked)
+                listener?.onAction(mode, plans, deductItems_checkBox.isChecked)
                 dismiss()
             }
         }
 
-        cancel_button.setOnClickListener { dialog.cancel() }
+        cancel_button.setOnClickListener { dialog?.cancel() }
     }
 
     companion object {

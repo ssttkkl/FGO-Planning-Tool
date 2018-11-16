@@ -33,7 +33,7 @@ class ItemInfoDialogFragment : androidx.fragment.app.DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val descriptor = ResourcesProvider.instance.itemDescriptors[codename]
         name_textView.text = descriptor?.localizedName
-        Glide.with(this).load(descriptor?.imgFile).error(R.drawable.item_placeholder).into(imageView)
+        Glide.with(this).load(descriptor?.imgFile).into(imageView)
 
         val link = descriptor?.wikiLinks?.entries?.firstOrNull()
         if (link != null) {

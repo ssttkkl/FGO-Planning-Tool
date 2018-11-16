@@ -68,7 +68,7 @@ class ServantInfoLevelListRecViewAdapter(val context: Context) : androidx.recycl
                     adapter = ServantInfoItemListRecViewAdapter(context).apply {
                         setOnItemClickListener { _, item -> listener?.invoke(item.codename) }
                     }
-                    layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+                    layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                     addItemDecoration(CommonRecViewItemDecoration(context))
                 }
                 itemView.expLayout.setOnExpansionUpdateListener { _, state ->

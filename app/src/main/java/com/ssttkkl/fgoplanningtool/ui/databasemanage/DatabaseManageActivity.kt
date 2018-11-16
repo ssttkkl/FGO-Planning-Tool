@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptor
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
@@ -48,7 +49,7 @@ class DatabaseManageActivity : AppCompatActivity() {
                         }
                     }
                 }
-                layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@DatabaseManageActivity, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+                layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@DatabaseManageActivity, RecyclerView.VERTICAL, false)
                 addItemDecoration(CommonRecViewItemDecoration(context))
             }
         }
@@ -63,13 +64,13 @@ class DatabaseManageActivity : AppCompatActivity() {
         presenter.onDestroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.putParcelableArray(KEY_DATA, data.toTypedArray())
+        outState.putParcelableArray(KEY_DATA, data.toTypedArray())
         (recView?.adapter as? DatabaseManageRecViewAdapter)?.apply {
             val inEditModePositions = inEditModePositions.filter { it.value }.keys
             val pairs = inEditModePositions.map { Pair(it, editedNames[it] ?: data[it].name) }
-            if (outState != null && pairs.isNotEmpty()) {
+            if (pairs.isNotEmpty()) {
                 outState.putIntArray(KEY_EDITING_POSITIONS, pairs.map { it.first }.toIntArray())
                 outState.putStringArray(KEY_EDITING_CONTENTS, pairs.map { it.second }.toTypedArray())
             }

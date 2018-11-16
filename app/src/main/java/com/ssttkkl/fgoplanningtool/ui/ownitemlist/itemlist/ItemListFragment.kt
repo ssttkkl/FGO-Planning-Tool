@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.FragmentOwnitemlistItemlistBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.iteminfo.ItemInfoDialogFragment
@@ -30,7 +31,7 @@ class ItemListFragment : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.recView.apply {
             adapter = ItemListRecViewAdapter(context!!, this@ItemListFragment, binding.viewModel!!)
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!))
         }
 
@@ -46,7 +47,7 @@ class ItemListFragment : androidx.fragment.app.Fragment() {
 
     private fun showItemInfo(codename: String) {
         ItemInfoDialogFragment.newInstance(codename)
-                .show(fragmentManager, ItemInfoDialogFragment::class.qualifiedName)
+                .show(requireFragmentManager(), ItemInfoDialogFragment::class.qualifiedName)
     }
 
     private fun showMessage(message: String) {

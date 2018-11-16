@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
@@ -32,7 +33,7 @@ class ServantInfoLevelListFragment : androidx.fragment.app.Fragment() {
                 if (savedInstanceState != null)
                     expandedPosition = savedInstanceState.getInt(KEY_EXPANDED, -1)
             }
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context))
         }
     }

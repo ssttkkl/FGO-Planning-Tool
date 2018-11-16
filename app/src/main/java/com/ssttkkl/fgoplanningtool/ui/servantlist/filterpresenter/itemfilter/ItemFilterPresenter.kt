@@ -3,6 +3,7 @@ package com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import android.widget.AdapterView
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.FilterPresenter
 import com.ssttkkl.fgoplanningtool.ui.servantlist.filterpresenter.itemfilter.additem.AddItemDialogFragment
@@ -26,7 +27,7 @@ class ItemFilterPresenter(view: ServantListFragment) : FilterPresenter(view) {
                     setNewData(viewModel.items)
                     setOnRemoveActionListener { onRemoveItemAction(it) }
                 }
-                layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+                layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 isNestedScrollingEnabled = false
             }
         }

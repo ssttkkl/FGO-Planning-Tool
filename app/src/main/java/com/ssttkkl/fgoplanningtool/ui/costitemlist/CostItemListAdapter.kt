@@ -66,7 +66,7 @@ class CostItemListAdapter(val context: Context) : androidx.recyclerview.widget.R
                     adapter = RequirementListRecViewAdapter(context).apply {
                         setOnItemClickListener { _, item -> listener?.invoke(item.servantID) }
                     }
-                    layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+                    layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
                     addItemDecoration(CommonRecViewItemDecoration(context!!))
                 }
                 itemView.expLayout.setOnExpansionUpdateListener { _, state ->

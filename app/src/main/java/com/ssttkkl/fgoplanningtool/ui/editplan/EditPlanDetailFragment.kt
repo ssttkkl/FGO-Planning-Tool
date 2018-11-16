@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEditplanDetailBinding
 import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 
@@ -27,7 +28,7 @@ class EditPlanDetailFragment : androidx.fragment.app.Fragment(), LifecycleOwner,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.dressRecView.apply {
             adapter = EditPlanDressListRecViewAdapter(context!!)
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             isNestedScrollingEnabled = false
         }
 

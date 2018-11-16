@@ -25,10 +25,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
 
-class UpdateResPackDialogFragment : androidx.fragment.app.DialogFragment(), ResPackDownloader.Callback {
+class UpdateResPackDialogFragment : DialogFragment(), ResPackDownloader.Callback {
     private lateinit var viewModel: UpdateResPackViewModel
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (activity !is PreferencesActivity)
             throw Exception("UpdateResPackDialogFragment must be attached on PreferencesActivity")
@@ -106,7 +106,7 @@ class UpdateResPackDialogFragment : androidx.fragment.app.DialogFragment(), ResP
         }
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         if (viewModel.status.value == Status.CompleteUpdating)
             activity?.recreate()

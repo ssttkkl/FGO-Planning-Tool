@@ -8,10 +8,10 @@ import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 
 
 abstract class SingleSelectFilterPresenter(view: ServantListFragment) : FilterPresenter(view) {
-    protected fun <T> androidx.recyclerview.widget.RecyclerView.setupSingleSelectRecView(initData: List<T>,
-                                                                                         toString: (T) -> String,
-                                                                                         initSelectedPosition: Int,
-                                                                                         onItemSelectedListener: (pos: Int) -> Unit): androidx.recyclerview.widget.RecyclerView {
+    protected fun <T> RecyclerView.setupSingleSelectRecView(initData: List<T>,
+                                                            toString: (T) -> String,
+                                                            initSelectedPosition: Int,
+                                                            onItemSelectedListener: (pos: Int) -> Unit): androidx.recyclerview.widget.RecyclerView {
         view.apply {
             adapter = ServantListSingleSelectAdapter<T>(activity!!, { toString(it) }).apply {
                 data = initData

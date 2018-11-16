@@ -80,9 +80,9 @@ class PlanListFragment : BackHandlerFragment(),
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
-        inflater?.inflate(if (binding.viewModel?.inSelectMode?.value == true)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(if (binding.viewModel?.inSelectMode?.value == true)
             R.menu.planlist_inselectmode
         else
             R.menu.planlist, menu)

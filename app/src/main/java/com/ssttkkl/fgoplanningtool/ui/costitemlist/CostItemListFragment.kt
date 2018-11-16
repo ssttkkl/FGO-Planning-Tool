@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.groupedCostItems
@@ -74,7 +75,7 @@ class CostItemListFragment : androidx.fragment.app.Fragment() {
                 if (savedInstanceState != null && savedInstanceState.containsKey(ARG_EXPANDED))
                     expendedPosition = savedInstanceState.getInt(ARG_EXPANDED)
             }
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
             visibility = if (plans.isEmpty()) View.GONE else View.VISIBLE
         }
