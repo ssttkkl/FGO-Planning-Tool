@@ -4,7 +4,7 @@ import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 
 enum class ItemType {
-    General, Piece, Gem, Copper, Sliver, Golden, Event;
+    General, Gem, Copper, Sliver, Golden, Piece, Event;
 
     val localizedName: String
         get() = MyApp.context.resources.getStringArray(R.array.itemType)[ordinal]

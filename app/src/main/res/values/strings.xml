@@ -122,11 +122,11 @@
 
     <string-array name="itemType">
         <item>通用</item>
-        <item>棋子</item>
         <item>技能石</item>
         <item>铜素材</item>
         <item>银素材</item>
         <item>金素材</item>
+        <item>棋子</item>
         <item>活动英灵再临素材</item>
     </string-array>
 

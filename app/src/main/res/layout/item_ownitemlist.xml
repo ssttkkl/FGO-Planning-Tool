@@ -44,6 +44,8 @@
             android:layout_marginStart="72dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             android:text="@{item.descriptor.localizedName}"
             android:textAppearance="@style/ListItem"
             app:layout_constraintEnd_toStartOf="@+id/edit_button"
@@ -82,8 +84,8 @@
 
         <ImageButton
             android:id="@+id/info_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginEnd="16dp"
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{() -> viewModel.onItemClickInfo(item.codename)}"
@@ -96,9 +98,9 @@
 
         <ImageButton
             android:id="@+id/edit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{() -> viewModel.onItemClickEdit(item.codename)}"
             android:tint="@android:color/tertiary_text_light"

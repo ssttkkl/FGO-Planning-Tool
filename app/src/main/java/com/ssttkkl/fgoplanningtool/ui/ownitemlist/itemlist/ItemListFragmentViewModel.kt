@@ -1,9 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.databinding.ObservableArrayMap
+import androidx.lifecycle.*
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
@@ -19,36 +17,56 @@ class ItemListFragmentViewModel : ViewModel() {
 
     val type = MutableLiveData<ItemType>()
 
-    val data = object : LiveData<List<Item>>() {
-        fun generateData(origin: List<Item>?, type: ItemType?): List<Item>? {
-            return if (origin == null)
-                null
-            else {
-                val map = origin.associate { Pair(it.codename, it) }
-                ResourcesProvider.instance.itemDescriptors.values.filter { it.type == type }
-                        .map { Item(it.codename, map[it.codename]?.count ?: 0) }
-                        .sortedBy { ResourcesProvider.instance.itemRank[it.codename] }
-            }
-        }
+    private val indexedData = MutableLiveData<Map<String, EditableItem>>()
 
-        init {
-            Repo.itemListLiveData.observeForever { value = generateData(it, type.value) }
-            type.observeForever { value = generateData(Repo.itemListLiveData.value, it) }
-        }
+    val data: LiveData<List<EditableItem>> = Transformations.map(indexedData) { indexedData ->
+        indexedData.values.sortedBy { ResourcesProvider.instance.itemRank[it.item.codename] }
     }
 
-    val showInfoButton = object : LiveData<Boolean>() {
-        init {
-            type.observeForever { value = (it != null && it != ItemType.General) }
-        }
+    val editedCount = ObservableArrayMap<String, Long>()
+
+    private fun setItemEditing(codename: String, editing: Boolean) {
+        val oldData = indexedData.value ?: return
+        val oldItem = oldData[codename] ?: return
+        indexedData.value = oldData - codename + Pair(oldItem.item.codename, EditableItem(oldItem.item, editing))
+        setItemEditedCount(codename, null)
     }
 
-    val inEditMode = MutableLiveData<Set<String>>()
+    private fun setItemEditedCount(codename: String, editedCount: Long?) {
+        this.editedCount[codename] = editedCount
+    }
 
-    val editedItems = ObservableArrayMap<String, Long>()
+    private val generator = { oldData: Map<String, EditableItem>?, origin: List<Item>?, type: ItemType? ->
+        val map = origin?.associate { Pair(it.codename, it) } ?: mapOf()
+        ResourcesProvider.instance.itemDescriptors.values.filter { it.type == type }
+                .associate {
+                    Pair(it.codename,
+                            EditableItem(Item(it.codename, map[it.codename]?.count ?: 0),
+                                    oldData?.get(it.codename)?.editing == true))
+                }
+    }
+
+    private val observer = Observer<Any> {
+        indexedData.value = generator(indexedData.value, Repo.itemListLiveData.value, type.value)
+    }
+
+    init {
+        Repo.itemListLiveData.observeForever(observer)
+        type.observeForever(observer)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Repo.itemListLiveData.removeObserver(observer)
+        type.removeObserver(observer)
+    }
+
+    val showInfoButton: LiveData<Boolean> = Transformations.map(type) { type ->
+        type != ItemType.General
+    }
 
     fun onItemClickEdit(codename: String) {
-        inEditMode.value = inEditMode.value?.plus(codename) ?: setOf(codename)
+        setItemEditing(codename, true)
     }
 
     fun onItemClickInfo(codename: String) {
@@ -56,21 +74,22 @@ class ItemListFragmentViewModel : ViewModel() {
     }
 
     fun onItemClickReset(codename: String) {
-        editedItems[codename] = null
+        setItemEditedCount(codename, null)
     }
 
     fun onItemClickSave(codename: String) {
-        val newValue = editedItems[codename]
-        if (newValue != null && newValue !in (MIN_VALUE..MAX_VALUE)) {
-            val message = MyApp.context.getString(R.string.exc_outOfBounds_edititem, MIN_VALUE, MAX_VALUE)
-            showMessageEvent.call(message)
-        } else {
-            inEditMode.value = inEditMode.value?.minus(codename)
-
-            val newItem = Item(codename, newValue ?: return)
-            Repo.itemRepo.update(newItem, HowToPerform.Launch)
-            editedItems.remove(codename)
-        }
+        val editedCount = this.editedCount[codename]
+        if (editedCount != null) {
+            if (editedCount !in (MIN_VALUE..MAX_VALUE)) {
+                val message = MyApp.context.getString(R.string.exc_outOfBounds_edititem, MIN_VALUE, MAX_VALUE)
+                showMessageEvent.call(message)
+            } else {
+                val newItem = Item(codename, editedCount)
+                Repo.itemRepo.update(newItem, HowToPerform.Launch)
+                setItemEditing(codename, false)
+            }
+        } else
+            setItemEditing(codename, false)
     }
 
     companion object {
