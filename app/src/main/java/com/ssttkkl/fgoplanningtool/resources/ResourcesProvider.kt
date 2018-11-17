@@ -12,6 +12,7 @@ import com.ssttkkl.fgoplanningtool.resources.migration.CommonMigration1
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.resources.servant.gson.ServantMapGsonTypeAdapter
 import java.io.File
+import java.util.*
 
 class ResourcesProvider(context: Context) {
     private val gson = GsonBuilder().registerTypeAdapter(ServantMapGsonTypeAdapter.typeToken.type, ServantMapGsonTypeAdapter())
@@ -100,12 +101,23 @@ class ResourcesProvider(context: Context) {
                 return INSTANCE!!
             }
 
-        val instanceLiveData: LiveData<ResourcesProvider> = MutableLiveData()
+        private val listeners = WeakHashMap<Any, () -> Unit>()
+
+        fun addOnRenewListener(observer: Any, listener: () -> Unit) {
+            if (listeners.containsKey(observer))
+                Log.w("ResourcesProvider", "An observer can only register one listener. The old listener would be replaced.")
+            listeners[observer] = listener
+        }
+
+        fun removeOnRenewListener(observer: Any) {
+            listeners.remove(observer)
+        }
 
         fun renewInstance() {
             synchronized(ResourcesProvider.Companion::class.java) {
-                INSTANCE = ResourcesProvider(MyApp.context).also {
-                    (instanceLiveData as MutableLiveData<ResourcesProvider>).postValue(it)
+                INSTANCE = ResourcesProvider(MyApp.context)
+                listeners.forEach { (_, listener) ->
+                    listener?.invoke()
                 }
             }
         }

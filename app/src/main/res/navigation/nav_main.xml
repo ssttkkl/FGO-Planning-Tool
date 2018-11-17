@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/planListFragment">
+
+    <fragment
+        android:id="@+id/planListFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragment"
+        android:label="@string/title_planlist"
+        tools:layout="@layout/fragment_planlist" />
+    <fragment
+        android:id="@+id/ownItemListFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragment"
+        android:label="@string/title_ownitemlist"
+        tools:layout="@layout/fragment_ownitemlist" />
+    <fragment
+        android:id="@+id/servantBaseListFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.servantbaselist.ServantBaseListFragment"
+        android:label="ServantBaseListFragment"
+        tools:layout="@layout/fragment_servantbaselist" />
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="com.ssttkkl.fgoplanningtool.ui.settings.SettingsActivity"
+        android:label="@string/title_pref"
+        tools:layout="@layout/activity_settings" />
+    <activity
+        android:id="@+id/databaseManageActivity"
+        android:name="com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageActivity"
+        android:label="@string/title_databasemanage"
+        tools:layout="@layout/activity_databasemanage" />
+
+    <action
+        android:id="@+id/action_global_planListFragment"
+        app:clearTask="true"
+        app:destination="@id/planListFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <action
+        android:id="@+id/action_global_ownItemListFragment"
+        app:clearTask="true"
+        app:destination="@id/ownItemListFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <action
+        android:id="@+id/action_global_servantBaseListFragment"
+        app:clearTask="true"
+        app:destination="@id/servantBaseListFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <action
+        android:id="@+id/action_global_settingsActivity"
+        app:destination="@id/settingsActivity"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <action
+        android:id="@+id/action_global_databaseManageActivity"
+        app:destination="@id/databaseManageActivity"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+</navigation>

@@ -8,17 +8,17 @@
         android:id="@+id/group1"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/planlist_nav"
+            android:id="@+id/planListFragment"
             android:icon="@drawable/ic_flag_white_24dp"
             android:title="@string/planlist_nav"
             app:showAsAction="ifRoom" />
         <item
-            android:id="@+id/ownitemlist_nav"
+            android:id="@+id/ownItemListFragment"
             android:icon="@drawable/ic_storage_white_24dp"
             android:title="@string/ownitemlist_nav"
             app:showAsAction="ifRoom" />
         <item
-            android:id="@+id/servantdetaillist_nav"
+            android:id="@+id/servantBaseListFragment"
             android:icon="@drawable/ic_album_white_24dp"
             android:title="@string/servantdetaillist_nav"
             app:showAsAction="ifRoom" />
@@ -28,7 +28,7 @@
         android:id="@+id/group2"
         android:checkableBehavior="none">
         <item
-            android:id="@+id/preferences_nav"
+            android:id="@+id/settingsActivity"
             android:icon="@drawable/ic_settings_white_24dp"
             android:title="@string/preferences_nav"
             app:showAsAction="ifRoom" />
