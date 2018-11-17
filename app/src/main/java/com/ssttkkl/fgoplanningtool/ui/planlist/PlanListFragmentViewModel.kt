@@ -1,8 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist
 
 import androidx.lifecycle.*
-import com.ssttkkl.fgoplanningtool.MyApp
-import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
@@ -78,6 +76,13 @@ class PlanListFragmentViewModel : ViewModel() {
             reverseChecked(plan.servantId)
             true
         } else false
+    }
+
+    fun onPlanAvatarClick(plan: Plan) {
+        if (inSelectMode.value != true) {
+            inSelectMode.value = true
+        }
+        reverseChecked(plan.servantId)
     }
 
     fun onFabClick() {

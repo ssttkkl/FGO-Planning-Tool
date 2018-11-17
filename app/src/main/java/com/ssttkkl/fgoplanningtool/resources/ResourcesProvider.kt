@@ -11,6 +11,9 @@ import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
 import com.ssttkkl.fgoplanningtool.resources.migration.CommonMigration1
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.resources.servant.gson.ServantMapGsonTypeAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 
@@ -117,7 +120,9 @@ class ResourcesProvider(context: Context) {
             synchronized(ResourcesProvider.Companion::class.java) {
                 INSTANCE = ResourcesProvider(MyApp.context)
                 listeners.forEach { (_, listener) ->
-                    listener?.invoke()
+                    GlobalScope.launch(Dispatchers.Main) {
+                        listener?.invoke()
+                    }
                 }
             }
         }

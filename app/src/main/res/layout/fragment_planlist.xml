@@ -57,9 +57,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/fab_margin"
+                android:layout_margin="16dp"
                 android:onClick="@{() -> viewModel.onFabClick()}"
-                app:srcCompat="@drawable/ic_chrome_reader_mode_white_24dp" />
+                app:srcCompat="@drawable/ic_chrome_reader_mode_white_24dp"
+                app:layout_behavior="com.ssttkkl.fgoplanningtool.ui.utils.AutoSlideFabBehavior" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

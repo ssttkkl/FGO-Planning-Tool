@@ -56,7 +56,7 @@ class PlanListFragment : BackHandlerFragment(),
         binding.recView.apply {
             adapter = PlanListRecViewAdapter(context!!, this@PlanListFragment, binding.viewModel!!)
             layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
-            addItemDecoration(CommonRecViewItemDecoration(context!!, true, false))
+            addItemDecoration(CommonRecViewItemDecoration(context!!))
             hasFixedSize()
         }
 

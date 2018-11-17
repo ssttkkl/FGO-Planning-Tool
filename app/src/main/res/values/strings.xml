@@ -45,7 +45,7 @@
     <string name="skill1_item_planlist">技能 I</string>
     <string name="skill2_item_planlist">技能 II</string>
     <string name="skill3_item_planlist">技能 III</string>
-    <string name="times_item_planlist">×%1$d</string>
+    <string name="lv_planlist">Lv.%1$d %2$d/%3$d/%4$d</string>
 
     <string-array name="tabTitles">
         <item>编辑规划</item>
