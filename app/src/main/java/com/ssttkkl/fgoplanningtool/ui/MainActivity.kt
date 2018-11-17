@@ -30,7 +30,8 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
             recreate()
         }
         binding.databaseManageButton.setOnClickListener {
-            findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_databaseManageActivity)
+            findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_databaseManageFragment)
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
         }
     }
 

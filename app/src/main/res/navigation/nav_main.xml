@@ -25,11 +25,6 @@
         android:name="com.ssttkkl.fgoplanningtool.ui.settings.SettingsActivity"
         android:label="@string/title_pref"
         tools:layout="@layout/activity_settings" />
-    <activity
-        android:id="@+id/databaseManageActivity"
-        android:name="com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageActivity"
-        android:label="@string/title_databasemanage"
-        tools:layout="@layout/activity_databasemanage" />
 
     <action
         android:id="@+id/action_global_planListFragment"
@@ -66,9 +61,13 @@
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <fragment
+        android:id="@+id/databaseManageFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageFragment"
+        android:label="@string/title_databasemanage" />
     <action
-        android:id="@+id/action_global_databaseManageActivity"
-        app:destination="@id/databaseManageActivity"
+        android:id="@+id/action_global_databaseManageFragment"
+        app:destination="@id/databaseManageFragment"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim"
         app:launchSingleTop="true"

@@ -29,10 +29,9 @@
     <string name="import_databasemanage">导入</string>
     <string name="export_databasemanage">导出</string>
     <string name="importSuccessful_databasemanage">导入成功</string>
-    <string name="importError_databasemanage">导入失败</string>
+    <string name="importError_databasemanage">导入失败：%1$s</string>
     <string name="exportSuccessful_databasemanage">导出成功</string>
-    <string name="exportError_databasemanage">导出失败</string>
-    <string name="errorMessageFormat_databasemanage">%1$s（%2$s）</string>
+    <string name="exportError_databasemanage">导出失败：%1$s</string>
 
     <string name="title_planlist">规划列表</string>
     <string name="emptyHint_planlist">什么都没有</string>
