@@ -2,6 +2,8 @@ package com.ssttkkl.fgoplanningtool.resources
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.ssttkkl.fgoplanningtool.MyApp
@@ -98,9 +100,13 @@ class ResourcesProvider(context: Context) {
                 return INSTANCE!!
             }
 
+        val instanceLiveData: LiveData<ResourcesProvider> = MutableLiveData()
+
         fun renewInstance() {
             synchronized(ResourcesProvider.Companion::class.java) {
-                INSTANCE = ResourcesProvider(MyApp.context)
+                INSTANCE = ResourcesProvider(MyApp.context).also {
+                    (instanceLiveData as MutableLiveData<ResourcesProvider>).postValue(it)
+                }
             }
         }
     }

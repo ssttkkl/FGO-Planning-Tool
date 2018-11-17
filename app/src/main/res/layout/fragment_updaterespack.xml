@@ -1,128 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/gridLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <data>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="16dp"
-            android:layout_row="0"
-            android:text="@string/releaseDate_updaterespack"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+        <import type="android.view.View" />
 
-        <TextView
-            android:id="@+id/releaseDate_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginBottom="4dp"
-            android:layout_row="0"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:text="2018/7/18" />
+        <variable
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.updaterespack.UpdateResPackViewModel" />
+    </data>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="16dp"
-            android:layout_row="1"
-            android:text="@string/content_updaterespack"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-        <TextView
-            android:id="@+id/content_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginBottom="4dp"
-            android:layout_row="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:text="2.2预热" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="16dp"
-            android:layout_row="2"
-            android:text="@string/size_updaterespack"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-        <TextView
-            android:id="@+id/size_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginBottom="4dp"
-            android:layout_row="2"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:text="1MB" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="16dp"
-            android:layout_row="3"
-            android:text="@string/status_updaterespack"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/status_textView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_gravity="center_vertical|start"
             android:layout_row="3"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            tools:text="下载中" />
-    </GridLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout">
+            android:layout_column="0"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{viewModel.status.summary}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="下载中..." />
 
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
+            android:indeterminate="@{viewModel.showProgressIndeterminately}"
             android:max="100"
+            android:progress="@{viewModel.progress}"
+            android:visibility="@{viewModel.showProgress ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toStartOf="@+id/progress_textView"
+            app:layout_constraintStart_toStartOf="@+id/status_textView"
+            app:layout_constraintTop_toBottomOf="@+id/status_textView"
             tools:progress="39" />
 
         <TextView
@@ -130,24 +55,113 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:text="@{String.valueOf(viewModel.progress)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/colorAccent"
+            android:visibility="@{viewModel.showProgress &amp;&amp; !viewModel.showProgressIndeterminately ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+            app:layout_constraintEnd_toEndOf="@+id/status_textView"
+            app:layout_constraintTop_toTopOf="@+id/progressBar"
             tools:text="39" />
 
-    </LinearLayout>
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressBar">
 
-    <Button
-        android:id="@+id/button"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:minHeight="0dp"
-        android:text="@string/cancel_updaterespack"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="16dp"
+                android:text="@string/releaseDate_updaterespack"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/releaseDate_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginBottom="4dp"
+                android:maxLines="1"
+                android:text="@{viewModel.releaseDate}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:text="2018/7/18" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="16dp"
+                android:text="@string/content_updaterespack"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+            <TextView
+                android:id="@+id/content_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginBottom="4dp"
+                android:maxLines="1"
+                android:text="@{viewModel.latestInfo.content}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:text="2.2预热" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="16dp"
+                android:text="@string/size_updaterespack"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+            <TextView
+                android:id="@+id/size_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginBottom="4dp"
+                android:maxLines="1"
+                android:text="@{viewModel.sizeSummary}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:text="1MB" />
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="16dp"
+            android:text="@{viewModel.errorMessage}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@android:color/holo_red_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+            tools:text="Error Message" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

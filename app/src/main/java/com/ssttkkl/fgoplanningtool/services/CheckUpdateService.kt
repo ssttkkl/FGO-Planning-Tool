@@ -14,11 +14,11 @@ import android.util.Log
 import com.google.gson.Gson
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.net.AppLatestInfo
-import com.ssttkkl.fgoplanningtool.net.ConstantLinks
-import com.ssttkkl.fgoplanningtool.net.ResPackLatestInfo
+import com.ssttkkl.fgoplanningtool.ui.updaterespack.updater.AppLatestInfo
+import com.ssttkkl.fgoplanningtool.ui.updaterespack.updater.ConstantLinks
+import com.ssttkkl.fgoplanningtool.ui.updaterespack.updater.ResPackLatestInfo
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.ui.preferences.PreferencesActivity
+import com.ssttkkl.fgoplanningtool.ui.settings.SettingsActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -64,7 +64,7 @@ class CheckUpdateService : Service() {
             manager.createNotificationChannel(channel)
         }
 
-        val intent = Intent(this, PreferencesActivity::class.java)
+        val intent = Intent(this, SettingsActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID_UPDATE)

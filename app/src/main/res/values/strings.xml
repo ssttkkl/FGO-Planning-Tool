@@ -179,8 +179,6 @@
     <string name="version_pref">版本号</string>
     <string name="repo_pref">Github 项目主页</string>
 
-    <string name="cancel_updaterespack">取消</string>
-    <string name="back_updaterespack">返回</string>
     <string name="releaseDate_updaterespack">发布日期</string>
     <string name="releaseDate_pattern_updaterespack">%1$d/%2$d/%3$d</string>
     <string name="content_updaterespack">内容进度</string>

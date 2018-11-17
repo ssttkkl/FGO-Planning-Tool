@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.preferences
+package com.ssttkkl.fgoplanningtool.ui.settings
 
 import android.app.Activity
 import android.content.Intent
@@ -9,11 +9,11 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.fragment_ownitemlist.*
 
-class PreferencesActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStatusBarColor()
-        setContentView(R.layout.activity_preferences)
+        setContentView(R.layout.activity_settings)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }

@@ -23,7 +23,7 @@
             android:name=".ui.costitemlist.CostItemListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.preferences.PreferencesActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.databasemanage.DatabaseManageActivity"

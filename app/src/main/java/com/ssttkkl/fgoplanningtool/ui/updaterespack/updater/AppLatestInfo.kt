@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.net
+package com.ssttkkl.fgoplanningtool.ui.updaterespack.updater
 
 data class AppLatestInfo(val versionName: String,
                          val versionCode: Int,
