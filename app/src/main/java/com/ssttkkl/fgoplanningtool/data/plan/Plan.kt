@@ -1,18 +1,19 @@
 package com.ssttkkl.fgoplanningtool.data.plan
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import android.os.Parcel
-import android.os.Parcelable
 import com.ssttkkl.fgoplanningtool.data.utils.IntSetConverter
 import com.ssttkkl.fgoplanningtool.resources.ConstantValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
+import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = "Plan")
 @TypeConverters(IntSetConverter::class)
+@Parcelize
 data class Plan(@PrimaryKey var servantId: Int,
                 var nowExp: Int,
                 var planExp: Int,
@@ -40,20 +41,6 @@ data class Plan(@PrimaryKey var servantId: Int,
     val planStage
         get() = ConstantValues.getStage(servant!!.star, planLevel) + if (ascendedOnPlanStage) 1 else 0
 
-    constructor(parcel: Parcel) : this(
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readByte() != 0.toByte(),
-            parcel.readByte() != 0.toByte(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.readInt(),
-            parcel.createIntArray()?.toSet() ?: setOf())
-
     @Ignore
     constructor(servantId: Int) : this(
             servantId, 0,
@@ -76,33 +63,4 @@ data class Plan(@PrimaryKey var servantId: Int,
             plan.planSkill2,
             plan.planSkill3,
             plan.dress)
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(servantId)
-        parcel.writeInt(nowExp)
-        parcel.writeInt(planExp)
-        parcel.writeByte(if (ascendedOnNowStage) 1 else 0)
-        parcel.writeByte(if (ascendedOnPlanStage) 1 else 0)
-        parcel.writeInt(nowSkill1)
-        parcel.writeInt(nowSkill2)
-        parcel.writeInt(nowSkill3)
-        parcel.writeInt(planSkill1)
-        parcel.writeInt(planSkill2)
-        parcel.writeInt(planSkill3)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Plan> {
-        override fun createFromParcel(parcel: Parcel): Plan {
-            return Plan(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Plan?> {
-            return arrayOfNulls(size)
-        }
-    }
-
 }

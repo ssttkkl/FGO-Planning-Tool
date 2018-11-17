@@ -10,6 +10,9 @@ kapt {
         arg("room.schemaLocation", "$projectDir/schemas".toString())
     }
 }
+androidExtensions {
+    experimental = true
+}
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
