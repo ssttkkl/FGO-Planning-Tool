@@ -4,6 +4,7 @@ local.properties
 build
 .gradle
 .project
-.settings/	
+.settings/
 .classpath
+.vscode
 keystore.jks

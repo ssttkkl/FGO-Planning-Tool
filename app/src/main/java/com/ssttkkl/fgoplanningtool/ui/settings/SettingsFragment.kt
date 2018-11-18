@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.material.snackbar.Snackbar
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.R
@@ -49,58 +50,66 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
     private fun subscribeUI() {
         findPreference(KEY_VERSION).summary = viewModel.versionName
+        setupListPreferenceListener(findPreference(PreferenceKeys.KEY_NAME_LANGUAGE) as ListPreference)
 
         viewModel.resPackSummary.observe(this, Observer {
             findPreference(KEY_CUR_VERSION).summary = it
         })
 
+        findPreference(KEY_CUR_VERSION).setOnPreferenceClickListener {
+            viewModel.onClickResPack()
+            true
+        }
         findPreference(KEY_AUTO_UPDATE).setOnPreferenceClickListener {
-            gotoAutoUpdateResPackUI()
+            viewModel.onClickAutoUpdateResPack()
             true
         }
-
         findPreference(KEY_MANUALLY_UPDATE).setOnPreferenceClickListener {
-            gotoOpenResPackUI()
+            viewModel.onClickManuallyUpdateResPack()
             true
         }
-        setupListPreferenceListener(findPreference(PreferenceKeys.KEY_NAME_LANGUAGE) as ListPreference)
-    }
 
-    private fun gotoAutoUpdateResPackUI() {
-        findNavController().navigate(R.id.action_settingsFragment_to_updateResPackFragment)
-    }
-
-    private fun gotoManuallyUpdateResPackUI(file: File) {
-        findNavController().navigate(R.id.action_settingsFragment_to_updateResPackFragment, Bundle().apply {
-            putBoolean("manually", true)
-            putString("filePath", file.path)
+        viewModel.showRemoveResPackMessageEvent.observe(this, Observer {
+            showRemoveResPackMessage()
+        })
+        viewModel.showAutoUpdateResPackEvent.observe(this, Observer {
+            showAutoUpdateResPackUI()
+        })
+        viewModel.showChooseResPackFileEvent.observe(this, Observer {
+            showChooseResPackFileUI()
+        })
+        viewModel.showManuallyUpdateResPackEvent.observe(this, Observer {
+            showManuallyUpdateResPackUI(it ?: return@Observer)
         })
     }
 
-    private fun gotoOpenResPackUI() {
+    private fun showRemoveResPackMessage() {
+        Snackbar.make(view ?: return, getString(R.string.removeResPack_hint), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.removeResPack_yes)) {
+                    viewModel.onClickRemoveResPack()
+                }.show()
+    }
+
+    private fun showAutoUpdateResPackUI() {
+        findNavController().navigate(R.id.action_settingsFragment_to_updateResPackFragment)
+    }
+
+    private fun showChooseResPackFileUI() {
         startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             type = MimeTypeMap.getSingleton().getMimeTypeFromExtension("zip")
             addCategory(Intent.CATEGORY_OPENABLE)
         }, 1)
     }
 
+    private fun showManuallyUpdateResPackUI(file: File) {
+        findNavController().navigate(R.id.action_settingsFragment_to_updateResPackFragment, Bundle().apply {
+            putBoolean("manually", true)
+            putString("filePath", file.path)
+        })
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 1) {
-            GlobalScope.launch(Dispatchers.IO) {
-                val uri = data?.data ?: return@launch
-                activity?.contentResolver?.openInputStream(uri)?.use { inputStream ->
-                    val tempFile = File(MyApp.context.cacheDir, "${UUID.randomUUID()}.zip").apply { deleteOnExit() }
-                    tempFile.createNewFile()
-                    tempFile.outputStream().use { output ->
-                        IOUtils.copy(inputStream, output)
-                    }
-                    launch(Dispatchers.Main) {
-                        gotoManuallyUpdateResPackUI(tempFile)
-                    }
-                }
-            }
-        } else
-            super.onActivityResult(requestCode, resultCode, data)
+        viewModel.onActivityResult(requestCode, resultCode, data)
     }
 
     companion object {

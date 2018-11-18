@@ -3,61 +3,32 @@ package com.ssttkkl.fgoplanningtool.ui.splash
 import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
-import android.view.View
-import com.ssttkkl.fgoplanningtool.PreferenceKeys
-import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.Repo
-import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptorManager
-import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.services.CheckUpdateService
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import com.ssttkkl.fgoplanningtool.databinding.ActivitySplashBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import kotlinx.android.synthetic.main.activity_splash.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.ssttkkl.fgoplanningtool.R
 
 class SplashActivity : AppCompatActivity() {
-    private lateinit var viewModel: SplashViewModel
+    lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
-        viewModel = ViewModelProviders.of(this).get(SplashViewModel::class.java)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        binding.setLifecycleOwner(this)
+        binding.viewModel = ViewModelProviders.of(this)[SplashActivityViewModel::class.java]
 
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-        if (pref.getBoolean(PreferenceKeys.KEY_CHECK_UPDATE_ON_START, true))
-            startService(Intent(this, CheckUpdateService::class.java))
-
-        val uuid = pref.getString(PreferenceKeys.KEY_DEFAULT_DB_UUID, "")
-        val dbDescriptor = if (DatabaseDescriptorManager[uuid] != null)
-            uuid
-        else
-            DatabaseDescriptorManager.firstOrCreate.uuid
-        Repo.switchDatabase(dbDescriptor)
-
-        GlobalScope.launch {
-            viewModel.loadResTask.join()
-            if (!ResourcesProvider.instance.isAbsent && !ResourcesProvider.instance.isBroken)
-                gotoMainActivity()
-            else {
-                progressBar.visibility = View.GONE
-                message_textView.visibility = View.VISIBLE
-                enterApp_button.visibility = View.VISIBLE
-                enterApp_button.setOnClickListener { gotoMainActivity() }
-                when {
-                    ResourcesProvider.instance.isAbsent ->
-                        message_textView.text = getString(R.string.resAbsent_splash)
-                    ResourcesProvider.instance.isBroken ->
-                        message_textView.text = getString(R.string.resBroken_splash)
-                }
-            }
+        binding.viewModel?.apply {
+            enterAppEvent.observe(this@SplashActivity, Observer {
+                enterApp()
+            })
+            start(this@SplashActivity)
         }
     }
 
-    private fun gotoMainActivity() {
-        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+    private fun enterApp() {
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 }

@@ -56,4 +56,10 @@ object ResourcesUpdater {
                 throw Exception(MyApp.context.getString(R.string.exc_isNotDir_resUpdater, reqFile.name))
         }
     }
+
+    fun remove() {
+        val localResDir = ResourcesProvider.instance.resourcesDir
+        localResDir.deleteRecursively()
+        ResourcesProvider.renewInstance()
+    }
 }
