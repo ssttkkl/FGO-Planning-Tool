@@ -30,12 +30,7 @@ class EditPlanFragment : androidx.fragment.app.Fragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as? AppCompatActivity)?.apply {
-            // setup the Toolbar
-            setHasOptionsMenu(true)
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        }
+        setHasOptionsMenu(true)
 
         // setup the viewpager
         binding.viewPager.adapter = EditPlanFragmentPagerAdapter(childFragmentManager)

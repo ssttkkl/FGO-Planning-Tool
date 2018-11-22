@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/avatar_imageView"
-    android:layout_width="64dp"
-    android:layout_height="70dp"
-    android:layout_margin="8dp"
-    android:adjustViewBounds="true"
-    android:background="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
-    tools:srcCompat="@drawable/avatar_placeholder" />
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="servant"
+            type="com.ssttkkl.fgoplanningtool.resources.servant.Servant" />
+
+        <variable
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragmentViewModel" />
+    </data>
+
+    <ImageView
+        android:id="@+id/avatar_imageView"
+        android:layout_width="64dp"
+        android:layout_height="70dp"
+        android:layout_margin="8dp"
+        android:adjustViewBounds="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        tools:srcCompat="@drawable/avatar_placeholder"
+        app:srcCompat="@{servant.avatarFile}"
+        android:onClick="@{() -> viewModel.onClickServant(servant.id)}" />
+</layout>

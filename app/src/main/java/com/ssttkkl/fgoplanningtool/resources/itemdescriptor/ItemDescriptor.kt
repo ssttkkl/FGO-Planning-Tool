@@ -22,4 +22,7 @@ data class ItemDescriptor(val codename: String,
             "en" -> enName
             else -> zhName
         }
+
+    val rank
+        get() = ResourcesProvider.instance.itemRank[codename] ?: Int.MAX_VALUE
 }

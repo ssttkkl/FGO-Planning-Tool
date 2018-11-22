@@ -1,10 +1,12 @@
 package com.ssttkkl.fgoplanningtool.ui.editplan
 
-import androidx.lifecycle.LifecycleOwner
 import android.os.Bundle
+import androidx.lifecycle.LifecycleOwner
+import androidx.databinding.DataBindingUtil
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
+import com.ssttkkl.fgoplanningtool.databinding.ActivityEditplanBinding
 import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerActivity
 import com.ssttkkl.fgoplanningtool.ui.utils.replaceFragment
@@ -12,14 +14,20 @@ import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor
 
 class EditPlanActivity : BackHandlerActivity(),
         LifecycleOwner,
-        ServantListFragment.OnServantSelectedListener {
+        ServantListFragment.OnClickServantListener {
     private lateinit var mode: Mode
     private var plan: Plan? = null
+
+    private lateinit var binding: ActivityEditplanBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStatusBarColor()
-        setContentView(R.layout.activity_editplan)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_editplan)
+
+        // setup the Toolbar
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         mode = intent.extras[ARG_MODE] as Mode
         if (mode == Mode.Edit)
@@ -54,7 +62,7 @@ class EditPlanActivity : BackHandlerActivity(),
     }
 
     // callback of ServantListFragment
-    override fun onServantSelected(servantId: Int) {
+    override fun onClickServant(servantId: Int) {
         gotoEditPlanUI(Plan(servantId))
     }
 

@@ -16,27 +16,31 @@ class PlanListFragmentViewModel : ViewModel() {
     val removePlansEvent = SingleLiveEvent<Collection<Plan>>()
     val changeOriginEvent = SingleLiveEvent<Collection<Servant>>()
 
-    private val indexedData = MutableLiveData<Map<Int, CheckablePlan>>()
-
-    val data: LiveData<List<CheckablePlan>> = Transformations.map(indexedData) { indexedData ->
-        indexedData.entries.sortedBy { it.key }.map { it.value }
-    }
+    val data = MutableLiveData<List<CheckablePlan>>()
 
     val numOfSelected: LiveData<Int> = Transformations.map(data) { data ->
         data.count { it.checked }
     }
 
     private fun reverseChecked(servantID: Int) {
-        synchronized(indexedData) {
-            val oldData = indexedData.value ?: return
-            val oldPlan = oldData[servantID] ?: return
-            indexedData.value = oldData - servantID + Pair(servantID, CheckablePlan(oldPlan.plan, !oldPlan.checked))
+        synchronized(data) {
+            val oldData = data.value ?: return
+            val idx = oldData.indexOfFirst { it.plan.servantId == servantID }
+            data.value = oldData.toMutableList().apply {
+                this[idx] = CheckablePlan(this[idx].plan, !this[idx].checked)
+            }
         }
     }
 
     private fun selectAll(selected: Boolean) {
-        synchronized(indexedData) {
-            indexedData.value = indexedData.value?.mapValues { CheckablePlan(it.value.plan, selected) }
+        synchronized(data) {
+            val oldData = data.value ?: return
+            data.value = oldData.toMutableList().apply {
+                for (idx in indices) {
+                    if (this[idx].checked != selected)
+                        this[idx] = CheckablePlan(this[idx].plan, selected)
+                }
+            }
         }
     }
 
@@ -132,14 +136,15 @@ class PlanListFragmentViewModel : ViewModel() {
 
     fun onFilter(filtered: List<Servant>) {
         val servantIDs = filtered.map { it.id }
-        val oldData = indexedData.value
-        indexedData.value = Repo.planRepo.all.asSequence()
-                .sortedBy { servantIDs.indexOf(it.servantId) }
+        val selectedServantIDs = data.value?.filter { it.checked }?.map { it.plan.servantId }?.toSet()
+                ?: setOf<Int>()
+        data.value = Repo.planRepo.all
                 .filter { servantIDs.contains(it.servantId) }
-                .associate { Pair(it.servantId, CheckablePlan(it, oldData?.get(it.servantId)?.checked == true)) }
+                .sortedBy { servantIDs.indexOf(it.servantId) }
+                .map { CheckablePlan(it, selectedServantIDs.contains(it.servantId)) }
     }
 
-    fun getPlanByServantID(servantID: Int) = Repo.planRepo[servantID]
+    fun getCostItems(servant: Servant) = Repo.planRepo[servant.id]?.costItems ?: listOf()
 
     private fun remove(plans: Collection<Plan>, itemsToDeduct: Collection<Item>?) {
         Repo.planRepo.remove(plans.map { it.servantId }, HowToPerform.Launch)

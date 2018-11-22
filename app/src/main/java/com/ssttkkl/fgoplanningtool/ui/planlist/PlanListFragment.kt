@@ -1,15 +1,16 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentPlanlistBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
@@ -25,7 +26,7 @@ import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 class PlanListFragment : BackHandlerFragment(),
         LifecycleOwner,
         ChangePlanWarningDialogFragment.OnActionListener,
-        ServantFilterFragment.OnFilterListener {
+        ServantFilterFragment.Callback {
     private lateinit var binding: FragmentPlanlistBinding
 
     private val servantFilterFragment
@@ -46,9 +47,7 @@ class PlanListFragment : BackHandlerFragment(),
         // setup ServantFilterFragment
         if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
             childFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, ServantFilterFragment().apply {
-                        planGetter = { binding.viewModel?.getPlanByServantID(it) }
-                    }, ServantFilterFragment::class.qualifiedName)
+                    .replace(R.id.frameLayout, ServantFilterFragment(), ServantFilterFragment::class.qualifiedName)
                     .commit()
         }
 
@@ -118,6 +117,10 @@ class PlanListFragment : BackHandlerFragment(),
         binding.viewModel?.onFilter(filtered)
     }
 
+    override fun onRequestCostItems(servant: Servant): Collection<Item> {
+        return binding.viewModel?.getCostItems(servant) ?: listOf()
+    }
+
     private fun onAddPlan() {
         startActivity(Intent(activity, EditPlanActivity::class.java).apply {
             putExtra(EditPlanActivity.ARG_MODE, Mode.New)
@@ -143,7 +146,7 @@ class PlanListFragment : BackHandlerFragment(),
     }
 
     private fun onChangeOrigin(servants: Collection<Servant>) {
-        servantFilterFragment?.origin = servants
+        servantFilterFragment?.originServantIDs = servants.map { it.id }.toSet()
     }
 
     private fun onRefreshToolbar(inSelectMode: Boolean) {

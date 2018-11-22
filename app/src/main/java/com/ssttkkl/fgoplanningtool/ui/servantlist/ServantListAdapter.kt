@@ -1,71 +1,54 @@
 package com.ssttkkl.fgoplanningtool.ui.servantlist
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.BR
+import com.ssttkkl.fgoplanningtool.data.item.costItems
+import com.ssttkkl.fgoplanningtool.databinding.ItemServantlistGridBinding
+import com.ssttkkl.fgoplanningtool.databinding.ItemServantlistListBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
-import kotlinx.android.synthetic.main.item_servantlist.view.*
 
 class ServantListAdapter(val context: Context,
-                         private val hidden: Set<Int>) : androidx.recyclerview.widget.RecyclerView.Adapter<ServantListAdapter.ViewHolder>() {
-    var data: List<Servant> = listOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
-    override fun getItemCount(): Int = data.size
-
-    private var listener: ((servantId: Int) -> Unit)? = null
-
-    fun setOnItemClickListener(listener: ((servantId: Int) -> Unit)?) {
-        this.listener = listener
+                         private val lifecycleOwner: LifecycleOwner,
+                         private val viewModel: ServantListFragmentViewModel) : ListAdapter<Servant, ServantListAdapter.ViewHolder>(object :DiffUtil.ItemCallback<Servant>() {
+    override fun areContentsTheSame(oldItem: Servant, newItem: Servant) = oldItem == newItem
+    override fun areItemsTheSame(oldItem: Servant, newItem: Servant) = oldItem.id == newItem.id
+}) {
+    init {
+        viewModel.data.observe(lifecycleOwner, Observer { submitList(it ?: listOf()) })
     }
-
-    var viewType: ViewType = ViewType.List
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
     override fun getItemViewType(position: Int): Int {
-        return viewType.ordinal
+        return (viewModel.viewType.value ?: ViewType.List)?.ordinal
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutResID = if (viewType == ViewType.List.ordinal)
-            R.layout.item_servantlist
-        else
-            R.layout.item_servantlist_grid
-        return ViewHolder(LayoutInflater.from(context).inflate(layoutResID, parent, false)).apply {
-            itemView.setOnClickListener {
-                if (!hidden.contains(data[adapterPosition].id))
-                    listener?.invoke(data[adapterPosition].id)
-            }
-        }
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = 
+            ViewHolder(if (viewType == ViewType.Grid.ordinal)
+                ItemServantlistGridBinding.inflate(LayoutInflater.from(context), parent, false)
+            else
+                ItemServantlistListBinding.inflate(LayoutInflater.from(context), parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
-        val item = data[pos]
-        holder.itemView.apply {
-            if (viewType == ViewType.List) {
-                name_textView.text = item.localizedName
-                class_textView.text = item.theClass.name
-            }
-            Glide.with(context).load(item.avatarFile).into(avatar_imageView)
-
-            alpha = if (hidden.contains(item.id)) disabledAlpha else enabledAlpha
-        }
+        holder.bind(getItem(pos))
     }
 
-    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
+    inner class ViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.setVariable(BR.viewModel, viewModel)
+            binding.setLifecycleOwner(lifecycleOwner)
+        }
 
-    companion object {
-        private const val disabledAlpha = 0.4f
-        private const val enabledAlpha = 1f
+        fun bind(servant: Servant) {
+            binding.setVariable(BR.servant, servant)
+        }
     }
 }

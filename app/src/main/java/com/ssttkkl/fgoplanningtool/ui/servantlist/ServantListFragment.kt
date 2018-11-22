@@ -1,40 +1,44 @@
 package com.ssttkkl.fgoplanningtool.ui.servantlist
 
-import androidx.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.appcompat.widget.SearchView
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.item.Item
+import com.ssttkkl.fgoplanningtool.data.plan.Plan
+import com.ssttkkl.fgoplanningtool.databinding.FragmentServantlistBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
-import kotlinx.android.synthetic.main.fragment_servantlist.*
 
-class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.OnFilterListener, LifecycleOwner {
-    interface OnServantSelectedListener {
-        fun onServantSelected(servantId: Int)
+class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.Callback, LifecycleOwner {
+    interface OnClickServantListener {
+        fun onClickServant(servantId: Int)
     }
 
-    private var listener: OnServantSelectedListener? = null
+    private var listener: OnClickServantListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = when {
-            parentFragment is OnServantSelectedListener -> parentFragment as OnServantSelectedListener
-            activity is OnServantSelectedListener -> activity as OnServantSelectedListener
-            else -> throw NoInterfaceImplException(OnServantSelectedListener::class)
+            parentFragment is OnClickServantListener -> parentFragment as OnClickServantListener
+            activity is OnClickServantListener -> activity as OnClickServantListener
+            else -> throw NoInterfaceImplException(OnClickServantListener::class)
         }
     }
 
@@ -43,132 +47,110 @@ class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.OnFilte
         listener = null
     }
 
-    private lateinit var hiddenServantIDs: Set<Int>
+    private val servantFilterFragment
+        get() = childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) as? ServantFilterFragment
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        hiddenServantIDs = arguments?.getIntArray(KEY_HIDDEN)?.toHashSet() ?: setOf()
+    private lateinit var binding: FragmentServantlistBinding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentServantlistBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this)[ServantListFragmentViewModel::class.java].apply {
+            hiddenServantIDs.value = arguments?.getIntArray(KEY_HIDDEN)?.toHashSet() ?: setOf()
+        }
+        binding.setLifecycleOwner(this)
+        return binding.root
     }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_servantlist, container, false)
 
     private lateinit var itemDecoration: CommonRecViewItemDecoration
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Setup the Toolbar
-        (activity as? AppCompatActivity)?.apply {
-            setHasOptionsMenu(true)
-            setSupportActionBar(toolbar)
-            supportActionBar?.apply {
-                setDisplayHomeAsUpEnabled(true)
-                setDisplayShowTitleEnabled(false)
-            }
-        }
+        setHasOptionsMenu(true)
 
-        (activity as? MainActivity)?.setupDrawerToggle(toolbar)
-
-        // Setup the ServantFilterFragment
+        // setup ServantFilterFragment
         if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
             childFragmentManager.beginTransaction()
                     .replace(R.id.frameLayout, ServantFilterFragment(), ServantFilterFragment::class.qualifiedName)
                     .commit()
         }
 
-        // Setup the Servant RecView
-        recView.apply {
-            adapter = ServantListAdapter(context!!, hiddenServantIDs).apply {
-                setOnItemClickListener { onServantSelected(it) }
-                data = (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName)
-                        as? ServantFilterFragment)?.filtered ?: listOf()
-            }
+        itemDecoration = CommonRecViewItemDecoration(context!!)
+        binding.recView.apply {
+            adapter = ServantListAdapter(context!!, this@ServantListFragment, binding.viewModel!!)
             setHasFixedSize(true)
         }
-        itemDecoration = CommonRecViewItemDecoration(context!!)
 
-        when (viewType) {
-            ViewType.List -> onSwitchToListView()
-            ViewType.Grid -> onSwitchToGridView()
-        }
-
-        // Setup the SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean = false
-            override fun onQueryTextChange(newText: String): Boolean {
-                (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName)
-                        as? ServantFilterFragment)?.nameFilter = newText
-                return true
-            }
-        })
-    }
-
-    override fun onFilter(filtered: List<Servant>) {
-        (recView.adapter as ServantListAdapter).data = filtered
-    }
-
-    private var viewType: ViewType
-        get() = ViewType.valueOf(activity?.getPreferences(Context.MODE_PRIVATE)
-                ?.getString(PreferenceKeys.KEY_SERVANT_LIST_VIEW_TYPE, ViewType.List.name)
-                ?: ViewType.List.name)
-        set(value) {
-            when (value) {
-                ViewType.List -> onSwitchToListView()
-                ViewType.Grid -> onSwitchToGridView()
-            }
-            activity?.getPreferences(Context.MODE_PRIVATE)?.edit()
-                    ?.putString(PreferenceKeys.KEY_SERVANT_LIST_VIEW_TYPE, value.name)
-                    ?.apply()
-            activity?.invalidateOptionsMenu()
-        }
-
-    private fun onSwitchToGridView() {
-        recView?.apply {
-            layoutManager = FlexboxLayoutManager(activity).apply {
-                flexWrap = FlexWrap.WRAP
-                justifyContent = JustifyContent.SPACE_AROUND
-                removeItemDecoration(itemDecoration)
-            }
-            (adapter as? ServantListAdapter)?.viewType = ViewType.Grid
-        }
-    }
-
-    private fun onSwitchToListView() {
-        recView?.apply {
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            (adapter as? ServantListAdapter)?.viewType = ViewType.List
-            addItemDecoration(itemDecoration)
+        binding.viewModel?.apply {
+            start(context!!)
+            originServantIDs.observe(this@ServantListFragment, Observer {
+                onOriginChanged(it ?: setOf())
+            })
+            viewType.observe(this@ServantListFragment, Observer {
+                onViewTypeChanged(it ?: return@Observer)
+            })
+            informClickServantEvent.observe(this@ServantListFragment, Observer {
+                onInformClickServant(it ?: return@Observer)
+            })
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.servantlist, menu)
-        when (viewType) {
-            ViewType.List -> menu.findItem(R.id.switchToListView_action)?.isVisible = false
-            ViewType.Grid -> menu.findItem(R.id.switchToGridView_action)?.isVisible = false
+        when (binding.viewModel?.viewType?.value) {
+            ViewType.List -> menu.findItem(R.id.switchToListView)?.isVisible = false
+            ViewType.Grid -> menu.findItem(R.id.switchToGridView)?.isVisible = false
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> activity?.finish()
-            R.id.sortAndFilter_action -> drawerlayout.openDrawer(GravityCompat.END)
-            R.id.switchToGridView_action -> viewType = ViewType.Grid
-            R.id.switchToListView_action -> viewType = ViewType.List
+            R.id.sortAndFilter -> binding.drawerlayout.openDrawer(GravityCompat.END)
+            R.id.switchToListView -> binding.viewModel?.onClickSwitchToListView()
+            R.id.switchToGridView -> binding.viewModel?.onClickSwitchToGridView()
             else -> super.onOptionsItemSelected(item)
         }
         return true
     }
 
     override fun onBackPressed(): Boolean {
-        return if (drawerlayout.isDrawerOpen(GravityCompat.END)) {
-            drawerlayout.closeDrawer(GravityCompat.END)
+        return if (binding.drawerlayout.isDrawerOpen(GravityCompat.END)) {
+            binding.drawerlayout.closeDrawer(GravityCompat.END)
             true
         } else super.onBackPressed()
     }
 
-    private fun onServantSelected(servantId: Int) {
-        listener?.onServantSelected(servantId)
+    override fun onFilter(filtered: List<Servant>) {
+        binding.viewModel?.onFiltered(filtered)
+    }
+
+    override fun onRequestCostItems(servant: Servant): Collection<Item> {
+        return binding.viewModel?.onRequestCostItems(servant) ?: listOf()
+    }
+
+    private fun onOriginChanged(originServantIDs: Set<Int>) {
+        servantFilterFragment?.originServantIDs = originServantIDs
+    }
+
+    private fun onViewTypeChanged(viewType: ViewType) {
+        when (viewType) {
+            ViewType.Grid -> {
+                binding.recView.layoutManager = FlexboxLayoutManager(context).apply {
+                    flexWrap = FlexWrap.WRAP
+                    justifyContent = JustifyContent.SPACE_AROUND
+                }
+                binding.recView.removeItemDecoration(itemDecoration)
+            }
+            ViewType.List -> {
+                binding.recView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                binding.recView.addItemDecoration(itemDecoration)
+            }
+        }
+        activity?.invalidateOptionsMenu()
+    }
+
+    private fun onInformClickServant(servantID: Int) {
+        listener?.onClickServant(servantID)
     }
 
     companion object {

@@ -61,10 +61,11 @@
 
     <style name="ListItemSecondaryError" parent="ListItemSecondary">
         <item name="android:textColor">@android:color/holo_red_light</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="ImageButtonBorderless" parent="Widget.AppCompat.ImageButton">
-        <item name="android:background">#00000000</item>
+    <style name="ListItemStressed" parent="ListItem">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

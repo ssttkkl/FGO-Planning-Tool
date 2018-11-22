@@ -2,17 +2,17 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/switchToGridView_action"
+        android:id="@+id/switchToGridView"
         android:icon="@drawable/ic_view_list_white_24dp"
         android:title="@string/switchToGridView_servantlist"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/switchToListView_action"
+        android:id="@+id/switchToListView"
         android:icon="@drawable/ic_view_comfy_white_24dp"
         android:title="@string/switchToListView_servantlist"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/sortAndFilter_action"
+        android:id="@+id/sortAndFilter"
         android:icon="@drawable/ic_sort_white_24dp"
         android:title="@string/sortAndFilter_servantlist"
         app:showAsAction="ifRoom" />
