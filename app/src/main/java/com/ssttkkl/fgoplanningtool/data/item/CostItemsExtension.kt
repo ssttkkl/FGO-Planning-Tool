@@ -91,9 +91,9 @@ val Plan.costItems: Collection<Item>
     }
 
 // key: item's codename
-// value: a set contains pairs, each stands for a servant requires this item.
-//        the first is servantID, the second is requirement.
-val Collection<Plan>.groupedCostItems: Map<String, Map<Int, Long>>
+// value: A map, each of whose entities represents a servant requiring this item.
+//        The first is servantID, and the second is requirement.
+val Collection<Plan>.groupedCostItems: Map<String, HashMap<Int, Long>>
     get() {
         val map = HashMap<String, HashMap<Int, Long>>()
         this.forEach { plan ->

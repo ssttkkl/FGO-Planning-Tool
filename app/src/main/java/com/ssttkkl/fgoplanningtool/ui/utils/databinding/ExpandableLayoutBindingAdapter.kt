@@ -18,9 +18,9 @@ object ExpandableLayoutBindingAdapter {
         return expandableLayout.isExpanded
     }
 
-    @BindingAdapter("app:el_expanded")
+    @BindingAdapter(value = ["app:el_expanded", "enableExpansionAnimation"], requireAll = false)
     @JvmStatic
-    fun setExpanded(expandableLayout: ExpandableLayout, value: Boolean) {
-        expandableLayout.isExpanded = value
+    fun setExpanded(expandableLayout: ExpandableLayout, expanded: Boolean, enableExpansionAnimation: Boolean) {
+        expandableLayout.setExpanded(expanded, enableExpansionAnimation)
     }
 }

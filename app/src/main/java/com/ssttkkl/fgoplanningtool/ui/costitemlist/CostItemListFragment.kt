@@ -1,91 +1,67 @@
 package com.ssttkkl.fgoplanningtool.ui.costitemlist
 
-
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.Repo
-import com.ssttkkl.fgoplanningtool.data.item.groupedCostItems
+import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
+import com.ssttkkl.fgoplanningtool.databinding.FragmentCostitemlistBinding
 import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
-import kotlinx.android.synthetic.main.fragment_costitemlist.*
 
-class CostItemListFragment : androidx.fragment.app.Fragment() {
-    var plans: Collection<Plan> = listOf()
-        set(value) {
-            field = value
-            (recView?.adapter as? CostItemListAdapter)?.data = generateEntities(plans)
-            recView?.visibility = if (value.isEmpty()) View.GONE else View.VISIBLE
-        }
+class CostItemListFragment : Fragment() {
+    private lateinit var binding: FragmentCostitemlistBinding
 
-    private fun generateEntities(plans: Collection<Plan>): List<CostItemListEntity> {
-        // key: item's codename
-        // value: a set contains pairs, each stands for a servant requires this item.
-        //        the first is servantID, the second is requirement.
-        val map = plans.groupedCostItems
-
-        val entities = map.map { (codename, req) ->
-            var need = 0L
-            req.forEach {
-                need += it.value
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentCostitemlistBinding.inflate(inflater, container, false)
+        binding.setLifecycleOwner(this)
+        binding.viewModel = ViewModelProviders.of(this)[CostItemListFragmentViewModel::class.java].apply {
+            arguments?.getParcelableArray(ARG_PLANS)?.mapNotNull { it as? Plan }?.also {
+                setDataFromPlans(it)
             }
-
-            val descriptor = ResourcesProvider.instance.itemDescriptors[codename]
-            CostItemListEntity(name = descriptor?.localizedName ?: codename,
-                    type = descriptor?.type,
-                    need = need,
-                    own = Repo.itemRepo[codename].count,
-                    imgFile = descriptor?.imgFile,
-                    codename = codename,
-                    requirements = req.entries.asSequence().sortedBy { it.key }.map { (servantID, count) ->
-                        val servant = ResourcesProvider.instance.servants[servantID]
-                        RequirementListEntity(servantID = servantID,
-                                name = servant?.localizedName ?: servantID.toString(),
-                                requirement = count,
-                                avatarFile = servant?.avatarFile)
-                    }.toList())
+            arguments?.getParcelableArray(ARG_ITEMS)?.mapNotNull { it as? Item }?.also {
+                setDataFromItems(it)
+            }
         }
-        return entities.asSequence().groupBy { it.type }.toList().sortedBy { it.first } // group items and sort groups by type
-                .map { it.second.sortedBy { ResourcesProvider.instance.itemRank[it.codename] } }.toList().flatMap { it } // sort each group's items and flat
+        return binding.root
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState != null && savedInstanceState.containsKey(ARG_PLANS))
-            plans = savedInstanceState.getParcelableArray(ARG_PLANS).map { it as Plan }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View =
-            inflater.inflate(R.layout.fragment_costitemlist, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recView.apply {
-            adapter = CostItemListAdapter(context!!).apply {
-                data = generateEntities(plans)
-                setOnServantClickListener { gotoServantDetailUi(it) }
-                if (savedInstanceState != null && savedInstanceState.containsKey(ARG_EXPANDED))
-                    expendedPosition = savedInstanceState.getInt(ARG_EXPANDED)
-            }
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
+        binding.recView.apply {
+            adapter = CostItemListAdapter(context!!, this@CostItemListFragment, binding.viewModel!!)
+            layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
-            visibility = if (plans.isEmpty()) View.GONE else View.VISIBLE
+        }
+        binding.viewModel?.apply {
+            showServantInfoEvent.observe(this@CostItemListFragment, Observer {
+                gotoServantDetailUi(it ?: return@Observer)
+            })
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelableArray(ARG_PLANS, plans.toTypedArray())
-        outState.putInt(ARG_EXPANDED, (recView?.adapter as? CostItemListAdapter)?.expendedPosition
-                ?: -1)
-    }
+    var plans: Collection<Plan>
+        get() = arguments?.getParcelableArray(ARG_PLANS)?.mapNotNull { it as? Plan } ?: listOf()
+        set(value) {
+            (arguments
+                    ?: Bundle().also { arguments = it }).putParcelableArray(ARG_PLANS, value.toTypedArray())
+            if (::binding.isInitialized)
+                binding?.viewModel?.setDataFromPlans(value)
+        }
+
+    var items: Collection<Item>
+        get() = arguments?.getParcelableArray(ARG_ITEMS)?.mapNotNull { it as? Item } ?: listOf()
+        set(value) {
+            (arguments
+                    ?: Bundle().also { arguments = it }).putParcelableArray(ARG_ITEMS, value.toTypedArray())
+            if (::binding.isInitialized)
+                binding?.viewModel?.setDataFromItems(value)
+        }
 
     private fun gotoServantDetailUi(servantID: Int) {
         ServantInfoDialogFragment.newInstance(servantID)
@@ -94,6 +70,18 @@ class CostItemListFragment : androidx.fragment.app.Fragment() {
 
     companion object {
         private const val ARG_PLANS = "plans"
-        private const val ARG_EXPANDED = "expanded"
+        private const val ARG_ITEMS = "items"
+
+        fun newInstanceWithPlans(plans: Collection<Plan>) = CostItemListFragment().apply {
+            arguments = Bundle().apply {
+                putParcelableArray(ARG_PLANS, plans.toTypedArray())
+            }
+        }
+
+        fun newInstanceWithItems(items: Collection<Item>) = CostItemListFragment().apply {
+            arguments = Bundle().apply {
+                putParcelableArray(ARG_ITEMS, items.toTypedArray())
+            }
+        }
     }
 }

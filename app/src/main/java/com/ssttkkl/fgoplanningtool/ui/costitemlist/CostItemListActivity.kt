@@ -1,10 +1,11 @@
 package com.ssttkkl.fgoplanningtool.ui.costitemlist
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
+import com.ssttkkl.fgoplanningtool.ui.utils.replaceFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.activity_costitemlist.*
 
@@ -19,8 +20,9 @@ class CostItemListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // set the DataSet to CostItemListFragment
-        (supportFragmentManager.findFragmentById(R.id.itemListFragment) as CostItemListFragment).plans =
-                intent.getParcelableArrayExtra(ARG_PLANS).map { it as Plan }
+        replaceFragment(R.id.frameLayout,
+                CostItemListFragment.newInstanceWithPlans(intent.getParcelableArrayExtra(ARG_PLANS).mapNotNull { it as? Plan }),
+                CostItemListFragment::class.qualifiedName)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

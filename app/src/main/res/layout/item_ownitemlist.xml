@@ -7,7 +7,7 @@
 
         <import type="android.view.View" />
 
-        <import type="com.ssttkkl.fgoplanningtool.utils.ToStringWithSpliterExtKt" />
+        <import type="com.ssttkkl.fgoplanningtool.utils.ToStringWithSplitterExtKt" />
 
         <variable
             name="viewModel"
@@ -77,7 +77,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{ToStringWithSpliterExtKt.toStringWithSplitter(item.count)}"
+                android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(item.count)}"
                 android:textAppearance="@style/ListItemSecondary"
                 tools:text="233,333,333" />
         </LinearLayout>

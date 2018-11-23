@@ -1,143 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context="com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:background="?android:attr/listDivider" />
+    <data>
 
-    <TextView
-        android:id="@+id/type_textView"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:textAllCaps="true"
-        android:textAppearance="@style/SubHeader"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="au" />
+        <import type="android.view.View" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constLayout"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:padding="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?android:attr/selectableItemBackground"
-        android:elevation="4dp">
+        <import type="com.ssttkkl.fgoplanningtool.R" />
 
-        <ImageView
-            android:id="@+id/avatar_imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:adjustViewBounds="true"
-            app:layout_column="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_row="0"
-            app:layout_rowSpan="2"
-            tools:src="@drawable/item_placeholder" />
+        <import type="net.cachapa.expandablelayout.ExpandableLayout.State" />
 
-        <TextView
-            android:id="@+id/name_textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:maxLines="1"
-            android:textAppearance="@style/ListItem"
-            app:layout_column="1"
-            app:layout_columnSpan="4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_row="0"
-            tools:text="heart" />
+        <import type="com.ssttkkl.fgoplanningtool.utils.ToStringWithSplitterExtKt" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/linearLayoutCompat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_textView"
-            app:orientation="horizontal">
+        <variable
+            name="enableExpansionAnimation"
+            type="Boolean" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:maxLines="1"
-                android:text="@string/need_item_costitemlist"
-                android:textAppearance="@style/ListItemTertiary" />
+        <variable
+            name="showHeader"
+            type="Boolean" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/require_textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:ems="5"
-                android:maxLines="1"
-                android:textAppearance="@style/ListItemSecondary"
-                app:autoSizeMaxTextSize="14sp"
-                app:autoSizeMinTextSize="10sp"
-                app:autoSizeTextType="uniform"
-                app:layout_row="0"
-                tools:text="999,999,999,999" />
+        <variable
+            name="showDivider"
+            type="Boolean" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:maxLines="1"
-                android:text="@string/own_item_costitemlist"
-                android:textAppearance="@style/ListItemTertiary" />
+        <variable
+            name="costItem"
+            type="com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItem" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/own_textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="5"
-                android:maxLines="1"
-                android:textAppearance="@style/ListItemSecondary"
-                app:autoSizeMaxTextSize="14sp"
-                app:autoSizeMinTextSize="10sp"
-                app:autoSizeTextType="uniform"
-                tools:text="999,999,999" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        <variable
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListFragmentViewModel" />
+    </data>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <net.cachapa.expandablelayout.ExpandableLayout
-        android:id="@+id/expLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/colorBackground"
-        app:el_expanded="true">
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recView"
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/listDivider"
+            android:visibility="@{showDivider ? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            android:id="@+id/type_textView"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@{costItem.descriptor.type.localizedName}"
+            android:textAllCaps="true"
+            android:textAppearance="@style/SubHeader"
+            android:visibility="@{showHeader ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="au" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constLayout"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:elevation="4dp"
+            android:focusable="true"
+            android:onClick="@{() -> viewModel.onClickItem(costItem.codename)}"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/avatar_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:adjustViewBounds="true"
+                app:layout_column="0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_row="0"
+                app:layout_rowSpan="2"
+                app:srcCompat="@{costItem.descriptor.imgFile}"
+                tools:src="@drawable/item_placeholder" />
+
+            <TextView
+                android:id="@+id/name_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="56dp"
+                android:maxLines="1"
+                android:text="@{costItem.descriptor.localizedName}"
+                android:textAppearance="@style/ListItem"
+                app:layout_column="1"
+                app:layout_columnSpan="4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_row="0"
+                tools:text="heart" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/linearLayoutCompat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="56dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name_textView"
+                app:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:maxLines="1"
+                    android:text="@string/need_item_costitemlist"
+                    android:textAppearance="@style/ListItemTertiary" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/require_textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:ems="5"
+                    android:maxLines="1"
+                    android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(costItem.require)}"
+                    android:textAppearance="@style/ListItemSecondary"
+                    app:autoSizeMaxTextSize="14sp"
+                    app:autoSizeMinTextSize="10sp"
+                    app:autoSizeTextType="uniform"
+                    app:layout_row="0"
+                    tools:text="999,999,999,999" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:maxLines="1"
+                    android:text="@string/own_item_costitemlist"
+                    android:textAppearance="@style/ListItemTertiary" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/own_textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="5"
+                    android:maxLines="1"
+                    android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(costItem.own)}"
+                    android:textAppearance="@{costItem.own >= costItem.require ? R.style.ListItemSecondary : R.style.ListItemSecondaryError }"
+                    app:autoSizeMaxTextSize="14sp"
+                    app:autoSizeMinTextSize="10sp"
+                    app:autoSizeTextType="uniform"
+                    tools:text="999,999,999" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_requirementlist" />
+            android:background="?android:attr/colorBackground"
+            app:el_expanded="@{viewModel.expandedItem == costItem.codename}"
+            enableExpansionAnimation="@{enableExpansionAnimation}">
 
-    </net.cachapa.expandablelayout.ExpandableLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_requirementlist" />
 
-</LinearLayout>
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+    </LinearLayout>
+</layout>
