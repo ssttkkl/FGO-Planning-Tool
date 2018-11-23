@@ -1,10 +1,9 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan
+package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

@@ -9,7 +9,47 @@
         android:id="@+id/planListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragment"
         android:label="@string/title_planlist"
-        tools:layout="@layout/fragment_planlist" />
+        tools:layout="@layout/fragment_planlist">
+        <action
+            android:id="@+id/action_planListFragment_to_chooseServantFragment"
+            app:destination="@id/chooseServantFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_planListFragment_to_editPlanDetailFragment"
+            app:destination="@id/editPlanDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseServantFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.planlist.chooseservant.ChooseServantFragment"
+        android:label="@string/title_editplan_chooseservant"
+        tools:layout="@layout/fragment_editplan_chooseservant">
+        <action
+            android:id="@+id/action_chooseServantFragment_to_editPlanDetailFragment"
+            app:destination="@id/editPlanDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPlanDetailFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.EditPlanDetailFragment"
+        android:label="@string/title_edit_editplan"
+        tools:layout="@layout/fragment_editplan_detail">
+        <argument
+            android:name="plan"
+            app:argType="com.ssttkkl.fgoplanningtool.data.plan.Plan" />
+        <argument
+            android:name="mode"
+            app:argType="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.Mode" />
+    </fragment>
     <fragment
         android:id="@+id/ownItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragment"

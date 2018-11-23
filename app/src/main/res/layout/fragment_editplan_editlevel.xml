@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.editplan.EditLevelDialogFragmentViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.EditLevelDialogFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

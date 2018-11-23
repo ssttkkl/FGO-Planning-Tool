@@ -1,9 +1,7 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan
+package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ssttkkl.fgoplanningtool.MyApp
-import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
@@ -14,8 +12,6 @@ import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 
 class EditPlanFragmentViewModel : ViewModel() {
     val mode = MutableLiveData<Mode>()
-
-    val tabTitles = MyApp.context.resources.getStringArray(R.array.tabTitles).toList()
 
     var oldPlan: Plan? = null
     lateinit var plan: ObservablePlan
@@ -34,10 +30,10 @@ class EditPlanFragmentViewModel : ViewModel() {
                 finishEvent.call()
             }
             Mode.Edit -> {
-                if (oldPlan == plan.plan.value)
+                if (oldPlan == plan.plan)
                     finishEvent.call()
                 else
-                    showEditWarningUIEvent.call(Pair(oldPlan ?: return, plan.plan.value ?: return))
+                    showEditWarningUIEvent.call(Pair(oldPlan ?: return, plan.plan ?: return))
             }
         }
     }
@@ -99,7 +95,7 @@ class EditPlanFragmentViewModel : ViewModel() {
     }
 
     private fun save(itemToDeduct: Collection<Item>? = null) {
-        Repo.planRepo.insert(plan.plan.value ?: return, HowToPerform.Launch)
+        Repo.planRepo.insert(plan.plan ?: return, HowToPerform.Launch)
         if (itemToDeduct != null && itemToDeduct.isNotEmpty())
             Repo.itemRepo.deductItems(itemToDeduct, HowToPerform.Launch)
     }

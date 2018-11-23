@@ -1,10 +1,8 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan
+package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.resources.ConstantValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
@@ -15,18 +13,18 @@ class ObservablePlan(_plan: Plan) {
         One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
     }
 
-    var servantId = MutableLiveData<Int>().apply { value = _plan.servantId }
-    var nowExp = MutableLiveData<Int>().apply { value = _plan.nowExp }
-    var planExp = MutableLiveData<Int>().apply { value = _plan.planExp }
-    var ascendedOnNowStage = MutableLiveData<Boolean>().apply { value = _plan.ascendedOnNowStage }
-    var ascendedOnPlanStage = MutableLiveData<Boolean>().apply { value = _plan.ascendedOnPlanStage }
-    var nowSkill1 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.nowSkill1 - 1] }
-    var nowSkill2 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.nowSkill2 - 1] }
-    var nowSkill3 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.nowSkill3 - 1] }
-    var planSkill1 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.planSkill1 - 1] }
-    var planSkill2 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.planSkill2 - 1] }
-    var planSkill3 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.planSkill3 - 1] }
-    var dress = MutableLiveData<Set<Int>>().apply { value = _plan.dress }
+    val servantId = MutableLiveData<Int>().apply { value = _plan.servantId }
+    val nowExp = MutableLiveData<Int>().apply { value = _plan.nowExp }
+    val planExp = MutableLiveData<Int>().apply { value = _plan.planExp }
+    val ascendedOnNowStage = MutableLiveData<Boolean>().apply { value = _plan.ascendedOnNowStage }
+    val ascendedOnPlanStage = MutableLiveData<Boolean>().apply { value = _plan.ascendedOnPlanStage }
+    val nowSkill1 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.nowSkill1 - 1] }
+    val nowSkill2 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.nowSkill2 - 1] }
+    val nowSkill3 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.nowSkill3 - 1] }
+    val planSkill1 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.planSkill1 - 1] }
+    val planSkill2 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.planSkill2 - 1] }
+    val planSkill3 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.planSkill3 - 1] }
+    val dress = MutableLiveData<Set<Int>>().apply { value = _plan.dress }
 
     val servant: LiveData<Servant> = Transformations.map(servantId) {
         ResourcesProvider.instance.servants[it]
@@ -132,8 +130,8 @@ class ObservablePlan(_plan: Plan) {
         }
     }
 
-    val plan = object : LiveData<Plan>() {
-        private fun generatePlan(): Plan? {
+    val plan: Plan?
+        get() {
             return Plan(servantId = servantId.value ?: return null,
                     nowExp = nowExp.value ?: return null,
                     planExp = planExp.value ?: return null,
@@ -147,24 +145,4 @@ class ObservablePlan(_plan: Plan) {
                     planSkill3 = planSkill3.value?.ordinal?.plus(1) ?: return null,
                     dress = dress.value ?: setOf())
         }
-
-        init {
-            servantId.observeForever { value = generatePlan() }
-            nowExp.observeForever { value = generatePlan() }
-            planExp.observeForever { value = generatePlan() }
-            ascendedOnNowStage.observeForever { value = generatePlan() }
-            ascendedOnPlanStage.observeForever { value = generatePlan() }
-            nowSkill1.observeForever { value = generatePlan() }
-            nowSkill2.observeForever { value = generatePlan() }
-            nowSkill3.observeForever { value = generatePlan() }
-            planSkill1.observeForever { value = generatePlan() }
-            planSkill2.observeForever { value = generatePlan() }
-            planSkill3.observeForever { value = generatePlan() }
-            dress.observeForever { value = generatePlan() }
-        }
-    }
-
-    val costItems: LiveData<Collection<Item>> = Transformations.map(plan) {
-        it?.costItems ?: listOf()
-    }
 }

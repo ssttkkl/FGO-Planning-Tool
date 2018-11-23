@@ -153,6 +153,16 @@ class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.Callbac
         listener?.onClickServant(servantID)
     }
 
+    var hiddenServantIDs: Set<Int>
+        get() = arguments?.getIntArray(KEY_HIDDEN)?.toSet() ?: setOf()
+        set(value) {
+            (arguments
+                    ?: Bundle().also { arguments = it }).putIntArray(KEY_HIDDEN, value.toIntArray())
+            if (::binding.isInitialized)
+                binding.viewModel?.hiddenServantIDs?.value = hiddenServantIDs
+        }
+
+
     companion object {
         fun newInstance(hiddenServantIDs: Set<Int>) = ServantListFragment().apply {
             arguments = Bundle().apply {

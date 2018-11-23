@@ -1,8 +1,7 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan
+package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
 import android.content.Context
 import androidx.databinding.Observable
-import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.editplan
+package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

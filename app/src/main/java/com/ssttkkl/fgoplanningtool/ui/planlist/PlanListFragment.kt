@@ -7,6 +7,7 @@ import androidx.core.view.GravityCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
@@ -17,8 +18,7 @@ import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
-import com.ssttkkl.fgoplanningtool.ui.editplan.EditPlanActivity
-import com.ssttkkl.fgoplanningtool.ui.editplan.Mode
+import com.ssttkkl.fgoplanningtool.ui.planlist.editplan.Mode
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
@@ -42,7 +42,7 @@ class PlanListFragment : BackHandlerFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // setup Toolbar
         setHasOptionsMenu(true)
-        onRefreshToolbar(false)
+        onInSelectModeChanged(false)
 
         // setup ServantFilterFragment
         if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
@@ -60,21 +60,23 @@ class PlanListFragment : BackHandlerFragment(),
         }
 
         binding.viewModel?.apply {
-            addPlanEvent.observe(this@PlanListFragment, Observer { onAddPlan() })
+            addPlanEvent.observe(this@PlanListFragment, Observer {
+                showNewPlanUI()
+            })
             editPlanEvent.observe(this@PlanListFragment, Observer {
-                onEditPlan(it ?: return@Observer)
+                showEditPlanUI(it ?: return@Observer)
             })
             calcResultEvent.observe(this@PlanListFragment, Observer {
-                onCalcResult(it ?: return@Observer)
+                showCalcResultUI(it ?: return@Observer)
             })
             removePlansEvent.observe(this@PlanListFragment, Observer {
-                onRemovePlans(it ?: return@Observer)
+                showRemovePlansUI(it ?: return@Observer)
             })
             changeOriginEvent.observe(this@PlanListFragment, Observer {
-                onChangeOrigin(it ?: listOf())
+                changeOrigin(it ?: listOf())
             })
             inSelectMode.observe(this@PlanListFragment, Observer {
-                onRefreshToolbar(it == true)
+                onInSelectModeChanged(it == true)
             })
         }
     }
@@ -121,35 +123,33 @@ class PlanListFragment : BackHandlerFragment(),
         return binding.viewModel?.getCostItems(servant) ?: listOf()
     }
 
-    private fun onAddPlan() {
-        startActivity(Intent(activity, EditPlanActivity::class.java).apply {
-            putExtra(EditPlanActivity.ARG_MODE, Mode.New)
+    private fun showNewPlanUI() {
+        findNavController().navigate(R.id.action_planListFragment_to_chooseServantFragment)
+    }
+
+    private fun showEditPlanUI(plan: Plan) {
+        findNavController().navigate(R.id.action_planListFragment_to_editPlanDetailFragment, Bundle().apply {
+            putParcelable("mode", Mode.Edit)
+            putParcelable("plan", plan)
         })
     }
 
-    private fun onEditPlan(plan: Plan) {
-        startActivity(Intent(activity, EditPlanActivity::class.java).apply {
-            putExtra(EditPlanActivity.ARG_MODE, Mode.Edit)
-            putExtra(EditPlanActivity.ARG_PLAN, plan)
-        })
-    }
-
-    private fun onCalcResult(plans: Collection<Plan>) {
+    private fun showCalcResultUI(plans: Collection<Plan>) {
         startActivity(Intent(activity, CostItemListActivity::class.java).apply {
             putExtra(CostItemListActivity.ARG_PLANS, plans.toTypedArray())
         })
     }
 
-    private fun onRemovePlans(plans: Collection<Plan>) {
+    private fun showRemovePlansUI(plans: Collection<Plan>) {
         ChangePlanWarningDialogFragment.newInstanceForRemove(plans)
                 .show(childFragmentManager, ChangePlanWarningDialogFragment.tag)
     }
 
-    private fun onChangeOrigin(servants: Collection<Servant>) {
+    private fun changeOrigin(servants: Collection<Servant>) {
         servantFilterFragment?.originServantIDs = servants.map { it.id }.toSet()
     }
 
-    private fun onRefreshToolbar(inSelectMode: Boolean) {
+    private fun onInSelectModeChanged(inSelectMode: Boolean) {
         (activity as? MainActivity)?.apply {
             if (inSelectMode) {
                 binding.toolbarInSelectMode.visibility = View.VISIBLE
