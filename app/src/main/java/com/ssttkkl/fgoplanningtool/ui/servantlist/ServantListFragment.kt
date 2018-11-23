@@ -104,7 +104,6 @@ class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.Callbac
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> activity?.finish()
             R.id.sortAndFilter -> binding.drawerlayout.openDrawer(GravityCompat.END)
             R.id.switchToListView -> binding.viewModel?.onClickSwitchToListView()
             R.id.switchToGridView -> binding.viewModel?.onClickSwitchToGridView()

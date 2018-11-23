@@ -17,7 +17,7 @@
             android:name=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.costitemlist.CostItemListActivity"
+            android:name=".ui.planlist.costitemlist.CostItemListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.settings.SettingsActivity"

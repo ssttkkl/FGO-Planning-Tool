@@ -1,4 +1,5 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -7,28 +8,53 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListFragmentViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragmentViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <TextView
-            android:id="@+id/emptyHint_textView"
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/emptyHint"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:visibility="@{viewModel.showEmptyHint ? View.VISIBLE : View.GONE}" />
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recView"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:title="@string/title_costitemlist" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/background_light"
-            android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
-            tools:listitem="@layout/item_costitemlist" />
-    </FrameLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <TextView
+                android:id="@+id/emptyHint_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/emptyHint"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:visibility="@{viewModel.showEmptyHint ? View.VISIBLE : View.GONE}" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/background_light"
+                android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
+                tools:listitem="@layout/item_costitemlist" />
+        </FrameLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </layout>

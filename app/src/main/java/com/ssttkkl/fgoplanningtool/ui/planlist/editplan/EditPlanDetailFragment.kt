@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEditplanDetailBinding
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
@@ -48,8 +49,8 @@ class EditPlanDetailFragment : Fragment(),
         }
 
         binding.viewModel?.apply {
-            showServantInfoEvent.observe(this@EditPlanDetailFragment, Observer {
-                showInfo(it ?: return@Observer)
+            showServantInfoUIEvent.observe(this@EditPlanDetailFragment, Observer {
+                showServantInfo(it ?: return@Observer)
             })
             showEditNowLevelUIEvent.observe(this@EditPlanDetailFragment, Observer {
                 if (it != null)
@@ -62,6 +63,9 @@ class EditPlanDetailFragment : Fragment(),
             showEditWarningUIEvent.observe(this@EditPlanDetailFragment, Observer {
                 if (it != null)
                     showEditPlanWarningUI(it.first, it.second)
+            })
+            showCostItemUIEvent.observe(this@EditPlanDetailFragment, Observer {
+                showCostItems(it ?: listOf())
             })
             showRemoveWarningUIEvent.observe(this@EditPlanDetailFragment, Observer {
                 showRemovePlanWarningUI(it ?: return@Observer)
@@ -113,9 +117,15 @@ class EditPlanDetailFragment : Fragment(),
                 .show(childFragmentManager, EditLevelDialogFragment::class.qualifiedName)
     }
 
-    private fun showInfo(servantID: Int) {
+    private fun showServantInfo(servantID: Int) {
         if (servantID > 0)
             ServantInfoDialogFragment.newInstance(servantID)
                     .show(childFragmentManager, ServantInfoDialogFragment::class.qualifiedName)
+    }
+
+    private fun showCostItems(costItems: Collection<Item>) {
+        findNavController().navigate(R.id.action_editPlanDetailFragment_to_costItemListFragment, Bundle().apply {
+            putParcelableArray("items", costItems.toTypedArray())
+        })
     }
 }

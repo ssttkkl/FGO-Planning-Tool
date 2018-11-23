@@ -1,8 +1,7 @@
-package com.ssttkkl.fgoplanningtool.ui.costitemlist
+package com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.ItemCostitemlistBinding
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListRecViewAdapter
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
-import kotlinx.android.synthetic.main.item_costitemlist.view.*
 import net.cachapa.expandablelayout.ExpandableLayout.State
 
 class CostItemListAdapter(val context: Context,

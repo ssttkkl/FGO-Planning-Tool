@@ -3,7 +3,6 @@ package com.ssttkkl.fgoplanningtool.ui.changeplanwarning
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
+import com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListActivity
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 import kotlinx.android.synthetic.main.fragment_changeplanwarning.*
 

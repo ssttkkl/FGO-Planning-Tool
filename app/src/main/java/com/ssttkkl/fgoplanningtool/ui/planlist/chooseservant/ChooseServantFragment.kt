@@ -2,6 +2,7 @@ package com.ssttkkl.fgoplanningtool.ui.planlist.chooseservant
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -34,6 +35,7 @@ class ChooseServantFragment : Fragment(), ServantListFragment.OnClickServantList
             setSupportActionBar(binding.toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
+        setHasOptionsMenu(true)
 
         replaceFragment(R.id.frameLayout, ServantListFragment(), ServantListFragment::class.qualifiedName)
 
@@ -47,5 +49,12 @@ class ChooseServantFragment : Fragment(), ServantListFragment.OnClickServantList
             putParcelable("plan", Plan(servantId))
             putParcelable("mode", Mode.New)
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            findNavController().navigateUp()
+            true
+        } else super.onOptionsItemSelected(item)
     }
 }

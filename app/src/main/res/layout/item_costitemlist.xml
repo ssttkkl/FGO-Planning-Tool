@@ -27,11 +27,11 @@
 
         <variable
             name="costItem"
-            type="com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItem" />
+            type="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItem" />
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListFragmentViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragmentViewModel" />
     </data>
 
     <LinearLayout
@@ -69,9 +69,9 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
+            android:clickable="@{viewModel.itemClickable}"
             android:elevation="4dp"
-            android:focusable="true"
+            android:focusable="@{viewModel.itemClickable}"
             android:onClick="@{() -> viewModel.onClickItem(costItem.codename)}"
             android:padding="16dp">
 

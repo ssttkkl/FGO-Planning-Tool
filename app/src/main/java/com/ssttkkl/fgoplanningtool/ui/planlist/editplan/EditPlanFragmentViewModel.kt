@@ -18,10 +18,15 @@ class EditPlanFragmentViewModel : ViewModel() {
 
     val showEditWarningUIEvent = SingleLiveEvent<Pair<Plan, Plan>>()
     val showRemoveWarningUIEvent = SingleLiveEvent<Plan>()
-    val showServantInfoEvent = SingleLiveEvent<Int>()
+    val showServantInfoUIEvent = SingleLiveEvent<Int>()
+    val showCostItemUIEvent = SingleLiveEvent<Collection<Item>>()
     val showEditNowLevelUIEvent = SingleLiveEvent<Triple<Int, Int, Boolean>>()
     val showEditPlanLevelUIEvent = SingleLiveEvent<Triple<Int, Int, Boolean>>()
     val finishEvent = SingleLiveEvent<Void>()
+
+    fun onClickFab() {
+        showCostItemUIEvent.call(plan.plan?.costItems ?: listOf())
+    }
 
     fun onClickSave() {
         when (mode.value) {
@@ -62,7 +67,7 @@ class EditPlanFragmentViewModel : ViewModel() {
     }
 
     fun onClickShowInfo() {
-        showServantInfoEvent.call(plan.servantId.value)
+        showServantInfoUIEvent.call(plan.servantId.value)
     }
 
     fun onChangeWarningResult(mode: ChangePlanWarningDialogFragment.Companion.Mode, plans: Collection<Plan>, deductItems: Boolean) {

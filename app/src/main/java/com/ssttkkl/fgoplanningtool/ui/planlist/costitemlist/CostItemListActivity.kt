@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.costitemlist
+package com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist
 
 import android.os.Bundle
 import android.view.MenuItem

@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.costitemlist
+package com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,6 +18,8 @@ class CostItemListFragmentViewModel : ViewModel() {
     val showEmptyHint: LiveData<Boolean> = Transformations.map(data) { data ->
         data.isNullOrEmpty()
     }
+
+    val itemClickable = MutableLiveData<Boolean>()
 
     val expandedItem = MutableLiveData<String>()
 
@@ -40,6 +42,7 @@ class CostItemListFragmentViewModel : ViewModel() {
                                 ResourcesProvider.instance.servants[servantID]?.avatarFile)
                     })
         })
+        itemClickable.value = true
     }
 
     fun setDataFromItems(items: Collection<Item>) {
@@ -49,6 +52,7 @@ class CostItemListFragmentViewModel : ViewModel() {
                     Repo.itemRepo[codename].count,
                     listOf())
         })
+        itemClickable.value = false
     }
 
     val showServantInfoEvent = SingleLiveEvent<Int>()

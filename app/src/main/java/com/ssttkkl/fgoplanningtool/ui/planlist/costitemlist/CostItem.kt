@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.costitemlist
+package com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist
 
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity

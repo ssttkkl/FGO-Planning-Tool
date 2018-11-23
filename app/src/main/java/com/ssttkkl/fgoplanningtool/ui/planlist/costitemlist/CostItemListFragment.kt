@@ -1,17 +1,20 @@
-package com.ssttkkl.fgoplanningtool.ui.costitemlist
+package com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentCostitemlistBinding
+import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
@@ -33,6 +36,12 @@ class CostItemListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (activity as? MainActivity)?.apply {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+        setHasOptionsMenu(true)
+
         binding.recView.apply {
             adapter = CostItemListAdapter(context!!, this@CostItemListFragment, binding.viewModel!!)
             layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
@@ -45,13 +54,21 @@ class CostItemListFragment : Fragment() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            findNavController().navigateUp()
+            true
+        } else
+            super.onOptionsItemSelected(item)
+    }
+
     var plans: Collection<Plan>
         get() = arguments?.getParcelableArray(ARG_PLANS)?.mapNotNull { it as? Plan } ?: listOf()
         set(value) {
             (arguments
                     ?: Bundle().also { arguments = it }).putParcelableArray(ARG_PLANS, value.toTypedArray())
             if (::binding.isInitialized)
-                binding?.viewModel?.setDataFromPlans(value)
+                binding.viewModel?.setDataFromPlans(value)
         }
 
     var items: Collection<Item>
@@ -60,7 +77,7 @@ class CostItemListFragment : Fragment() {
             (arguments
                     ?: Bundle().also { arguments = it }).putParcelableArray(ARG_ITEMS, value.toTypedArray())
             if (::binding.isInitialized)
-                binding?.viewModel?.setDataFromItems(value)
+                binding.viewModel?.setDataFromItems(value)
         }
 
     private fun gotoServantDetailUi(servantID: Int) {

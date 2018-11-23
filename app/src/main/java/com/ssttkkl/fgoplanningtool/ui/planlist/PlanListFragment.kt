@@ -1,6 +1,5 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.GravityCompat
@@ -17,7 +16,6 @@ import com.ssttkkl.fgoplanningtool.databinding.FragmentPlanlistBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
-import com.ssttkkl.fgoplanningtool.ui.costitemlist.CostItemListActivity
 import com.ssttkkl.fgoplanningtool.ui.planlist.editplan.Mode
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
@@ -135,8 +133,8 @@ class PlanListFragment : BackHandlerFragment(),
     }
 
     private fun showCalcResultUI(plans: Collection<Plan>) {
-        startActivity(Intent(activity, CostItemListActivity::class.java).apply {
-            putExtra(CostItemListActivity.ARG_PLANS, plans.toTypedArray())
+        findNavController().navigate(R.id.action_planListFragment_to_costItemListFragment, Bundle().apply {
+            putParcelableArray("plans", plans.toTypedArray())
         })
     }
 

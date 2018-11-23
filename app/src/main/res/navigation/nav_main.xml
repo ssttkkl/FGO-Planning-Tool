@@ -24,6 +24,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_planListFragment_to_costItemListFragment"
+            app:destination="@id/costItemListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/chooseServantFragment"
@@ -49,6 +56,13 @@
         <argument
             android:name="mode"
             app:argType="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.Mode" />
+        <action
+            android:id="@+id/action_editPlanDetailFragment_to_costItemListFragment"
+            app:destination="@id/costItemListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/ownItemListFragment"
@@ -113,4 +127,9 @@
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <fragment
+        android:id="@+id/costItemListFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragment"
+        android:label="CostItemListFragment"
+        tools:layout="@layout/fragment_costitemlist"></fragment>
 </navigation>

@@ -319,5 +319,13 @@
             </ScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="@dimen/fab_margin"
+            android:onClick="@{()->viewModel.onClickFab()}"
+            android:src="@drawable/ic_chrome_reader_mode_white_24dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
