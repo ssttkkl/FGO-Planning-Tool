@@ -88,7 +88,9 @@
     <fragment
         android:id="@+id/databaseManageFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageFragment"
-        android:label="@string/title_databasemanage" />
+        android:label="@string/title_databasemanage"
+        app:clearTask="true"
+        app:launchSingleTop="true" />
     <action
         android:id="@+id/action_global_databaseManageFragment"
         app:destination="@id/databaseManageFragment"

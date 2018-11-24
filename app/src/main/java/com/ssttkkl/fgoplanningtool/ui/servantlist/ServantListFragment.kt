@@ -3,30 +3,29 @@ package com.ssttkkl.fgoplanningtool.ui.servantlist
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentServantlistBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
-import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
-import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
+import com.ssttkkl.fgoplanningtool.ui.utils.BackHandler
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 
-class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.Callback, LifecycleOwner {
+class ServantListFragment : Fragment(),
+        BackHandler,
+        ServantFilterFragment.Callback,
+        LifecycleOwner {
     interface OnClickServantListener {
         fun onClickServant(servantId: Int)
     }
@@ -104,7 +103,12 @@ class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.Callbac
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.sortAndFilter -> binding.drawerlayout.openDrawer(GravityCompat.END)
+            R.id.sortAndFilter -> {
+                if (binding.drawerlayout.isDrawerOpen(GravityCompat.END))
+                    binding.drawerlayout.closeDrawer(GravityCompat.END)
+                else
+                    binding.drawerlayout.openDrawer(GravityCompat.END)
+            }
             R.id.switchToListView -> binding.viewModel?.onClickSwitchToListView()
             R.id.switchToGridView -> binding.viewModel?.onClickSwitchToGridView()
             else -> super.onOptionsItemSelected(item)
@@ -116,7 +120,7 @@ class ServantListFragment : BackHandlerFragment(), ServantFilterFragment.Callbac
         return if (binding.drawerlayout.isDrawerOpen(GravityCompat.END)) {
             binding.drawerlayout.closeDrawer(GravityCompat.END)
             true
-        } else super.onBackPressed()
+        } else false
     }
 
     override fun onFilter(filtered: List<Servant>) {

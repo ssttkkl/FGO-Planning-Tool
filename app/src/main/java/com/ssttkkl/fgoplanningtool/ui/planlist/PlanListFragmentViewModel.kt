@@ -1,6 +1,11 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import com.ssttkkl.fgoplanningtool.MyApp
+import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
@@ -17,10 +22,6 @@ class PlanListFragmentViewModel : ViewModel() {
     val changeOriginEvent = SingleLiveEvent<Collection<Servant>>()
 
     val data = MutableLiveData<List<CheckablePlan>>()
-
-    val numOfSelected: LiveData<Int> = Transformations.map(data) { data ->
-        data.count { it.checked }
-    }
 
     private fun reverseChecked(servantID: Int) {
         synchronized(data) {
@@ -51,6 +52,21 @@ class PlanListFragmentViewModel : ViewModel() {
                 super.setValue(value)
                 selectAll(false)
             }
+        }
+    }
+
+    val title = object : LiveData<String>() {
+        init {
+            val generator = {
+                if (inSelectMode.value == true)
+                    MyApp.context.getString(R.string.selectedCount_planlist,
+                            data.value?.count { it.checked } ?: 0,
+                            data.value?.size ?: 0)
+                else
+                    MyApp.context.getString(R.string.title_planlist)
+            }
+            data.observeForever { value = generator() }
+            inSelectMode.observeForever { value = generator() }
         }
     }
 

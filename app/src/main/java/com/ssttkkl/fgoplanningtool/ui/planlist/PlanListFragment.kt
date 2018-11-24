@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,10 +20,11 @@ import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.confirmchangeplan.ConfirmChangePlanFragment
 import com.ssttkkl.fgoplanningtool.ui.planlist.editplan.Mode
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
-import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
+import com.ssttkkl.fgoplanningtool.ui.utils.BackHandler
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
-class PlanListFragment : BackHandlerFragment(),
+class PlanListFragment : Fragment(),
+        BackHandler,
         LifecycleOwner,
         ServantFilterFragment.Callback {
     private lateinit var binding: FragmentPlanlistBinding
@@ -39,8 +41,11 @@ class PlanListFragment : BackHandlerFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // setup Toolbar
+        (activity as? MainActivity)?.apply {
+            setSupportActionBar(binding.toolbar)
+            setupDrawerToggle(binding.toolbar)
+        }
         setHasOptionsMenu(true)
-        onInSelectModeChanged(false)
 
         // setup ServantFilterFragment
         if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
@@ -90,7 +95,12 @@ class PlanListFragment : BackHandlerFragment(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> binding.viewModel?.onHomeClick()
-            R.id.sortAndFilter_action -> binding.drawerlayout.openDrawer(GravityCompat.END)
+            R.id.sortAndFilter_action -> {
+                if (binding.drawerlayout.isDrawerOpen(GravityCompat.END))
+                    binding.drawerlayout.closeDrawer(GravityCompat.END)
+                else
+                    binding.drawerlayout.openDrawer(GravityCompat.END)
+            }
             R.id.enterSelectMode_action -> binding.viewModel?.onEnterSelectModeClick()
             R.id.add_action -> binding.viewModel?.onAddClick()
             R.id.selectAll_action -> binding.viewModel?.onCheckAllClick()
@@ -101,10 +111,14 @@ class PlanListFragment : BackHandlerFragment(),
     }
 
     override fun onBackPressed(): Boolean {
-        return if (binding.viewModel?.onBackPressed() == true)
-            true
-        else
-            super.onBackPressed()
+        return when {
+            binding.viewModel?.onBackPressed() == true -> true
+            binding.drawerlayout.isDrawerOpen(GravityCompat.END) -> {
+                binding.drawerlayout.closeDrawer(GravityCompat.END)
+                true
+            }
+            else -> false
+        }
     }
 
     override fun onFilter(filtered: List<Servant>) {
@@ -140,17 +154,7 @@ class PlanListFragment : BackHandlerFragment(),
 
     private fun onInSelectModeChanged(inSelectMode: Boolean) {
         (activity as? MainActivity)?.apply {
-            if (inSelectMode) {
-                binding.toolbarInSelectMode.visibility = View.VISIBLE
-                binding.toolbar.visibility = View.GONE
-                setSupportActionBar(binding.toolbarInSelectMode)
-                supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            } else {
-                binding.toolbarInSelectMode.visibility = View.GONE
-                binding.toolbar.visibility = View.VISIBLE
-                setSupportActionBar(binding.toolbar)
-                setupDrawerToggle(binding.toolbar)
-            }
+            setDrawerState(!inSelectMode)
             invalidateOptionsMenu()
         }
     }

@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.google.android.material.navigation.NavigationView
@@ -13,9 +14,9 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.databinding.ActivityMainBinding
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerActivity
+import com.ssttkkl.fgoplanningtool.ui.utils.BackRouterActivity
 
-class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BackRouterActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +37,6 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view mItem clicks here.
         val navController = findNavController(R.id.nav_host_fragment)
         when (item.itemId) {
             R.id.planListFragment -> navController.navigate(R.id.action_global_planListFragment)
@@ -48,13 +48,41 @@ class MainActivity : BackHandlerActivity(), NavigationView.OnNavigationItemSelec
         return true
     }
 
+    override fun onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START))
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        else
+            super.onBackPressed()
+    }
+
     private lateinit var toggle: ActionBarDrawerToggle
 
     fun setupDrawerToggle(toolbar: Toolbar) {
         if (::toggle.isInitialized)
             binding.drawerLayout.removeDrawerListener(toggle)
-        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.openDrawer_main, R.string.closeDrawer_main)
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.openDrawer_main, R.string.closeDrawer_main).apply {
+            setToolbarNavigationClickListener {
+                onBackPressed()
+            }
+        }
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+    }
+
+    fun setDrawerState(enable: Boolean) {
+        if (enable) {
+            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            if (::toggle.isInitialized) {
+                toggle.isDrawerIndicatorEnabled = true
+                toggle.syncState()
+            }
+        } else {
+            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            if (::toggle.isInitialized) {
+                toggle.isDrawerIndicatorEnabled = false
+                toggle.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+                toggle.syncState()
+            }
+        }
     }
 }

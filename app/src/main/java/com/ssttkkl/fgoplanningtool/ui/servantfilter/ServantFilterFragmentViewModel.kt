@@ -33,9 +33,14 @@ class ServantFilterFragmentViewModel : ViewModel() {
     fun start(costItemGetter: (Servant) -> Collection<Item>) {
         this.costItemGetter = costItemGetter
 
-        itemFilterMode.value = DEFAULT_ITEM_MODE
-        orderBy.value = DEFAULT_ORDER_BY
+        searchText.value = ""
         order.value = DEFAULT_ORDER
+        orderBy.value = DEFAULT_ORDER_BY
+        stars.value = setOf()
+        servantClasses.value = setOf()
+        waysToGet.value = setOf()
+        items.value = setOf()
+        itemFilterMode.value = DEFAULT_ITEM_MODE
     }
 
     fun setOrigin(servantIDs: Set<Int>?) {

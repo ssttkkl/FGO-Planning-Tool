@@ -3,16 +3,15 @@ package com.ssttkkl.fgoplanningtool.ui.databasemanage
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentDatabasemanageBinding
+import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
 class DatabaseManageFragment : Fragment() {
@@ -26,9 +25,9 @@ class DatabaseManageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as? AppCompatActivity)?.apply {
+        (activity as? MainActivity)?.apply {
             setSupportActionBar(binding.toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            setupDrawerToggle(binding.toolbar)
         }
         setHasOptionsMenu(true)
 
@@ -59,7 +58,6 @@ class DatabaseManageFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> findNavController().navigateUp()
             R.id.add_action -> binding.viewModel?.onClickAdd()
             else -> return super.onOptionsItemSelected(item)
         }
