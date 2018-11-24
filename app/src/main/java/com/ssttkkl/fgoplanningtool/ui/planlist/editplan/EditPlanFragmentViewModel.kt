@@ -7,7 +7,6 @@ import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 
 class EditPlanFragmentViewModel : ViewModel() {
@@ -70,19 +69,6 @@ class EditPlanFragmentViewModel : ViewModel() {
         showServantInfoUIEvent.call(plan.servantId.value)
     }
 
-    fun onChangeWarningResult(mode: ChangePlanWarningDialogFragment.Companion.Mode, plans: Collection<Plan>, deductItems: Boolean) {
-        when (mode) {
-            ChangePlanWarningDialogFragment.Companion.Mode.Remove -> {
-                remove(if (deductItems) oldPlan?.costItems else null)
-                finishEvent.call()
-            }
-            ChangePlanWarningDialogFragment.Companion.Mode.Edit -> {
-                save(if (deductItems) plans.costItems else null)
-                finishEvent.call()
-            }
-        }
-    }
-
     fun onEditNowLevelResult(exp: Int, ascendedOnStage: Boolean) {
         plan.nowExp.value = exp
         plan.ascendedOnNowStage.value = ascendedOnStage
@@ -91,12 +77,6 @@ class EditPlanFragmentViewModel : ViewModel() {
     fun onEditPlanLevelResult(exp: Int, ascendedOnStage: Boolean) {
         plan.planExp.value = exp
         plan.ascendedOnPlanStage.value = ascendedOnStage
-    }
-
-    private fun remove(itemToDeduct: Collection<Item>? = null) {
-        Repo.planRepo.remove(oldPlan!!.servantId, HowToPerform.Launch)
-        if (itemToDeduct != null && itemToDeduct.isNotEmpty())
-            Repo.itemRepo.deductItems(itemToDeduct, HowToPerform.Launch)
     }
 
     private fun save(itemToDeduct: Collection<Item>? = null) {

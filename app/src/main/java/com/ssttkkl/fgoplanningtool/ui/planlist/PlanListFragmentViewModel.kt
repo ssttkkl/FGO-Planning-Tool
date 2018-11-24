@@ -126,14 +126,6 @@ class PlanListFragmentViewModel : ViewModel() {
         inSelectMode.value = false
     }
 
-    fun onRemoveWarningUIResult(plans: Collection<Plan>,
-                                deductItems: Boolean) {
-        remove(plans, if (deductItems)
-            plans.costItems
-        else
-            null)
-    }
-
     fun onFilter(filtered: List<Servant>) {
         val servantIDs = filtered.map { it.id }
         val selectedServantIDs = data.value?.filter { it.checked }?.map { it.plan.servantId }?.toSet()

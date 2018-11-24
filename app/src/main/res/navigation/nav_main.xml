@@ -12,25 +12,16 @@
         tools:layout="@layout/fragment_planlist">
         <action
             android:id="@+id/action_planListFragment_to_chooseServantFragment"
-            app:destination="@id/chooseServantFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/chooseServantFragment" />
         <action
             android:id="@+id/action_planListFragment_to_editPlanDetailFragment"
-            app:destination="@id/editPlanDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/editPlanDetailFragment" />
         <action
             android:id="@+id/action_planListFragment_to_costItemListFragment"
-            app:destination="@id/costItemListFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/costItemListFragment" />
+        <action
+            android:id="@+id/action_planListFragment_to_confirmChangePlanFragment"
+            app:destination="@id/confirmChangePlanFragment" />
     </fragment>
     <fragment
         android:id="@+id/chooseServantFragment"
@@ -39,11 +30,7 @@
         tools:layout="@layout/fragment_editplan_chooseservant">
         <action
             android:id="@+id/action_chooseServantFragment_to_editPlanDetailFragment"
-            app:destination="@id/editPlanDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/editPlanDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/editPlanDetailFragment"
@@ -58,11 +45,10 @@
             app:argType="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.Mode" />
         <action
             android:id="@+id/action_editPlanDetailFragment_to_costItemListFragment"
-            app:destination="@id/costItemListFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/costItemListFragment" />
+        <action
+            android:id="@+id/action_editPlanDetailFragment_to_confirmChangePlanFragment"
+            app:destination="@id/confirmChangePlanFragment" />
     </fragment>
     <fragment
         android:id="@+id/ownItemListFragment"
@@ -84,37 +70,21 @@
         android:id="@+id/action_global_planListFragment"
         app:clearTask="true"
         app:destination="@id/planListFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:launchSingleTop="true"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        app:launchSingleTop="true" />
     <action
         android:id="@+id/action_global_ownItemListFragment"
         app:clearTask="true"
         app:destination="@id/ownItemListFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:launchSingleTop="true"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        app:launchSingleTop="true" />
     <action
         android:id="@+id/action_global_servantBaseListFragment"
         app:clearTask="true"
         app:destination="@id/servantBaseListFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:launchSingleTop="true"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        app:launchSingleTop="true" />
     <action
         android:id="@+id/action_global_settingsActivity"
         app:destination="@id/settingsActivity"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:launchSingleTop="true"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        app:launchSingleTop="true" />
     <fragment
         android:id="@+id/databaseManageFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageFragment"
@@ -122,14 +92,15 @@
     <action
         android:id="@+id/action_global_databaseManageFragment"
         app:destination="@id/databaseManageFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:launchSingleTop="true"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        app:launchSingleTop="true" />
     <fragment
         android:id="@+id/costItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragment"
-        android:label="CostItemListFragment"
-        tools:layout="@layout/fragment_costitemlist"></fragment>
+        android:label="@string/title_costitemlist"
+        tools:layout="@layout/fragment_costitemlist" />
+    <fragment
+        android:id="@+id/confirmChangePlanFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.confirmchangeplan.ConfirmChangePlanFragment"
+        android:label="@string/title_confirm_change_plan"
+        tools:layout="@layout/fragment_confirm_change_plan" />
 </navigation>

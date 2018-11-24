@@ -39,7 +39,7 @@
     <string name="add_planlist">添加</string>
     <string name="enterSelectMode_planlist">进入多选模式</string>
     <string name="remove_planlist">删除</string>
-    <string name="selectAll_planlist">选择全部</string>
+    <string name="selectAll">选择全部</string>
     <string name="level_item_planlist">等级</string>
     <string name="skill1_item_planlist">技能 I</string>
     <string name="skill2_item_planlist">技能 II</string>
@@ -210,4 +210,7 @@
     <string name="exc_outOfBounds_edititem">值必须在 %1$d~%2$d 范围之内。</string>
     <string name="exc_fileFormatError_planGsonTypeAdapter">文件格式错误。</string>
     <string name="title_editplan_chooseservantlist">选择从者</string>
+    <string name="title_confirm_change_plan">确认更改</string>
+    <string name="title_confirm_remove_plan">确认删除</string>
+    <string name="hint_confirm_change_plan">将会从仓库一并扣除相应数量的选中的材料。</string>
 </resources>

@@ -6,7 +6,7 @@ fun Int.toStringWithSplitter(splitter: String, groupLength: Int): String {
 
 fun Long.toStringWithSplitter(splitter: String, groupLength: Int): String {
     if (this < 0)
-        return (0 - this).toStringWithSplitter(splitter, groupLength)
+        return '-' + (-this).toStringWithSplitter(splitter, groupLength)
     val sb = StringBuilder()
     this.toString().reversed().forEachIndexed { idx, c ->
         if (idx % groupLength == 0 && idx > 0)

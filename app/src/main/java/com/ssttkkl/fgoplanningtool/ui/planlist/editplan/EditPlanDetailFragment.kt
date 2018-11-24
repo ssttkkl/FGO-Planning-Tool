@@ -14,13 +14,12 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEditplanDetailBinding
-import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
+import com.ssttkkl.fgoplanningtool.ui.confirmchangeplan.ConfirmChangePlanFragment
 import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 
 class EditPlanDetailFragment : Fragment(),
         LifecycleOwner,
-        EditLevelDialogFragment.OnSaveListener,
-        ChangePlanWarningDialogFragment.OnActionListener {
+        EditLevelDialogFragment.OnSaveListener {
     private lateinit var binding: FragmentEditplanDetailBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -91,10 +90,6 @@ class EditPlanDetailFragment : Fragment(),
         return true
     }
 
-    override fun onAction(mode: ChangePlanWarningDialogFragment.Companion.Mode, plans: Collection<Plan>, deductItems: Boolean) {
-        binding.viewModel?.onChangeWarningResult(mode, plans, deductItems)
-    }
-
     override fun onSave(exp: Int, ascendedOnStage: Boolean, extraTag: String?) {
         when (extraTag) {
             "now" -> binding.viewModel?.onEditNowLevelResult(exp, ascendedOnStage)
@@ -103,13 +98,13 @@ class EditPlanDetailFragment : Fragment(),
     }
 
     private fun showRemovePlanWarningUI(plan: Plan) {
-        ChangePlanWarningDialogFragment.newInstanceForRemove(plan)
-                .show(childFragmentManager, ChangePlanWarningDialogFragment::class.qualifiedName)
+        findNavController().navigate(R.id.action_editPlanDetailFragment_to_confirmChangePlanFragment,
+                ConfirmChangePlanFragment.buildArgumentsWithRemove(plan))
     }
 
     private fun showEditPlanWarningUI(old: Plan, new: Plan) {
-        ChangePlanWarningDialogFragment.newInstanceForEdit(old, new)
-                .show(childFragmentManager, ChangePlanWarningDialogFragment::class.qualifiedName)
+        findNavController().navigate(R.id.action_editPlanDetailFragment_to_confirmChangePlanFragment,
+                ConfirmChangePlanFragment.buildArgumentsWithChange(old, new))
     }
 
     private fun showEditLevelUI(servantID: Int, exp: Int, ascendedOnStage: Boolean, tag: String) {

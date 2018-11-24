@@ -2,6 +2,7 @@ package com.ssttkkl.fgoplanningtool.ui.planlist
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -15,7 +16,7 @@ import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentPlanlistBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.changeplanwarning.ChangePlanWarningDialogFragment
+import com.ssttkkl.fgoplanningtool.ui.confirmchangeplan.ConfirmChangePlanFragment
 import com.ssttkkl.fgoplanningtool.ui.planlist.editplan.Mode
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandlerFragment
@@ -23,7 +24,6 @@ import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
 class PlanListFragment : BackHandlerFragment(),
         LifecycleOwner,
-        ChangePlanWarningDialogFragment.OnActionListener,
         ServantFilterFragment.Callback {
     private lateinit var binding: FragmentPlanlistBinding
 
@@ -107,12 +107,6 @@ class PlanListFragment : BackHandlerFragment(),
             super.onBackPressed()
     }
 
-    override fun onAction(mode: ChangePlanWarningDialogFragment.Companion.Mode,
-                          plans: Collection<Plan>,
-                          deductItems: Boolean) {
-        binding.viewModel?.onRemoveWarningUIResult(plans, deductItems)
-    }
-
     override fun onFilter(filtered: List<Servant>) {
         binding.viewModel?.onFilter(filtered)
     }
@@ -122,25 +116,22 @@ class PlanListFragment : BackHandlerFragment(),
     }
 
     private fun showNewPlanUI() {
-        findNavController().navigate(R.id.action_planListFragment_to_chooseServantFragment)
+        findNavController().navigate(PlanListFragmentDirections.actionPlanListFragmentToChooseServantFragment())
     }
 
     private fun showEditPlanUI(plan: Plan) {
-        findNavController().navigate(R.id.action_planListFragment_to_editPlanDetailFragment, Bundle().apply {
-            putParcelable("mode", Mode.Edit)
-            putParcelable("plan", plan)
-        })
+        findNavController().navigate(PlanListFragmentDirections.actionPlanListFragmentToEditPlanDetailFragment(plan, Mode.Edit))
     }
 
     private fun showCalcResultUI(plans: Collection<Plan>) {
-        findNavController().navigate(R.id.action_planListFragment_to_costItemListFragment, Bundle().apply {
-            putParcelableArray("plans", plans.toTypedArray())
-        })
+        findNavController().navigate(R.id.action_planListFragment_to_costItemListFragment, bundleOf(
+                "plans" to plans.toTypedArray()
+        ))
     }
 
     private fun showRemovePlansUI(plans: Collection<Plan>) {
-        ChangePlanWarningDialogFragment.newInstanceForRemove(plans)
-                .show(childFragmentManager, ChangePlanWarningDialogFragment.tag)
+        findNavController().navigate(R.id.action_planListFragment_to_confirmChangePlanFragment,
+                ConfirmChangePlanFragment.buildArgumentsWithRemove(plans))
     }
 
     private fun changeOrigin(servants: Collection<Servant>) {
