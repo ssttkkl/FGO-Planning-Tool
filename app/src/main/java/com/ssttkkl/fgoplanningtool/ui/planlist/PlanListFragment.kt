@@ -153,7 +153,7 @@ class PlanListFragment : Fragment(),
 
     private fun onInSelectModeChanged(inSelectMode: Boolean) {
         (activity as? MainActivity)?.apply {
-            setDrawerState(!inSelectMode)
+            drawerState = !inSelectMode
             invalidateOptionsMenu()
         }
     }

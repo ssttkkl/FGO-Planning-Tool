@@ -37,7 +37,7 @@ class EditPlanDetailFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
             title = getString(R.string.title_edit_editplan)
-            setDrawerState(false)
+            drawerState = false
         }
         setHasOptionsMenu(true)
 

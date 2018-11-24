@@ -38,7 +38,7 @@ class CostItemListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
-            setDrawerState(false)
+            drawerState = false
             title = getString(R.string.title_costitemlist)
         }
         setHasOptionsMenu(true)

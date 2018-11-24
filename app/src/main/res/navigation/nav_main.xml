@@ -66,11 +66,6 @@
         android:label="@string/title_databasemanage"
         app:launchSingleTop="true"
         tools:layout="@layout/fragment_databasemanage" />
-    <activity
-        android:id="@+id/settingsActivity"
-        android:name="com.ssttkkl.fgoplanningtool.ui.settings.SettingsActivity"
-        android:label="@string/title_pref"
-        tools:layout="@layout/activity_settings" />
 
     <action
         android:id="@+id/action_global_planListFragment"
@@ -88,8 +83,8 @@
         app:launchSingleTop="true"
         app:popUpTo="@+id/nav_main" />
     <action
-        android:id="@+id/action_global_settingsActivity"
-        app:destination="@id/settingsActivity"
+        android:id="@+id/action_global_settingsFragment"
+        app:destination="@id/settingsFragment"
         app:launchSingleTop="true"
         app:popUpTo="@+id/nav_main" />
     <action
@@ -107,4 +102,30 @@
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment"
         android:label="@string/title_confirm_change_plan"
         tools:layout="@layout/fragment_confirm_change_plan" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.settings.SettingsFragment"
+        android:label="@string/title_pref">
+        <action
+            android:id="@+id/action_settingsFragment_to_updateResPackFragment"
+            app:destination="@id/updateResPackFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/updateResPackFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.UpdateResPackFragment"
+        android:label="UpdateResPackFragment"
+        tools:layout="@layout/fragment_updaterespack">
+
+        <argument
+            android:name="manually"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <argument
+            android:name="filePath"
+            app:argType="string" />
+
+    </fragment>
 </navigation>

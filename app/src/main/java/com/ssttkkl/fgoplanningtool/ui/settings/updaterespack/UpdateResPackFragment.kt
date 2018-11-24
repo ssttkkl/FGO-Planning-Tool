@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.updaterespack
+package com.ssttkkl.fgoplanningtool.ui.settings.updaterespack
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentUpdaterespackBinding
+import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import java.io.File
 
 class UpdateResPackFragment : Fragment() {
@@ -22,6 +24,11 @@ class UpdateResPackFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (activity as? MainActivity)?.apply {
+            drawerState = false
+            title = getString(R.string.title_updaterespack)
+        }
+
         if (binding.viewModel?.manually != true) {
             binding.viewModel?.start()
         } else {

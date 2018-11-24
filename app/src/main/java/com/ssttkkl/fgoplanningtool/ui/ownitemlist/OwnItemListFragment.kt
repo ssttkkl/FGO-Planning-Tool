@@ -25,7 +25,7 @@ class OwnItemListFragment : androidx.fragment.app.Fragment(), LifecycleOwner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
-            setDrawerState(true)
+            drawerState = true
             title = getString(R.string.title_ownitemlist)
         }
 

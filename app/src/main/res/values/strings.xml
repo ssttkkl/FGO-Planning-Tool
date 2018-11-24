@@ -182,6 +182,7 @@
     <string name="removeResPack_hint">是否要删除已经加载的资源包？</string>
     <string name="removeResPack_yes">是</string>
 
+    <string name="title_updaterespack">更新资源包</string>
     <string name="releaseDate_updaterespack">发布日期</string>
     <string name="releaseDate_pattern_updaterespack">%1$d/%2$d/%3$d</string>
     <string name="content_updaterespack">内容进度</string>

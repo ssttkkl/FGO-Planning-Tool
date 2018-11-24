@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.updaterespack
+package com.ssttkkl.fgoplanningtool.ui.settings.updaterespack
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModel
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.ui.updaterespack.updater.ResPackAutoUpdater
-import com.ssttkkl.fgoplanningtool.ui.updaterespack.updater.ResPackLatestInfo
-import com.ssttkkl.fgoplanningtool.ui.updaterespack.updater.ResPackManuallyUpdater
+import com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.updater.ResPackAutoUpdater
+import com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.updater.ResPackLatestInfo
+import com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.updater.ResPackManuallyUpdater
 import java.io.File
 
 class UpdateResPackViewModel : ViewModel() {

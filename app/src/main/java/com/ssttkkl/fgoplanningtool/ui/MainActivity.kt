@@ -27,13 +27,14 @@ class MainActivity : BackRouterActivity(), NavigationView.OnNavigationItemSelect
         binding.navView.setNavigationItemSelectedListener(this)
 
         setSupportActionBar(binding.toolbar)
+        binding.title = title
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.openDrawer_main, R.string.closeDrawer_main).apply {
             setToolbarNavigationClickListener {
                 onBackPressed()
             }
         }
         binding.drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
+        onChangeDrawerState(drawerState)
 
         Repo.databaseDescriptorLiveData.observe(this, Observer {
             binding.currentDatabaseTextView.text = it?.name
@@ -53,7 +54,7 @@ class MainActivity : BackRouterActivity(), NavigationView.OnNavigationItemSelect
             R.id.planListFragment -> navController.navigate(R.id.action_global_planListFragment)
             R.id.ownItemListFragment -> navController.navigate(R.id.action_global_ownItemListFragment)
             R.id.servantBaseListFragment -> navController.navigate(R.id.action_global_servantBaseListFragment)
-            R.id.settingsActivity -> navController.navigate(R.id.action_global_settingsActivity)
+            R.id.settingsFragment -> navController.navigate(R.id.action_global_settingsFragment)
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -66,15 +67,24 @@ class MainActivity : BackRouterActivity(), NavigationView.OnNavigationItemSelect
             super.onBackPressed()
     }
 
-    fun setDrawerState(enable: Boolean) {
+    var drawerState: Boolean = true
+        set(value) {
+            if (field != value)
+                onChangeDrawerState(value)
+            field = value
+        }
+
+    private fun onChangeDrawerState(enable: Boolean) {
         if (enable) {
-            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            if (::binding.isInitialized)
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             if (::toggle.isInitialized) {
                 toggle.isDrawerIndicatorEnabled = true
                 toggle.syncState()
             }
         } else {
-            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            if (::binding.isInitialized)
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             if (::toggle.isInitialized) {
                 toggle.isDrawerIndicatorEnabled = false
                 toggle.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
@@ -83,9 +93,10 @@ class MainActivity : BackRouterActivity(), NavigationView.OnNavigationItemSelect
         }
     }
 
-    var title: String
-        get() = binding.title ?: ""
+    var title: String = ""
         set(value) {
-            binding.title = value
+            if (::binding.isInitialized)
+                binding.title = value
+            field = value
         }
 }

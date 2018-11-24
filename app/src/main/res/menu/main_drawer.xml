@@ -28,7 +28,7 @@
         android:id="@+id/group2"
         android:checkableBehavior="none">
         <item
-            android:id="@+id/settingsActivity"
+            android:id="@+id/settingsFragment"
             android:icon="@drawable/ic_settings_white_24dp"
             android:title="@string/preferences_nav"
             app:showAsAction="ifRoom" />

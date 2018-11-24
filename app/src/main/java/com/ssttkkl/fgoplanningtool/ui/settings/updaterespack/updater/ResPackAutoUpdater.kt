@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.updaterespack.updater
+package com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.updater
 
 import android.content.Context
 import com.google.gson.Gson

@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -30,6 +31,11 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        (activity as? MainActivity)?.apply {
+            drawerState = true
+            title = getString(R.string.title_pref)
+        }
+
         setPreferencesFromResource(R.xml.preferences, rootKey)
         subscribeUI()
     }

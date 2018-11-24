@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.updaterespack.UpdateResPackViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.UpdateResPackViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -26,7 +26,7 @@ class ConfirmChangePlanFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as? MainActivity)?.setDrawerState(false)
+        (activity as? MainActivity)?.drawerState = false
         setHasOptionsMenu(true)
 
         binding.recView.apply {

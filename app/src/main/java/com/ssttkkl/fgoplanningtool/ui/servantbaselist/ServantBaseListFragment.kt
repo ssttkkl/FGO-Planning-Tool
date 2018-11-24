@@ -18,7 +18,7 @@ class ServantBaseListFragment : Fragment(), ServantListFragment.OnClickServantLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
-            setDrawerState(true)
+            drawerState = true
             title = getString(R.string.title_servantbaselist)
         }
     }
