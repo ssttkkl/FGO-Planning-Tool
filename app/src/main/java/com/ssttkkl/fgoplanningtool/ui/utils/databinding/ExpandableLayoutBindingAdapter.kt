@@ -3,6 +3,7 @@ package com.ssttkkl.fgoplanningtool.ui.utils.databinding
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import net.cachapa.expandablelayout.ExpandableLayout
 
 object ExpandableLayoutBindingAdapter {
     @BindingAdapter("attrExpandedChanged")

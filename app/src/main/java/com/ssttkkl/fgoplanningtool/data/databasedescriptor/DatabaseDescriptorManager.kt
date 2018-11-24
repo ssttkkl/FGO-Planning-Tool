@@ -5,10 +5,13 @@ import android.util.Log
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
+import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.RepoDatabase
 import com.ssttkkl.fgoplanningtool.data.migration.DatabaseDescriptorDatabaseCommonMigration1
 import com.ssttkkl.fgoplanningtool.data.perform
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.ConcurrentHashMap
 
@@ -62,6 +65,11 @@ object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
             uuids.forEach { uuid ->
                 database.databaseDescriptorDao.remove(database.databaseDescriptorDao.getByUUID(uuid)!!)
                 RepoDatabase.remove(uuid)
+            }
+            GlobalScope.launch(Dispatchers.Main) {
+                if (this@DatabaseDescriptorManager[Repo.uuid] == null) {
+                    Repo.switchDatabase(firstOrCreate.uuid)
+                }
             }
         }
     }

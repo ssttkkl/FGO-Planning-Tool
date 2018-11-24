@@ -32,8 +32,8 @@ class ChooseServantFragment : Fragment(), ServantListFragment.OnClickServantList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            title = getString(R.string.title_editplan_chooseservant)
+            setDrawerState(false)
         }
         setHasOptionsMenu(true)
 

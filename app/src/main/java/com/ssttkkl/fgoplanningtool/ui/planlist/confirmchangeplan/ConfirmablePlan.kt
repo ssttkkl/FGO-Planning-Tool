@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.confirmchangeplan
+package com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan
 
 import android.os.Parcelable
 import com.ssttkkl.fgoplanningtool.data.plan.Plan

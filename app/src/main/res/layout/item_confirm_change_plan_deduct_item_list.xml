@@ -21,11 +21,11 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.confirmchangeplan.ConfirmChangePlanFragmentViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragmentViewModel" />
 
         <variable
             name="deductItem"
-            type="com.ssttkkl.fgoplanningtool.ui.confirmchangeplan.DeductItem" />
+            type="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.DeductItem" />
     </data>
 
     <LinearLayout

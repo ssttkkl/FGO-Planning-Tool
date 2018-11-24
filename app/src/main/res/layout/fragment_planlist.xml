@@ -12,61 +12,38 @@
             type="com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragmentViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recView"
                 android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="@{viewModel.title}" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.drawerlayout.widget.DrawerLayout
-            android:id="@+id/drawerlayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/item_planlist" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_margin="16dp"
-                    android:onClick="@{() -> viewModel.onFabClick()}"
-                    app:layout_behavior="com.ssttkkl.fgoplanningtool.ui.utils.AutoSlideFabBehavior"
-                    app:srcCompat="@drawable/ic_chrome_reader_mode_white_24dp" />
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-            <FrameLayout
-                android:id="@+id/frameLayout"
-                android:layout_width="250dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="end" />
+                tools:listitem="@layout/item_planlist" />
 
-        </androidx.drawerlayout.widget.DrawerLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:onClick="@{() -> viewModel.onFabClick()}"
+                app:layout_behavior="com.ssttkkl.fgoplanningtool.ui.utils.AutoSlideFabBehavior"
+                app:srcCompat="@drawable/ic_chrome_reader_mode_white_24dp" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    </LinearLayout>
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

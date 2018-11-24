@@ -1,9 +1,11 @@
-package com.ssttkkl.fgoplanningtool.ui.confirmchangeplan
+package com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.ssttkkl.fgoplanningtool.MyApp
+import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
@@ -20,6 +22,12 @@ class ConfirmChangePlanFragmentViewModel : ViewModel() {
             Mode.Remove
         else
             Mode.Change
+    }
+    val title: LiveData<String> = Transformations.map(mode) { mode ->
+        if (mode == Mode.Remove)
+            MyApp.context.getString(R.string.title_confirm_remove_plan)
+        else
+            MyApp.context.getString(R.string.title_confirm_change_plan)
     }
 
     private val indexedDeductItems = MutableLiveData<Map<String, DeductItem>>().apply {

@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.confirmchangeplan
+package com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan
 
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 

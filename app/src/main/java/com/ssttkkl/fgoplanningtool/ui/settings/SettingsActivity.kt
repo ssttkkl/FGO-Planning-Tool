@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.utils.setStatusBarColor
-import kotlinx.android.synthetic.main.fragment_ownitemlist.*
+import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

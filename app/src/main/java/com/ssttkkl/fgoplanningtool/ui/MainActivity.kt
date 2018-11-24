@@ -19,10 +19,21 @@ import com.ssttkkl.fgoplanningtool.ui.utils.BackRouterActivity
 class MainActivity : BackRouterActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityMainBinding
 
+    private lateinit var toggle: ActionBarDrawerToggle
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.navView.setNavigationItemSelectedListener(this)
+
+        setSupportActionBar(binding.toolbar)
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.openDrawer_main, R.string.closeDrawer_main).apply {
+            setToolbarNavigationClickListener {
+                onBackPressed()
+            }
+        }
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
 
         Repo.databaseDescriptorLiveData.observe(this, Observer {
             binding.currentDatabaseTextView.text = it?.name
@@ -55,20 +66,6 @@ class MainActivity : BackRouterActivity(), NavigationView.OnNavigationItemSelect
             super.onBackPressed()
     }
 
-    private lateinit var toggle: ActionBarDrawerToggle
-
-    fun setupDrawerToggle(toolbar: Toolbar) {
-        if (::toggle.isInitialized)
-            binding.drawerLayout.removeDrawerListener(toggle)
-        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, toolbar, R.string.openDrawer_main, R.string.closeDrawer_main).apply {
-            setToolbarNavigationClickListener {
-                onBackPressed()
-            }
-        }
-        binding.drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-    }
-
     fun setDrawerState(enable: Boolean) {
         if (enable) {
             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
@@ -85,4 +82,10 @@ class MainActivity : BackRouterActivity(), NavigationView.OnNavigationItemSelect
             }
         }
     }
+
+    var title: String
+        get() = binding.title ?: ""
+        set(value) {
+            binding.title = value
+        }
 }

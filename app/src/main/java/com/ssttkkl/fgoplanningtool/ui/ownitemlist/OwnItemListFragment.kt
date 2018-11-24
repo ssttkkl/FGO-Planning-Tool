@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentOwnitemlistBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
@@ -24,8 +25,8 @@ class OwnItemListFragment : androidx.fragment.app.Fragment(), LifecycleOwner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
-            setSupportActionBar(binding.toolbar)
-            setupDrawerToggle(binding.toolbar)
+            setDrawerState(true)
+            title = getString(R.string.title_ownitemlist)
         }
 
         binding.viewPager.adapter = object : androidx.fragment.app.FragmentPagerAdapter(childFragmentManager) {

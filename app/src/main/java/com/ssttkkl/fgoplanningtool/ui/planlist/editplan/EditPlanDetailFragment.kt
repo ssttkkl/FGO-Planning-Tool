@@ -2,7 +2,6 @@ package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -14,7 +13,8 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEditplanDetailBinding
-import com.ssttkkl.fgoplanningtool.ui.confirmchangeplan.ConfirmChangePlanFragment
+import com.ssttkkl.fgoplanningtool.ui.MainActivity
+import com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment
 import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 
 class EditPlanDetailFragment : Fragment(),
@@ -35,9 +35,9 @@ class EditPlanDetailFragment : Fragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as? AppCompatActivity)?.apply {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as? MainActivity)?.apply {
+            title = getString(R.string.title_edit_editplan)
+            setDrawerState(false)
         }
         setHasOptionsMenu(true)
 

@@ -11,321 +11,300 @@
             type="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.EditPlanFragmentViewModel" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:background="@android:color/background_light"
+        android:padding="16dp">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+        <ImageView
+            android:id="@+id/avatar_imageView"
+            android:layout_width="64dp"
+            android:layout_height="70dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@{viewModel.plan.servant.avatarFile}" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/avatar_imageView"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="@string/title_edit_editplan" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/background_light"
-            android:padding="16dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <ImageView
-                android:id="@+id/avatar_imageView"
-                android:layout_width="64dp"
-                android:layout_height="70dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@{viewModel.plan.servant.avatarFile}" />
-
-            <ScrollView
-                android:id="@+id/scrollView2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/avatar_imageView"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/name_textView"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginEnd="16dp"
+                    android:text="@{viewModel.plan.servant.localizedName}"
+                    android:textAppearance="@style/ListItem"
+                    app:layout_constraintEnd_toStartOf="@+id/info_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/name_textView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@{viewModel.plan.servant.localizedName}"
-                        android:textAppearance="@style/ListItem"
-                        app:layout_constraintEnd_toStartOf="@+id/info_button"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/class_textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{viewModel.plan.servant.theClass.name}"
+                    android:textAppearance="@style/ListItemTertiary"
+                    app:layout_constraintEnd_toStartOf="@+id/info_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name_textView" />
 
-                    <TextView
-                        android:id="@+id/class_textView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@{viewModel.plan.servant.theClass.name}"
-                        android:textAppearance="@style/ListItemTertiary"
-                        app:layout_constraintEnd_toStartOf="@+id/info_button"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/name_textView" />
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/level_item_planlist"
+                    android:textAppearance="@style/Caption"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/class_textView" />
 
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/level_item_planlist"
-                        android:textAppearance="@style/Caption"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/class_textView" />
+                <Button
+                    android:id="@+id/nowLevel_button"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:onClick="@{()->viewModel.onClickNowLevel()}"
+                    android:text="@{String.valueOf(viewModel.plan.nowLevel)}"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView7"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-                    <Button
-                        android:id="@+id/nowLevel_button"
-                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                        android:layout_width="0dp"
-                        android:layout_height="36dp"
-                        android:onClick="@{()->viewModel.onClickNowLevel()}"
-                        android:text="@{String.valueOf(viewModel.plan.nowLevel)}"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView7"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                <ProgressBar
+                    android:id="@+id/nowExp_progressBar"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:max="@{viewModel.plan.nowLevelMaxProgress}"
+                    android:progress="@{viewModel.plan.nowLevelProgress}"
+                    app:layout_constraintEnd_toEndOf="@+id/nowLevel_button"
+                    app:layout_constraintStart_toStartOf="@+id/nowLevel_button"
+                    app:layout_constraintTop_toBottomOf="@+id/nowLevel_button" />
 
-                    <ProgressBar
-                        android:id="@+id/nowExp_progressBar"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:max="@{viewModel.plan.nowLevelMaxProgress}"
-                        android:progress="@{viewModel.plan.nowLevelProgress}"
-                        app:layout_constraintEnd_toEndOf="@+id/nowLevel_button"
-                        app:layout_constraintStart_toStartOf="@+id/nowLevel_button"
-                        app:layout_constraintTop_toBottomOf="@+id/nowLevel_button" />
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tint="@android:color/tertiary_text_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/nowLevel_button"
+                    app:layout_constraintEnd_toStartOf="@+id/planLevel_button"
+                    app:layout_constraintStart_toEndOf="@+id/nowLevel_button"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9"
+                    app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
-                    <ImageView
-                        android:id="@+id/imageView7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:tint="@android:color/tertiary_text_light"
-                        app:layout_constraintBottom_toBottomOf="@+id/nowLevel_button"
-                        app:layout_constraintEnd_toStartOf="@+id/planLevel_button"
-                        app:layout_constraintStart_toEndOf="@+id/nowLevel_button"
-                        app:layout_constraintTop_toBottomOf="@+id/textView9"
-                        app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+                <Button
+                    android:id="@+id/planLevel_button"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:onClick="@{()->viewModel.onClickPlanLevel()}"
+                    android:text="@{String.valueOf(viewModel.plan.planLevel)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView7"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-                    <Button
-                        android:id="@+id/planLevel_button"
-                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                        android:layout_width="0dp"
-                        android:layout_height="36dp"
-                        android:onClick="@{()->viewModel.onClickPlanLevel()}"
-                        android:text="@{String.valueOf(viewModel.plan.planLevel)}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView7"
-                        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                <ProgressBar
+                    android:id="@+id/planExp_progressBar"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:max="@{viewModel.plan.planLevelMaxProgress}"
+                    android:progress="@{viewModel.plan.planLevelProgress}"
+                    app:layout_constraintEnd_toEndOf="@+id/planLevel_button"
+                    app:layout_constraintStart_toStartOf="@+id/planLevel_button"
+                    app:layout_constraintTop_toBottomOf="@+id/planLevel_button" />
 
-                    <ProgressBar
-                        android:id="@+id/planExp_progressBar"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:max="@{viewModel.plan.planLevelMaxProgress}"
-                        android:progress="@{viewModel.plan.planLevelProgress}"
-                        app:layout_constraintEnd_toEndOf="@+id/planLevel_button"
-                        app:layout_constraintStart_toStartOf="@+id/planLevel_button"
-                        app:layout_constraintTop_toBottomOf="@+id/planLevel_button" />
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/skill1_item_planlist"
+                    android:textAppearance="@style/Caption"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nowExp_progressBar" />
 
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/skill1_item_planlist"
-                        android:textAppearance="@style/Caption"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/nowExp_progressBar" />
+                <Spinner
+                    android:id="@+id/nowSkill1_spinner"
+                    selection="@={viewModel.plan.nowSkill1}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/skill_editplan"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-                    <Spinner
-                        android:id="@+id/nowSkill1_spinner"
-                        selection="@={viewModel.plan.nowSkill1}"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/skill_editplan"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView8"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tint="@android:color/tertiary_text_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/nowSkill1_spinner"
+                    app:layout_constraintEnd_toStartOf="@+id/planSkill1_spinner"
+                    app:layout_constraintStart_toEndOf="@+id/nowSkill1_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/textView10"
+                    app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
-                    <ImageView
-                        android:id="@+id/imageView8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:tint="@android:color/tertiary_text_light"
-                        app:layout_constraintBottom_toBottomOf="@+id/nowSkill1_spinner"
-                        app:layout_constraintEnd_toStartOf="@+id/planSkill1_spinner"
-                        app:layout_constraintStart_toEndOf="@+id/nowSkill1_spinner"
-                        app:layout_constraintTop_toBottomOf="@+id/textView10"
-                        app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+                <Spinner
+                    android:id="@+id/planSkill1_spinner"
+                    selection="@={viewModel.plan.planSkill1}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/skill_editplan"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView8"
+                    app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-                    <Spinner
-                        android:id="@+id/planSkill1_spinner"
-                        selection="@={viewModel.plan.planSkill1}"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/skill_editplan"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView8"
-                        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/skill2_item_planlist"
+                    android:textAppearance="@style/Caption"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nowSkill1_spinner" />
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/skill2_item_planlist"
-                        android:textAppearance="@style/Caption"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/nowSkill1_spinner" />
+                <Spinner
+                    android:id="@+id/nowSkill2_spinner"
+                    selection="@={viewModel.plan.nowSkill2}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/skill_editplan"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-                    <Spinner
-                        android:id="@+id/nowSkill2_spinner"
-                        selection="@={viewModel.plan.nowSkill2}"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/skill_editplan"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView4"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tint="@android:color/tertiary_text_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/nowSkill2_spinner"
+                    app:layout_constraintEnd_toStartOf="@+id/planSkill2_spinner"
+                    app:layout_constraintStart_toEndOf="@+id/nowSkill2_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2"
+                    app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:tint="@android:color/tertiary_text_light"
-                        app:layout_constraintBottom_toBottomOf="@+id/nowSkill2_spinner"
-                        app:layout_constraintEnd_toStartOf="@+id/planSkill2_spinner"
-                        app:layout_constraintStart_toEndOf="@+id/nowSkill2_spinner"
-                        app:layout_constraintTop_toBottomOf="@+id/textView2"
-                        app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+                <Spinner
+                    android:id="@+id/planSkill2_spinner"
+                    selection="@={viewModel.plan.planSkill2}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/skill_editplan"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView4"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-                    <Spinner
-                        android:id="@+id/planSkill2_spinner"
-                        selection="@={viewModel.plan.planSkill2}"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/skill_editplan"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView4"
-                        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/skill3_item_planlist"
+                    android:textAppearance="@style/Caption"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nowSkill2_spinner" />
 
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/skill3_item_planlist"
-                        android:textAppearance="@style/Caption"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/nowSkill2_spinner" />
+                <Spinner
+                    android:id="@+id/nowSkill3_spinner"
+                    selection="@={viewModel.plan.nowSkill3}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/skill_editplan"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-                    <Spinner
-                        android:id="@+id/nowSkill3_spinner"
-                        selection="@={viewModel.plan.nowSkill3}"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/skill_editplan"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tint="@android:color/tertiary_text_light"
+                    app:layout_constraintBottom_toBottomOf="@+id/nowSkill3_spinner"
+                    app:layout_constraintEnd_toStartOf="@+id/planSkill3_spinner"
+                    app:layout_constraintStart_toEndOf="@+id/nowSkill3_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6"
+                    app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
-                    <ImageView
-                        android:id="@+id/imageView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:tint="@android:color/tertiary_text_light"
-                        app:layout_constraintBottom_toBottomOf="@+id/nowSkill3_spinner"
-                        app:layout_constraintEnd_toStartOf="@+id/planSkill3_spinner"
-                        app:layout_constraintStart_toEndOf="@+id/nowSkill3_spinner"
-                        app:layout_constraintTop_toBottomOf="@+id/textView6"
-                        app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+                <Spinner
+                    android:id="@+id/planSkill3_spinner"
+                    selection="@={viewModel.plan.planSkill3}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/skill_editplan"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView5"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-                    <Spinner
-                        android:id="@+id/planSkill3_spinner"
-                        selection="@={viewModel.plan.planSkill3}"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:entries="@array/skill_editplan"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView5"
-                        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                <ImageView
+                    android:id="@+id/info_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{()->viewModel.onClickShowInfo()}"
+                    android:src="@drawable/ic_info_white_24dp"
+                    android:tint="@android:color/tertiary_text_light"
+                    app:layout_constraintBottom_toTopOf="@+id/textView9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/info_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:onClick="@{()->viewModel.onClickShowInfo()}"
-                        android:src="@drawable/ic_info_white_24dp"
-                        android:tint="@android:color/tertiary_text_light"
-                        app:layout_constraintBottom_toTopOf="@+id/textView9"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/dressLabel_textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/dress_editplan"
+                    android:textAppearance="@style/Caption"
+                    android:visibility="@{viewModel.plan.servant.dress.isEmpty() ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nowSkill3_spinner" />
 
-                    <TextView
-                        android:id="@+id/dressLabel_textView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/dress_editplan"
-                        android:textAppearance="@style/Caption"
-                        android:visibility="@{viewModel.plan.servant.dress.isEmpty() ? View.GONE : View.VISIBLE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/nowSkill3_spinner" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dress_recView"
+                    data="@{viewModel.plan.servant.dress}"
+                    selection="@={viewModel.plan.dress}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.plan.servant.dress.isEmpty() ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dressLabel_textView"
+                    tools:listitem="@layout/item_editplan_dress" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/dress_recView"
-                        data="@{viewModel.plan.servant.dress}"
-                        selection="@={viewModel.plan.dress}"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.plan.servant.dress.isEmpty() ? View.GONE : View.VISIBLE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/dressLabel_textView"
-                        tools:listitem="@layout/item_editplan_dress" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-            </ScrollView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
             android:layout_margin="@dimen/fab_margin"
             android:onClick="@{()->viewModel.onClickFab()}"
-            android:src="@drawable/ic_chrome_reader_mode_white_24dp" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:src="@drawable/ic_chrome_reader_mode_white_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

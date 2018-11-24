@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentCostitemlistBinding
@@ -37,8 +38,8 @@ class CostItemListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            setDrawerState(false)
+            title = getString(R.string.title_costitemlist)
         }
         setHasOptionsMenu(true)
 
@@ -88,17 +89,5 @@ class CostItemListFragment : Fragment() {
     companion object {
         private const val ARG_PLANS = "plans"
         private const val ARG_ITEMS = "items"
-
-        fun newInstanceWithPlans(plans: Collection<Plan>) = CostItemListFragment().apply {
-            arguments = Bundle().apply {
-                putParcelableArray(ARG_PLANS, plans.toTypedArray())
-            }
-        }
-
-        fun newInstanceWithItems(items: Collection<Item>) = CostItemListFragment().apply {
-            arguments = Bundle().apply {
-                putParcelableArray(ARG_ITEMS, items.toTypedArray())
-            }
-        }
     }
 }

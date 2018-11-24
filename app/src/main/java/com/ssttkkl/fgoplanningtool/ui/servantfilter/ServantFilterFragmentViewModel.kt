@@ -30,9 +30,7 @@ class ServantFilterFragmentViewModel : ViewModel() {
     val items = MutableLiveData<Set<ItemDescriptor>>()
     val itemFilterMode = MutableLiveData<ItemFilterMode>()
 
-    fun start(costItemGetter: (Servant) -> Collection<Item>) {
-        this.costItemGetter = costItemGetter
-
+    init {
         searchText.value = ""
         order.value = DEFAULT_ORDER
         orderBy.value = DEFAULT_ORDER_BY
@@ -41,6 +39,10 @@ class ServantFilterFragmentViewModel : ViewModel() {
         waysToGet.value = setOf()
         items.value = setOf()
         itemFilterMode.value = DEFAULT_ITEM_MODE
+    }
+
+    fun start(costItemGetter: (Servant) -> Collection<Item>) {
+        this.costItemGetter = costItemGetter
     }
 
     fun setOrigin(servantIDs: Set<Int>?) {

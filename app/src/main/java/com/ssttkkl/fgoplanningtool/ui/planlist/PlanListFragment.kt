@@ -17,7 +17,7 @@ import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentPlanlistBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.confirmchangeplan.ConfirmChangePlanFragment
+import com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment
 import com.ssttkkl.fgoplanningtool.ui.planlist.editplan.Mode
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandler
@@ -40,12 +40,8 @@ class PlanListFragment : Fragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // setup Toolbar
-        (activity as? MainActivity)?.apply {
-            setSupportActionBar(binding.toolbar)
-            setupDrawerToggle(binding.toolbar)
-        }
         setHasOptionsMenu(true)
+        onInSelectModeChanged(false)
 
         // setup ServantFilterFragment
         if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
@@ -80,6 +76,9 @@ class PlanListFragment : Fragment(),
             })
             inSelectMode.observe(this@PlanListFragment, Observer {
                 onInSelectModeChanged(it == true)
+            })
+            title.observe(this@PlanListFragment, Observer {
+                onTitleChanged(it ?: "")
             })
         }
     }
@@ -157,5 +156,9 @@ class PlanListFragment : Fragment(),
             setDrawerState(!inSelectMode)
             invalidateOptionsMenu()
         }
+    }
+
+    private fun onTitleChanged(title: String) {
+        (activity as? MainActivity)?.title = title
     }
 }

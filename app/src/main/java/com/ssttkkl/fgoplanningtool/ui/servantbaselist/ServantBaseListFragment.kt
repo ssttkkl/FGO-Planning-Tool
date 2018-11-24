@@ -12,17 +12,14 @@ import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 
 class ServantBaseListFragment : Fragment(), ServantListFragment.OnClickServantListener {
-    private lateinit var binding: FragmentServantbaselistBinding
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentServantbaselistBinding.inflate(inflater, container, false)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_servantbaselist, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
-            setSupportActionBar(binding.toolbar)
-            setupDrawerToggle(binding.toolbar)
+            setDrawerState(true)
+            title = getString(R.string.title_servantbaselist)
         }
     }
 

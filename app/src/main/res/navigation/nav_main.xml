@@ -60,6 +60,12 @@
         android:name="com.ssttkkl.fgoplanningtool.ui.servantbaselist.ServantBaseListFragment"
         android:label="ServantBaseListFragment"
         tools:layout="@layout/fragment_servantbaselist" />
+    <fragment
+        android:id="@+id/databaseManageFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageFragment"
+        android:label="@string/title_databasemanage"
+        app:launchSingleTop="true"
+        tools:layout="@layout/fragment_databasemanage" />
     <activity
         android:id="@+id/settingsActivity"
         android:name="com.ssttkkl.fgoplanningtool.ui.settings.SettingsActivity"
@@ -68,33 +74,29 @@
 
     <action
         android:id="@+id/action_global_planListFragment"
-        app:clearTask="true"
         app:destination="@id/planListFragment"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/nav_main" />
     <action
         android:id="@+id/action_global_ownItemListFragment"
-        app:clearTask="true"
         app:destination="@id/ownItemListFragment"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/nav_main" />
     <action
         android:id="@+id/action_global_servantBaseListFragment"
-        app:clearTask="true"
         app:destination="@id/servantBaseListFragment"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/nav_main" />
     <action
         android:id="@+id/action_global_settingsActivity"
         app:destination="@id/settingsActivity"
-        app:launchSingleTop="true" />
-    <fragment
-        android:id="@+id/databaseManageFragment"
-        android:name="com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageFragment"
-        android:label="@string/title_databasemanage"
-        app:clearTask="true"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/nav_main" />
     <action
         android:id="@+id/action_global_databaseManageFragment"
         app:destination="@id/databaseManageFragment"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/nav_main" />
     <fragment
         android:id="@+id/costItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragment"
@@ -102,7 +104,7 @@
         tools:layout="@layout/fragment_costitemlist" />
     <fragment
         android:id="@+id/confirmChangePlanFragment"
-        android:name="com.ssttkkl.fgoplanningtool.ui.confirmchangeplan.ConfirmChangePlanFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment"
         android:label="@string/title_confirm_change_plan"
         tools:layout="@layout/fragment_confirm_change_plan" />
 </navigation>

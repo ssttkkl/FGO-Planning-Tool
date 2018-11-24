@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.confirmchangeplan
+package com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan
 
 import android.os.Bundle
 import android.view.*
@@ -26,10 +26,7 @@ class ConfirmChangePlanFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as? MainActivity)?.apply {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        }
+        (activity as? MainActivity)?.setDrawerState(false)
         setHasOptionsMenu(true)
 
         binding.recView.apply {
@@ -39,6 +36,9 @@ class ConfirmChangePlanFragment : Fragment() {
         }
 
         binding.viewModel?.apply {
+            title.observe(this@ConfirmChangePlanFragment, Observer {
+                onTitleChanged(it ?: "")
+            })
             finishEvent.observe(this@ConfirmChangePlanFragment, Observer {
                 navigateUp()
             })
@@ -62,6 +62,10 @@ class ConfirmChangePlanFragment : Fragment() {
 
     private fun navigateUp() {
         findNavController().navigate(R.id.action_global_planListFragment)
+    }
+
+    private fun onTitleChanged(title: String) {
+        (activity as? MainActivity)?.title = title
     }
 
     companion object {

@@ -26,8 +26,8 @@ class DatabaseManageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
-            setSupportActionBar(binding.toolbar)
-            setupDrawerToggle(binding.toolbar)
+            setDrawerState(true)
+            title = getString(R.string.title_databasemanage)
         }
         setHasOptionsMenu(true)
 
