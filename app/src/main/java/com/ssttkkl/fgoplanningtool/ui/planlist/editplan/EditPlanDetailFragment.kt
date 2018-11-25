@@ -27,9 +27,8 @@ class EditPlanDetailFragment : Fragment(),
         binding = FragmentEditplanDetailBinding.inflate(inflater, container, false)
         binding.setLifecycleOwner(this)
         binding.viewModel = ViewModelProviders.of(this)[EditPlanFragmentViewModel::class.java].apply {
-            mode.value = arguments!!.getParcelable("mode") as Mode
-            oldPlan = arguments!!.getParcelable("plan") as Plan
-            plan = ObservablePlan(oldPlan!!)
+            start(arguments!!.getParcelable("mode") as Mode,
+                    arguments!!.getParcelable("plan") as Plan)
         }
         return binding.root
     }

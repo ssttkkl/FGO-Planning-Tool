@@ -12,8 +12,20 @@ import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 class EditPlanFragmentViewModel : ViewModel() {
     val mode = MutableLiveData<Mode>()
 
-    var oldPlan: Plan? = null
+    lateinit var oldPlan: Plan
     lateinit var plan: ObservablePlan
+
+    private var firstCreate = true
+
+    fun start(mode: Mode, plan: Plan) {
+        if (firstCreate) {
+            this.mode.value = mode
+            this.oldPlan = plan
+            this.plan = ObservablePlan(plan)
+
+            firstCreate = false
+        }
+    }
 
     val showEditWarningUIEvent = SingleLiveEvent<Pair<Plan, Plan>>()
     val showRemoveWarningUIEvent = SingleLiveEvent<Plan>()

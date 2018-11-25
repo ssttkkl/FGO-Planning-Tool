@@ -28,7 +28,6 @@
             android:id="@+id/recView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/background_light"
             android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
             tools:listitem="@layout/item_costitemlist" />
     </FrameLayout>
