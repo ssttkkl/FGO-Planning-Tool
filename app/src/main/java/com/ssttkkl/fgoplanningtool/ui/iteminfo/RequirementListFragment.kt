@@ -8,36 +8,49 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.databinding.FragmentIteminfoRequirementlistBinding
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListRecViewAdapter
 import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.fragment_iteminfo_requirementlist.*
 
-class RequirementListFragment : androidx.fragment.app.Fragment() {
-    var data: List<RequirementListEntity> = listOf()
-        set(value) {
-            field = value
-            (recView?.adapter as? RequirementListRecViewAdapter)?.data = value
-        }
+class RequirementListFragment : Fragment() {
+    interface OnClickItemListener {
+        fun onClickItem(entity: RequirementListEntity)
+    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-            inflater.inflate(R.layout.fragment_iteminfo_requirementlist, container, false)
+    private lateinit var binding: FragmentIteminfoRequirementlistBinding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentIteminfoRequirementlistBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recView.apply {
-            adapter = RequirementListRecViewAdapter(context).apply {
-                data = this@RequirementListFragment.data
-                setOnItemClickListener { _, item -> gotoServantDetailUi(item.servantID) }
+        binding.recView.apply {
+            adapter = RequirementListRecViewAdapter(context!!).apply {
+                submitList(data)
+                setOnItemClickListener {
+                    (parentFragment as? OnClickItemListener)?.onClickItem(it)
+                }
             }
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!))
-            isNestedScrollingEnabled = false
         }
     }
 
-    private fun gotoServantDetailUi(servantID: Int) {
-        ServantInfoDialogFragment.newInstance(servantID)
-                .show(childFragmentManager, ServantInfoDialogFragment::class.qualifiedName)
+    var data: List<RequirementListEntity>
+        get() = arguments?.getParcelableArray(ARG_DATA)?.mapNotNull { it as? RequirementListEntity } ?: listOf()
+        set(value) {
+            (arguments ?: Bundle().also { arguments = it })
+                .putParcelableArray(ARG_DATA, value.toTypedArray())
+
+            if (::binding.isInitialized)
+                (binding.recView.adapter as? RequirementListRecViewAdapter)?.submitList(value)
+        }
+
+    companion object {
+        const val ARG_DATA = "data"
     }
 }

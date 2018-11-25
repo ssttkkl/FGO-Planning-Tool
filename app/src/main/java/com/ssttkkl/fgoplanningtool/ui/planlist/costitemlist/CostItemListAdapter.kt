@@ -37,8 +37,8 @@ class CostItemListAdapter(val context: Context,
             binding.setLifecycleOwner(lifecycleOwner)
 
             binding.recView.apply {
-                adapter = RequirementListRecViewAdapter(context).apply {
-                    setOnItemClickListener { _, item -> viewModel.onClickServant(item.servantID) }
+                adapter = RequirementListRecViewAdapter(context!!).apply {
+                    setOnItemClickListener { item -> viewModel.onClickServant(item.servantID) }
                 }
                 layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
                 addItemDecoration(CommonRecViewItemDecoration(context!!))
@@ -49,7 +49,7 @@ class CostItemListAdapter(val context: Context,
             binding.enableExpansionAnimation = false
 
             binding.costItem = costItem
-            (binding.recView.adapter as? RequirementListRecViewAdapter)?.data = costItem.requirements
+            (binding.recView.adapter as? RequirementListRecViewAdapter)?.submitList(costItem.requirements)
 
             if (adapterPosition == 0 || (getItem(adapterPosition - 1).descriptor?.type != getItem(adapterPosition).descriptor?.type)) {
                 binding.showDivider = adapterPosition != 0

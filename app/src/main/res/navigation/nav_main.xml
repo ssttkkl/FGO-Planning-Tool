@@ -128,4 +128,21 @@
             app:argType="string" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/itemInfoFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.iteminfo.ItemInfoFragment"
+        android:label="ItemInfoFragment"
+        tools:layout="@layout/fragment_iteminfo">
+
+        <argument
+            android:name="codename"
+            android:defaultValue=""
+            app:argType="string" />
+
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_itemInfoFragment"
+        app:destination="@id/itemInfoFragment" />
 </navigation>

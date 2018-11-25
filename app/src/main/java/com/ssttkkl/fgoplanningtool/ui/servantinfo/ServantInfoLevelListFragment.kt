@@ -1,6 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.servantinfo
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
-import com.ssttkkl.fgoplanningtool.ui.iteminfo.ItemInfoDialogFragment
+import androidx.navigation.fragment.findNavController
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.item_servantinfo_levellist.*
 
@@ -46,8 +47,7 @@ class ServantInfoLevelListFragment : androidx.fragment.app.Fragment() {
 
     private fun gotoItemInfoUi(codename: String) {
         if (ResourcesProvider.instance.itemDescriptors[codename]?.type != ItemType.General)
-            ItemInfoDialogFragment.newInstance(codename)
-                    .show(childFragmentManager, ItemInfoDialogFragment::class.qualifiedName)
+            findNavController().navigate(R.id.action_global_itemInfoFragment, bundleOf("codename" to codename))
     }
 
     companion object {

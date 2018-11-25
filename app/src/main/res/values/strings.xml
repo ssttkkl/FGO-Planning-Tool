@@ -120,6 +120,7 @@
     <string name="ascension_iteminfo">灵基再临</string>
     <string name="skill_iteminfo">技能升级</string>
     <string name="dress_iteminfo">灵衣开放</string>
+    <string name="gotoWiki_iteminfo">跳转到 Wiki</string>
 
     <string-array name="itemType">
         <item>通用</item>

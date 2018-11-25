@@ -1,48 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:background="?android:attr/selectableItemBackground">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/avatar_imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginStart="16dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/avatar_placeholder" />
+    <data>
+        <import type="android.view.View" />
 
-    <TextView
-        android:id="@+id/name_textView"
-        android:ellipsize="marquee"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="72dp"
-        android:singleLine="true"
-        android:textAppearance="@style/ListItem"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/count_textView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="name" />
+        <import type="com.ssttkkl.fgoplanningtool.utils.ToStringWithSplitterExtKt" />
 
-    <TextView
-        android:id="@+id/count_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:textAppearance="@style/ListItemTertiary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="999,999,999" />
+        <variable
+            name="entity"
+            type="com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <variable 
+            name="listener"
+            type="android.view.View.OnClickListener"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="@{(v) -> listener.onClick(v)}">
+
+        <ImageView
+            android:id="@+id/avatar_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/avatar_placeholder"
+            app:srcCompat="@{entity.servant.avatarFile}" />
+
+        <TextView
+            android:id="@+id/name_textView"
+            android:ellipsize="marquee"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="72dp"
+            android:singleLine="true"
+            android:textAppearance="@style/ListItem"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/count_textView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="name"
+            android:text="@{entity.servant.localizedName}" />
+
+        <TextView
+            android:id="@+id/count_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/ListItemTertiary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="999,999,999"
+            android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(entity.requirement)}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

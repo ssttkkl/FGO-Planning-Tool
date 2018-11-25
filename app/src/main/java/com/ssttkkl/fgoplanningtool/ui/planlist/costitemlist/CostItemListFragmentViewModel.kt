@@ -36,10 +36,7 @@ class CostItemListFragmentViewModel : ViewModel() {
                     requirements.values.sum(),
                     Repo.itemRepo[codename].count,
                     requirements.map { (servantID, cntOfReq) ->
-                        RequirementListEntity(servantID,
-                                ResourcesProvider.instance.servants[servantID]?.localizedName ?: "",
-                                cntOfReq,
-                                ResourcesProvider.instance.servants[servantID]?.avatarFile)
+                        RequirementListEntity(servantID, cntOfReq)
                     })
         })
         itemClickable.value = true

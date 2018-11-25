@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.databinding.FragmentServantbaselistBinding
 import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 

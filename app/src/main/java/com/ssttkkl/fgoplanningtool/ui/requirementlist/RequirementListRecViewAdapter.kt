@@ -1,43 +1,41 @@
 package com.ssttkkl.fgoplanningtool.ui.requirementlist
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.recyclerview.widget.*
+import android.view.*
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.databinding.ItemRequirementlistBinding
 import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
 import kotlinx.android.synthetic.main.item_requirementlist.view.*
 
-class RequirementListRecViewAdapter(val context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<RequirementListRecViewAdapter.ViewHolder>() {
-    var data: List<RequirementListEntity> = listOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+class RequirementListRecViewAdapter(val context: Context) : ListAdapter<RequirementListEntity, RequirementListRecViewAdapter.ViewHolder>(object : DiffUtil.ItemCallback<RequirementListEntity>() {
+    override fun areContentsTheSame(oldItem: RequirementListEntity, newItem: RequirementListEntity) = oldItem == newItem
+    override fun areItemsTheSame(oldItem: RequirementListEntity, newItem: RequirementListEntity) = oldItem.servantID == newItem.servantID
+}) {
+    private var listener: ((RequirementListEntity) -> Unit)? = null
 
-    override fun getItemCount() = data.size
-
-    private var listener: ((pos: Int, item: RequirementListEntity) -> Unit)? = null
-
-    fun setOnItemClickListener(newListener: ((pos: Int, item: RequirementListEntity) -> Unit)?) {
+    fun setOnItemClickListener(newListener: ((RequirementListEntity) -> Unit)?) {
         listener = newListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_requirementlist, parent, false)).apply {
-                itemView.setOnClickListener { listener?.invoke(adapterPosition, data[adapterPosition]) }
-            }
+            ViewHolder(ItemRequirementlistBinding.inflate(LayoutInflater.from(context), parent, false))
 
-    override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
-        val item = data[pos]
-        holder.itemView.apply {
-            name_textView.text = item.name
-            count_textView.text = item.requirement.toStringWithSplitter()
-            Glide.with(context).load(item.avatarFile).into(avatar_imageView)
-        }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
+    inner class ViewHolder(val binding: ItemRequirementlistBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.listener = View.OnClickListener {
+                listener?.invoke(getItem(adapterPosition))
+            }
+        }
+
+        fun bind(item: RequirementListEntity) {
+            binding.entity = item
+            binding.executePendingBindings()
+        }
+    }
 }

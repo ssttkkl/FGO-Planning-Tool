@@ -1,5 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist
 
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -10,12 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
+import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentOwnitemlistItemlistBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
-import com.ssttkkl.fgoplanningtool.ui.iteminfo.ItemInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
-class ItemListFragment : androidx.fragment.app.Fragment() {
+class ItemListFragment : Fragment() {
     private lateinit var binding: FragmentOwnitemlistItemlistBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -46,8 +48,7 @@ class ItemListFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun showItemInfo(codename: String) {
-        ItemInfoDialogFragment.newInstance(codename)
-                .show(requireFragmentManager(), ItemInfoDialogFragment::class.qualifiedName)
+        findNavController().navigate(R.id.action_global_itemInfoFragment, bundleOf("codename" to codename))
     }
 
     private fun showMessage(message: String) {
