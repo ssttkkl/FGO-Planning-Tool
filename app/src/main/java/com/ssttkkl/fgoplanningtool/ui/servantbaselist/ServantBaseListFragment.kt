@@ -1,5 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.servantbaselist
 
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
 
 class ServantBaseListFragment : Fragment(), ServantListFragment.OnClickServantListener {
@@ -22,8 +23,7 @@ class ServantBaseListFragment : Fragment(), ServantListFragment.OnClickServantLi
         }
     }
 
-    override fun onClickServant(servantId: Int) {
-        ServantInfoDialogFragment.newInstance(servantId)
-                .show(childFragmentManager, ServantInfoDialogFragment::class.qualifiedName)
+    override fun onClickServant(servantID: Int) {
+        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf ("servantID" to servantID))
     }
 }

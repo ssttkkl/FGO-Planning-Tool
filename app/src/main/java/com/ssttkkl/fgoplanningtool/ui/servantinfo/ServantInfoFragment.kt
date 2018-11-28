@@ -1,33 +1,31 @@
-package com.ssttkkl.fgoplanningtool.ui.iteminfo
+package com.ssttkkl.fgoplanningtool.ui.servantinfo
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.widget.PopupMenu
-import androidx.core.os.bundleOf
-import androidx.core.view.GravityCompat
 import androidx.lifecycle.*
+import androidx.core.os.bundleOf
 import android.view.*
+import androidx.fragment.app.Fragment
+import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.findNavController
+import androidx.appcompat.widget.PopupMenu
 import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
+import com.ssttkkl.fgoplanningtool.databinding.FragmentServantinfoBinding
+import com.ssttkkl.fgoplanningtool.resources.ConstantValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
-import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
-import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoFragment
-import com.ssttkkl.fgoplanningtool.databinding.FragmentIteminfoBinding
 
-class ItemInfoFragment : Fragment(), RequirementListFragment.OnClickItemListener {
-    private lateinit var binding: FragmentIteminfoBinding
+class ServantInfoFragment : Fragment(), ServantInfoLevelListFragment.OnClickItemListener {
+    private lateinit var binding: FragmentServantinfoBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentIteminfoBinding.inflate(inflater, container, false)
-        binding.viewModel = ViewModelProviders.of(this)[ItemInfoFragmentViewModel::class.java].apply {
-            codename.value = arguments!!.getString(KEY_CODENAME)
+        binding = FragmentServantinfoBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this)[ServantInfoFragmentViewModel::class.java].apply {
+            servantID.value = arguments!!.getInt(KEY_SERVANT_ID)
         }
         binding.setLifecycleOwner(this)
         return binding.root
@@ -39,28 +37,28 @@ class ItemInfoFragment : Fragment(), RequirementListFragment.OnClickItemListener
         }
         setHasOptionsMenu(true)
 
-        binding.viewPager.adapter = ItemInfoPagerAdapter(childFragmentManager, this, binding.viewModel!!)
+        binding.viewPager.adapter = ServantInfoPagerAdapter(childFragmentManager, this, binding.viewModel!!)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
 
         binding.viewModel?.apply {
-            showWikiMenuEvent.observe(this@ItemInfoFragment, Observer {
+            showWikiMenuEvent.observe(this@ServantInfoFragment, Observer {
                 showWikiMenu(it ?: return@Observer)
             })
-            gotoWikiEvent.observe(this@ItemInfoFragment, Observer {
+            gotoWikiEvent.observe(this@ServantInfoFragment, Observer {
                 gotoWiki(it ?: return@Observer)
             })
-            showServantInfoEvent.observe(this@ItemInfoFragment, Observer {
-                showServantInfo(it ?: return@Observer)
+            showItemInfoEvent.observe(this@ServantInfoFragment, Observer {
+                showItemInfo(it ?: return@Observer)
             })
-            itemDescriptor.observe(this@ItemInfoFragment, Observer {
-                onItemDescriptorChanged(it ?: return@Observer)
+            servant.observe(this@ServantInfoFragment, Observer {
+                onServantChanged(it ?: return@Observer)
             })
         }
     }
-
+    
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
-        if (::binding.isInitialized && binding.viewModel?.itemDescriptor?.value?.wikiLinks != null)
+        if (::binding.isInitialized && binding.viewModel?.servant?.value?.wikiLinks != null)
             inflater.inflate(R.menu.iteminfo, menu)
     }
 
@@ -72,8 +70,8 @@ class ItemInfoFragment : Fragment(), RequirementListFragment.OnClickItemListener
         return true
     }
 
-    override fun onClickItem(entity: RequirementListEntity) {
-        binding.viewModel?.onClickItem(entity)
+    override fun onClickItem(codename: String) {
+        binding.viewModel?.onClickItem(codename)
     }
 
     private fun showWikiMenu(wikiTitles: Collection<String>) {
@@ -95,18 +93,18 @@ class ItemInfoFragment : Fragment(), RequirementListFragment.OnClickItemListener
         })
     }
 
-    private fun showServantInfo(servantID: Int) {
-        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf ("servantID" to servantID))
+    private fun showItemInfo(codename: String) {
+        findNavController().navigate(R.id.action_global_itemInfoFragment, bundleOf ("codename" to codename))
     }
 
-    private fun onItemDescriptorChanged(itemDescriptor: ItemDescriptor) {
+    private fun onServantChanged(servant: Servant) {
         (activity as? MainActivity)?.apply {
-            title = itemDescriptor.localizedName
+            title = servant.localizedName
             invalidateOptionsMenu()
         }
     }
 
     companion object {
-        private const val KEY_CODENAME = "codename"
+        const val KEY_SERVANT_ID = "servantID"
     }
 }

@@ -1,74 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constLayout"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?android:attr/selectableItemBackground">
+    <data>
 
-        <TextView
-            android:id="@+id/start_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:textAppearance="@style/SubHeader"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="0" />
+        <import type="android.view.View" />
 
-        <ImageView
-            android:id="@+id/horizontalArrow_imageView"
-            android:layout_width="16dp"
-            android:layout_height="wrap_content"
-            android:tint="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/start_textView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+        <variable
+            name="entity"
+            type="com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoLevelListEntity" />
 
-        <TextView
-            android:id="@+id/to_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/SubHeader"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/horizontalArrow_imageView"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="1" />
+        <variable
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoLevelListViewModel" />
 
-        <ImageView
-            android:id="@+id/arrow_imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/rotate_arrow" />
+    </data>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <net.cachapa.expandablelayout.ExpandableLayout
-        android:id="@+id/expLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:el_expanded="false">
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constLayout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:onClick="@{() -> viewModel.onClickHeader(entity)}">
+
+            <TextView
+                android:id="@+id/start_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{entity.start}"
+                android:textAppearance="@style/SubHeader"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="0" />
+
+            <ImageView
+                android:id="@+id/horizontalArrow_imageView"
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                android:tint="@color/colorAccent"
+                android:visibility="@{entity.isHorizontalArrowVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/start_textView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+
+            <TextView
+                android:id="@+id/to_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{entity.to}"
+                android:textAppearance="@style/SubHeader"
+                android:visibility="@{entity.isHorizontalArrowVisible ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/horizontalArrow_imageView"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="1" />
+
+            <ImageView
+                android:id="@+id/arrow_imageView"
+                rotateDrawable="@{viewModel.expandedEntities.contains(entity)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/rotate_arrow" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_servantinfo_itemlist" />
+            app:el_expanded="@{viewModel.expandedEntities.contains(entity)}"
+            tools:el_expanded="true">
 
-    </net.cachapa.expandablelayout.ExpandableLayout>
-</LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_servantinfo_itemlist" />
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+    </LinearLayout>
+</layout>

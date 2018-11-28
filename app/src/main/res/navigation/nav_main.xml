@@ -145,4 +145,21 @@
     <action
         android:id="@+id/action_global_itemInfoFragment"
         app:destination="@id/itemInfoFragment" />
+
+    <fragment
+        android:id="@+id/servantInfoFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoFragment"
+        android:label="ServantInfoFragment"
+        tools:layout="@layout/fragment_servantinfo">
+
+        <argument
+            android:name="codename"
+            android:defaultValue=""
+            app:argType="string" />
+
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_servantInfoFragment"
+        app:destination="@id/servantInfoFragment" />
 </navigation>

@@ -11,7 +11,6 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentIteminfoRequirementlistBinding
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListRecViewAdapter
-import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import kotlinx.android.synthetic.main.fragment_iteminfo_requirementlist.*
 

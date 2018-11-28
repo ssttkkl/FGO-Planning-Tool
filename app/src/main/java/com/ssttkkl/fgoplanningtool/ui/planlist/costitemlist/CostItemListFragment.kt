@@ -1,5 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist
 
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -16,7 +18,6 @@ import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentCostitemlistBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
 class CostItemListFragment : Fragment() {
@@ -82,8 +83,7 @@ class CostItemListFragment : Fragment() {
         }
 
     private fun gotoServantDetailUi(servantID: Int) {
-        ServantInfoDialogFragment.newInstance(servantID)
-                .show(childFragmentManager, ServantInfoDialogFragment::class.qualifiedName)
+        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf ("servantID" to servantID))
     }
 
     companion object {

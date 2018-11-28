@@ -1,39 +1,26 @@
 package com.ssttkkl.fgoplanningtool.ui.servantinfo
 
-import android.animation.AnimatorInflater
-import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.drawable.RotateDrawable
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import com.ssttkkl.fgoplanningtool.R
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.ssttkkl.fgoplanningtool.databinding.ItemServantinfoLevellistBinding
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
-import kotlinx.android.synthetic.main.item_servantinfo_levellist.view.*
-import net.cachapa.expandablelayout.ExpandableLayout
 
-class ServantInfoLevelListRecViewAdapter(val context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<ServantInfoLevelListRecViewAdapter.ViewHolder>() {
-    private var recyclerView: androidx.recyclerview.widget.RecyclerView? = null
-
-    override fun onAttachedToRecyclerView(recView: androidx.recyclerview.widget.RecyclerView) {
-        super.onAttachedToRecyclerView(recView)
-        recyclerView = recView
+class ServantInfoLevelListRecViewAdapter(val context: Context,
+                                         private val lifecycleOwner: LifecycleOwner,
+                                         private val viewModel: ServantInfoLevelListViewModel) : ListAdapter<ServantInfoLevelListEntity, ServantInfoLevelListRecViewAdapter.ViewHolder>(object : DiffUtil.ItemCallback<ServantInfoLevelListEntity>() {
+    override fun areContentsTheSame(oldItem: ServantInfoLevelListEntity, newItem: ServantInfoLevelListEntity) = oldItem == newItem
+    override fun areItemsTheSame(oldItem: ServantInfoLevelListEntity, newItem: ServantInfoLevelListEntity) = oldItem.start == newItem.start && oldItem.to == newItem.to && oldItem.isHorizontalArrowVisible == newItem.isHorizontalArrowVisible
+}) {
+    init {
+        viewModel.data.observe(lifecycleOwner, Observer { submitList(it ?: listOf()) })
     }
-
-    override fun onDetachedFromRecyclerView(recView: androidx.recyclerview.widget.RecyclerView) {
-        super.onDetachedFromRecyclerView(recView)
-        recyclerView = null
-    }
-
-    var data: List<ServantInfoLevelListEntity> = listOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
-    override fun getItemCount(): Int = data.size
 
     private var listener: ((codename: String) -> Unit)? = null
 
@@ -41,84 +28,31 @@ class ServantInfoLevelListRecViewAdapter(val context: Context) : androidx.recycl
         listener = newListener
     }
 
-    var expandedPosition = -1
-        set(value) {
-            if (field >= 0) {
-                (recyclerView?.findViewHolderForAdapterPosition(field) as? ViewHolder)?.apply {
-                    itemView.expLayout.collapse()
-                    startCollapseAnimate()
-                }
-            }
-            if (value >= 0) {
-                (recyclerView?.findViewHolderForAdapterPosition(value) as? ViewHolder)?.apply {
-                    itemView.expLayout.expand()
-                    startExpandAnimate()
-                }
-                recyclerView?.smoothScrollToPosition(value)
-            }
-            field = value
-        }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_servantinfo_levellist, parent, false)).apply {
-                itemView.constLayout.setOnClickListener {
-                    expandedPosition = if (expandedPosition != adapterPosition) adapterPosition else -1
-                }
-                itemView.recView.apply {
-                    adapter = ServantInfoItemListRecViewAdapter(context).apply {
-                        setOnItemClickListener { _, item -> listener?.invoke(item.codename) }
-                    }
-                    layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-                    addItemDecoration(CommonRecViewItemDecoration(context))
-                }
-                itemView.expLayout.setOnExpansionUpdateListener { _, state ->
-                    itemView.recView.visibility = if (state == ExpandableLayout.State.COLLAPSED)
-                        View.GONE
-                    else
-                        View.VISIBLE
-                }
-                itemView.arrow_imageView.drawable.mutate()
-            }
+            ViewHolder(ItemServantinfoLevellistBinding.inflate(LayoutInflater.from(context), parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
-        val item = data[pos]
-        holder.itemView.apply {
-            start_textView.text = item.start
-            to_textView.text = item.to
-
-            horizontalArrow_imageView.visibility = if (item.isHorizontalArrowVisible)
-                View.VISIBLE
-            else
-                View.GONE
-
-            (recView.adapter as ServantInfoItemListRecViewAdapter).data = item.items
-            if (expandedPosition == pos) {
-                expLayout.expand(false)
-                (arrow_imageView.drawable as RotateDrawable).level = 10000
-            } else {
-                expLayout.collapse(false)
-                (arrow_imageView.drawable as RotateDrawable).level = 0
-            }
-        }
+        holder.bind(getItem(pos))
     }
 
-    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
-        fun startExpandAnimate() {
-            (AnimatorInflater.loadAnimator(context, R.animator.rotate) as ValueAnimator).apply {
-                addUpdateListener {
-                    (itemView.arrow_imageView.drawable as RotateDrawable).level = animatedValue as Int
+    inner class ViewHolder(val binding: ItemServantinfoLevellistBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.viewModel = viewModel
+            binding.setLifecycleOwner(lifecycleOwner)
+
+            binding.recView.apply {
+                adapter = ServantInfoItemListRecViewAdapter(context).apply {
+                    setOnItemClickListener { listener?.invoke(it.codename) }
                 }
-                start()
+                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                addItemDecoration(CommonRecViewItemDecoration(context))
             }
         }
 
-        fun startCollapseAnimate() {
-            (AnimatorInflater.loadAnimator(context, R.animator.rotate_reversed) as ValueAnimator).apply {
-                addUpdateListener {
-                    (itemView.arrow_imageView.drawable as RotateDrawable).level = animatedValue as Int
-                }
-                start()
-            }
+        fun bind(entity: ServantInfoLevelListEntity) {
+            binding.entity = entity
+            (binding.recView.adapter as? ServantInfoItemListRecViewAdapter)?.submitList(entity.items.sortedBy { it.descriptor?.rank })
+            binding.executePendingBindings()
         }
     }
 }

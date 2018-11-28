@@ -1,5 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -15,7 +17,6 @@ import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEditplanDetailBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment
-import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoDialogFragment
 
 class EditPlanDetailFragment : Fragment(),
         LifecycleOwner,
@@ -112,9 +113,7 @@ class EditPlanDetailFragment : Fragment(),
     }
 
     private fun showServantInfo(servantID: Int) {
-        if (servantID > 0)
-            ServantInfoDialogFragment.newInstance(servantID)
-                    .show(childFragmentManager, ServantInfoDialogFragment::class.qualifiedName)
+        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf ("servantID" to servantID))
     }
 
     private fun showCostItems(costItems: Collection<Item>) {

@@ -1,56 +1,53 @@
 package com.ssttkkl.fgoplanningtool.ui.servantinfo
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
-import androidx.navigation.fragment.findNavController
+import com.ssttkkl.fgoplanningtool.databinding.FragmentServantinfoLevellistBinding
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
-import kotlinx.android.synthetic.main.item_servantinfo_levellist.*
 
-class ServantInfoLevelListFragment : androidx.fragment.app.Fragment() {
-    var data: List<ServantInfoLevelListEntity> = listOf()
-        set(value) {
-            field = value
-            (recView?.adapter as? ServantInfoLevelListRecViewAdapter)?.data = value
-        }
+class ServantInfoLevelListFragment : Fragment() {
+    interface OnClickItemListener {
+        fun onClickItem(codename: String)
+    }
+
+    private lateinit var binding: FragmentServantinfoLevellistBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_servantinfo_levellist, container, false)
+        binding = FragmentServantinfoLevellistBinding.inflate(inflater, container, false)
+        binding.setLifecycleOwner(this)
+        binding.viewModel = ViewModelProviders.of(this)[ServantInfoLevelListViewModel::class.java].apply {
+            data.value = this@ServantInfoLevelListFragment.data
+        }
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recView.apply {
-            adapter = ServantInfoLevelListRecViewAdapter(context).apply {
-                data = this@ServantInfoLevelListFragment.data
-                setOnItemClickListener { gotoItemInfoUi(it) }
-                if (savedInstanceState != null)
-                    expandedPosition = savedInstanceState.getInt(KEY_EXPANDED, -1)
+        binding.recView.apply {
+            adapter = ServantInfoLevelListRecViewAdapter(context, this@ServantInfoLevelListFragment, binding.viewModel!!).apply {
+                setOnItemClickListener { (parentFragment as? OnClickItemListener)?.onClickItem(it) }
             }
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context))
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(KEY_EXPANDED, (recView?.adapter as? ServantInfoLevelListRecViewAdapter)?.expandedPosition
-                ?: -1)
-    }
-
-    private fun gotoItemInfoUi(codename: String) {
-        if (ResourcesProvider.instance.itemDescriptors[codename]?.type != ItemType.General)
-            findNavController().navigate(R.id.action_global_itemInfoFragment, bundleOf("codename" to codename))
-    }
+    var data: List<ServantInfoLevelListEntity>
+        get() = arguments?.getParcelableArray(ARG_DATA)?.mapNotNull { it as? ServantInfoLevelListEntity }
+                ?: listOf()
+        set(value) {
+            (arguments ?: Bundle().also { arguments = it })
+                    .putParcelableArray(ARG_DATA, value.toTypedArray())
+            if (::binding.isInitialized)
+                binding.viewModel?.data?.value = value
+        }
 
     companion object {
-        private const val KEY_EXPANDED = "expanded"
+        private const val ARG_DATA = "data"
     }
 }
