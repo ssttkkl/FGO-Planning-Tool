@@ -12,16 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.ItemCostitemlistBinding
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListRecViewAdapter
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
-import net.cachapa.expandablelayout.ExpandableLayout.State
 
-class CostItemListAdapter(val context: Context,
-                          private val lifecycleOwner: LifecycleOwner,
-                          private val viewModel: CostItemListFragmentViewModel) : ListAdapter<CostItem, CostItemListAdapter.ViewHolder>(object : DiffUtil.ItemCallback<CostItem>() {
+class CostItemListRecViewAdapter(val context: Context,
+                                 private val lifecycleOwner: LifecycleOwner,
+                                 private val viewModel: CostItemListFragmentViewModel) : ListAdapter<CostItem, CostItemListRecViewAdapter.ViewHolder>(object : DiffUtil.ItemCallback<CostItem>() {
     override fun areItemsTheSame(oldItem: CostItem, newItem: CostItem) = oldItem.codename == newItem.codename
     override fun areContentsTheSame(oldItem: CostItem, newItem: CostItem) = oldItem == newItem
 }) {
     init {
-        viewModel.data.observe(lifecycleOwner, Observer { submitList(it ?: listOf()) })
+        viewModel.dataToShow.observe(lifecycleOwner, Observer { submitList(it ?: listOf()) })
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =

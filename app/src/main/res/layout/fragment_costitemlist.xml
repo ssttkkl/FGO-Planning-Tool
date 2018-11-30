@@ -11,25 +11,57 @@
             type="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragmentViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:openDrawer="end">
 
-        <TextView
-            android:id="@+id/emptyHint_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/emptyHint"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:visibility="@{viewModel.showEmptyHint ? View.VISIBLE : View.GONE}" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recView"
+        <FrameLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/emptyHint_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/emptyHint"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:visibility="@{viewModel.showEmptyHint ? View.VISIBLE : View.GONE}" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
+                tools:listitem="@layout/item_costitemlist" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="250dp"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
-            tools:listitem="@layout/item_costitemlist" />
-    </FrameLayout>
+            android:layout_gravity="end"
+            android:background="@android:color/background_light"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/jump_costitemlist"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/jump_recView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                tools:listitem="@layout/item_jump_costitemlist" />
+        </LinearLayout>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </layout>

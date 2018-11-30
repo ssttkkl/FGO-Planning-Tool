@@ -104,6 +104,8 @@
     <string name="reset_servantfilter">重置</string>
 
     <string name="title_costitemlist">消耗材料</string>
+    <string name="hide_enough_items_costitemlist">只显示不足项</string>
+    <string name="jump_costitemlist">快速跳转</string>
     <string name="own_item_costitemlist">持有</string>
     <string name="need_item_costitemlist">需要</string>
 

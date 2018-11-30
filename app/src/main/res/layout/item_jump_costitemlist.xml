@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragmentViewModel" />
+
+        <variable
+            name="itemType"
+            type="com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType" />
+    </data>
+
+    <Button
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{()->viewModel.onClickJumpItem(itemType)}"
+        android:text="@{itemType.localizedName}"
+        tools:text="Button" />
+</layout>
