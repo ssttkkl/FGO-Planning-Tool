@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.BR
 import com.ssttkkl.fgoplanningtool.databinding.ItemDatabasemanageBinding
-import com.ssttkkl.fgoplanningtool.databinding.ItemEditmodeDatabasemanageBinding
+import com.ssttkkl.fgoplanningtool.databinding.ItemDatabasemanageEditmodeBinding
 
 class DatabaseManageRecViewAdapter(val context: Context,
                                    val lifecycleOwner: LifecycleOwner,
@@ -27,7 +27,7 @@ class DatabaseManageRecViewAdapter(val context: Context,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         ITEM_TYPE_NORMAL -> ViewHolder(ItemDatabasemanageBinding.inflate(LayoutInflater.from(context), parent, false))
-        else -> ViewHolder(ItemEditmodeDatabasemanageBinding.inflate(LayoutInflater.from(context), parent, false))
+        else -> ViewHolder(ItemDatabasemanageEditmodeBinding.inflate(LayoutInflater.from(context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {

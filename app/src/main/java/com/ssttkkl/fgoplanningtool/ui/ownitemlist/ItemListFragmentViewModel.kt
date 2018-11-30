@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist
+package com.ssttkkl.fgoplanningtool.ui.ownitemlist
 
 import androidx.databinding.ObservableArrayMap
 import androidx.lifecycle.*
@@ -26,9 +26,10 @@ class ItemListFragmentViewModel : ViewModel() {
     val editedCount = ObservableArrayMap<String, Long>()
 
     private fun setItemEditing(codename: String, editing: Boolean) {
-        val oldData = indexedData.value ?: return
-        val oldItem = oldData[codename] ?: return
-        indexedData.value = oldData - codename + Pair(oldItem.item.codename, EditableItem(oldItem.item, editing))
+        indexedData.value = indexedData.value?.toMutableMap()?.apply {
+            val oldItem = this[codename] ?: return
+            this[codename] = EditableItem(oldItem.item, editing)
+        }
         setItemEditedCount(codename, null)
     }
 

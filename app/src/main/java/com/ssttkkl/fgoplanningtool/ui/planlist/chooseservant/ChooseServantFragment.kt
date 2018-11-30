@@ -44,11 +44,8 @@ class ChooseServantFragment : Fragment(), ServantListFragment.OnClickServantList
         })
     }
 
-    override fun onClickServant(servantId: Int) {
-        findNavController().navigate(R.id.action_chooseServantFragment_to_editPlanDetailFragment, Bundle().apply {
-            putParcelable("plan", Plan(servantId))
-            putParcelable("mode", Mode.New)
-        })
+    override fun onClickServant(servantID: Int) {
+        findNavController().navigate(ChooseServantFragmentDirections.actionChooseServantFragmentToEditPlanDetailFragment(Plan(servantID), Mode.New))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

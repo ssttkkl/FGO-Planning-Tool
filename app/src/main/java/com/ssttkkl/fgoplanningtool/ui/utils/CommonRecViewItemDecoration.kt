@@ -2,7 +2,6 @@ package com.ssttkkl.fgoplanningtool.ui.utils
 
 import android.content.Context
 import android.graphics.Rect
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.ssttkkl.fgoplanningtool.R
 

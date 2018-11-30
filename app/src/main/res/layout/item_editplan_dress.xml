@@ -4,18 +4,19 @@
     <data>
 
         <variable
-            name="text"
-            type="String" />
+            name="dress"
+            type="com.ssttkkl.fgoplanningtool.resources.servant.Dress" />
 
         <variable
-            name="checked"
-            type="Boolean" />
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.EditPlanFragmentViewModel" />
     </data>
 
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:checked="@={checked}"
-        android:text="@{text}" />
+        android:checked="@{viewModel.plan.dress.contains(dress)}"
+        android:onClick="@{() -> viewModel.onClickDress(dress)}"
+        android:text="@{dress.localizedName}" />
 </layout>

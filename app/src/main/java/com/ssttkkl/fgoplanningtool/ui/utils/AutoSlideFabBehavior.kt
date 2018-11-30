@@ -9,7 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.marginBottom
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class AutoSlideFabBehavior(context: Context, attrs: AttributeSet) : FloatingActionButton.Behavior() {
+class AutoSlideFabBehavior(context: Context, attrs: AttributeSet) : FloatingActionButton.Behavior(context, attrs) {
     private var slideOutAnimator: ValueAnimator? = null
 
     private var slideInAnimator: ValueAnimator? = null

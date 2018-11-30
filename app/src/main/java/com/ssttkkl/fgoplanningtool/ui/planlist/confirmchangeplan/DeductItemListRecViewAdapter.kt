@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.ssttkkl.fgoplanningtool.databinding.ItemConfirmChangePlanDeductItemListBinding
+import com.ssttkkl.fgoplanningtool.databinding.ItemConfirmchangeplanDeductitemlistBinding
 
 class DeductItemListRecViewAdapter(val context: Context,
                                    private val lifecycleOwner: LifecycleOwner,
@@ -21,13 +21,13 @@ class DeductItemListRecViewAdapter(val context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(ItemConfirmChangePlanDeductItemListBinding.inflate(LayoutInflater.from(context), parent, false))
+            ViewHolder(ItemConfirmchangeplanDeductitemlistBinding.inflate(LayoutInflater.from(context), parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    inner class ViewHolder(val binding: ItemConfirmChangePlanDeductItemListBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemConfirmchangeplanDeductitemlistBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.viewModel = viewModel
             binding.setLifecycleOwner(lifecycleOwner)

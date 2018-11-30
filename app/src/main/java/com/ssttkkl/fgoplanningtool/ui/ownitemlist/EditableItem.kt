@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist
+package com.ssttkkl.fgoplanningtool.ui.ownitemlist
 
 import androidx.recyclerview.widget.DiffUtil
 import com.ssttkkl.fgoplanningtool.data.item.Item

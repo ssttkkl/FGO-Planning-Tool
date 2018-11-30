@@ -150,11 +150,5 @@ class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemListene
 
     companion object {
         private const val ARG_ORIGIN_SERVANT_IDS = "originServantIDs"
-
-        fun newInstance(originServantIDs: Set<Int>) = ServantFilterFragment().apply {
-            arguments = Bundle().apply {
-                putIntArray(ARG_ORIGIN_SERVANT_IDS, originServantIDs.toIntArray())
-            }
-        }
     }
 }

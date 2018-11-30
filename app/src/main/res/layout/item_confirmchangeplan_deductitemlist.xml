@@ -61,6 +61,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="72dp"
+            android:alpha="@{deductItem.delta >= 0 ? 1f : 0.4f}"
             android:background="?android:selectableItemBackground"
             android:clickable="@{deductItem.delta >= 0}"
             android:focusable="@{deductItem.delta >= 0}"
@@ -125,12 +126,13 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                app:layout_constraintBottom_toBottomOf="@+id/textView11"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textView12"
                 app:layout_constraintStart_toEndOf="@id/textView11"
-                app:layout_constraintTop_toTopOf="@+id/textView11"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
                 app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
             <TextView

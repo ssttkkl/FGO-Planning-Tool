@@ -2,6 +2,7 @@ package com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -10,14 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.databinding.FragmentConfirmChangePlanBinding
+import com.ssttkkl.fgoplanningtool.databinding.FragmentConfirmchangeplanBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 
 class ConfirmChangePlanFragment : Fragment() {
-    private lateinit var binding: FragmentConfirmChangePlanBinding
+    private lateinit var binding: FragmentConfirmchangeplanBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentConfirmChangePlanBinding.inflate(inflater, container, false)
+        binding = FragmentConfirmchangeplanBinding.inflate(inflater, container, false)
         binding.setLifecycleOwner(this)
         binding.viewModel = ViewModelProviders.of(this)[ConfirmChangePlanFragmentViewModel::class.java].apply {
             plans.value = arguments!!.getParcelableArray("plans")!!.map { it as ConfirmablePlan }
@@ -47,7 +48,7 @@ class ConfirmChangePlanFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
-        inflater.inflate(R.menu.confirm_change_plan, menu)
+        inflater.inflate(R.menu.confirmchangeplan, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -61,7 +62,7 @@ class ConfirmChangePlanFragment : Fragment() {
     }
 
     private fun navigateUp() {
-        findNavController().navigate(R.id.action_global_planListFragment)
+        findNavController().navigateUp()
     }
 
     private fun onTitleChanged(title: String) {
@@ -69,13 +70,9 @@ class ConfirmChangePlanFragment : Fragment() {
     }
 
     companion object {
-        fun buildArgumentsWithChange(old: Plan, new: Plan) = Bundle().apply {
-            putParcelableArray("plans", arrayOf(ConfirmablePlan(old, new, Mode.Change)))
-        }
+        fun buildArgumentsWithChange(old: Plan, new: Plan) = bundleOf("plans" to arrayOf(ConfirmablePlan(old, new, Mode.Change)))
 
-        fun buildArgumentsWithRemove(plans: Collection<Plan>) = Bundle().apply {
-            putParcelableArray("plans", plans.map { ConfirmablePlan(it, null, Mode.Remove) }.toTypedArray())
-        }
+        fun buildArgumentsWithRemove(plans: Collection<Plan>) = bundleOf("plans" to plans.map { ConfirmablePlan(it, null, Mode.Remove) }.toTypedArray())
 
         fun buildArgumentsWithRemove(plan: Plan) = buildArgumentsWithRemove(listOf(plan))
     }

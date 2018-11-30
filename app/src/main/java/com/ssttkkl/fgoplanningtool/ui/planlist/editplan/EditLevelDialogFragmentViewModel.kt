@@ -123,7 +123,7 @@ class EditLevelDialogFragmentViewModel : ViewModel() {
         try {
             if (level.value!! !in minLevel..mmaxLevel.value!!)
                 throw Exception(MyApp.context.getString(R.string.illegalLevel_editplan_editlevel))
-            if (remainedExp.value!! > ConstantValues.nextLevelExp[level.value!!])
+            if (level.value!! < 100 && remainedExp.value!! > ConstantValues.nextLevelExp[level.value!!])
                 throw Exception(MyApp.context.getString(R.string.illegalRemainedExp_editplan_editlevel))
 
             var exp = ConstantValues.getExp(level.value!!)

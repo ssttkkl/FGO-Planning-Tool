@@ -1,11 +1,10 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.OnRebindCallback
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.ItemPlanlistBinding

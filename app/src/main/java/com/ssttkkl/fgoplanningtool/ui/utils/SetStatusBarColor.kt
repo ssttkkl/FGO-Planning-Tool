@@ -1,8 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.utils
 
-import androidx.core.content.res.ResourcesCompat
-import androidx.appcompat.app.AppCompatActivity
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.ssttkkl.fgoplanningtool.R
 
 fun AppCompatActivity.setStatusBarColor(color: Int) {

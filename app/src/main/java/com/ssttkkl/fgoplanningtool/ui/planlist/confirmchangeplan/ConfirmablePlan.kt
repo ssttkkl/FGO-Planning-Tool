@@ -22,7 +22,7 @@ data class ConfirmablePlan(val old: Plan,
                         planSkill2 = new.nowSkill2,
                         nowSkill3 = old.nowSkill3,
                         planSkill3 = new.nowSkill3,
-                        dress = old.dress - old.dress.intersect(new.dress))
+                        dressID = old.dressID - old.dressID.intersect(new.dressID))
             else
                 old
         }

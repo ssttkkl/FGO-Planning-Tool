@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist.ItemListFragmentViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.ownitemlist.ItemListFragmentViewModel" />
 
         <variable
             name="item"

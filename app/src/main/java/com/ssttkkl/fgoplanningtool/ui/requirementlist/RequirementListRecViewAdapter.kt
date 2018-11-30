@@ -1,13 +1,13 @@
 package com.ssttkkl.fgoplanningtool.ui.requirementlist
 
 import android.content.Context
-import androidx.recyclerview.widget.*
-import android.view.*
-import com.bumptech.glide.Glide
-import com.ssttkkl.fgoplanningtool.R
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.ItemRequirementlistBinding
-import com.ssttkkl.fgoplanningtool.utils.toStringWithSplitter
-import kotlinx.android.synthetic.main.item_requirementlist.view.*
 
 class RequirementListRecViewAdapter(val context: Context) : ListAdapter<RequirementListEntity, RequirementListRecViewAdapter.ViewHolder>(object : DiffUtil.ItemCallback<RequirementListEntity>() {
     override fun areContentsTheSame(oldItem: RequirementListEntity, newItem: RequirementListEntity) = oldItem == newItem

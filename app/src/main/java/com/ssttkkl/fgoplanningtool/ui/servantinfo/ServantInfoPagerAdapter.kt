@@ -1,11 +1,11 @@
 package com.ssttkkl.fgoplanningtool.ui.servantinfo
 
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.lifecycle.Observer
 import androidx.lifecycle.LifecycleOwner
-import android.view.ViewGroup
+import androidx.lifecycle.Observer
 
 class ServantInfoPagerAdapter(fm: FragmentManager,
                               private val lifecycleOwner: LifecycleOwner,

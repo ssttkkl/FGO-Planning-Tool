@@ -1,8 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.utils.databinding.edittext
 
+import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
-import android.widget.EditText
 
 object EditTextBindingAdapterForInt {
     @BindingAdapter("android:text")

@@ -32,10 +32,11 @@ import kotlinx.coroutines.launch
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.util.*
+import kotlin.collections.set
 
 class DatabaseManageFragmentViewModel : ViewModel() {
-    val gotoCreateJsonUIEvent = SingleLiveEvent<Pair<String,Int>>()
-    val gotoOpenJsonUIEvent = SingleLiveEvent<Pair<String,Int>>()
+    val gotoCreateJsonUIEvent = SingleLiveEvent<Pair<String, Int>>()
+    val gotoOpenJsonUIEvent = SingleLiveEvent<Pair<String, Int>>()
     val showMessageEvent = SingleLiveEvent<String>()
 
     private val indexedData = MutableLiveData<Map<String, EditableDatabaseDescriptor>>()
@@ -45,10 +46,9 @@ class DatabaseManageFragmentViewModel : ViewModel() {
     }
 
     private fun setItemEditing(uuid: String, editing: Boolean) {
-        synchronized(indexedData) {
-            val oldData = indexedData.value ?: return
-            val oldItem = oldData[uuid] ?: return
-            indexedData.value = oldData - uuid + Pair(uuid, EditableDatabaseDescriptor(oldItem.databaseDescriptor, editing))
+        indexedData.value = indexedData.value?.toMutableMap()?.apply {
+            val oldItem = this[uuid] ?: return
+            this[uuid] = EditableDatabaseDescriptor(oldItem.databaseDescriptor, editing)
         }
     }
 
@@ -56,10 +56,8 @@ class DatabaseManageFragmentViewModel : ViewModel() {
         get() = Repo.databaseDescriptorLiveData
 
     val observer = Observer<List<DatabaseDescriptor>> { newData ->
-        synchronized(indexedData) {
-            indexedData.value = newData?.associate {
-                Pair(it.uuid, EditableDatabaseDescriptor(it, indexedData.value?.get(it.uuid)?.editing == true))
-            }
+        indexedData.value = newData?.associate {
+            Pair(it.uuid, EditableDatabaseDescriptor(it, indexedData.value?.get(it.uuid)?.editing == true))
         }
     }
 
@@ -136,7 +134,7 @@ class DatabaseManageFragmentViewModel : ViewModel() {
         gotoCreateJsonUIEvent.call(Pair(FILENAME_JSON.format(descriptor.name), REQUEST_CODE_EXPORT))
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?):Boolean {
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_EXPORT -> performExport(data?.data)

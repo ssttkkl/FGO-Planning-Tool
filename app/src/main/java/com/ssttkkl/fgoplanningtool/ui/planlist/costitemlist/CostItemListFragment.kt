@@ -66,7 +66,7 @@ class CostItemListFragment : Fragment(), BackHandler {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
-        inflater.inflate(R.menu.cost_item_list, menu)
+        inflater.inflate(R.menu.costitemlist, menu)
 
         val hideEnoughItemsItem = menu.findItem(R.id.hideEnoughItems)
         hideEnoughItemsSwitch = hideEnoughItemsItem.actionView.findViewById(R.id.switchWidget)

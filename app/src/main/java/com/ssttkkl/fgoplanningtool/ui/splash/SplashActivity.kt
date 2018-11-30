@@ -1,14 +1,14 @@
 package com.ssttkkl.fgoplanningtool.ui.splash
 
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.ActivitySplashBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.R
 
 class SplashActivity : AppCompatActivity() {
     lateinit var binding: ActivitySplashBinding

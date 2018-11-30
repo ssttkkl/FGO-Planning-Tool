@@ -6,9 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
-import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
@@ -24,23 +22,17 @@ class PlanListFragmentViewModel : ViewModel() {
     val data = MutableLiveData<List<CheckablePlan>>()
 
     private fun reverseChecked(servantID: Int) {
-        synchronized(data) {
-            val oldData = data.value ?: return
-            val idx = oldData.indexOfFirst { it.plan.servantId == servantID }
-            data.value = oldData.toMutableList().apply {
-                this[idx] = CheckablePlan(this[idx].plan, !this[idx].checked)
-            }
+        data.value = data.value?.toMutableList()?.apply {
+            val idx = indexOfFirst { it.plan.servantId == servantID }
+            this[idx] = CheckablePlan(this[idx].plan, !this[idx].checked)
         }
     }
 
     private fun selectAll(selected: Boolean) {
-        synchronized(data) {
-            val oldData = data.value ?: return
-            data.value = oldData.toMutableList().apply {
-                for (idx in indices) {
-                    if (this[idx].checked != selected)
-                        this[idx] = CheckablePlan(this[idx].plan, selected)
-                }
+        data.value = data.value?.toMutableList()?.apply {
+            for (idx in indices) {
+                if (this[idx].checked != selected)
+                    this[idx] = CheckablePlan(this[idx].plan, selected)
             }
         }
     }
@@ -145,7 +137,7 @@ class PlanListFragmentViewModel : ViewModel() {
     fun onFilter(filtered: List<Servant>) {
         val servantIDs = filtered.map { it.id }
         val selectedServantIDs = data.value?.filter { it.checked }?.map { it.plan.servantId }?.toSet()
-                ?: setOf<Int>()
+                ?: setOf()
         data.value = Repo.planRepo.all
                 .filter { servantIDs.contains(it.servantId) }
                 .sortedBy { servantIDs.indexOf(it.servantId) }
@@ -153,10 +145,4 @@ class PlanListFragmentViewModel : ViewModel() {
     }
 
     fun getCostItems(servant: Servant) = Repo.planRepo[servant.id]?.costItems ?: listOf()
-
-    private fun remove(plans: Collection<Plan>, itemsToDeduct: Collection<Item>?) {
-        Repo.planRepo.remove(plans.map { it.servantId }, HowToPerform.Launch)
-        if (itemsToDeduct != null && itemsToDeduct.isNotEmpty())
-            Repo.itemRepo.deductItems(itemsToDeduct, HowToPerform.Launch)
-    }
 }

@@ -282,8 +282,6 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/dress_recView"
-                    data="@{viewModel.plan.servant.dress}"
-                    selection="@={viewModel.plan.dress}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:visibility="@{viewModel.plan.servant.dress.isEmpty() ? View.GONE : View.VISIBLE}"

@@ -3,23 +3,19 @@ package com.ssttkkl.fgoplanningtool.ui.iteminfo
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.*
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
-import androidx.lifecycle.*
-import android.view.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.resources.servant.Servant
+import com.ssttkkl.fgoplanningtool.databinding.FragmentIteminfoBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
-import com.ssttkkl.fgoplanningtool.ui.servantinfo.ServantInfoFragment
-import com.ssttkkl.fgoplanningtool.databinding.FragmentIteminfoBinding
 
 class ItemInfoFragment : Fragment(), RequirementListFragment.OnClickItemListener {
     private lateinit var binding: FragmentIteminfoBinding
@@ -96,7 +92,7 @@ class ItemInfoFragment : Fragment(), RequirementListFragment.OnClickItemListener
     }
 
     private fun showServantInfo(servantID: Int) {
-        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf ("servantID" to servantID))
+        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf("servantID" to servantID))
     }
 
     private fun onItemDescriptorChanged(itemDescriptor: ItemDescriptor) {

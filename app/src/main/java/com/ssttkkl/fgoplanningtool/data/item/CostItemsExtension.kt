@@ -73,7 +73,7 @@ val Plan.costItems: Collection<Item>
                 qp += servant!!.skillQP[cur]
             }
 
-        for (dress in dress.map { servant!!.dress[it] }) {
+        for (dress in dressID.map { servant!!.dress[it] }) {
             map.putItems(dress.items)
             qp += ConstantValues.dressQP
         }

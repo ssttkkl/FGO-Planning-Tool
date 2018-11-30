@@ -75,7 +75,7 @@
         <item>10</item>
     </string-array>
     <string name="illegalRemainedExp_editplan_editlevel">“升级剩余经验”不能大于该等级升级需要的经验值</string>
-    <string name="illegalLevel_editplan_editlevel">“等级”不能大于该角色的最大等级</string>
+    <string name="illegalLevel_editplan_editlevel">“等级”不能超出该角色的合法等级范围</string>
 
     <string name="title_servantbaselist">灵基一览</string>
     <string name="switchToGridView_servantlist">切换到网格视图</string>

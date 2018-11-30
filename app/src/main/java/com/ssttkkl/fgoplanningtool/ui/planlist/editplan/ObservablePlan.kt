@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.resources.ConstantValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
+import com.ssttkkl.fgoplanningtool.resources.servant.Dress
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 
 class ObservablePlan(_plan: Plan) {
@@ -24,7 +25,7 @@ class ObservablePlan(_plan: Plan) {
     val planSkill1 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.planSkill1 - 1] }
     val planSkill2 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.planSkill2 - 1] }
     val planSkill3 = MutableLiveData<SkillLevel>().apply { value = SkillLevel.values()[_plan.planSkill3 - 1] }
-    val dress = MutableLiveData<Set<Int>>().apply { value = _plan.dress }
+    val dress = MutableLiveData<Set<Dress>>().apply { value = _plan.dress }
 
     val servant: LiveData<Servant> = Transformations.map(servantId) {
         ResourcesProvider.instance.servants[it]
@@ -143,6 +144,8 @@ class ObservablePlan(_plan: Plan) {
                     planSkill1 = planSkill1.value?.ordinal?.plus(1) ?: return null,
                     planSkill2 = planSkill2.value?.ordinal?.plus(1) ?: return null,
                     planSkill3 = planSkill3.value?.ordinal?.plus(1) ?: return null,
-                    dress = dress.value ?: setOf())
+                    dressID = setOf()).apply {
+                dress = this@ObservablePlan.dress.value ?: setOf()
+            }
         }
 }

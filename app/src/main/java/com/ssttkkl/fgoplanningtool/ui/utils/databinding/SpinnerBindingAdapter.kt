@@ -1,10 +1,10 @@
 package com.ssttkkl.fgoplanningtool.ui.utils.databinding
 
-import androidx.databinding.BindingAdapter
-import androidx.databinding.InverseBindingListener
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingListener
 
 object SpinnerBindingAdapter {
     @BindingAdapter("onItemSelected")

@@ -27,7 +27,7 @@ class ServantListFragment : Fragment(),
         ServantFilterFragment.Callback,
         LifecycleOwner {
     interface OnClickServantListener {
-        fun onClickServant(servantId: Int)
+        fun onClickServant(servantID: Int)
     }
 
     private var listener: OnClickServantListener? = null
@@ -167,12 +167,6 @@ class ServantListFragment : Fragment(),
 
 
     companion object {
-        fun newInstance(hiddenServantIDs: Set<Int>) = ServantListFragment().apply {
-            arguments = Bundle().apply {
-                putIntArray(KEY_HIDDEN, hiddenServantIDs.toIntArray())
-            }
-        }
-
         private const val KEY_HIDDEN = "hidden"
     }
 }

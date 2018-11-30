@@ -51,22 +51,22 @@ class ServantFilterFragmentViewModel : ViewModel() {
     }
 
     val filtered = object : LiveData<List<Servant>>() {
-        val observer = Observer<Any> {
+        val observer = Observer<Any> { _ ->
             var list = origin.value?.toList() ?: listOf()
             searchText.value?.also { searchText ->
                 val words = searchText.split(' ').filter { it.isNotEmpty() }
                 list = list.filter { cur ->
                     words.all { word ->
                         var contains = false
-                        contains = contains || cur.zhName.contains(word)
-                        contains = contains || cur.enName.contains(word)
-                        contains = contains || cur.jaName.contains(word)
+                        contains = contains || cur.zhName.contains(word, true)
+                        contains = contains || cur.enName.contains(word, true)
+                        contains = contains || cur.jaName.contains(word, true)
                         if (PreferenceManager.getDefaultSharedPreferences(MyApp.context).getBoolean(PreferenceKeys.KEY_UNLOCK_REAL_NAME, false) && cur.hideRealName) {
-                            contains = contains || cur.realZhName.contains(word)
-                            contains = contains || cur.realEnName.contains(word)
-                            contains = contains || cur.realJaName.contains(word)
+                            contains = contains || cur.realZhName.contains(word, true)
+                            contains = contains || cur.realEnName.contains(word, true)
+                            contains = contains || cur.realJaName.contains(word, true)
                         }
-                        contains = contains || cur.nickname.any { it.contains(word) }
+                        contains = contains || cur.nickname.any { it.contains(word, true) }
                         contains
                     }
                 }
@@ -185,17 +185,15 @@ class ServantFilterFragmentViewModel : ViewModel() {
     }
 
     fun onClickRemoveItem(codename: String) {
-        synchronized(items) {
-            val descriptor = items.value?.firstOrNull { it.codename == codename } ?: return
-            items.value = items.value?.minus(descriptor)
+        items.value = items.value?.toMutableSet()?.apply {
+            val descriptor = firstOrNull { it.codename == codename } ?: return
+            minus(descriptor)
         }
     }
 
     fun onAddItem(codename: String) {
-        synchronized(items) {
-            val descriptor = ResourcesProvider.instance.itemDescriptors[codename] ?: return
-            items.value = items.value?.plus(descriptor) ?: setOf(descriptor)
-        }
+        val descriptor = ResourcesProvider.instance.itemDescriptors[codename] ?: return
+        items.value = items.value?.plus(descriptor) ?: setOf(descriptor)
     }
 
     companion object {

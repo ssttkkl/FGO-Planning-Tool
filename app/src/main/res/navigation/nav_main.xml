@@ -48,7 +48,8 @@
             app:destination="@id/costItemListFragment" />
         <action
             android:id="@+id/action_editPlanDetailFragment_to_confirmChangePlanFragment"
-            app:destination="@id/confirmChangePlanFragment" />
+            app:destination="@id/confirmChangePlanFragment"
+            app:popUpTo="@+id/planListFragment" />
     </fragment>
     <fragment
         android:id="@+id/ownItemListFragment"
@@ -101,7 +102,7 @@
         android:id="@+id/confirmChangePlanFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment"
         android:label="@string/title_confirm_change_plan"
-        tools:layout="@layout/fragment_confirm_change_plan" />
+        tools:layout="@layout/fragment_confirmchangeplan" />
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -125,6 +126,7 @@
 
         <argument
             android:name="filePath"
+            android:defaultValue=""
             app:argType="string" />
 
     </fragment>
@@ -137,7 +139,6 @@
 
         <argument
             android:name="codename"
-            android:defaultValue=""
             app:argType="string" />
 
     </fragment>
@@ -153,9 +154,8 @@
         tools:layout="@layout/fragment_servantinfo">
 
         <argument
-            android:name="codename"
-            android:defaultValue=""
-            app:argType="string" />
+            android:name="servantID"
+            app:argType="integer" />
 
     </fragment>
 

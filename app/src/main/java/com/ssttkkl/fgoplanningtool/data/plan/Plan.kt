@@ -1,13 +1,11 @@
 package com.ssttkkl.fgoplanningtool.data.plan
 
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.ssttkkl.fgoplanningtool.data.utils.IntSetConverter
 import com.ssttkkl.fgoplanningtool.resources.ConstantValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
+import com.ssttkkl.fgoplanningtool.resources.servant.Dress
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import kotlinx.android.parcel.Parcelize
 
@@ -25,7 +23,7 @@ data class Plan(@PrimaryKey var servantId: Int,
                 var planSkill1: Int,
                 var planSkill2: Int,
                 var planSkill3: Int,
-                var dress: Set<Int>) : Parcelable {
+                @ColumnInfo(name = "dress") var dressID: Set<Int>) : Parcelable {
     val servant: Servant?
         get() = ResourcesProvider.instance.servants[servantId]
 
@@ -40,6 +38,12 @@ data class Plan(@PrimaryKey var servantId: Int,
 
     val planStage
         get() = ConstantValues.getStage(servant!!.star, planLevel) + if (ascendedOnPlanStage) 1 else 0
+
+    var dress: Set<Dress>
+        get() = dressID.mapNotNull { servant?.dress?.get(it) }.toSet()
+        set(value) {
+            dressID = value.map { servant!!.dress.indexOf(it) }.toSet()
+        }
 
     @Ignore
     constructor(servantId: Int) : this(
@@ -62,5 +66,5 @@ data class Plan(@PrimaryKey var servantId: Int,
             plan.planSkill1,
             plan.planSkill2,
             plan.planSkill3,
-            plan.dress)
+            plan.dressID)
 }

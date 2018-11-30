@@ -2,7 +2,6 @@ package com.ssttkkl.fgoplanningtool.ui.servantlist
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
@@ -10,16 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.ssttkkl.fgoplanningtool.BR
-import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.databinding.ItemServantlistGridBinding
 import com.ssttkkl.fgoplanningtool.databinding.ItemServantlistListBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 
 class ServantListAdapter(val context: Context,
                          private val lifecycleOwner: LifecycleOwner,
-                         private val viewModel: ServantListFragmentViewModel) : ListAdapter<Servant, ServantListAdapter.ViewHolder>(object :DiffUtil.ItemCallback<Servant>() {
+                         private val viewModel: ServantListFragmentViewModel) : ListAdapter<Servant, ServantListAdapter.ViewHolder>(object : DiffUtil.ItemCallback<Servant>() {
     override fun areContentsTheSame(oldItem: Servant, newItem: Servant) = oldItem == newItem
     override fun areItemsTheSame(oldItem: Servant, newItem: Servant) = oldItem.id == newItem.id
 }) {
@@ -28,10 +25,10 @@ class ServantListAdapter(val context: Context,
     }
 
     override fun getItemViewType(position: Int): Int {
-        return (viewModel.viewType.value ?: ViewType.List)?.ordinal
+        return (viewModel.viewType.value ?: ViewType.List).ordinal
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(if (viewType == ViewType.Grid.ordinal)
                 ItemServantlistGridBinding.inflate(LayoutInflater.from(context), parent, false)
             else

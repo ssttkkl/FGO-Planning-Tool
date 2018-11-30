@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist.ItemListFragmentViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.ownitemlist.ItemListFragmentViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist
+package com.ssttkkl.fgoplanningtool.ui.ownitemlist
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.ssttkkl.fgoplanningtool.databinding.ItemOwnitemlistEditmodeBinding
 
 class ItemListRecViewAdapter(val context: Context,
                              private val lifecycleOwner: LifecycleOwner,
-                             private val viewModel: ItemListFragmentViewModel) : ListAdapter<EditableItem, ItemListRecViewAdapter.ViewHolder>(EditableItem.Differ) {
+                             private val viewModel: ItemListFragmentViewModel) : ListAdapter<EditableItem, ItemListRecViewAdapter.ViewHolder>(EditableItem) {
     init {
         viewModel.data.observe(lifecycleOwner, Observer { submitList(it) })
     }

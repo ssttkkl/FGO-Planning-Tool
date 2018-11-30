@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -59,9 +60,7 @@ class ItemListFragment : Fragment() {
 
     companion object {
         fun newInstance(type: ItemType) = ItemListFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable(ARG_TYPE, type)
-            }
+            arguments = bundleOf(ARG_TYPE to type)
         }
 
         private const val ARG_TYPE = "type"

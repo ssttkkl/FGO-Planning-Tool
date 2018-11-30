@@ -1,17 +1,14 @@
 package com.ssttkkl.fgoplanningtool.ui.ownitemlist
 
-import androidx.lifecycle.LifecycleOwner
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentOwnitemlistBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.ownitemlist.itemlist.ItemListFragment
 
 class OwnItemListFragment : androidx.fragment.app.Fragment(), LifecycleOwner {
     private lateinit var binding: FragmentOwnitemlistBinding
@@ -27,6 +24,7 @@ class OwnItemListFragment : androidx.fragment.app.Fragment(), LifecycleOwner {
         (activity as? MainActivity)?.apply {
             drawerState = true
             title = getString(R.string.title_ownitemlist)
+            invalidateOptionsMenu()
         }
 
         binding.viewPager.adapter = object : androidx.fragment.app.FragmentPagerAdapter(childFragmentManager) {

@@ -1,10 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
+import android.widget.Spinner
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
-import android.widget.Spinner
-import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.resources.servant.Dress
 
 object EditPlanDetailBindingAdapter {
     @BindingAdapter("selection")
@@ -17,11 +15,5 @@ object EditPlanDetailBindingAdapter {
     @JvmStatic
     fun getSelection(spinner: Spinner): ObservablePlan.SkillLevel {
         return ObservablePlan.SkillLevel.values()[spinner.selectedItemPosition]
-    }
-
-    @BindingAdapter("data")
-    @JvmStatic
-    fun setData(recView: androidx.recyclerview.widget.RecyclerView, items: List<Dress>) {
-        (recView.adapter as EditPlanDressListRecViewAdapter).data = items
     }
 }

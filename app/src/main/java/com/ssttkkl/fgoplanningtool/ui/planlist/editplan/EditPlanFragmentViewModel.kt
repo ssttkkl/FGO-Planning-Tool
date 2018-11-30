@@ -7,16 +7,18 @@ import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
+import com.ssttkkl.fgoplanningtool.resources.servant.Dress
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 
 class EditPlanFragmentViewModel : ViewModel() {
     val mode = MutableLiveData<Mode>()
 
-    lateinit var oldPlan: Plan
+    private lateinit var oldPlan: Plan
     lateinit var plan: ObservablePlan
 
     private var firstCreate = true
 
+    @Synchronized
     fun start(mode: Mode, plan: Plan) {
         if (firstCreate) {
             this.mode.value = mode
@@ -49,7 +51,7 @@ class EditPlanFragmentViewModel : ViewModel() {
                 if (oldPlan == plan.plan)
                     finishEvent.call()
                 else
-                    showEditWarningUIEvent.call(Pair(oldPlan ?: return, plan.plan ?: return))
+                    showEditWarningUIEvent.call(Pair(oldPlan, plan.plan ?: return))
             }
         }
     }
@@ -89,6 +91,15 @@ class EditPlanFragmentViewModel : ViewModel() {
     fun onEditPlanLevelResult(exp: Int, ascendedOnStage: Boolean) {
         plan.planExp.value = exp
         plan.ascendedOnPlanStage.value = ascendedOnStage
+    }
+
+    fun onClickDress(dress: Dress) {
+        plan.dress.value = plan.dress.value?.toMutableSet()?.apply {
+            if (contains(dress))
+                remove(dress)
+            else
+                add(dress)
+        }
     }
 
     private fun save(itemToDeduct: Collection<Item>? = null) {

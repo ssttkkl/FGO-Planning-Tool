@@ -1,17 +1,15 @@
 package com.ssttkkl.fgoplanningtool.ui.iteminfo
 
-import android.view.View
-import androidx.databinding.ObservableArrayMap
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.LiveData
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
+import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 
@@ -22,7 +20,9 @@ class ItemInfoFragmentViewModel : ViewModel() {
         ResourcesProvider.instance.itemDescriptors[codename]
     }
 
-    private fun generateEntities(codename: String, getCostItems: (Servant) -> Collection<Item>): List<RequirementListEntity> {
+    private fun generateEntities(codename: String?, getCostItems: (Servant) -> Collection<Item>): List<RequirementListEntity> {
+        if (codename == null)
+            return listOf()
         val list = ArrayList<RequirementListEntity>()
         ResourcesProvider.instance.servants.values.sortedBy { it.id }.forEach { servant ->
             var requirement = 0L
@@ -38,11 +38,11 @@ class ItemInfoFragmentViewModel : ViewModel() {
         return list
     }
 
-    val ascensionItemTitle = MyApp.context.getString(R.string.ascension_iteminfo)
-    val skillItemTitle = MyApp.context.getString(R.string.skill_iteminfo)
-    val dressItemTitle = MyApp.context.getString(R.string.dress_iteminfo)
+    val ascensionItemTitle: String = MyApp.context.getString(R.string.ascension_iteminfo)
+    val skillItemTitle: String = MyApp.context.getString(R.string.skill_iteminfo)
+    val dressItemTitle: String = MyApp.context.getString(R.string.dress_iteminfo)
 
-    val ascensionItemEntities = Transformations.map(codename) { codename ->
+    val ascensionItemEntities: LiveData<List<RequirementListEntity>> = Transformations.map(codename) { codename ->
         generateEntities(codename) { servant ->
             val requirement = HashMap<String, Long>()
             servant.ascensionItems.forEach { itemsForCurStage ->
@@ -54,7 +54,7 @@ class ItemInfoFragmentViewModel : ViewModel() {
         }
     }
 
-    val skillItemEntities = Transformations.map(codename) { codename ->
+    val skillItemEntities: LiveData<List<RequirementListEntity>> = Transformations.map(codename) { codename ->
         generateEntities(codename) { servant ->
             val requirement = HashMap<String, Long>()
             servant.skillItems.forEach { itemsForCurLevel ->
@@ -66,7 +66,7 @@ class ItemInfoFragmentViewModel : ViewModel() {
         }
     }
 
-    val dressItemEntities = Transformations.map(codename) { codename ->
+    val dressItemEntities: LiveData<List<RequirementListEntity>> = Transformations.map(codename) { codename ->
         generateEntities(codename) { servant ->
             val requirement = HashMap<String, Long>()
             servant.dress.forEach { dress ->

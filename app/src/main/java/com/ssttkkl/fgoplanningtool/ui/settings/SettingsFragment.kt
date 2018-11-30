@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.webkit.MimeTypeMap
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -11,16 +12,10 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
-import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.apache.commons.io.IOUtils
 import java.io.File
-import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener {
     private lateinit var viewModel: SettingsFragmentViewModel
@@ -34,8 +29,8 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         (activity as? MainActivity)?.apply {
             drawerState = true
             title = getString(R.string.title_pref)
+            invalidateOptionsMenu()
         }
-
         setPreferencesFromResource(R.xml.preferences, rootKey)
         subscribeUI()
     }
@@ -82,7 +77,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
             showAutoUpdateResPackUI()
         })
         viewModel.showChooseResPackFileEvent.observe(this, Observer {
-            showChooseResPackFileUI()
+            showChooseResPackFileUI(it ?: return@Observer)
         })
         viewModel.showManuallyUpdateResPackEvent.observe(this, Observer {
             showManuallyUpdateResPackUI(it ?: return@Observer)
@@ -100,18 +95,15 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         findNavController().navigate(R.id.action_settingsFragment_to_updateResPackFragment)
     }
 
-    private fun showChooseResPackFileUI() {
+    private fun showChooseResPackFileUI(requestCode: Int) {
         startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             type = MimeTypeMap.getSingleton().getMimeTypeFromExtension("zip")
             addCategory(Intent.CATEGORY_OPENABLE)
-        }, 1)
+        }, requestCode)
     }
 
     private fun showManuallyUpdateResPackUI(file: File) {
-        findNavController().navigate(R.id.action_settingsFragment_to_updateResPackFragment, Bundle().apply {
-            putBoolean("manually", true)
-            putString("filePath", file.path)
-        })
+        findNavController().navigate(R.id.action_settingsFragment_to_updateResPackFragment, bundleOf("manually" to true, "filePath" to file.path))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

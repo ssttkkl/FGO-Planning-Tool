@@ -48,7 +48,7 @@ class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
 
         writer.name(NAME_DRESS)
         writer.beginArray()
-        it.dress.forEach {
+        it.dressID.forEach {
             writer.value(it)
         }
         writer.endArray()
@@ -146,7 +146,7 @@ class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
                 planSkill1 = planSkill1!!,
                 planSkill2 = planSkill2!!,
                 planSkill3 = planSkill3!!,
-                dress = dress)
+                dressID = dress)
     }
 
     companion object {

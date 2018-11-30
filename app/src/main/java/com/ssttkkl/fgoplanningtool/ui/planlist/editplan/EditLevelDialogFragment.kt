@@ -1,15 +1,15 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
-import android.app.Dialog
-import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEditplanEditlevelBinding
 import com.ssttkkl.fgoplanningtool.resources.ConstantValues
@@ -94,12 +94,10 @@ class EditLevelDialogFragment : DialogFragment() {
     companion object {
         fun newInstance(servantID: Int, exp: Int, ascendedOnStage: Boolean, extraTag: String? = null) =
                 EditLevelDialogFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(KEY_SERVANT_ID, servantID)
-                        putInt(KEY_EXP, exp)
-                        putBoolean(KEY_ASCENDED_ON_STAGE, ascendedOnStage)
-                        putString(KEY_EXTRA_TAG, extraTag)
-                    }
+                    arguments = bundleOf(KEY_SERVANT_ID to servantID,
+                            KEY_EXP to exp,
+                            KEY_ASCENDED_ON_STAGE to ascendedOnStage,
+                            KEY_EXTRA_TAG to extraTag)
                 }
 
         private const val KEY_SERVANT_ID = "servantID"

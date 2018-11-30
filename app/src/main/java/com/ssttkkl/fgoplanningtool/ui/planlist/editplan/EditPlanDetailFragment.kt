@@ -1,9 +1,8 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
-import androidx.core.os.bundleOf
-import androidx.navigation.fragment.findNavController
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -42,7 +41,7 @@ class EditPlanDetailFragment : Fragment(),
         setHasOptionsMenu(true)
 
         binding.dressRecView.apply {
-            adapter = EditPlanDressListRecViewAdapter(context!!)
+            adapter = EditPlanDressListRecViewAdapter(context!!, this@EditPlanDetailFragment, binding.viewModel!!)
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             isNestedScrollingEnabled = false
         }
@@ -113,12 +112,10 @@ class EditPlanDetailFragment : Fragment(),
     }
 
     private fun showServantInfo(servantID: Int) {
-        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf ("servantID" to servantID))
+        findNavController().navigate(EditPlanDetailFragmentDirections.actionGlobalServantInfoFragment(servantID))
     }
 
     private fun showCostItems(costItems: Collection<Item>) {
-        findNavController().navigate(R.id.action_editPlanDetailFragment_to_costItemListFragment, Bundle().apply {
-            putParcelableArray("items", costItems.toTypedArray())
-        })
+        findNavController().navigate(R.id.action_editPlanDetailFragment_to_costItemListFragment, bundleOf("items" to costItems.toTypedArray()))
     }
 }

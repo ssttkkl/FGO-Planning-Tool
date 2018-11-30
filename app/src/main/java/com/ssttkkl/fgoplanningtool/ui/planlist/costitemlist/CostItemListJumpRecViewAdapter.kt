@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.ssttkkl.fgoplanningtool.databinding.ItemJumpCostitemlistBinding
+import com.ssttkkl.fgoplanningtool.databinding.ItemCostitemlistJumpBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 
 class CostItemListJumpRecViewAdapter(val context: Context,
@@ -22,13 +22,13 @@ class CostItemListJumpRecViewAdapter(val context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(ItemJumpCostitemlistBinding.inflate(LayoutInflater.from(context), parent, false))
+            ViewHolder(ItemCostitemlistJumpBinding.inflate(LayoutInflater.from(context), parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    inner class ViewHolder(val binding: ItemJumpCostitemlistBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemCostitemlistJumpBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.viewModel = viewModel
             binding.setLifecycleOwner(lifecycleOwner)

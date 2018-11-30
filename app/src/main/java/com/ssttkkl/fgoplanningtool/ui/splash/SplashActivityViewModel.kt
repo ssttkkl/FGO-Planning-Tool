@@ -2,8 +2,8 @@ package com.ssttkkl.fgoplanningtool.ui.splash
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.R

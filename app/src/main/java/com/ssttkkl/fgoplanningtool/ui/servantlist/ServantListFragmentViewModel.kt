@@ -8,14 +8,14 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.data.item.costItems
+import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 import java.lang.ref.WeakReference
 
-class ServantListFragmentViewModel: ViewModel() {
+class ServantListFragmentViewModel : ViewModel() {
     private var context: WeakReference<Context>? = null
 
     val data = MutableLiveData<List<Servant>>()
@@ -42,14 +42,14 @@ class ServantListFragmentViewModel: ViewModel() {
         }
     }
 
-    fun onClickServant(servantID:Int) {
+    fun onClickServant(servantID: Int) {
         informClickServantEvent.call(servantID)
     }
 
     fun onFiltered(filtered: List<Servant>) {
         data.value = filtered
     }
-    
+
     fun onRequestCostItems(servant: Servant): Collection<Item> {
         return Plan(servant.id,
                 0, 0, false, false,

@@ -1,18 +1,16 @@
 package com.ssttkkl.fgoplanningtool.ui.iteminfo
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentIteminfoRequirementlistBinding
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListRecViewAdapter
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
-import kotlinx.android.synthetic.main.fragment_iteminfo_requirementlist.*
 
 class RequirementListFragment : Fragment() {
     interface OnClickItemListener {
@@ -40,10 +38,11 @@ class RequirementListFragment : Fragment() {
     }
 
     var data: List<RequirementListEntity>
-        get() = arguments?.getParcelableArray(ARG_DATA)?.mapNotNull { it as? RequirementListEntity } ?: listOf()
+        get() = arguments?.getParcelableArray(ARG_DATA)?.mapNotNull { it as? RequirementListEntity }
+                ?: listOf()
         set(value) {
             (arguments ?: Bundle().also { arguments = it })
-                .putParcelableArray(ARG_DATA, value.toTypedArray())
+                    .putParcelableArray(ARG_DATA, value.toTypedArray())
 
             if (::binding.isInitialized)
                 (binding.recView.adapter as? RequirementListRecViewAdapter)?.submitList(value)
