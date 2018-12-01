@@ -11,57 +11,65 @@
             type="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragmentViewModel" />
     </data>
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:openDrawer="end">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/emptyHint_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/emptyHint"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:visibility="@{viewModel.showEmptyHint ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/emptyHint_textView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toTopOf="@+id/jump_chipGroup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_costitemlist" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/jump_costitemlist"
+            android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/jump_chipGroup"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/jump_chipGroup" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/jump_chipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textView">
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/emptyHint"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:visibility="@{viewModel.showEmptyHint ? View.VISIBLE : View.GONE}" />
+                tools:text="itemType" />
+        </com.google.android.material.chip.ChipGroup>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
-                tools:listitem="@layout/item_costitemlist" />
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:background="@android:color/background_light"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/jump_costitemlist"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/jump_recView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_weight="1"
-                tools:listitem="@layout/item_costitemlist_jump" />
-        </LinearLayout>
-
-    </androidx.drawerlayout.widget.DrawerLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

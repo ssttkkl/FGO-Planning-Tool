@@ -7,10 +7,4 @@
         android:title="@string/hide_enough_items_costitemlist"
         app:actionLayout="@layout/switch_item"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/jump"
-        android:icon="@drawable/ic_redo_white_24dp"
-        android:title="@string/jump_costitemlist"
-        app:showAsAction="ifRoom" />
 </menu>

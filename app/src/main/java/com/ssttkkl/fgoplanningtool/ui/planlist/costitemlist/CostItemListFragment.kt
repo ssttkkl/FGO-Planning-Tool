@@ -4,22 +4,24 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Switch
 import androidx.core.os.bundleOf
-import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
+import com.google.android.material.chip.Chip
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentCostitemlistBinding
+import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandler
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
-class CostItemListFragment : Fragment(), BackHandler {
+class CostItemListFragment : Fragment() {
     private lateinit var binding: FragmentCostitemlistBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -48,11 +50,10 @@ class CostItemListFragment : Fragment(), BackHandler {
             layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
         }
-        binding.jumpRecView.apply {
-            adapter = CostItemListJumpRecViewAdapter(context!!, this@CostItemListFragment, binding.viewModel!!)
-            layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
-        }
         binding.viewModel?.apply {
+            itemTypes.observe(this@CostItemListFragment, Observer {
+                onItemTypesChanged(it ?: listOf())
+            })
             showServantInfoEvent.observe(this@CostItemListFragment, Observer {
                 gotoServantDetailUi(it ?: return@Observer)
             })
@@ -81,27 +82,6 @@ class CostItemListFragment : Fragment(), BackHandler {
         })
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.jump -> {
-                if (binding.drawerLayout.isDrawerOpen(GravityCompat.END))
-                    binding.drawerLayout.closeDrawer(GravityCompat.END)
-                else
-                    binding.drawerLayout.openDrawer(GravityCompat.END)
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
-    }
-
-    override fun onBackPressed(): Boolean {
-        return if (binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.END)
-            true
-        } else
-            false
-    }
-
     var plans: Collection<Plan>
         get() = arguments?.getParcelableArray(ARG_PLANS)?.mapNotNull { it as? Plan } ?: listOf()
         set(value) {
@@ -119,6 +99,22 @@ class CostItemListFragment : Fragment(), BackHandler {
             if (::binding.isInitialized)
                 binding.viewModel?.setDataFromItems(value)
         }
+
+    private fun onItemTypesChanged(itemTypes: List<ItemType>) {
+        TransitionManager.beginDelayedTransition(binding.jumpChipGroup)
+        binding.jumpChipGroup.removeAllViews()
+        itemTypes.forEach { itemType ->
+            val chip = Chip(binding.jumpChipGroup.context).apply {
+                text = itemType.localizedName
+                setOnClickListener {
+                    binding.viewModel?.onClickJumpItem(itemType)
+                }
+                transitionName = itemType.name
+            }
+            binding.jumpChipGroup.addView(chip)
+        }
+        TransitionManager.endTransitions(binding.jumpChipGroup)
+    }
 
     private fun gotoServantDetailUi(servantID: Int) {
         findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf("servantID" to servantID))

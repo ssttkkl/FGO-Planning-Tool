@@ -105,7 +105,7 @@ class CostItemListFragmentViewModel : ViewModel() {
     }
 
     fun onClickJumpItem(itemType: ItemType) {
-        scrollToPositionEvent.call(dataToShow.value?.indexOfFirst { (it as? ItemType) == itemType }
+        scrollToPositionEvent.call(dataToShow.value?.indexOfFirst { (it as? Header)?.itemType == itemType }
                 ?: return)
     }
 }
