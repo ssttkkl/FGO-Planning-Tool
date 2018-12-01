@@ -20,11 +20,17 @@ import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 class ServantFilterFragmentViewModel : ViewModel() {
     private var costItemGetter: ((Servant) -> Collection<Item>)? = null
 
+    val orderEntities = Order.values().toList()
+    val orderByEntities = OrderBy.values().toList()
+    val starEntities = Star.values().toList()
+    val servantClassEntities = ServantClass.values().toList()
+    val wayToGetEntities = WayToGet.values().toList()
+
     val origin = MutableLiveData<Set<Servant>>()
     val searchText = MutableLiveData<String>()
     val order = MutableLiveData<Order>()
     val orderBy = MutableLiveData<OrderBy>()
-    val stars = MutableLiveData<Set<Int>>()
+    val stars = MutableLiveData<Set<Star>>()
     val servantClasses = MutableLiveData<Set<ServantClass>>()
     val waysToGet = MutableLiveData<Set<WayToGet>>()
     val items = MutableLiveData<Set<ItemDescriptor>>()
@@ -81,7 +87,7 @@ class ServantFilterFragmentViewModel : ViewModel() {
             }
             stars.value?.also { stars ->
                 if (stars.isNotEmpty())
-                    list = list.filter { cur -> stars.any { cur.star == it } }
+                    list = list.filter { cur -> stars.any { cur.star == it.num } }
             }
             items.value?.also { items ->
                 if (items.isNotEmpty()) {
@@ -184,11 +190,8 @@ class ServantFilterFragmentViewModel : ViewModel() {
         showAddItemUIEvent.call()
     }
 
-    fun onClickRemoveItem(codename: String) {
-        items.value = items.value?.toMutableSet()?.apply {
-            val descriptor = firstOrNull { it.codename == codename } ?: return
-            minus(descriptor)
-        }
+    fun onClickRemoveItem(descriptor: ItemDescriptor) {
+        items.value = items.value?.minus(descriptor)
     }
 
     fun onAddItem(codename: String) {

@@ -1,6 +1,8 @@
 package com.ssttkkl.fgoplanningtool.resources.servant
 
-enum class ServantClass {
+import com.ssttkkl.fgoplanningtool.utils.Localizable
+
+enum class ServantClass : Localizable {
     Saber,
     Archer,
     Lancer,
@@ -14,4 +16,7 @@ enum class ServantClass {
     Alterego,
     MoonCancer,
     Foreigner;
+
+    override val localizedName: String
+        get() = name
 }

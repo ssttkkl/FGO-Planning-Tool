@@ -8,15 +8,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.databinding.FragmentServantfilterBinding
+import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
 import com.ssttkkl.fgoplanningtool.resources.servant.WayToGet
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.additem.AddItemDialogFragment
+import com.ssttkkl.fgoplanningtool.ui.utils.ChipViewTarget
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 
 class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemListener {
@@ -29,11 +37,7 @@ class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemListene
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        callback = when {
-            parentFragment is Callback -> parentFragment as Callback
-            activity is Callback -> activity as Callback
-            else -> throw NoInterfaceImplException(Callback::class)
-        }
+        callback = parentFragment as? Callback
     }
 
     override fun onDetach() {
@@ -53,75 +57,13 @@ class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemListene
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.orderRecView.apply {
-            adapter = ServantFilterSingleSelectRecViewAdapter(context!!,
-                    this@ServantFilterFragment,
-                    Order.values().toList(),
-                    binding.viewModel!!.order) { it.localizedName }
-            layoutManager = FlexboxLayoutManager(context!!).apply {
-                flexDirection = FlexDirection.ROW
-                flexWrap = FlexWrap.WRAP
-            }
-            isNestedScrollingEnabled = false
-        }
-        binding.orderbyRecView.apply {
-            adapter = ServantFilterSingleSelectRecViewAdapter(context!!,
-                    this@ServantFilterFragment,
-                    OrderBy.values().toList(),
-                    binding.viewModel!!.orderBy) { it.localizedName }
-            layoutManager = FlexboxLayoutManager(context!!).apply {
-                flexDirection = FlexDirection.ROW
-                flexWrap = FlexWrap.WRAP
-            }
-            isNestedScrollingEnabled = false
-        }
-        binding.starRecView.apply {
-            adapter = ServantFilterMultipleSelectRecViewAdapter(context!!,
-                    this@ServantFilterFragment,
-                    listOf(1, 2, 3, 4, 5),
-                    binding.viewModel!!.stars) { it.toString() }
-            layoutManager = FlexboxLayoutManager(context!!).apply {
-                flexDirection = FlexDirection.ROW
-                flexWrap = FlexWrap.WRAP
-            }
-            isNestedScrollingEnabled = false
-        }
-        binding.classRecView.apply {
-            adapter = ServantFilterMultipleSelectRecViewAdapter(context!!,
-                    this@ServantFilterFragment,
-                    ServantClass.values().toList(),
-                    binding.viewModel!!.servantClasses) { it.name }
-            layoutManager = FlexboxLayoutManager(context!!).apply {
-                flexDirection = FlexDirection.ROW
-                flexWrap = FlexWrap.WRAP
-            }
-            isNestedScrollingEnabled = false
-        }
-        binding.wayToGetRecView.apply {
-            adapter = ServantFilterMultipleSelectRecViewAdapter(context!!,
-                    this@ServantFilterFragment,
-                    WayToGet.values().toList(),
-                    binding.viewModel!!.waysToGet) { it.localizedName }
-            layoutManager = FlexboxLayoutManager(context!!).apply {
-                flexDirection = FlexDirection.ROW
-                flexWrap = FlexWrap.WRAP
-            }
-            isNestedScrollingEnabled = false
-        }
-        binding.itemRecView.apply {
-            adapter = ServantFilterItemRecViewAdapter(context!!,
-                    this@ServantFilterFragment,
-                    binding.viewModel!!)
-            layoutManager = FlexboxLayoutManager(context!!).apply {
-                flexDirection = FlexDirection.ROW
-                flexWrap = FlexWrap.WRAP
-            }
-            isNestedScrollingEnabled = false
-        }
         binding.viewModel?.apply {
             start {
                 callback?.onRequestCostItems(it) ?: listOf()
             }
+            items.observe(this@ServantFilterFragment, Observer {
+                onItemsChanged(it.toList().sortedBy { descriptor -> descriptor.rank })
+            })
             filtered.observe(this@ServantFilterFragment, Observer {
                 callback?.onFilter(it ?: listOf())
             })
@@ -146,6 +88,25 @@ class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemListene
 
     private fun showAddItemUI() {
         AddItemDialogFragment().show(childFragmentManager, AddItemDialogFragment::class.qualifiedName)
+    }
+
+    private fun onItemsChanged(items: List<ItemDescriptor>) {
+        binding.itemsChipGroup.removeAllViews()
+        items.forEach { descriptor ->
+            val chip = Chip(binding.itemsChipGroup.context).apply {
+                text = descriptor.localizedName
+                isCloseIconVisible = true
+                setOnCloseIconClickListener {
+                    binding.viewModel?.onClickRemoveItem(descriptor)
+                }
+                Glide.with(binding.itemsChipGroup.context)
+                        .load(descriptor.imgFile)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(ChipViewTarget(this))
+            }
+            chip.transitionName = descriptor.codename
+            binding.itemsChipGroup.addView(chip)
+        }
     }
 
     companion object {

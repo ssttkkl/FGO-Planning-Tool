@@ -6,6 +6,7 @@ import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.ConstantValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
+import com.ssttkkl.fgoplanningtool.utils.Localizable
 import java.io.File
 
 data class Servant(val id: Int,
@@ -23,11 +24,11 @@ data class Servant(val id: Int,
                    val ascensionItems: List<Collection<Item>>,
                    val skillItems: List<Collection<Item>>,
                    val dress: List<Dress>,
-                   val wikiLinks: Map<String, String>) {
+                   val wikiLinks: Map<String, String>) : Localizable {
     val avatarFile
         get() = File(ResourcesProvider.instance.avatarDir, "$id.jpg")
 
-    val localizedName: String
+    override val localizedName: String
         get() {
             val pref = PreferenceManager.getDefaultSharedPreferences(MyApp.context)
             val unlockRealName = pref.getBoolean(PreferenceKeys.KEY_UNLOCK_REAL_NAME, false) && hideRealName

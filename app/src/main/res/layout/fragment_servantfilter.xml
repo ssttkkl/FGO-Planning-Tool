@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -28,23 +29,24 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <EditText 
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
                     android:hint="@string/search_servantlist"
                     android:text="@={viewModel.searchText}"
                     android:textAppearance="@style/ListItem" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/orderByHeader_textView"
+                        rotateDrawableEnd="@{viewModel.expandOrderBy}"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:clickable="true"
@@ -53,13 +55,12 @@
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:gravity="center_vertical"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:text="@string/order_servantfilter"
-                        android:textAppearance="@style/SubHeader"
                         android:onClick="@{(v) -> viewModel.onClickHeader(v)}"
-                        rotateDrawableEnd="@{viewModel.expandOrderBy}" />
-                    
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="@string/order_servantfilter"
+                        android:textAppearance="@style/SubHeader" />
+
                     <net.cachapa.expandablelayout.ExpandableLayout
                         android:id="@+id/orderby_expLayout"
                         android:layout_width="match_parent"
@@ -74,37 +75,40 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/order_recView"
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/order_chipGroup"
+                                checkableEntities="@{viewModel.orderEntities}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                tools:listitem="@layout/item_servantfilter_item">
-
-                            </androidx.recyclerview.widget.RecyclerView>
+                                app:checkedChip="@={viewModel.order}"
+                                app:singleSelection="true" />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:layout_marginBottom="8dp"
                                 android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
                                 android:background="?android:attr/listDivider" />
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/orderby_recView"
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/orderBy_chipGroup"
+                                checkableEntities="@{viewModel.orderByEntities}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                tools:listitem="@layout/item_servantfilter_item" />
+                                app:checkedChip="@={viewModel.orderBy}"
+                                app:singleSelection="true" />
                         </LinearLayout>
                     </net.cachapa.expandablelayout.ExpandableLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/starHeader_textView"
+                        rotateDrawableEnd="@{viewModel.expandStar}"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:clickable="true"
@@ -113,12 +117,11 @@
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:gravity="center_vertical"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:text="@string/star_servantfilter"
-                        android:textAppearance="@style/SubHeader"
                         android:onClick="@{(v) -> viewModel.onClickHeader(v)}"
-                        rotateDrawableEnd="@{viewModel.expandStar}" />
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="@string/star_servantfilter"
+                        android:textAppearance="@style/SubHeader" />
 
                     <net.cachapa.expandablelayout.ExpandableLayout
                         android:id="@+id/star_expLayout"
@@ -129,21 +132,23 @@
                         app:el_duration="300"
                         app:el_expanded="@={viewModel.expandStar}">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/star_recView"
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/star_chipGroup"
+                            checkableEntities="@{viewModel.starEntities}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:listitem="@layout/item_servantfilter_item" />
+                            app:checkedChip="@={viewModel.stars}" />
                     </net.cachapa.expandablelayout.ExpandableLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/classHeader_textView"
+                        rotateDrawableEnd="@{viewModel.expandClass}"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:clickable="true"
@@ -152,12 +157,11 @@
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:gravity="center_vertical"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:text="@string/class_servantfilter"
-                        android:textAppearance="@style/SubHeader"
                         android:onClick="@{(v) -> viewModel.onClickHeader(v)}"
-                        rotateDrawableEnd="@{viewModel.expandClass}" />
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="@string/class_servantfilter"
+                        android:textAppearance="@style/SubHeader" />
 
                     <net.cachapa.expandablelayout.ExpandableLayout
                         android:id="@+id/class_expLayout"
@@ -168,21 +172,23 @@
                         app:el_duration="300"
                         app:el_expanded="@={viewModel.expandClass}">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/class_recView"
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/class_chipGroup"
+                            checkableEntities="@{viewModel.servantClassEntities}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:listitem="@layout/item_servantfilter_item" />
+                            app:checkedChip="@={viewModel.servantClasses}" />
                     </net.cachapa.expandablelayout.ExpandableLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/wayToGetHeader_textView"
+                        rotateDrawableEnd="@{viewModel.expandWayToGet}"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:clickable="true"
@@ -191,12 +197,11 @@
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:gravity="center_vertical"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:text="@string/wayToGet_servantfilter"
-                        android:textAppearance="@style/SubHeader"
                         android:onClick="@{(v) -> viewModel.onClickHeader(v)}"
-                        rotateDrawableEnd="@{viewModel.expandWayToGet}" />
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="@string/wayToGet_servantfilter"
+                        android:textAppearance="@style/SubHeader" />
 
                     <net.cachapa.expandablelayout.ExpandableLayout
                         android:id="@+id/wayToGet_expLayout"
@@ -207,21 +212,23 @@
                         app:el_duration="300"
                         app:el_expanded="@={viewModel.expandWayToGet}">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/wayToGet_recView"
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/wayToGet_chipGroup"
+                            checkableEntities="@{viewModel.wayToGetEntities}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:listitem="@layout/item_servantfilter_item" />
+                            app:checkedChip="@={viewModel.waysToGet}" />
                     </net.cachapa.expandablelayout.ExpandableLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/itemHeader_textView"
+                        rotateDrawableEnd="@{viewModel.expandItem}"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:clickable="true"
@@ -230,12 +237,11 @@
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:gravity="center_vertical"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:text="@string/item_servantfilter"
-                        android:textAppearance="@style/SubHeader"
                         android:onClick="@{(v) -> viewModel.onClickHeader(v)}"
-                        rotateDrawableEnd="@{viewModel.expandItem}" />
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="@string/item_servantfilter"
+                        android:textAppearance="@style/SubHeader" />
 
                     <net.cachapa.expandablelayout.ExpandableLayout
                         android:id="@+id/item_expLayout"
@@ -244,7 +250,8 @@
                         android:background="?android:attr/colorBackground"
                         android:padding="8dp"
                         app:el_duration="300"
-                        app:el_expanded="@={viewModel.expandItem}">
+                        app:el_expanded="@={viewModel.expandItem}"
+                        tools:el_expanded="true">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -257,18 +264,18 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="8dp"
                                 android:drawableStart="@drawable/ic_add_white_24dp"
+                                android:onClick="@{() -> viewModel.onClickAddItem()}"
                                 android:text="@string/add_item_servantfilter"
                                 app:layout_constraintEnd_toStartOf="@+id/item_mode_spinner"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                android:onClick="@{() -> viewModel.onClickAddItem()}" />
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <Spinner
                                 android:id="@+id/item_mode_spinner"
+                                selection="@={viewModel.itemFilterMode}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:entries="@array/mode_item_servantfilter"
-                                selection="@={viewModel.itemFilterMode}"
                                 app:layout_constraintBottom_toBottomOf="@+id/item_add_button"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -283,18 +290,15 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/item_add_button" />
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/item_recView"
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/items_chipGroup"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/divider2"
-                                tools:listitem="@layout/item_servantfilter_item">
-
-                            </androidx.recyclerview.widget.RecyclerView>
+                                app:layout_constraintTop_toBottomOf="@+id/divider2" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </net.cachapa.expandablelayout.ExpandableLayout>
 
@@ -311,12 +315,12 @@
         <Button
             android:id="@+id/reset_button"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:drawableStart="@drawable/ic_refresh_white_24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="@string/reset_servantfilter"
+            android:drawableStart="@drawable/ic_refresh_white_24dp"
             android:enabled="@{viewModel.enableResetButton}"
-            android:onClick="@{() -> viewModel.onClickResetButton()}" />
+            android:onClick="@{() -> viewModel.onClickResetButton()}"
+            android:text="@string/reset_servantfilter" />
     </LinearLayout>
 </layout>
