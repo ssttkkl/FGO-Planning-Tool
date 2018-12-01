@@ -58,12 +58,10 @@ class EditLevelDialogFragmentViewModel : ViewModel() {
     }
 
     // when enableAscendedOnStageCheckBox changed to false, set it to false
-    val ascendedOnStage = object : MutableLiveData<Boolean>() {
-        init {
-            enableAscendedOnStageCheckBox.observeForever {
-                if (it == false)
-                    value = false
-            }
+    val ascendedOnStage = MutableLiveData<Boolean>().apply {
+        enableAscendedOnStageCheckBox.observeForever {
+            if (it == false)
+                value = false
         }
     }
 
@@ -85,27 +83,30 @@ class EditLevelDialogFragmentViewModel : ViewModel() {
     }
 
     // change value when level or ascendedOnStage updated
-    val remainedExp = object : MutableLiveData<Int>() {
-        fun generateValue(level: Int?, servant: Servant?, ascendedOnStage: Boolean?): Int? {
-            if (level == null || servant == null)
-                return null
+    val remainedExp = MutableLiveData<Int>().apply {
+        val generator = {
+            val level = level.value
+            val servant = servant.value
             val minLevel = minLevel
-            val mmaxLevel = servant.stageMapToMaxLevel.lastOrNull() ?: return null
-            return if (level in (minLevel until mmaxLevel) && (!servant.stageMapToMaxLevel.contains(level) || ascendedOnStage == true))
-                ConstantValues.nextLevelExp[level]
-            else
-                0
+            val mmaxLevel = servant?.stageMapToMaxLevel?.lastOrNull()
+
+            if (level != null && servant != null && mmaxLevel != null) {
+                if (level in (minLevel until mmaxLevel) && (!servant.stageMapToMaxLevel.contains(level) || ascendedOnStage.value == true))
+                    ConstantValues.nextLevelExp[level]
+                else
+                    0
+            } else
+                null
         }
 
-        init {
-            level.observeForever { value = generateValue(level.value, servant.value, ascendedOnStage.value) }
-            servant.observeForever { value = generateValue(level.value, servant.value, ascendedOnStage.value) }
-            ascendedOnStage.observeForever { value = generateValue(level.value, servant.value, ascendedOnStage.value) }
-        }
+        level.observeForever { value = generator() }
+        servant.observeForever { value = generator() }
+        ascendedOnStage.observeForever { value = generator() }
     }
 
     val saveEvent = SingleLiveEvent<Triple<Int, Boolean, String?>>()
     val messageEvent = SingleLiveEvent<String>()
+    val cancelEvent = SingleLiveEvent<Void>()
 
     fun onClickMinButton() {
         level.value = minLevel
@@ -134,5 +135,9 @@ class EditLevelDialogFragmentViewModel : ViewModel() {
         } catch (exc: Exception) {
             messageEvent.call(exc.message)
         }
+    }
+
+    fun onClickCancelButton() {
+        cancelEvent.call()
     }
 }

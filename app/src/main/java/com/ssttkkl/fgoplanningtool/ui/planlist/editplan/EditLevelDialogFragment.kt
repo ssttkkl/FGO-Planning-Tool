@@ -19,6 +19,7 @@ class EditLevelDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.AppTheme_Dialog)
+        isCancelable = true
     }
 
     interface OnSaveListener {
@@ -63,14 +64,6 @@ class EditLevelDialogFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.apply {
-            minButton.setOnClickListener { viewModel?.onClickMinButton() }
-            maxButton.setOnClickListener { viewModel?.onClickMaxButton() }
-            mmaxButton.setOnClickListener { viewModel?.onClickMmaxButton() }
-            saveButton.setOnClickListener { viewModel?.onClickSaveButton() }
-            cancelButton.setOnClickListener { dialog?.cancel() }
-        }
-
         binding.viewModel?.apply {
             saveEvent.observe(this@EditLevelDialogFragment, Observer {
                 if (it != null)
@@ -78,6 +71,9 @@ class EditLevelDialogFragment : DialogFragment() {
             })
             messageEvent.observe(this@EditLevelDialogFragment, Observer {
                 showMessage(it ?: return@Observer)
+            })
+            cancelEvent.observe(this@EditLevelDialogFragment, Observer {
+                dialog?.cancel()
             })
         }
     }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,9 +12,7 @@
             type="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.EditLevelDialogFragmentViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="200dp">
@@ -86,10 +86,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:onClick="@{() -> viewModel.onClickSaveButton()}"
             android:text="@string/save_editplan"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/max_button" />
+            app:layout_constraintTop_toBottomOf="@+id/max_chip" />
 
         <Button
             android:id="@+id/cancel_button"
@@ -99,49 +100,53 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
+            android:onClick="@{() -> viewModel.onClickCancelButton()}"
             android:text="@string/cancel_edititem"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/save_button"
-            app:layout_constraintTop_toBottomOf="@+id/max_button" />
+            app:layout_constraintTop_toBottomOf="@+id/max_chip" />
 
-        <Button
-            android:id="@+id/min_button"
-            style="@style/Widget.AppCompat.Button.Small"
+        <com.google.android.material.chip.Chip
+            android:id="@+id/min_chip"
+            style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:onClick="@{() -> viewModel.onClickMinButton()}"
             android:text="@{String.valueOf(viewModel.minLevel)}"
-            app:layout_constraintEnd_toStartOf="@id/max_button"
+            app:layout_constraintEnd_toStartOf="@id/max_chip"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
             tools:text="1" />
 
-        <Button
-            android:id="@+id/max_button"
-            style="@style/Widget.AppCompat.Button.Small"
+        <com.google.android.material.chip.Chip
+            android:id="@+id/max_chip"
+            style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:onClick="@{() -> viewModel.onClickMaxButton()}"
             android:text="@{String.valueOf(viewModel.maxLevel)}"
-            app:layout_constraintEnd_toStartOf="@id/mmax_button"
-            app:layout_constraintStart_toEndOf="@+id/min_button"
+            app:layout_constraintEnd_toStartOf="@id/mmax_chip"
+            app:layout_constraintStart_toEndOf="@+id/min_chip"
             app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
             tools:text="80" />
 
-        <Button
-            android:id="@+id/mmax_button"
-            style="@style/Widget.AppCompat.Button.Small"
+        <com.google.android.material.chip.Chip
+            android:id="@+id/mmax_chip"
+            style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:onClick="@{() -> viewModel.onClickMmaxButton()}"
             android:text="@{String.valueOf(viewModel.mmaxLevel)}"
             android:visibility="@{viewModel.showMmaxLevelButton ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/max_button"
+            app:layout_constraintStart_toEndOf="@+id/max_chip"
             app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
             tools:text="100" />
 

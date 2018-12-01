@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -60,12 +60,7 @@
     </style>
 
     <style name="ListItemSecondaryError" parent="ListItemSecondary">
-        <item name="android:textColor">@android:color/holo_red_light</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="ListItemStressed" parent="ListItem">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/design_default_color_error</item>
         <item name="android:textStyle">bold</item>
     </style>
 </resources>
