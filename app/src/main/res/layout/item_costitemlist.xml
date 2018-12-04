@@ -30,19 +30,18 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constLayout"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="@{viewModel.itemClickable}"
             android:elevation="4dp"
             android:focusable="@{viewModel.itemClickable}"
-            android:onClick="@{() -> viewModel.onClickItem(costItem.codename)}"
-            android:padding="16dp">
+            android:onClick="@{() -> viewModel.onClickItem(costItem.codename)}">
 
             <ImageView
                 android:id="@+id/avatar_imageView"
-                android:layout_width="wrap_content"
+                android:layout_width="36.57dp"
                 android:layout_height="40dp"
-                android:adjustViewBounds="true"
+                android:layout_marginStart="16dp"
                 app:layout_column="0"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -56,14 +55,16 @@
                 android:id="@+id/name_textView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:maxLines="1"
                 android:text="@{costItem.descriptor.localizedName}"
                 android:textAppearance="@style/ListItem"
                 app:layout_column="1"
                 app:layout_columnSpan="4"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/avatar_imageView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_row="0"
                 tools:text="heart" />
@@ -72,13 +73,14 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginBottom="16dp"
                 android:maxLines="1"
                 android:text="@string/need_item_costitemlist"
                 android:textAppearance="@style/ListItemTertiary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/require_textView"
-                app:layout_constraintStart_toEndOf="@id/avatar_imageView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/name_textView" />
 
             <TextView
@@ -86,6 +88,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
                 android:layout_weight="1"
                 android:ems="5"
                 android:maxLines="1"
@@ -106,6 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
                 android:maxLines="1"
                 android:text="@string/own_item_costitemlist"
                 android:textAppearance="@style/ListItemTertiary"
@@ -119,11 +123,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:layout_weight="1"
                 android:ems="5"
                 android:maxLines="1"
                 android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(costItem.own)}"
-                android:textAppearance="@style/ListItemSecondary"
+                android:textAppearance="@{costItem.delta >= 0 ? R.style.ListItemSecondary : R.style.ListItemSecondaryError}"
                 app:autoSizeMaxTextSize="14sp"
                 app:autoSizeMinTextSize="10sp"
                 app:autoSizeTextType="uniform"
@@ -141,10 +147,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?android:attr/colorBackground"
-            app:el_expanded="@{viewModel.expandedItem == costItem.codename}">
+            app:el_expanded="@{viewModel.expandedItemCodename == costItem.codename}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recView"
+                list="@{costItem.requirements}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/item_requirementlist" />

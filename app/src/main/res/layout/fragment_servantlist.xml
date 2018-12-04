@@ -18,10 +18,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recView"
+            list="@{viewModel.data}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:listitem="@layout/item_servantlist" />
+            tools:listitem="@layout/item_servantlist_list" />
 
         <FrameLayout
             android:id="@+id/frameLayout"

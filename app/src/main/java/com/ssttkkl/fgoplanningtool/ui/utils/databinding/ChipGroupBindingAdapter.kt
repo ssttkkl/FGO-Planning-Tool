@@ -23,6 +23,7 @@ object ChipGroupBindingAdapter {
             val chip = Chip(chipGroup.context).apply {
                 text = entity.localizedName
                 isCheckable = true
+                isClickable = true
                 transitionName = entity.toString()
             }
             chipGroup.addView(chip)

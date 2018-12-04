@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.BR
@@ -15,10 +14,7 @@ import com.ssttkkl.fgoplanningtool.databinding.ItemDatabasemanageEditmodeBinding
 class DatabaseManageRecViewAdapter(val context: Context,
                                    val lifecycleOwner: LifecycleOwner,
                                    val viewModel: DatabaseManageFragmentViewModel)
-    : ListAdapter<EditableDatabaseDescriptor, DatabaseManageRecViewAdapter.ViewHolder>(EditableDatabaseDescriptor.Differ) {
-    init {
-        viewModel.data.observe(lifecycleOwner, Observer { submitList(it) })
-    }
+    : ListAdapter<EditableDatabaseDescriptor, DatabaseManageRecViewAdapter.ViewHolder>(EditableDatabaseDescriptor.ItemCallback) {
 
     override fun getItemViewType(pos: Int) = if (getItem(pos).editing)
         ITEM_TYPE_EDIT
@@ -42,6 +38,7 @@ class DatabaseManageRecViewAdapter(val context: Context,
 
         fun bind(item: EditableDatabaseDescriptor) {
             binding.setVariable(BR.descriptor, item.databaseDescriptor)
+            binding.executePendingBindings()
         }
     }
 

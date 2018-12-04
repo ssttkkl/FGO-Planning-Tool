@@ -16,13 +16,8 @@ import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 
 class ServantListAdapter(val context: Context,
                          private val lifecycleOwner: LifecycleOwner,
-                         private val viewModel: ServantListFragmentViewModel) : ListAdapter<Servant, ServantListAdapter.ViewHolder>(object : DiffUtil.ItemCallback<Servant>() {
-    override fun areContentsTheSame(oldItem: Servant, newItem: Servant) = oldItem == newItem
-    override fun areItemsTheSame(oldItem: Servant, newItem: Servant) = oldItem.id == newItem.id
-}) {
-    init {
-        viewModel.data.observe(lifecycleOwner, Observer { submitList(it ?: listOf()) })
-    }
+                         private val viewModel: ServantListFragmentViewModel)
+    : ListAdapter<Servant, ServantListAdapter.ViewHolder>(diffCallback) {
 
     override fun getItemViewType(position: Int): Int {
         return (viewModel.viewType.value ?: ViewType.List).ordinal
@@ -46,6 +41,13 @@ class ServantListAdapter(val context: Context,
 
         fun bind(servant: Servant) {
             binding.setVariable(BR.servant, servant)
+        }
+    }
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<Servant>() {
+            override fun areContentsTheSame(oldItem: Servant, newItem: Servant) = oldItem == newItem
+            override fun areItemsTheSame(oldItem: Servant, newItem: Servant) = oldItem.id == newItem.id
         }
     }
 }

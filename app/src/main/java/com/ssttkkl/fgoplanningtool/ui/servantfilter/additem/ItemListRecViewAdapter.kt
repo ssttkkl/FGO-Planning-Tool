@@ -13,15 +13,8 @@ import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
 
 class ItemListRecViewAdapter(val context: Context,
                              private val lifecycleOwner: LifecycleOwner,
-                             private val viewModel: ItemListFragmentViewModel) : ListAdapter<ItemDescriptor, ItemListRecViewAdapter.ViewHolder>(ItemListRecViewAdapter.Differ) {
-    companion object Differ : DiffUtil.ItemCallback<ItemDescriptor>() {
-        override fun areContentsTheSame(oldItem: ItemDescriptor, newItem: ItemDescriptor) = oldItem == newItem
-        override fun areItemsTheSame(oldItem: ItemDescriptor, newItem: ItemDescriptor) = oldItem.codename == newItem.codename
-    }
-
-    init {
-        viewModel.data.observe(lifecycleOwner, Observer { submitList(it ?: listOf()) })
-    }
+                             private val viewModel: ItemListFragmentViewModel)
+    : ListAdapter<ItemDescriptor, ItemListRecViewAdapter.ViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(ItemServantfilterAdditemItemlistBinding.inflate(LayoutInflater.from(context), parent, false))
@@ -38,6 +31,15 @@ class ItemListRecViewAdapter(val context: Context,
 
         fun bind(itemDescriptor: ItemDescriptor) {
             binding.itemDescriptor = itemDescriptor
+            binding.executePendingBindings()
         }
     }
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<ItemDescriptor>() {
+            override fun areContentsTheSame(oldItem: ItemDescriptor, newItem: ItemDescriptor) = oldItem == newItem
+            override fun areItemsTheSame(oldItem: ItemDescriptor, newItem: ItemDescriptor) = oldItem.codename == newItem.codename
+        }
+    }
+
 }

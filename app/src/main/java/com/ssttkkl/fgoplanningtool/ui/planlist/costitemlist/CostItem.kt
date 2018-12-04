@@ -9,4 +9,7 @@ data class CostItem(val codename: String,
                     val requirements: List<RequirementListEntity>) {
     val descriptor
         get() = ResourcesProvider.instance.itemDescriptors[codename]
+
+    val delta
+        get() = own - require
 }

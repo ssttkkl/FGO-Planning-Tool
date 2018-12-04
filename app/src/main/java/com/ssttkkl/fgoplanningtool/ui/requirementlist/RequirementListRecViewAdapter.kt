@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.ItemRequirementlistBinding
 
-class RequirementListRecViewAdapter(val context: Context) : ListAdapter<RequirementListEntity, RequirementListRecViewAdapter.ViewHolder>(object : DiffUtil.ItemCallback<RequirementListEntity>() {
-    override fun areContentsTheSame(oldItem: RequirementListEntity, newItem: RequirementListEntity) = oldItem == newItem
-    override fun areItemsTheSame(oldItem: RequirementListEntity, newItem: RequirementListEntity) = oldItem.servantID == newItem.servantID
-}) {
+class RequirementListRecViewAdapter(val context: Context)
+    : ListAdapter<RequirementListEntity, RequirementListRecViewAdapter.ViewHolder>(diffCallback) {
+
     private var listener: ((RequirementListEntity) -> Unit)? = null
 
     fun setOnItemClickListener(newListener: ((RequirementListEntity) -> Unit)?) {
@@ -36,6 +35,13 @@ class RequirementListRecViewAdapter(val context: Context) : ListAdapter<Requirem
         fun bind(item: RequirementListEntity) {
             binding.entity = item
             binding.executePendingBindings()
+        }
+    }
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<RequirementListEntity>() {
+            override fun areContentsTheSame(oldItem: RequirementListEntity, newItem: RequirementListEntity) = oldItem == newItem
+            override fun areItemsTheSame(oldItem: RequirementListEntity, newItem: RequirementListEntity) = oldItem.servantID == newItem.servantID
         }
     }
 }

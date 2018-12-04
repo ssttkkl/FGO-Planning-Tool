@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -13,27 +12,11 @@ import com.ssttkkl.fgoplanningtool.databinding.ItemCostitemlistBinding
 import com.ssttkkl.fgoplanningtool.databinding.ItemCostitemlistHeaderBinding
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListRecViewAdapter
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
-import java.util.*
 
 class CostItemListRecViewAdapter(val context: Context,
                                  private val lifecycleOwner: LifecycleOwner,
-                                 private val viewModel: CostItemListFragmentViewModel) : ListAdapter<Any, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<Any>() {
-    override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
-        return if (oldItem is CostItem && newItem is CostItem)
-            oldItem.codename == newItem.codename
-        else if (oldItem is Header && newItem is Header)
-            oldItem == newItem
-        else
-            false
-    }
-
-    override fun areContentsTheSame(oldItem: Any, newItem: Any) = oldItem == newItem
-}) {
-    init {
-        viewModel.dataToShow.observe(lifecycleOwner, Observer { dataToShow ->
-            submitList(dataToShow ?: listOf())
-        })
-    }
+                                 private val viewModel: CostItemListFragmentViewModel)
+    : ListAdapter<Any, RecyclerView.ViewHolder>(diffCallback) {
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
@@ -73,10 +56,7 @@ class CostItemListRecViewAdapter(val context: Context,
 
         fun bind(costItem: CostItem) {
             binding.enableExpansionAnimation = false
-
             binding.costItem = costItem
-            (binding.recView.adapter as? RequirementListRecViewAdapter)?.submitList(costItem.requirements)
-
             binding.executePendingBindings()
             binding.enableExpansionAnimation = true
         }
@@ -91,5 +71,18 @@ class CostItemListRecViewAdapter(val context: Context,
     companion object {
         private const val VIEW_TYPE_COSTITEM = 1
         private const val VIEW_TYPE_HEADER = 2
+
+        private val diffCallback = object : DiffUtil.ItemCallback<Any>() {
+            override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
+                return if (oldItem is CostItem && newItem is CostItem)
+                    oldItem.codename == newItem.codename
+                else if (oldItem is Header && newItem is Header)
+                    oldItem == newItem
+                else
+                    false
+            }
+
+            override fun areContentsTheSame(oldItem: Any, newItem: Any) = oldItem == newItem
+        }
     }
 }

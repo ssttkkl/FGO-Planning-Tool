@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.iteminfo
+package com.ssttkkl.fgoplanningtool.ui.requirementlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.FragmentIteminfoRequirementlistBinding
-import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
-import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListRecViewAdapter
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
 class RequirementListFragment : Fragment() {

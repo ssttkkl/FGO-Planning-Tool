@@ -18,7 +18,9 @@ class CostItemListFragmentViewModel : ViewModel() {
 
     val itemClickable = MutableLiveData<Boolean>()
 
-    val expandedItem = MutableLiveData<String>()
+    val expandedItemCodename = MutableLiveData<String>().apply {
+        value = NO_ITEM
+    }
 
     val hideEnoughItems = MutableLiveData<Boolean>()
 
@@ -97,7 +99,7 @@ class CostItemListFragmentViewModel : ViewModel() {
     val scrollToPositionEvent = SingleLiveEvent<Int>()
 
     fun onClickItem(codename: String) {
-        expandedItem.value = if (codename == expandedItem.value) null else codename
+        expandedItemCodename.value = if (codename == expandedItemCodename.value) NO_ITEM else codename
     }
 
     fun onClickServant(servantID: Int) {
@@ -107,5 +109,9 @@ class CostItemListFragmentViewModel : ViewModel() {
     fun onClickJumpItem(itemType: ItemType) {
         scrollToPositionEvent.call(dataToShow.value?.indexOfFirst { (it as? Header)?.itemType == itemType }
                 ?: return)
+    }
+
+    companion object {
+        private val NO_ITEM = ""
     }
 }

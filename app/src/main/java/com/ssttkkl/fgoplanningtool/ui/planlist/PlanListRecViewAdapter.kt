@@ -4,17 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.ItemPlanlistBinding
 
 class PlanListRecViewAdapter(val context: Context,
-                             lifecycleOwner: LifecycleOwner,
-                             private val viewModel: PlanListFragmentViewModel) : ListAdapter<CheckablePlan, PlanListRecViewAdapter.ViewHolder>(CheckablePlan.Differ) {
-    init {
-        viewModel.data.observe(lifecycleOwner, Observer { submitList(it) })
-    }
+                             val lifecycleOwner: LifecycleOwner,
+                             private val viewModel: PlanListFragmentViewModel)
+    : ListAdapter<CheckablePlan, PlanListRecViewAdapter.ViewHolder>(CheckablePlan.ItemCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(ItemPlanlistBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -26,14 +23,13 @@ class PlanListRecViewAdapter(val context: Context,
     inner class ViewHolder(val binding: ItemPlanlistBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.viewModel = viewModel
+            binding.setLifecycleOwner(lifecycleOwner)
         }
 
         fun bind(data: CheckablePlan) {
-            binding.apply {
-                plan = data.plan
-                checked = data.checked
-                executePendingBindings()
-            }
+            binding.plan = data.plan
+            binding.checked = data.checked
+            binding.executePendingBindings()
         }
     }
 }

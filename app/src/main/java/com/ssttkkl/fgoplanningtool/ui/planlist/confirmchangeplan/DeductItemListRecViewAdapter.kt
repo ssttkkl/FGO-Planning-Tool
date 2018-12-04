@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,13 +11,8 @@ import com.ssttkkl.fgoplanningtool.databinding.ItemConfirmchangeplanDeductitemli
 
 class DeductItemListRecViewAdapter(val context: Context,
                                    private val lifecycleOwner: LifecycleOwner,
-                                   private val viewModel: ConfirmChangePlanFragmentViewModel) : ListAdapter<DeductItem, DeductItemListRecViewAdapter.ViewHolder>(object : DiffUtil.ItemCallback<DeductItem>() {
-    override fun areContentsTheSame(oldItem: DeductItem, newItem: DeductItem) = oldItem == newItem
-    override fun areItemsTheSame(oldItem: DeductItem, newItem: DeductItem) = oldItem.codename == newItem.codename
-}) {
-    init {
-        viewModel.deductItems.observe(lifecycleOwner, Observer { submitList(it ?: listOf()) })
-    }
+                                   private val viewModel: ConfirmChangePlanFragmentViewModel)
+    : ListAdapter<DeductItem, DeductItemListRecViewAdapter.ViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(ItemConfirmchangeplanDeductitemlistBinding.inflate(LayoutInflater.from(context), parent, false))
@@ -47,4 +41,12 @@ class DeductItemListRecViewAdapter(val context: Context,
             binding.executePendingBindings()
         }
     }
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<DeductItem>() {
+            override fun areContentsTheSame(oldItem: DeductItem, newItem: DeductItem) = oldItem == newItem
+            override fun areItemsTheSame(oldItem: DeductItem, newItem: DeductItem) = oldItem.codename == newItem.codename
+        }
+    }
+
 }

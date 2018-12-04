@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
+import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListFragment
 
 class ItemInfoPagerAdapter(fm: FragmentManager,
                            private val lifecycleOwner: LifecycleOwner,

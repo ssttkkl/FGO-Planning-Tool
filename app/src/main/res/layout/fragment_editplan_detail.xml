@@ -284,6 +284,7 @@
                     android:id="@+id/dress_recView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    list="@{viewModel.plan.servant.dress}"
                     android:visibility="@{viewModel.plan.servant.dress.isEmpty() ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

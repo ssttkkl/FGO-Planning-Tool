@@ -23,6 +23,7 @@
             android:id="@+id/action_planListFragment_to_confirmChangePlanFragment"
             app:destination="@id/confirmChangePlanFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/chooseServantFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.chooseservant.ChooseServantFragment"
@@ -32,6 +33,7 @@
             android:id="@+id/action_chooseServantFragment_to_editPlanDetailFragment"
             app:destination="@id/editPlanDetailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/editPlanDetailFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.EditPlanDetailFragment"
@@ -48,9 +50,9 @@
             app:destination="@id/costItemListFragment" />
         <action
             android:id="@+id/action_editPlanDetailFragment_to_confirmChangePlanFragment"
-            app:destination="@id/confirmChangePlanFragment"
-            app:popUpTo="@+id/planListFragment" />
+            app:destination="@id/confirmChangePlanFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/ownItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragment"
@@ -65,44 +67,41 @@
         android:id="@+id/databaseManageFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageFragment"
         android:label="@string/title_databasemanage"
-        app:launchSingleTop="true"
+
         tools:layout="@layout/fragment_databasemanage" />
 
     <action
         android:id="@+id/action_global_planListFragment"
-        app:destination="@id/planListFragment"
-        app:launchSingleTop="true"
-        app:popUpTo="@+id/nav_main" />
+        app:destination="@id/planListFragment" />
+
     <action
         android:id="@+id/action_global_ownItemListFragment"
-        app:destination="@id/ownItemListFragment"
-        app:launchSingleTop="true"
-        app:popUpTo="@+id/nav_main" />
+        app:destination="@id/ownItemListFragment" />
+
     <action
         android:id="@+id/action_global_servantBaseListFragment"
-        app:destination="@id/servantBaseListFragment"
-        app:launchSingleTop="true"
-        app:popUpTo="@+id/nav_main" />
+        app:destination="@id/servantBaseListFragment" />
+
     <action
         android:id="@+id/action_global_settingsFragment"
-        app:destination="@id/settingsFragment"
-        app:launchSingleTop="true"
-        app:popUpTo="@+id/nav_main" />
+        app:destination="@id/settingsFragment" />
+
     <action
         android:id="@+id/action_global_databaseManageFragment"
-        app:destination="@id/databaseManageFragment"
-        app:launchSingleTop="true"
-        app:popUpTo="@+id/nav_main" />
+        app:destination="@id/databaseManageFragment" />
+
     <fragment
         android:id="@+id/costItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragment"
         android:label="@string/title_costitemlist"
         tools:layout="@layout/fragment_costitemlist" />
+
     <fragment
         android:id="@+id/confirmChangePlanFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment"
         android:label="@string/title_confirm_change_plan"
         tools:layout="@layout/fragment_confirmchangeplan" />
+
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -161,5 +160,6 @@
 
     <action
         android:id="@+id/action_global_servantInfoFragment"
-        app:destination="@id/servantInfoFragment" />
+        app:destination="@id/servantInfoFragment"
+        app:popUpToInclusive="true" />
 </navigation>

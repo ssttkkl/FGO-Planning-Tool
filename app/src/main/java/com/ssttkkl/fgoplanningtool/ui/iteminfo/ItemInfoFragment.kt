@@ -16,6 +16,7 @@ import com.ssttkkl.fgoplanningtool.databinding.FragmentIteminfoBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
+import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListFragment
 
 class ItemInfoFragment : Fragment(), RequirementListFragment.OnClickItemListener {
     private lateinit var binding: FragmentIteminfoBinding

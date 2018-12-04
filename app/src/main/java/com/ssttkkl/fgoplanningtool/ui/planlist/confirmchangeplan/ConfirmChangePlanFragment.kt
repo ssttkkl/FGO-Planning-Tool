@@ -62,7 +62,7 @@ class ConfirmChangePlanFragment : Fragment() {
     }
 
     private fun navigateUp() {
-        findNavController().navigateUp()
+        findNavController().navigate(ConfirmChangePlanFragmentDirections.actionGlobalPlanListFragment())
     }
 
     private fun onTitleChanged(title: String) {

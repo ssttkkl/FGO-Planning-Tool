@@ -14,13 +14,8 @@ import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
 class ServantInfoLevelListRecViewAdapter(val context: Context,
                                          private val lifecycleOwner: LifecycleOwner,
-                                         private val viewModel: ServantInfoLevelListViewModel) : ListAdapter<ServantInfoLevelListEntity, ServantInfoLevelListRecViewAdapter.ViewHolder>(object : DiffUtil.ItemCallback<ServantInfoLevelListEntity>() {
-    override fun areContentsTheSame(oldItem: ServantInfoLevelListEntity, newItem: ServantInfoLevelListEntity) = oldItem == newItem
-    override fun areItemsTheSame(oldItem: ServantInfoLevelListEntity, newItem: ServantInfoLevelListEntity) = oldItem.start == newItem.start && oldItem.to == newItem.to && oldItem.isHorizontalArrowVisible == newItem.isHorizontalArrowVisible
-}) {
-    init {
-        viewModel.data.observe(lifecycleOwner, Observer { submitList(it ?: listOf()) })
-    }
+                                         private val viewModel: ServantInfoLevelListViewModel)
+    : ListAdapter<ServantInfoLevelListEntity, ServantInfoLevelListRecViewAdapter.ViewHolder>(diffCallback) {
 
     private var listener: ((codename: String) -> Unit)? = null
 
@@ -51,8 +46,14 @@ class ServantInfoLevelListRecViewAdapter(val context: Context,
 
         fun bind(entity: ServantInfoLevelListEntity) {
             binding.entity = entity
-            (binding.recView.adapter as? ServantInfoItemListRecViewAdapter)?.submitList(entity.items.sortedBy { it.descriptor?.rank })
             binding.executePendingBindings()
+        }
+    }
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<ServantInfoLevelListEntity>() {
+            override fun areContentsTheSame(oldItem: ServantInfoLevelListEntity, newItem: ServantInfoLevelListEntity) = oldItem == newItem
+            override fun areItemsTheSame(oldItem: ServantInfoLevelListEntity, newItem: ServantInfoLevelListEntity) = oldItem.start == newItem.start && oldItem.to == newItem.to && oldItem.isHorizontalArrowVisible == newItem.isHorizontalArrowVisible
         }
     }
 }

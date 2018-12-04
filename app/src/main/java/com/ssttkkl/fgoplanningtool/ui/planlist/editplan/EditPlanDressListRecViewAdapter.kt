@@ -13,15 +13,8 @@ import com.ssttkkl.fgoplanningtool.resources.servant.Dress
 
 class EditPlanDressListRecViewAdapter(val context: Context,
                                       private val lifecycleOwner: LifecycleOwner,
-                                      private val viewModel: EditPlanFragmentViewModel) : ListAdapter<Dress, EditPlanDressListRecViewAdapter.ViewHolder>(object : DiffUtil.ItemCallback<Dress>() {
-    override fun areContentsTheSame(oldItem: Dress, newItem: Dress) = oldItem == newItem
-    override fun areItemsTheSame(oldItem: Dress, newItem: Dress) = oldItem == newItem
-}) {
-    init {
-        viewModel.plan.servant.observe(lifecycleOwner, Observer {
-            submitList(it?.dress ?: listOf())
-        })
-    }
+                                      private val viewModel: EditPlanFragmentViewModel)
+    : ListAdapter<Dress, EditPlanDressListRecViewAdapter.ViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(ItemEditplanDressBinding.inflate(LayoutInflater.from(context), parent, false))
@@ -38,6 +31,14 @@ class EditPlanDressListRecViewAdapter(val context: Context,
 
         fun bind(dress: Dress) {
             binding.dress = dress
+            binding.executePendingBindings()
+        }
+    }
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<Dress>() {
+            override fun areContentsTheSame(oldItem: Dress, newItem: Dress) = oldItem == newItem
+            override fun areItemsTheSame(oldItem: Dress, newItem: Dress) = oldItem == newItem
         }
     }
 }
