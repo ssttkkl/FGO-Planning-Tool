@@ -6,8 +6,6 @@
     <string name="resBroken_splash">资源包读取失败。可能是因为资源包和APP版本不匹配。您可以在进入APP后，到“选项”界面重新更新资源包。</string>
     <string name="enterApp_splash">进入APP</string>
 
-    <string name="emptyHint">什么都没有</string>
-
     <string name="databaseFromMigrationName">从旧版本迁移的账号</string>
     <string name="newDatabaseName">新账号</string>
     <string name="newDatabaseNameMultiple">新账号 (%1$d)</string>
@@ -34,7 +32,8 @@
     <string name="exportError_databasemanage">导出失败：%1$s</string>
 
     <string name="title_planlist">规划列表</string>
-    <string name="emptyHint_planlist">什么都没有</string>
+    <string name="emptyHint_planlist">现在这里什么都没有\n点击右上角 ＋ 按钮添加规划</string>
+    <string name="emptyHint_notDefaultState_planlist">当前过滤条件下这里什么都没有\n点击右上角 ＋ 按钮添加规划</string>
     <string name="selectedCount_planlist" translatable="false">%1$d / %2$d</string>
     <string name="add_planlist">添加</string>
     <string name="enterSelectMode_planlist">进入多选模式</string>
@@ -108,6 +107,7 @@
     <string name="jump_costitemlist">快速跳转</string>
     <string name="own_item_costitemlist">持有</string>
     <string name="need_item_costitemlist">需要</string>
+    <string name="emptyHint_costitemlist">这规划竟然不消耗任何材料</string>
 
     <string name="title_ownitemlist">材料仓库</string>
     <string name="enterEditMode_ownitemlist">进入批量编辑模式</string>

@@ -24,6 +24,6 @@ class ServantBaseListFragment : Fragment(), ServantListFragment.OnClickServantLi
     }
 
     override fun onClickServant(servantID: Int) {
-        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf("servantID" to servantID))
+        findNavController().navigate(ServantBaseListFragmentDirections.actionServantBaseListFragmentToServantInfoFragment(servantID))
     }
 }

@@ -123,7 +123,7 @@ class ServantListFragment : Fragment(),
         } else false
     }
 
-    override fun onFilter(filtered: List<Servant>) {
+    override fun onFilter(filtered: List<Servant>, isDefaultState: Boolean) {
         binding.viewModel?.onFiltered(filtered)
     }
 

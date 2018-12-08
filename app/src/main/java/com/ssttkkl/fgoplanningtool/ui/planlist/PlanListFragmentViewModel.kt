@@ -1,9 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
@@ -36,6 +33,12 @@ class PlanListFragmentViewModel : ViewModel() {
             }
         }
     }
+
+    val showEmptyHint: LiveData<Boolean> = Transformations.map(data) { data ->
+        data.isNullOrEmpty()
+    }
+
+    val isDefaultState = MutableLiveData<Boolean>()
 
     val inSelectMode = object : MutableLiveData<Boolean>() {
         override fun setValue(value: Boolean?) {
@@ -134,7 +137,9 @@ class PlanListFragmentViewModel : ViewModel() {
         inSelectMode.value = false
     }
 
-    fun onFilter(filtered: List<Servant>) {
+    fun onFilter(filtered: List<Servant>, isDefaultState: Boolean) {
+        this.isDefaultState.value = isDefaultState
+
         val servantIDs = filtered.map { it.id }
         val selectedServantIDs = data.value?.filter { it.checked }?.map { it.plan.servantId }?.toSet()
                 ?: setOf()

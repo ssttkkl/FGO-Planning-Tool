@@ -319,7 +319,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:drawableStart="@drawable/ic_refresh_white_24dp"
-            android:enabled="@{viewModel.enableResetButton}"
+            android:enabled="@{!viewModel.isDefaultState}"
             android:onClick="@{() -> viewModel.onClickResetButton()}"
             android:text="@string/reset_servantfilter" />
     </LinearLayout>

@@ -91,7 +91,7 @@ class ServantInfoFragment : Fragment(), ServantInfoLevelListFragment.OnClickItem
     }
 
     private fun showItemInfo(codename: String) {
-        findNavController().navigate(R.id.action_global_itemInfoFragment, bundleOf("codename" to codename))
+        findNavController().navigate(ServantInfoFragmentDirections.actionServantInfoFragmentToItemInfoFragment(codename))
     }
 
     private fun onServantChanged(servant: Servant) {

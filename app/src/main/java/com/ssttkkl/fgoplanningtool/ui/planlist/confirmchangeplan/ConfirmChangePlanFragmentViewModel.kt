@@ -48,6 +48,10 @@ class ConfirmChangePlanFragmentViewModel : ViewModel() {
                 .flatMap { (_, items) -> items }
     }
 
+    val showEmptyHint: LiveData<Boolean> = Transformations.map(deductItems) { deductItems ->
+        deductItems.isNullOrEmpty()
+    }
+
     val finishEvent = SingleLiveEvent<Void>()
 
     fun onClickItem(codename: String) {

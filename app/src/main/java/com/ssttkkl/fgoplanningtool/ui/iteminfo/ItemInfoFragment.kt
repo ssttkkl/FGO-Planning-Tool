@@ -93,7 +93,7 @@ class ItemInfoFragment : Fragment(), RequirementListFragment.OnClickItemListener
     }
 
     private fun showServantInfo(servantID: Int) {
-        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf("servantID" to servantID))
+        findNavController().navigate(ItemInfoFragmentDirections.actionItemInfoFragmentToServantInfoFragment(servantID))
     }
 
     private fun onItemDescriptorChanged(itemDescriptor: ItemDescriptor) {

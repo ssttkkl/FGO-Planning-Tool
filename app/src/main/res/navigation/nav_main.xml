@@ -12,16 +12,32 @@
         tools:layout="@layout/fragment_planlist">
         <action
             android:id="@+id/action_planListFragment_to_chooseServantFragment"
-            app:destination="@id/chooseServantFragment" />
+            app:destination="@id/chooseServantFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_planListFragment_to_editPlanDetailFragment"
-            app:destination="@id/editPlanDetailFragment" />
+            app:destination="@id/editPlanDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_planListFragment_to_costItemListFragment"
-            app:destination="@id/costItemListFragment" />
+            app:destination="@id/costItemListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_planListFragment_to_confirmChangePlanFragment"
-            app:destination="@id/confirmChangePlanFragment" />
+            app:destination="@id/confirmChangePlanFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -31,7 +47,11 @@
         tools:layout="@layout/fragment_editplan_chooseservant">
         <action
             android:id="@+id/action_chooseServantFragment_to_editPlanDetailFragment"
-            app:destination="@id/editPlanDetailFragment" />
+            app:destination="@id/editPlanDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -47,22 +67,41 @@
             app:argType="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.Mode" />
         <action
             android:id="@+id/action_editPlanDetailFragment_to_costItemListFragment"
-            app:destination="@id/costItemListFragment" />
+            app:destination="@id/costItemListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_editPlanDetailFragment_to_confirmChangePlanFragment"
-            app:destination="@id/confirmChangePlanFragment" />
+            app:destination="@id/confirmChangePlanFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_editPlanDetailFragment_to_servantInfoFragment"
+            app:destination="@id/servantInfoFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/ownItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragment"
         android:label="@string/title_ownitemlist"
-        tools:layout="@layout/fragment_ownitemlist" />
+        tools:layout="@layout/fragment_ownitemlist">
+        <action
+            android:id="@+id/action_ownItemListFragment_to_itemInfoFragment"
+            app:destination="@id/itemInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/servantBaseListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.servantbaselist.ServantBaseListFragment"
         android:label="ServantBaseListFragment"
-        tools:layout="@layout/fragment_servantbaselist" />
+        tools:layout="@layout/fragment_servantbaselist">
+        <action
+            android:id="@+id/action_servantBaseListFragment_to_servantInfoFragment"
+            app:destination="@id/servantInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/databaseManageFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageFragment"
@@ -72,35 +111,67 @@
 
     <action
         android:id="@+id/action_global_planListFragment"
-        app:destination="@id/planListFragment" />
+        app:destination="@id/planListFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <action
         android:id="@+id/action_global_ownItemListFragment"
-        app:destination="@id/ownItemListFragment" />
+        app:destination="@id/ownItemListFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <action
         android:id="@+id/action_global_servantBaseListFragment"
-        app:destination="@id/servantBaseListFragment" />
+        app:destination="@id/servantBaseListFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <action
         android:id="@+id/action_global_settingsFragment"
-        app:destination="@id/settingsFragment" />
+        app:destination="@id/settingsFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <action
         android:id="@+id/action_global_databaseManageFragment"
-        app:destination="@id/databaseManageFragment" />
+        app:destination="@id/databaseManageFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <fragment
         android:id="@+id/costItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragment"
         android:label="@string/title_costitemlist"
-        tools:layout="@layout/fragment_costitemlist" />
+        tools:layout="@layout/fragment_costitemlist">
+        <action
+            android:id="@+id/action_costItemListFragment_to_itemInfoFragment"
+            app:destination="@id/itemInfoFragment" />
+        <action
+            android:id="@+id/action_costItemListFragment_to_servantInfoFragment"
+            app:destination="@id/servantInfoFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/confirmChangePlanFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment"
         android:label="@string/title_confirm_change_plan"
-        tools:layout="@layout/fragment_confirmchangeplan" />
+        tools:layout="@layout/fragment_confirmchangeplan"></fragment>
 
 
     <fragment
@@ -139,12 +210,11 @@
         <argument
             android:name="codename"
             app:argType="string" />
+        <action
+            android:id="@+id/action_itemInfoFragment_to_servantInfoFragment"
+            app:destination="@id/servantInfoFragment" />
 
     </fragment>
-
-    <action
-        android:id="@+id/action_global_itemInfoFragment"
-        app:destination="@id/itemInfoFragment" />
 
     <fragment
         android:id="@+id/servantInfoFragment"
@@ -155,11 +225,10 @@
         <argument
             android:name="servantID"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_servantInfoFragment_to_itemInfoFragment"
+            app:destination="@id/itemInfoFragment" />
 
     </fragment>
 
-    <action
-        android:id="@+id/action_global_servantInfoFragment"
-        app:destination="@id/servantInfoFragment"
-        app:popUpToInclusive="true" />
 </navigation>

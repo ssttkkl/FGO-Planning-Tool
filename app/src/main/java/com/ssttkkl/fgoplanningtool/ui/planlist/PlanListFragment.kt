@@ -120,8 +120,8 @@ class PlanListFragment : Fragment(),
         }
     }
 
-    override fun onFilter(filtered: List<Servant>) {
-        binding.viewModel?.onFilter(filtered)
+    override fun onFilter(filtered: List<Servant>, isDefaultState: Boolean) {
+        binding.viewModel?.onFilter(filtered, isDefaultState)
     }
 
     override fun onRequestCostItems(servant: Servant): Collection<Item> {

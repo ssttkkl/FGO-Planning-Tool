@@ -112,7 +112,7 @@ class EditPlanDetailFragment : Fragment(),
     }
 
     private fun showServantInfo(servantID: Int) {
-        findNavController().navigate(EditPlanDetailFragmentDirections.actionGlobalServantInfoFragment(servantID))
+        findNavController().navigate(EditPlanDetailFragmentDirections.actionEditPlanDetailFragmentToServantInfoFragment(servantID))
     }
 
     private fun showCostItems(costItems: Collection<Item>) {

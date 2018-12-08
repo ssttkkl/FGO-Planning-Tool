@@ -117,7 +117,7 @@ class CostItemListFragment : Fragment() {
     }
 
     private fun gotoServantDetailUi(servantID: Int) {
-        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf("servantID" to servantID))
+        findNavController().navigate(CostItemListFragmentDirections.actionCostItemListFragmentToServantInfoFragment(servantID))
     }
 
     private fun scrollToPosition(position: Int) {

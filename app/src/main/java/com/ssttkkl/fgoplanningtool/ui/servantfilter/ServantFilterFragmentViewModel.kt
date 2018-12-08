@@ -136,7 +136,7 @@ class ServantFilterFragmentViewModel : ViewModel() {
     val expandWayToGet = MutableLiveData<Boolean>()
     val expandItem = MutableLiveData<Boolean>()
 
-    val enableResetButton = object : LiveData<Boolean>() {
+    val isDefaultState = object : LiveData<Boolean>() {
         val observer = Observer<Any> {
             var ans = true
             ans = ans && searchText.value.isNullOrEmpty()
@@ -147,10 +147,12 @@ class ServantFilterFragmentViewModel : ViewModel() {
             ans = ans && itemFilterMode.value == DEFAULT_ITEM_MODE
             ans = ans && order.value == DEFAULT_ORDER
             ans = ans && orderBy.value == DEFAULT_ORDER_BY
-            value = !ans
+            value = ans
         }
 
         init {
+            value = false
+
             origin.observeForever(observer)
             searchText.observeForever(observer)
             servantClasses.observeForever(observer)

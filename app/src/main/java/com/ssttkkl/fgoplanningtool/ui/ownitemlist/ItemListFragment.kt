@@ -17,6 +17,10 @@ import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
 class ItemListFragment : Fragment() {
+    interface OnShowItemInfoListener {
+        fun onShowItemInfo(codename: String)
+    }
+
     private lateinit var binding: FragmentOwnitemlistItemlistBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +51,7 @@ class ItemListFragment : Fragment() {
     }
 
     private fun showItemInfo(codename: String) {
-        findNavController().navigate(R.id.action_global_itemInfoFragment, bundleOf("codename" to codename))
+        (parentFragment as? OnShowItemInfoListener)?.onShowItemInfo(codename)
     }
 
     private fun showMessage(message: String) {
