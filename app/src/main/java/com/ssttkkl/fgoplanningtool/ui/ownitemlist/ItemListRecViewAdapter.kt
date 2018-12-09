@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.ItemOwnitemlistBinding
@@ -13,7 +12,7 @@ import com.ssttkkl.fgoplanningtool.databinding.ItemOwnitemlistEditmodeBinding
 
 class ItemListRecViewAdapter(val context: Context,
                              private val lifecycleOwner: LifecycleOwner,
-                             private val viewModel: ItemListFragmentViewModel)
+                             private val viewModel: OwnItemListFragmentViewModel)
     : ListAdapter<EditableItem, ItemListRecViewAdapter.ViewHolder>(EditableItem.ItemCallback) {
 
     override fun getItemViewType(position: Int): Int {

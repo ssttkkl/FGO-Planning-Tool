@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.ownitemlist.ItemListFragmentViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragmentViewModel" />
 
         <variable
             name="item"
@@ -60,6 +60,7 @@
             android:gravity="center_vertical|end"
             android:hint="@{String.valueOf(item.count)}"
             android:inputType="number"
+            android:selectAllOnFocus="true"
             android:singleLine="true"
             android:text="@={viewModel.editedCount[item.codename]}"
             app:layout_constraintBottom_toBottomOf="parent"

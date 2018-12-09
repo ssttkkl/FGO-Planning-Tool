@@ -4,13 +4,17 @@
     <data>
 
         <variable
+            name="type"
+            type="com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType" />
+
+        <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.ownitemlist.ItemListFragmentViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragmentViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recView"
-        list="@{viewModel.data}"
+        list="@{viewModel.data.get(type)}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_ownitemlist" />

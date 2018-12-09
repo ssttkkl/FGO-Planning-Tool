@@ -1,5 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.ownitemlist
 
+import android.view.View
 import androidx.databinding.ObservableArrayMap
 import androidx.lifecycle.*
 import com.ssttkkl.fgoplanningtool.MyApp
@@ -10,17 +11,17 @@ import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
+import java.util.HashMap
 
-class ItemListFragmentViewModel : ViewModel() {
+class OwnItemListFragmentViewModel : ViewModel() {
     val showItemInfoEvent = SingleLiveEvent<String>()
     val showMessageEvent = SingleLiveEvent<String>()
 
-    val type = MutableLiveData<ItemType>()
-
     private val indexedData = MutableLiveData<Map<String, EditableItem>>()
 
-    val data: LiveData<List<EditableItem>> = Transformations.map(indexedData) { indexedData ->
+    val data: LiveData<Map<ItemType?, List<EditableItem>>> = Transformations.map(indexedData) { indexedData ->
         indexedData.values.sortedBy { ResourcesProvider.instance.itemRank[it.item.codename] }
+                .groupBy { it.item.descriptor?.type }
     }
 
     val editedCount = ObservableArrayMap<String, Long>()
@@ -29,41 +30,51 @@ class ItemListFragmentViewModel : ViewModel() {
         indexedData.value = indexedData.value?.toMutableMap()?.apply {
             val oldItem = this[codename] ?: return
             this[codename] = EditableItem(oldItem.item, editing)
+            setItemEditedCount(codename, oldItem.item.count)
         }
-        setItemEditedCount(codename, null)
     }
 
     private fun setItemEditedCount(codename: String, editedCount: Long?) {
         this.editedCount[codename] = editedCount
     }
 
-    private val generator = { oldData: Map<String, EditableItem>?, origin: List<Item>?, type: ItemType? ->
-        val map = origin?.associate { Pair(it.codename, it) } ?: mapOf()
-        ResourcesProvider.instance.itemDescriptors.values.filter { it.type == type }
-                .associate {
-                    Pair(it.codename,
-                            EditableItem(Item(it.codename, map[it.codename]?.count ?: 0),
-                                    oldData?.get(it.codename)?.editing == true))
-                }
+    val withEventItems = MutableLiveData<Boolean>()
+    val indexedEventItems: LiveData<Map<String, Item>> = Transformations.map(Repo.eventListLiveData) { events ->
+        val map = HashMap<String, Long>()
+        events.forEach { event ->
+            event.items.forEach { (codename, count) ->
+                map[codename] = (map[codename] ?: 0) + count
+            }
+        }
+        map.mapValues { Item(it.key, it.value) }
+    }
+
+    private val generator = {
+        val map = Repo.itemListLiveData.value?.associate { Pair(it.codename, it) } ?: mapOf()
+        ResourcesProvider.instance.itemDescriptors.values.associate {
+            Pair(it.codename, EditableItem(Item(it.codename, map[it.codename]?.count ?: 0),
+                    indexedData.value?.get(it.codename)?.editing == true))
+        }
     }
 
     private val observer = Observer<Any> {
-        indexedData.value = generator(indexedData.value, Repo.itemListLiveData.value, type.value)
+        indexedData.value = generator()
     }
 
     init {
         Repo.itemListLiveData.observeForever(observer)
-        type.observeForever(observer)
     }
 
     override fun onCleared() {
         super.onCleared()
         Repo.itemListLiveData.removeObserver(observer)
-        type.removeObserver(observer)
     }
 
-    val showInfoButton: LiveData<Boolean> = Transformations.map(type) { type ->
-        type != ItemType.General
+    fun getInfoButtonVisibility(item: Item?): Int {
+        return if (item?.descriptor?.type == ItemType.General)
+            View.GONE
+        else
+            View.VISIBLE
     }
 
     fun onItemClickEdit(codename: String) {
@@ -75,7 +86,7 @@ class ItemListFragmentViewModel : ViewModel() {
     }
 
     fun onItemClickReset(codename: String) {
-        setItemEditedCount(codename, null)
+        setItemEditedCount(codename, indexedData.value?.get(codename)?.item?.count)
     }
 
     fun onItemClickSave(codename: String) {

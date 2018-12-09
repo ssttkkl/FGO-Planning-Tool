@@ -111,12 +111,13 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="16dp"
                 android:maxLines="1"
-                android:text="@string/own_item_costitemlist"
+                android:text="@{viewModel.withEventItems ? @string/ownAndEvent_item_costitemlist : @string/own_item_costitemlist}"
                 android:textAppearance="@style/ListItemTertiary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/own_textView"
                 app:layout_constraintStart_toEndOf="@+id/require_textView"
-                app:layout_constraintTop_toBottomOf="@+id/name_textView" />
+                app:layout_constraintTop_toBottomOf="@+id/name_textView"
+                tools:text="@string/ownAndEvent_item_costitemlist" />
 
             <TextView
                 android:id="@+id/own_textView"

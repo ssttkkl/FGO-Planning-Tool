@@ -8,6 +8,7 @@ import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.groupedCostItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
+import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
@@ -15,6 +16,15 @@ import java.util.*
 
 class CostItemListFragmentViewModel : ViewModel() {
     private val originData = MutableLiveData<List<CostItem>>()
+    private val eventItemsMap: LiveData<Map<String, Long>> = Transformations.map(Repo.eventListLiveData) { events ->
+        val map = HashMap<String, Long>()
+        events.forEach { event ->
+            event.items.forEach { (codename, count) ->
+                map[codename] = (map[codename] ?: 0) + count
+            }
+        }
+        map
+    }
 
     val itemClickable = MutableLiveData<Boolean>()
 
@@ -23,6 +33,7 @@ class CostItemListFragmentViewModel : ViewModel() {
     }
 
     val hideEnoughItems = MutableLiveData<Boolean>()
+    val withEventItems = MutableLiveData<Boolean>()
 
     // item can be Header or CostItem
     val dataToShow = object : LiveData<List<Any>>() {
@@ -43,7 +54,14 @@ class CostItemListFragmentViewModel : ViewModel() {
                         if (type != null)
                             list.add(Header(type, idx != 0)) // the first header shouldn't show a divider
                     }
-                    list.add(items[idx])
+                    if (withEventItems.value == true) {
+                        val item = items[idx]
+                        list.add(CostItem(item.codename,
+                                item.require,
+                                item.own + (eventItemsMap.value?.get(item.codename) ?: 0L),
+                                item.requirements))
+                    } else
+                        list.add(items[idx])
                 }
                 list
             }
@@ -51,7 +69,9 @@ class CostItemListFragmentViewModel : ViewModel() {
 
         init {
             hideEnoughItems.observeForever { value = generator() }
+            withEventItems.observeForever { value = generator() }
             originData.observeForever { value = generator() }
+            eventItemsMap.observeForever { value = generator() }
         }
     }
 

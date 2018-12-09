@@ -8,10 +8,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentOwnitemlistItemlistBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
@@ -27,9 +25,8 @@ class ItemListFragment : Fragment() {
                               savedInstanceState: Bundle?): View {
         binding = FragmentOwnitemlistItemlistBinding.inflate(inflater, container, false)
         binding.setLifecycleOwner(this)
-        binding.viewModel = ViewModelProviders.of(this)[ItemListFragmentViewModel::class.java].apply {
-            type.value = arguments!!.getSerializable(ARG_TYPE) as ItemType
-        }
+        binding.viewModel = ViewModelProviders.of(parentFragment!!)[OwnItemListFragmentViewModel::class.java]
+        binding.type = arguments!!.getSerializable(ARG_TYPE) as ItemType
         return binding.root
     }
 

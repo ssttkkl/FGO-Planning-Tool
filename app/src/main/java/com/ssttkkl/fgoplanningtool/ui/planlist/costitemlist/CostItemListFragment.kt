@@ -64,6 +64,7 @@ class CostItemListFragment : Fragment() {
     }
 
     private lateinit var hideEnoughItemsSwitch: Switch
+    private lateinit var withEventItemsSwitch: Switch
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
@@ -79,6 +80,18 @@ class CostItemListFragment : Fragment() {
         }
         binding.viewModel?.hideEnoughItems?.observe(this, Observer {
             hideEnoughItemsSwitch.isChecked = it
+        })
+
+        val withEventItemsItem = menu.findItem(R.id.withEventItems)
+        withEventItemsSwitch = withEventItemsItem.actionView.findViewById(R.id.switchWidget)
+        withEventItemsSwitch.text = withEventItemsItem.title
+        withEventItemsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            val alreadyChecked = binding.viewModel?.withEventItems?.value == true
+            if (alreadyChecked != isChecked)
+                binding.viewModel?.withEventItems?.value = isChecked
+        }
+        binding.viewModel?.withEventItems?.observe(this, Observer {
+            withEventItemsSwitch.isChecked = it
         })
     }
 

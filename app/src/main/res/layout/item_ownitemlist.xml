@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.ownitemlist.ItemListFragmentViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragmentViewModel" />
 
         <variable
             name="item"
@@ -25,7 +25,7 @@
         <ImageView
             android:id="@+id/avatar_imageView"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
@@ -62,6 +62,7 @@
             android:text="@string/own_item_ownitemlist"
             android:textAppearance="@style/ListItemTertiary"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/own_textView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_textView" />
 
@@ -70,16 +71,53 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
+            android:maxLines="1"
             android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(item.count)}"
             android:textAppearance="@style/ListItemSecondary"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/edit_button"
+            app:layout_constraintEnd_toStartOf="@id/textView17"
             app:layout_constraintStart_toEndOf="@+id/textView14"
             app:layout_constraintTop_toBottomOf="@+id/name_textView"
             tools:text="233,333,333" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/event_ownitemlist"
+            android:textAppearance="@style/ListItemTertiary"
+            android:visibility="@{viewModel.withEventItems ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/event_textView"
+            app:layout_constraintStart_toEndOf="@+id/own_textView"
+            app:layout_constraintTop_toBottomOf="@+id/name_textView" />
+
+        <TextView
+            android:id="@+id/event_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:maxLines="1"
+            android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(viewModel.indexedEventItems.get(item.codename).count)}"
+            android:textAppearance="@style/ListItemSecondary"
+            android:visibility="@{viewModel.withEventItems ? View.VISIBLE : View.GONE}"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/edit_button"
+            app:layout_constraintStart_toEndOf="@+id/textView17"
+            app:layout_constraintTop_toBottomOf="@+id/name_textView"
+            tools:text="666.666.666" />
 
         <ImageButton
             android:id="@+id/info_button"
@@ -89,7 +127,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{() -> viewModel.onItemClickInfo(item.codename)}"
             android:tint="@android:color/tertiary_text_light"
-            android:visibility="@{viewModel.showInfoButton ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.getInfoButtonVisibility(item)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

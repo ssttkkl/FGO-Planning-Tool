@@ -109,7 +109,9 @@
     <string name="hide_enough_items_costitemlist">只显示不足项</string>
     <string name="jump_costitemlist">快速跳转</string>
     <string name="own_item_costitemlist">持有</string>
+    <string name="ownAndEvent_item_costitemlist">持有+活动</string>
     <string name="need_item_costitemlist">需要</string>
+    <string name="withEventItems_costitemlist">千里眼</string>
     <string name="emptyHint_costitemlist">这规划竟然不消耗任何材料</string>
 
     <string name="title_ownitemlist">材料仓库</string>
@@ -233,4 +235,5 @@
     <string name="reset_editevent">重置</string>
     <string name="illegalValue_editevent">材料 %1$s 的数量超出范围 [%2$d, %3$d]</string>
     <string name="participated_editevent">参加过原版活动</string>
+    <string name="event_ownitemlist">活动</string>
 </resources>

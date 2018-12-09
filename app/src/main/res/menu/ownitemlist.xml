@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/hideEnoughItems"
-        android:title="@string/hide_enough_items_costitemlist"
-        app:actionLayout="@layout/switch_item"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/withEventItems"
         android:title="@string/withEventItems_costitemlist"
         app:actionLayout="@layout/switch_item"
