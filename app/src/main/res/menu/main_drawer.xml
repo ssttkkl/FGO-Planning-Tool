@@ -18,6 +18,11 @@
             android:title="@string/ownitemlist_nav"
             app:showAsAction="ifRoom" />
         <item
+            android:id="@+id/eventListFragment"
+            android:icon="@drawable/ic_remove_red_eye_black_24dp"
+            android:title="@string/title_eventlist"
+            app:showAsAction="ifRoom" />
+        <item
             android:id="@+id/servantBaseListFragment"
             android:icon="@drawable/ic_album_white_24dp"
             android:title="@string/servantdetaillist_nav"

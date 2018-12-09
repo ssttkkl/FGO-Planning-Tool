@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.eventlist.EventListFragmentViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:lineSpacingExtra="8sp"
+            android:text="@string/emptyHint_eventlist"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:visibility="@{viewModel.showEmptyHint ? View.VISIBLE : View.GONE}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recView"
+            list="@{viewModel.data}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
+            tools:listitem="@layout/item_eventlist" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

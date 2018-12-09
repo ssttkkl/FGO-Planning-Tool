@@ -47,6 +47,6 @@ class RequirementListFragment : Fragment() {
         }
 
     companion object {
-        const val ARG_DATA = "data"
+        const val ARG_DATA = "events"
     }
 }

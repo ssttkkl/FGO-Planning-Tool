@@ -58,6 +58,7 @@ class MainActivity : BackRouterActivity(),
         when (item.itemId) {
             R.id.planListFragment -> navController.navigate(R.id.action_global_planListFragment)
             R.id.ownItemListFragment -> navController.navigate(R.id.action_global_ownItemListFragment)
+            R.id.eventListFragment -> navController.navigate(R.id.action_global_eventListFragment)
             R.id.servantBaseListFragment -> navController.navigate(R.id.action_global_servantBaseListFragment)
             R.id.settingsFragment -> navController.navigate(R.id.action_global_settingsFragment)
         }

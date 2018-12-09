@@ -2,11 +2,11 @@ package com.ssttkkl.fgoplanningtool.resources
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.ssttkkl.fgoplanningtool.MyApp
+import com.ssttkkl.fgoplanningtool.resources.eventdescriptor.EventDescriptor
+import com.ssttkkl.fgoplanningtool.resources.eventdescriptor.gson.EventDescriptorMapGsonTypeAdapter
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
 import com.ssttkkl.fgoplanningtool.resources.migration.CommonMigration1
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
@@ -19,6 +19,7 @@ import java.util.*
 
 class ResourcesProvider(context: Context) {
     private val gson = GsonBuilder().registerTypeAdapter(ServantMapGsonTypeAdapter.typeToken.type, ServantMapGsonTypeAdapter())
+            .registerTypeAdapter(EventDescriptorMapGsonTypeAdapter.typeToken.type, EventDescriptorMapGsonTypeAdapter())
             .create()
 
     val resourcesDir = File(context.filesDir, DIRECTORYNAME_RESOURCES)
@@ -48,6 +49,8 @@ class ResourcesProvider(context: Context) {
         itemDescriptors = list.associate { Pair(it.codename, it) }
         itemRank = list.mapIndexed { idx, it -> Pair(it.codename, idx) }.toMap(HashMap())
     }
+
+    val eventDescriptors: Map<String, EventDescriptor> = buildEventDescriptors()
 
     private fun buildResPackInfo(): ResPackInfo {
         try {
@@ -85,8 +88,20 @@ class ResourcesProvider(context: Context) {
         }
     }
 
+    private fun buildEventDescriptors(): Map<String, EventDescriptor> {
+        try {
+            File(resourcesDir, FILENAME_EVENT_INFO).bufferedReader().use { reader ->
+                return gson.fromJson(reader, EventDescriptorMapGsonTypeAdapter.typeToken.type)
+            }
+        } catch (exc: Exception) {
+            Log.e("ResProvider", "Failed to build EventDescriptors map. $exc")
+            isBroken = true
+            return mapOf()
+        }
+    }
+
     companion object {
-        const val TARGET_VERSION = 3
+        const val TARGET_VERSION = 4
 
         const val DIRECTORYNAME_RESOURCES = "resources"
         const val DIRECTORYNAME_AVATAR = "avatar"
@@ -94,6 +109,10 @@ class ResourcesProvider(context: Context) {
         const val FILENAME_ITEM_INFO = "item_info.json"
         const val FILENAME_SERVANT_INFO = "servant_info.json"
         const val FILENAME_RES_PACK_INFO = "res_pack_info.json"
+        const val FILENAME_EVENT_INFO = "event_info.json"
+
+        val DIRECTORY_NAMES = setOf(DIRECTORYNAME_AVATAR, DIRECTORYNAME_ITEM)
+        val FILENAMES = setOf(FILENAME_ITEM_INFO, FILENAME_SERVANT_INFO, FILENAME_RES_PACK_INFO, FILENAME_EVENT_INFO)
 
         private var INSTANCE: ResourcesProvider? = null
 

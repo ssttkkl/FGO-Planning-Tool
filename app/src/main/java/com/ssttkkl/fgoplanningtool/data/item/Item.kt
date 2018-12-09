@@ -17,3 +17,7 @@ data class Item(@PrimaryKey val codename: String,
     @Ignore
     constructor(item: Item) : this(item.codename, item.count)
 }
+
+fun Collection<Item>.sorted(): List<Item> {
+    return sortedBy { it.descriptor?.rank }
+}

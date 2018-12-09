@@ -45,6 +45,9 @@
     <string name="skill3_item_planlist">技能 III</string>
     <string name="lv_planlist">Lv.%1$d %2$d/%3$d/%4$d</string>
 
+    <string name="title_eventlist">未来活动</string>
+    <string name="emptyHint_eventlist">现在这里什么都没有\n点击右上角 ＋ 按钮添加未来活动</string>
+
     <string-array name="tabTitles">
         <item>编辑规划</item>
         <item>消耗材料</item>
@@ -217,4 +220,17 @@
     <string name="title_confirm_change_plan">确认更改</string>
     <string name="title_confirm_remove_plan">确认删除</string>
     <string name="hint_confirm_change_plan">将会从仓库一并扣除相应数量的选中的材料。</string>
+
+    <string name="maxcount_editevent">最多 %1$d 个</string>
+    <string name="title_chooseevent">选择活动</string>
+    <string name="shop_editevent">商店</string>
+    <string name="lottery_editevent">无限池</string>
+    <string name="planBoxCount_editevent">计划池数</string>
+    <string name="storyGift_editevent">剧情/周回首通奖励</string>
+    <string name="title_editevent">编辑活动</string>
+    <string name="selectAll_editevent">全选</string>
+    <string name="deselectAll_editevent">全不选</string>
+    <string name="reset_editevent">重置</string>
+    <string name="illegalValue_editevent">材料 %1$s 的数量超出范围 [%2$d, %3$d]</string>
+    <string name="participated_editevent">参加过原版活动</string>
 </resources>

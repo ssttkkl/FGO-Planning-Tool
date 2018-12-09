@@ -161,18 +161,25 @@
         tools:layout="@layout/fragment_costitemlist">
         <action
             android:id="@+id/action_costItemListFragment_to_itemInfoFragment"
-            app:destination="@id/itemInfoFragment" />
+            app:destination="@id/itemInfoFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_costItemListFragment_to_servantInfoFragment"
-            app:destination="@id/servantInfoFragment" />
+            app:destination="@id/servantInfoFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
         android:id="@+id/confirmChangePlanFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment"
         android:label="@string/title_confirm_change_plan"
-        tools:layout="@layout/fragment_confirmchangeplan"></fragment>
-
+        tools:layout="@layout/fragment_confirmchangeplan" />
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -180,7 +187,11 @@
         android:label="@string/title_pref">
         <action
             android:id="@+id/action_settingsFragment_to_updateResPackFragment"
-            app:destination="@id/updateResPackFragment" />
+            app:destination="@id/updateResPackFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -196,7 +207,6 @@
 
         <argument
             android:name="filePath"
-            android:defaultValue=""
             app:argType="string" />
 
     </fragment>
@@ -212,7 +222,11 @@
             app:argType="string" />
         <action
             android:id="@+id/action_itemInfoFragment_to_servantInfoFragment"
-            app:destination="@id/servantInfoFragment" />
+            app:destination="@id/servantInfoFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     </fragment>
 
@@ -227,8 +241,94 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_servantInfoFragment_to_itemInfoFragment"
-            app:destination="@id/itemInfoFragment" />
+            app:destination="@id/itemInfoFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     </fragment>
 
+    <fragment
+        android:id="@+id/eventListFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.eventlist.EventListFragment"
+        android:label="EventListFragment"
+        tools:layout="@layout/fragment_eventlist">
+        <action
+            android:id="@+id/action_eventListFragment_to_editNormalEventFragment"
+            app:destination="@id/editNormalEventFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_eventListFragment_to_chooseEventFragment"
+            app:destination="@id/chooseEventFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_eventListFragment_to_editLotteryEventFragment"
+            app:destination="@id/editLotteryEventFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editNormalEventFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditNormalEventFragment"
+        android:label="EditNormalEventFragment"
+        tools:layout="@layout/fragment_editevent_normal">
+        <argument
+            android:name="mode"
+            app:argType="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.Mode" />
+        <argument
+            android:name="event"
+            app:argType="com.ssttkkl.fgoplanningtool.data.event.Event" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_eventListFragment"
+        app:destination="@id/eventListFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        tools:layout="@layout/fragment_eventlist" />
+
+    <fragment
+        android:id="@+id/chooseEventFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.eventlist.chooseevent.ChooseEventFragment"
+        android:label="ChooseEventFragment"
+        tools:layout="@layout/fragment_chooseevent">
+        <action
+            android:id="@+id/action_chooseEventFragment_to_editNormalEventFragment"
+            app:destination="@id/editNormalEventFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_chooseEventFragment_to_editLotteryEventFragment"
+            app:destination="@id/editLotteryEventFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/editLotteryEventFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditLotteryEventFragment"
+        android:label="EditLotteryEventFragment">
+        <argument
+            android:name="mode"
+            app:argType="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.Mode" />
+        <argument
+            android:name="event"
+            app:argType="com.ssttkkl.fgoplanningtool.data.event.Event" />
+    </fragment>
 </navigation>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="descriptor"
+            type="com.ssttkkl.fgoplanningtool.resources.eventdescriptor.EventDescriptor" />
+
+        <variable
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.eventlist.chooseevent.ChooseEventFragmentViewModel" />
+    </data>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:onClick="@{() -> viewModel.onClickEvent(descriptor)}"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:singleLine="true"
+        android:text="@{descriptor.localizedName}"
+        android:textAppearance="@style/ListItem"
+        tools:text="Event" />
+</layout>

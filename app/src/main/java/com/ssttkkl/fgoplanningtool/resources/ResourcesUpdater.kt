@@ -37,9 +37,7 @@ object ResourcesUpdater {
             }
         }
 
-        listOf(ResourcesProvider.FILENAME_SERVANT_INFO,
-                ResourcesProvider.FILENAME_ITEM_INFO,
-                ResourcesProvider.FILENAME_RES_PACK_INFO).forEach { req ->
+        ResourcesProvider.FILENAMES.forEach { req ->
             val reqFile = File(dir, req)
             if (!reqFile.exists())
                 throw Exception(MyApp.context.getString(R.string.exc_fileNotExists_resUpdater, reqFile.name))
@@ -47,8 +45,7 @@ object ResourcesUpdater {
                 throw Exception(MyApp.context.getString(R.string.exc_isNotFile_resUpdater, reqFile.name))
         }
 
-        listOf(ResourcesProvider.DIRECTORYNAME_AVATAR,
-                ResourcesProvider.DIRECTORYNAME_ITEM).forEach { req ->
+        ResourcesProvider.DIRECTORY_NAMES.forEach { req ->
             val reqFile = File(dir, req)
             if (!reqFile.exists())
                 throw Exception(MyApp.context.getString(R.string.exc_dirNotExists_resUpdater, reqFile.name))
