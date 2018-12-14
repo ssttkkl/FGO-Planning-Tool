@@ -10,9 +10,7 @@ import com.ssttkkl.fgoplanningtool.data.event.NormalEvent
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 
 class EventListFragmentViewModel : ViewModel() {
-    private val originData = Transformations.map(Repo.eventListLiveData) { events ->
-        events?.associate { it.codename to it } ?: mapOf()
-    }
+    private val originData get() = Repo.EventRepo.allAsLiveData
 
     val data: LiveData<List<Event>> = Transformations.map(originData) { originData ->
         originData?.values?.sortedBy { it.descriptor?.date }

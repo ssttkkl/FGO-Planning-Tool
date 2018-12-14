@@ -48,6 +48,6 @@ class ServantInfoLevelListFragment : Fragment() {
         }
 
     companion object {
-        private const val ARG_DATA = "events"
+        private const val ARG_DATA = "data"
     }
 }

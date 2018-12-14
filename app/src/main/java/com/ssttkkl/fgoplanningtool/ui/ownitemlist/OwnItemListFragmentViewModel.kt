@@ -5,7 +5,6 @@ import androidx.databinding.ObservableArrayMap
 import androidx.lifecycle.*
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
@@ -39,9 +38,9 @@ class OwnItemListFragmentViewModel : ViewModel() {
     }
 
     val withEventItems = MutableLiveData<Boolean>()
-    val indexedEventItems: LiveData<Map<String, Item>> = Transformations.map(Repo.eventListLiveData) { events ->
+    val indexedEventItems: LiveData<Map<String, Item>> = Transformations.map(Repo.EventRepo.allAsLiveData) { events ->
         val map = HashMap<String, Long>()
-        events.forEach { event ->
+        events.values.forEach { event ->
             event.items.forEach { (codename, count) ->
                 map[codename] = (map[codename] ?: 0) + count
             }
@@ -49,25 +48,21 @@ class OwnItemListFragmentViewModel : ViewModel() {
         map.mapValues { Item(it.key, it.value) }
     }
 
-    private val generator = {
-        val map = Repo.itemListLiveData.value?.associate { Pair(it.codename, it) } ?: mapOf()
-        ResourcesProvider.instance.itemDescriptors.values.associate {
-            Pair(it.codename, EditableItem(Item(it.codename, map[it.codename]?.count ?: 0),
-                    indexedData.value?.get(it.codename)?.editing == true))
+    private val observer = Observer<Any> { _ ->
+        val map = Repo.ItemRepo.allAsLiveData.value ?: mapOf()
+        indexedData.value = Repo.ItemRepo.allAsLiveData.value?.mapValues { (_, item) ->
+            EditableItem(Item(item.codename, map[item.codename]?.count ?: 0),
+                    indexedData.value?.get(item.codename)?.editing == true)
         }
     }
 
-    private val observer = Observer<Any> {
-        indexedData.value = generator()
-    }
-
     init {
-        Repo.itemListLiveData.observeForever(observer)
+        Repo.ItemRepo.allAsLiveData.observeForever(observer)
     }
 
     override fun onCleared() {
         super.onCleared()
-        Repo.itemListLiveData.removeObserver(observer)
+        Repo.ItemRepo.allAsLiveData.removeObserver(observer)
     }
 
     fun getInfoButtonVisibility(item: Item?): Int {
@@ -97,7 +92,7 @@ class OwnItemListFragmentViewModel : ViewModel() {
                 showMessageEvent.call(message)
             } else {
                 val newItem = Item(codename, editedCount)
-                Repo.itemRepo.update(newItem, HowToPerform.Launch)
+                Repo.ItemRepo.update(newItem)
                 setItemEditing(codename, false)
             }
         } else

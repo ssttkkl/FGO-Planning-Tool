@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="title"
-            type="String" />
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.MainActivityViewModel" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -33,7 +33,7 @@
                     android:layout_height="?android:attr/actionBarSize"
                     android:background="@color/colorPrimary"
                     app:popupTheme="@style/AppTheme.PopupOverlay"
-                    app:title="@{title}" />
+                    app:title="@{viewModel.title}" />
 
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -78,6 +78,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:gravity="center_vertical|start"
+                    android:text="@{viewModel.databaseDescriptor.name}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     app:layout_constraintBottom_toBottomOf="@+id/databaseManage_button"
                     app:layout_constraintEnd_toStartOf="@+id/databaseManage_button"
@@ -93,6 +94,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
+                    android:onClick="@{() -> viewModel.onClickManageDatabases()}"
                     android:text="@string/databaseManage_nav"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -6,7 +6,6 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.costItems
@@ -31,13 +30,16 @@ class ConfirmChangePlanFragmentViewModel : ViewModel() {
     }
 
     private val indexedDeductItems = MutableLiveData<Map<String, DeductItem>>().apply {
-        plans.observeForever { plans ->
-            value = plans?.map { it.delta }?.costItems?.associate {
-                Pair(it.codename, DeductItem(it.codename, it.count,
-                        Repo.itemRepo[it.codename].count,
-                        value?.get(it.codename)?.checked == true))
+        val generator = {
+            plans.value?.map { it.delta }?.costItems?.associate { item ->
+                item.codename to
+                        DeductItem(item.codename, item.count,
+                                Repo.ItemRepo.allAsLiveData.value?.get(item.codename)?.count ?: 0,
+                                value?.get(item.codename)?.checked == true)
             } ?: mapOf()
         }
+        plans.observeForever { value = generator() }
+        Repo.ItemRepo.allAsLiveData.observeForever { value = generator() }
     }
 
     val deductItems: LiveData<List<DeductItem>> = Transformations.map(indexedDeductItems) { indexedDeductItems ->
@@ -75,16 +77,12 @@ class ConfirmChangePlanFragmentViewModel : ViewModel() {
     fun onClickYes() {
         plans.value?.forEach {
             when (it.mode) {
-                Mode.Remove -> Repo.planRepo.remove(it.old.servantId, HowToPerform.Launch)
-                Mode.Change -> Repo.planRepo.insert(it.new!!, HowToPerform.Launch)
+                Mode.Remove -> Repo.PlanRepo.remove(it.old.servantId)
+                Mode.Change -> Repo.PlanRepo.insert(it.new!!)
             }
         }
-
-        deductItems.value?.forEach {
-            if (it.checked)
-                Repo.itemRepo.update(Item(it.codename, it.delta), HowToPerform.Launch)
-        }
-
+        Repo.ItemRepo.deduct(deductItems.value?.filter { it.checked }?.map { Item(it.codename, it.require) }
+                ?: listOf())
         finishEvent.call()
     }
 }

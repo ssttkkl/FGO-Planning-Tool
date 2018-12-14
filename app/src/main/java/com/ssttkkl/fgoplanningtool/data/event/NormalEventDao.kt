@@ -9,17 +9,17 @@ interface NormalEventDao {
     val all: List<NormalEvent>
 
     @get:Query("SELECT * FROM NormalEvent")
-    val allLiveData: LiveData<List<NormalEvent>>
+    val allAsLiveData: LiveData<List<NormalEvent>>
 
     @Query("SELECT * FROM NormalEvent WHERE codename=:codename")
-    fun getByCodename(codename: String): NormalEvent?
+    fun get(codename: String): NormalEvent?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(events: Collection<NormalEvent>)
 
     @Delete
-    fun remove(event: NormalEvent)
-
-    @Delete
     fun remove(events: Collection<NormalEvent>)
+
+    @Query("DELETE FROM NormalEvent")
+    fun clear()
 }

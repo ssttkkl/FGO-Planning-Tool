@@ -89,13 +89,13 @@ class EditLotteryEventFragmentViewModel : ViewModel(), EditEventBaseViewModel {
 
     override fun onClickRemove() {
         if (mode.value == Mode.Edit) {
-            Repo.eventRepo.remove(event.value?.codename?.value ?: return)
+            Repo.EventRepo.remove(event.value?.codename?.value ?: return)
         }
         finishEvent.call()
     }
 
     override fun onClickSave() {
-        Repo.eventRepo.insert(prepareEvent() ?: return)
+        Repo.EventRepo.insert(prepareEvent() ?: return)
         finishEvent.call()
     }
 

@@ -9,17 +9,17 @@ interface LotteryEventDao {
     val all: List<LotteryEvent>
 
     @get:Query("SELECT * FROM LotteryEvent")
-    val allLiveData: LiveData<List<LotteryEvent>>
+    val allAsLiveData: LiveData<List<LotteryEvent>>
 
     @Query("SELECT * FROM LotteryEvent WHERE codename=:codename")
-    fun getByCodename(codename: String): LotteryEvent?
+    fun get(codename: String): LotteryEvent?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(events: Collection<LotteryEvent>)
 
     @Delete
-    fun remove(event: LotteryEvent)
-
-    @Delete
     fun remove(events: Collection<LotteryEvent>)
+
+    @Query("DELETE FROM LotteryEvent")
+    fun clear()
 }

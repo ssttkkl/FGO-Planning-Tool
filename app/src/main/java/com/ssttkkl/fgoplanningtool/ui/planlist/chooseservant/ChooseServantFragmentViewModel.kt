@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.ssttkkl.fgoplanningtool.data.Repo
 
 class ChooseServantFragmentViewModel : ViewModel() {
-    val hiddenServantIDs: LiveData<Set<Int>> = Transformations.map(Repo.planListLiveData) { plans ->
-        plans.map { it.servantId }.toSet()
+    val hiddenServantIDs: LiveData<Set<Int>> = Transformations.map(Repo.PlanRepo.allAsLiveData) { plans ->
+        plans.keys
     }
 }

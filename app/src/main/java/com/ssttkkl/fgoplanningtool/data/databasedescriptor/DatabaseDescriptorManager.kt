@@ -1,96 +1,99 @@
 package com.ssttkkl.fgoplanningtool.data.databasedescriptor
 
-import androidx.lifecycle.Observer
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.RepoDatabase
 import com.ssttkkl.fgoplanningtool.data.migration.DatabaseDescriptorDatabaseCommonMigration1
-import com.ssttkkl.fgoplanningtool.data.perform
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.util.concurrent.ConcurrentHashMap
 
-object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
-    private val cache = ConcurrentHashMap<String, DatabaseDescriptor>()
-
+object DatabaseDescriptorManager {
     private val database = DatabaseDescriptorDatabase.instance.apply {
         DatabaseDescriptorDatabaseCommonMigration1.migration(this)
     }
 
-    val liveData = database.databaseDescriptorDao.allLiveData
-            .apply { observeForever(this@DatabaseDescriptorManager) }
+    val all: LiveData<Map<String, DatabaseDescriptor>> = Transformations.map(database.databaseDescriptorDao.allAsLiveData) { descriptors ->
+        descriptors.associate { descriptor -> descriptor.uuid to descriptor }
+    }
 
-    override fun onChanged(t: List<DatabaseDescriptor>?) {
-        synchronized(cache) {
-            cache.clear()
-            if (t != null)
-                cache.putAll(t.associate { Pair(it.uuid, it) })
+    operator fun get(uuid: String?): DatabaseDescriptor? {
+        return runBlocking(Dispatchers.IO) {
+            database.databaseDescriptorDao.get(uuid)
         }
-        Log.d("DBDescriptorManager", "Database updated.")
     }
 
-    val all
-        get() = cache.values.sortedBy { it.createTime }
-
-    operator fun get(uuid: String): DatabaseDescriptor? {
-        return cache[uuid]
-                ?: runBlocking(Dispatchers.IO) { database.databaseDescriptorDao.getByUUID(uuid) }
+    fun getLiveData(uuid: String?): LiveData<DatabaseDescriptor?> {
+        return database.databaseDescriptorDao.getAsLiveData(uuid)
     }
 
-    fun getLiveData(uuid: String) = database.databaseDescriptorDao.getLiveDataByUUID(uuid)
-
-    fun insert(descriptors: Collection<DatabaseDescriptor>, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
-        perform(howToPerform) {
+    fun insert(descriptors: Collection<DatabaseDescriptor>, immediately: Boolean = false) {
+        if (immediately) runBlocking(Dispatchers.IO) {
+            database.databaseDescriptorDao.insert(descriptors)
+        }
+        else GlobalScope.launch(Dispatchers.IO) {
             database.databaseDescriptorDao.insert(descriptors)
         }
     }
 
-    fun insert(descriptor: DatabaseDescriptor, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
-        insert(listOf(descriptor), howToPerform)
+    fun insert(descriptor: DatabaseDescriptor, immediately: Boolean = false) {
+        insert(listOf(descriptor), immediately)
     }
 
-    fun update(descriptor: DatabaseDescriptor, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
-        perform(howToPerform) {
+    fun update(descriptor: DatabaseDescriptor, immediately: Boolean = false) {
+        if (immediately) runBlocking(Dispatchers.IO) {
+            database.databaseDescriptorDao.update(descriptor)
+        }
+        else GlobalScope.launch(Dispatchers.IO) {
             database.databaseDescriptorDao.update(descriptor)
         }
     }
 
-    fun remove(uuids: Collection<String>, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
-        perform(howToPerform) {
+    fun remove(uuids: Collection<String>, immediately: Boolean = false) {
+        if (immediately) runBlocking(Dispatchers.IO) {
             uuids.forEach { uuid ->
-                database.databaseDescriptorDao.remove(database.databaseDescriptorDao.getByUUID(uuid)!!)
-                RepoDatabase.remove(uuid)
+                database.databaseDescriptorDao.remove(database.databaseDescriptorDao.get(uuid)!!)
+                RepoDatabase.removeDatabaseFile(uuid)
             }
             GlobalScope.launch(Dispatchers.Main) {
-                if (this@DatabaseDescriptorManager[Repo.uuid] == null) {
+                if (this@DatabaseDescriptorManager[Repo.uuid.value] == null) {
+                    Repo.switchDatabase(firstOrCreate.uuid)
+                }
+            }
+        }
+        else GlobalScope.launch(Dispatchers.IO) {
+            uuids.forEach { uuid ->
+                database.databaseDescriptorDao.remove(database.databaseDescriptorDao.get(uuid)!!)
+                RepoDatabase.removeDatabaseFile(uuid)
+            }
+            GlobalScope.launch(Dispatchers.Main) {
+                if (this@DatabaseDescriptorManager[Repo.uuid.value] == null) {
                     Repo.switchDatabase(firstOrCreate.uuid)
                 }
             }
         }
     }
 
-    fun remove(uuid: String, howToPerform: HowToPerform = HowToPerform.RunBlocking) {
-        remove(listOf(uuid), howToPerform)
+    fun remove(uuid: String, immediately: Boolean = false) {
+        remove(listOf(uuid), immediately)
     }
 
-    fun clear(howToPerform: HowToPerform = HowToPerform.RunBlocking) {
-        perform(howToPerform) {
-            database.databaseDescriptorDao.remove(database.databaseDescriptorDao.all)
+    private fun getByName(name: String): DatabaseDescriptor? {
+        return runBlocking(Dispatchers.IO) {
+            database.databaseDescriptorDao.getByName(name)
         }
     }
 
-    fun generate(): DatabaseDescriptor {
-        val names = all.map { it.name }.toSet()
+    private fun generate(): DatabaseDescriptor {
         val name = MyApp.context.getString(R.string.newDatabaseName)
-        return if (names.contains(name)) {
+        return if (getByName(name) != null) {
             val nameMultiple = MyApp.context.getString(R.string.newDatabaseNameMultiple)
             var i = 2
-            while (names.contains(nameMultiple.format(i)))
+            while (getByName(nameMultiple.format(i)) != null)
                 i++
             DatabaseDescriptor.generate(nameMultiple.format(i))
         } else {
@@ -98,22 +101,21 @@ object DatabaseDescriptorManager : Observer<List<DatabaseDescriptor>> {
         }
     }
 
-    fun generateAndInsert(name: String, howToPerform: HowToPerform = HowToPerform.RunBlocking): DatabaseDescriptor {
+    fun generateAndInsert(name: String, immediately: Boolean = false): DatabaseDescriptor {
         val descriptor = DatabaseDescriptor.generate(name)
-        insert(descriptor, howToPerform)
+        insert(descriptor, immediately)
         return descriptor
     }
 
-    fun generateAndInsert(howToPerform: HowToPerform = HowToPerform.RunBlocking): DatabaseDescriptor {
+    fun generateAndInsert(immediately: Boolean = false): DatabaseDescriptor {
         val descriptor = generate()
-        insert(descriptor, howToPerform)
+        insert(descriptor, immediately)
         return descriptor
     }
 
     val firstOrCreate: DatabaseDescriptor
         get() {
-            return all.firstOrNull()
-                    ?: runBlocking(Dispatchers.IO) { database.databaseDescriptorDao.all.firstOrNull() }
+            return runBlocking(Dispatchers.IO) { database.databaseDescriptorDao.all.firstOrNull() }
                     ?: generateAndInsert()
         }
 }

@@ -20,7 +20,6 @@ import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.DataSet
 import com.ssttkkl.fgoplanningtool.data.DatabaseImporterAndExporter
-import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptor
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptorManager
@@ -41,9 +40,29 @@ class DatabaseManageFragmentViewModel : ViewModel() {
 
     private val indexedData = MutableLiveData<Map<String, EditableDatabaseDescriptor>>()
 
+    val observer = Observer<Map<String, DatabaseDescriptor>> { newData ->
+        indexedData.value = newData?.mapValues { (_, it) ->
+            EditableDatabaseDescriptor(it, indexedData.value?.get(it.uuid)?.editing == true)
+        }
+    }
+
+    init {
+        DatabaseDescriptorManager.all.observeForever(observer)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        DatabaseDescriptorManager.all.removeObserver(observer)
+    }
+
     val data: LiveData<List<EditableDatabaseDescriptor>?> = Transformations.map(indexedData) { indexedData ->
         indexedData?.values?.sortedBy { it.databaseDescriptor.createTime }
     }
+
+    val currentDescriptor
+        get() = Repo.databaseDescriptor
+
+    val editedName = ObservableArrayMap<String, String>()
 
     private fun setItemEditing(uuid: String, editing: Boolean) {
         indexedData.value = indexedData.value?.toMutableMap()?.apply {
@@ -52,28 +71,8 @@ class DatabaseManageFragmentViewModel : ViewModel() {
         }
     }
 
-    val currentDescriptor
-        get() = Repo.databaseDescriptorLiveData
-
-    val observer = Observer<List<DatabaseDescriptor>> { newData ->
-        indexedData.value = newData?.associate {
-            Pair(it.uuid, EditableDatabaseDescriptor(it, indexedData.value?.get(it.uuid)?.editing == true))
-        }
-    }
-
-    init {
-        DatabaseDescriptorManager.liveData.observeForever(observer)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        DatabaseDescriptorManager.liveData.removeObserver(observer)
-    }
-
-    val editedName = ObservableArrayMap<String, String>()
-
     fun onClickAdd() {
-        DatabaseDescriptorManager.generateAndInsert(HowToPerform.Launch)
+        DatabaseDescriptorManager.generateAndInsert()
     }
 
     fun onClickItem(uuid: String) {
@@ -103,7 +102,7 @@ class DatabaseManageFragmentViewModel : ViewModel() {
         DatabaseDescriptorManager.update(DatabaseDescriptor(uuid,
                 editedName[uuid].toString(),
                 indexedData.value?.get(uuid)?.databaseDescriptor?.createTime
-                        ?: Date().time), HowToPerform.Launch)
+                        ?: Date().time))
         setItemEditing(uuid, false)
     }
 
@@ -116,22 +115,24 @@ class DatabaseManageFragmentViewModel : ViewModel() {
     }
 
     fun onClickItemRemove(uuid: String) {
-        DatabaseDescriptorManager.remove(uuid, HowToPerform.Launch)
+        DatabaseDescriptorManager.remove(uuid)
     }
 
-    private var databaseToImport: DatabaseDescriptor? = null
-    private var databaseToExport: DatabaseDescriptor? = null
+    private var databaseToImport: String? = null
+    private var databaseToExport: String? = null
 
     fun onClickItemImport(uuid: String) {
-        val descriptor = DatabaseDescriptorManager[uuid] ?: return
-        databaseToImport = descriptor
-        gotoOpenJsonUIEvent.call(Pair(FILENAME_JSON.format(descriptor.name), REQUEST_CODE_IMPORT))
+        databaseToImport = uuid
+        gotoOpenJsonUIEvent.call(Pair(FILENAME_JSON.format(indexedData.value?.get(uuid)?.databaseDescriptor?.name
+                ?: "database"),
+                REQUEST_CODE_IMPORT))
     }
 
     fun onClickItemExport(uuid: String) {
-        val descriptor = DatabaseDescriptorManager[uuid] ?: return
-        databaseToExport = descriptor
-        gotoCreateJsonUIEvent.call(Pair(FILENAME_JSON.format(descriptor.name), REQUEST_CODE_EXPORT))
+        databaseToExport = uuid
+        gotoCreateJsonUIEvent.call(Pair(FILENAME_JSON.format(indexedData.value?.get(uuid)?.databaseDescriptor?.name
+                ?: "database"),
+                REQUEST_CODE_EXPORT))
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {

@@ -1,14 +1,10 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.groupedCostItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.requirementlist.RequirementListEntity
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
@@ -16,15 +12,6 @@ import java.util.*
 
 class CostItemListFragmentViewModel : ViewModel() {
     private val originData = MutableLiveData<List<CostItem>>()
-    private val eventItemsMap: LiveData<Map<String, Long>> = Transformations.map(Repo.eventListLiveData) { events ->
-        val map = HashMap<String, Long>()
-        events.forEach { event ->
-            event.items.forEach { (codename, count) ->
-                map[codename] = (map[codename] ?: 0) + count
-            }
-        }
-        map
-    }
 
     val itemClickable = MutableLiveData<Boolean>()
 
@@ -33,10 +20,21 @@ class CostItemListFragmentViewModel : ViewModel() {
     }
 
     val hideEnoughItems = MutableLiveData<Boolean>()
+
     val withEventItems = MutableLiveData<Boolean>()
 
+    val indexedEventItems: LiveData<Map<String, Item>> = Transformations.map(Repo.EventRepo.allAsLiveData) { events ->
+        val map = HashMap<String, Long>()
+        events.values.forEach { event ->
+            event.items.forEach { (codename, count) ->
+                map[codename] = (map[codename] ?: 0) + count
+            }
+        }
+        map.mapValues { Item(it.key, it.value) }
+    }
+
     // item can be Header or CostItem
-    val dataToShow = object : LiveData<List<Any>>() {
+    val dataToShow = MediatorLiveData<List<Any>>().apply {
         val generator = {
             val items = if (hideEnoughItems.value == true)
                 originData.value?.filter { it.own < it.require }
@@ -58,7 +56,8 @@ class CostItemListFragmentViewModel : ViewModel() {
                         val item = items[idx]
                         list.add(CostItem(item.codename,
                                 item.require,
-                                item.own + (eventItemsMap.value?.get(item.codename) ?: 0L),
+                                item.own + (indexedEventItems.value?.get(item.codename)?.count
+                                        ?: 0L),
                                 item.requirements))
                     } else
                         list.add(items[idx])
@@ -66,13 +65,10 @@ class CostItemListFragmentViewModel : ViewModel() {
                 list
             }
         }
-
-        init {
-            hideEnoughItems.observeForever { value = generator() }
-            withEventItems.observeForever { value = generator() }
-            originData.observeForever { value = generator() }
-            eventItemsMap.observeForever { value = generator() }
-        }
+        addSource(hideEnoughItems) { value = generator() }
+        addSource(withEventItems) { value = generator() }
+        addSource(originData) { value = generator() }
+        addSource(indexedEventItems) { value = generator() }
     }
 
     val itemTypes: LiveData<List<ItemType>> = Transformations.map(dataToShow) { dataToShow ->
@@ -97,7 +93,7 @@ class CostItemListFragmentViewModel : ViewModel() {
         originData.value = processCostItems(plans.groupedCostItems.map { (codename, requirements) ->
             CostItem(codename,
                     requirements.values.sum(),
-                    Repo.itemRepo[codename].count,
+                    Repo.ItemRepo.get(codename).count,
                     requirements.map { (servantID, cntOfReq) ->
                         RequirementListEntity(servantID, cntOfReq)
                     })
@@ -107,10 +103,7 @@ class CostItemListFragmentViewModel : ViewModel() {
 
     fun setDataFromItems(items: Collection<Item>) {
         originData.value = processCostItems(items.map { (codename, count) ->
-            CostItem(codename,
-                    count,
-                    Repo.itemRepo[codename].count,
-                    listOf())
+            CostItem(codename, count, Repo.ItemRepo.get(codename).count, listOf())
         })
         itemClickable.value = false
     }
@@ -119,7 +112,10 @@ class CostItemListFragmentViewModel : ViewModel() {
     val scrollToPositionEvent = SingleLiveEvent<Int>()
 
     fun onClickItem(codename: String) {
-        expandedItemCodename.value = if (codename == expandedItemCodename.value) NO_ITEM else codename
+        expandedItemCodename.value = if (codename == expandedItemCodename.value)
+            NO_ITEM
+        else
+            codename
     }
 
     fun onClickServant(servantID: Int) {
@@ -132,6 +128,6 @@ class CostItemListFragmentViewModel : ViewModel() {
     }
 
     companion object {
-        private val NO_ITEM = ""
+        private const val NO_ITEM = ""
     }
 }

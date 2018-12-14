@@ -93,7 +93,6 @@ class PlanListFragment : Fragment(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> binding.viewModel?.onHomeClick()
             R.id.sortAndFilter_action -> {
                 if (binding.drawerlayout.isDrawerOpen(GravityCompat.END))
                     binding.drawerlayout.closeDrawer(GravityCompat.END)
