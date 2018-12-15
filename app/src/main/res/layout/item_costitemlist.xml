@@ -10,10 +10,6 @@
         <import type="com.ssttkkl.fgoplanningtool.utils.ToStringWithSplitterExtKt" />
 
         <variable
-            name="enableExpansionAnimation"
-            type="Boolean" />
-
-        <variable
             name="costItem"
             type="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItem" />
 
@@ -22,142 +18,118 @@
             type="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragmentViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="@{viewModel.itemClickable}"
+        android:elevation="4dp"
+        android:focusable="@{viewModel.itemClickable}"
+        android:onClick="@{() -> viewModel.onClickItem(costItem.codename)}">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constLayout"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/avatar_imageView"
+            android:layout_width="36.57dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            app:layout_column="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_row="0"
+            app:layout_rowSpan="2"
+            app:srcCompat="@{costItem.descriptor.imgFile}"
+            tools:src="@drawable/item_placeholder" />
+
+        <TextView
+            android:id="@+id/name_textView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="@{viewModel.itemClickable}"
-            android:elevation="4dp"
-            android:focusable="@{viewModel.itemClickable}"
-            android:onClick="@{() -> viewModel.onClickItem(costItem.codename)}">
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:maxLines="1"
+            android:text="@{costItem.descriptor.localizedName}"
+            android:textAppearance="@style/ListItem"
+            app:layout_column="1"
+            app:layout_columnSpan="4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_row="0"
+            tools:text="heart" />
 
-            <ImageView
-                android:id="@+id/avatar_imageView"
-                android:layout_width="36.57dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                app:layout_column="0"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_row="0"
-                app:layout_rowSpan="2"
-                app:srcCompat="@{costItem.descriptor.imgFile}"
-                tools:src="@drawable/item_placeholder" />
-
-            <TextView
-                android:id="@+id/name_textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="72dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:maxLines="1"
-                android:text="@{costItem.descriptor.localizedName}"
-                android:textAppearance="@style/ListItem"
-                app:layout_column="1"
-                app:layout_columnSpan="4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_row="0"
-                tools:text="heart" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="72dp"
-                android:layout_marginBottom="16dp"
-                android:maxLines="1"
-                android:text="@string/need_item_costitemlist"
-                android:textAppearance="@style/ListItemTertiary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/require_textView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/name_textView" />
-
-            <TextView
-                android:id="@+id/require_textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-                android:ems="5"
-                android:maxLines="1"
-                android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(costItem.require)}"
-                android:textAppearance="@style/ListItemSecondary"
-                app:autoSizeMaxTextSize="14sp"
-                app:autoSizeMinTextSize="10sp"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/textView3"
-                app:layout_constraintStart_toEndOf="@id/textView2"
-                app:layout_constraintTop_toBottomOf="@id/name_textView"
-                app:layout_row="0"
-                tools:text="999,999,999" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="16dp"
-                android:maxLines="1"
-                android:text="@{viewModel.withEventItems ? @string/ownAndEvent_item_costitemlist : @string/own_item_costitemlist}"
-                android:textAppearance="@style/ListItemTertiary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/own_textView"
-                app:layout_constraintStart_toEndOf="@+id/require_textView"
-                app:layout_constraintTop_toBottomOf="@+id/name_textView"
-                tools:text="@string/ownAndEvent_item_costitemlist" />
-
-            <TextView
-                android:id="@+id/own_textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-                android:ems="5"
-                android:maxLines="1"
-                android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(costItem.own)}"
-                android:textAppearance="@{costItem.delta >= 0 ? R.style.ListItemSecondary : R.style.ListItemSecondaryError}"
-                app:autoSizeMaxTextSize="14sp"
-                app:autoSizeMinTextSize="10sp"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView3"
-                app:layout_constraintTop_toBottomOf="@+id/name_textView"
-                tools:text="999,999,999" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <net.cachapa.expandablelayout.ExpandableLayout
-            android:id="@+id/expLayout"
-            enableExpansionAnimation="@{enableExpansionAnimation}"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?android:attr/colorBackground"
-            app:el_expanded="@{viewModel.expandedItemCodename == costItem.codename}">
+            android:layout_marginStart="72dp"
+            android:layout_marginBottom="16dp"
+            android:maxLines="1"
+            android:text="@string/need_item_costitemlist"
+            android:textAppearance="@style/ListItemTertiary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/require_textView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_textView" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recView"
-                list="@{costItem.requirements}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/item_requirementlist" />
+        <TextView
+            android:id="@+id/require_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:ems="5"
+            android:maxLines="1"
+            android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(costItem.require)}"
+            android:textAppearance="@style/ListItemSecondary"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/textView3"
+            app:layout_constraintStart_toEndOf="@id/textView2"
+            app:layout_constraintTop_toBottomOf="@id/name_textView"
+            app:layout_row="0"
+            tools:text="999,999,999" />
 
-        </net.cachapa.expandablelayout.ExpandableLayout>
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="16dp"
+            android:maxLines="1"
+            android:text="@{viewModel.withEventItems ? @string/ownAndEvent_item_costitemlist : @string/own_item_costitemlist}"
+            android:textAppearance="@style/ListItemTertiary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/own_textView"
+            app:layout_constraintStart_toEndOf="@+id/require_textView"
+            app:layout_constraintTop_toBottomOf="@+id/name_textView"
+            tools:text="@string/ownAndEvent_item_costitemlist" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/own_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:ems="5"
+            android:maxLines="1"
+            android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(costItem.own)}"
+            android:textAppearance="@{costItem.delta >= 0 ? R.style.ListItemSecondary : R.style.ListItemSecondaryError}"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/name_textView"
+            tools:text="999,999,999" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

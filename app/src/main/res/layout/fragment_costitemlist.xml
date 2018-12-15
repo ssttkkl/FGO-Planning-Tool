@@ -15,6 +15,85 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:paddingStart="8dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/button"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                rotateDrawableEnd="@{viewModel.jumpExpanded}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:drawableEnd="@drawable/rotate_arrow_white"
+                android:minHeight="0dp"
+                android:onClick="@{() -> viewModel.onClickExpandJump()}"
+                android:text="@string/jump_costitemlist"
+                android:textColor="@color/design_default_color_on_primary"
+                app:layout_constraintEnd_toStartOf="@+id/switch1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:checked="@={viewModel.hideEnoughItems}"
+                android:text="@string/hide_enough_items_costitemlist"
+                android:textColor="@color/design_default_color_on_primary"
+                app:layout_constraintBottom_toBottomOf="@+id/button"
+                app:layout_constraintEnd_toStartOf="@+id/switch2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Switch
+                android:id="@+id/switch2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={viewModel.withEventItems}"
+                android:text="@string/withEventItems_costitemlist"
+                android:textColor="@color/design_default_color_on_primary"
+                app:layout_constraintBottom_toBottomOf="@+id/button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/jump_expLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:el_expanded="@{viewModel.jumpExpanded}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button"
+                tools:el_expanded="true">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/jump_chipGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="itemType" />
+
+                </com.google.android.material.chip.ChipGroup>
+            </net.cachapa.expandablelayout.ExpandableLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:id="@+id/emptyHint_textView"
             android:layout_width="wrap_content"
@@ -26,51 +105,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recView"
+            list="@{viewModel.dataToShow}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toTopOf="@+id/jump_chipGroup"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            list="@{viewModel.dataToShow}"
-            tools:listitem="@layout/item_costitemlist" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/jump_costitemlist"
-            android:textAppearance="@style/Body"
-            android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/jump_chipGroup"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/jump_chipGroup" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/jump_chipGroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textView">
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="itemType" />
-        </com.google.android.material.chip.ChipGroup>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            tools:listitem="@layout/item_costitemlist" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

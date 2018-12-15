@@ -42,8 +42,8 @@ class CostItemListFragment : Fragment() {
         (activity as? MainActivity)?.apply {
             drawerState = false
             title = getString(R.string.title_costitemlist)
+            invalidateOptionsMenu()
         }
-        setHasOptionsMenu(true)
 
         binding.recView.apply {
             adapter = CostItemListRecViewAdapter(context!!, this@CostItemListFragment, binding.viewModel!!)
@@ -54,45 +54,10 @@ class CostItemListFragment : Fragment() {
             itemTypes.observe(this@CostItemListFragment, Observer {
                 onItemTypesChanged(it ?: listOf())
             })
-            showServantInfoEvent.observe(this@CostItemListFragment, Observer {
-                gotoServantDetailUi(it ?: return@Observer)
-            })
             scrollToPositionEvent.observe(this@CostItemListFragment, Observer {
                 scrollToPosition(it ?: return@Observer)
             })
         }
-    }
-
-    private lateinit var hideEnoughItemsSwitch: Switch
-    private lateinit var withEventItemsSwitch: Switch
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.costitemlist, menu)
-
-        val hideEnoughItemsItem = menu.findItem(R.id.hideEnoughItems)
-        hideEnoughItemsSwitch = hideEnoughItemsItem.actionView.findViewById(R.id.switchWidget)
-        hideEnoughItemsSwitch.text = hideEnoughItemsItem.title
-        hideEnoughItemsSwitch.setOnCheckedChangeListener { _, isChecked ->
-            val alreadyChecked = binding.viewModel?.hideEnoughItems?.value == true
-            if (alreadyChecked != isChecked)
-                binding.viewModel?.hideEnoughItems?.value = isChecked
-        }
-        binding.viewModel?.hideEnoughItems?.observe(this, Observer {
-            hideEnoughItemsSwitch.isChecked = it
-        })
-
-        val withEventItemsItem = menu.findItem(R.id.withEventItems)
-        withEventItemsSwitch = withEventItemsItem.actionView.findViewById(R.id.switchWidget)
-        withEventItemsSwitch.text = withEventItemsItem.title
-        withEventItemsSwitch.setOnCheckedChangeListener { _, isChecked ->
-            val alreadyChecked = binding.viewModel?.withEventItems?.value == true
-            if (alreadyChecked != isChecked)
-                binding.viewModel?.withEventItems?.value = isChecked
-        }
-        binding.viewModel?.withEventItems?.observe(this, Observer {
-            withEventItemsSwitch.isChecked = it
-        })
     }
 
     var plans: Collection<Plan>
@@ -127,10 +92,6 @@ class CostItemListFragment : Fragment() {
             binding.jumpChipGroup.addView(chip)
         }
         TransitionManager.endTransitions(binding.jumpChipGroup)
-    }
-
-    private fun gotoServantDetailUi(servantID: Int) {
-        findNavController().navigate(CostItemListFragmentDirections.actionCostItemListFragmentToServantInfoFragment(servantID))
     }
 
     private fun scrollToPosition(position: Int) {

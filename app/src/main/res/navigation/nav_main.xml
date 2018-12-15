@@ -158,22 +158,7 @@
         android:id="@+id/costItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragment"
         android:label="@string/title_costitemlist"
-        tools:layout="@layout/fragment_costitemlist">
-        <action
-            android:id="@+id/action_costItemListFragment_to_itemInfoFragment"
-            app:destination="@id/itemInfoFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_costItemListFragment_to_servantInfoFragment"
-            app:destination="@id/servantInfoFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
+        tools:layout="@layout/fragment_costitemlist"></fragment>
 
     <fragment
         android:id="@+id/confirmChangePlanFragment"

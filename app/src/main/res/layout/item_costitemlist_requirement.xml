@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="costItem"
+            type="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItem" />
+
+        <variable
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragmentViewModel" />
+    </data>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recView"
+        list="@{viewModel.requirements}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorBackground"
+        tools:listitem="@layout/item_requirementlist" />
+</layout>
