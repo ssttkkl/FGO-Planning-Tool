@@ -236,4 +236,5 @@
     <string name="illegalValue_editevent">材料 %1$s 的数量超出范围 [%2$d, %3$d]</string>
     <string name="participated_editevent">参加过原版活动</string>
     <string name="event_ownitemlist">活动</string>
+    <string name="emptyHint_editevent">这里什么都没有</string>
 </resources>

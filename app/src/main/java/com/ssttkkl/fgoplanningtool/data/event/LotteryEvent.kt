@@ -69,7 +69,9 @@ data class LotteryEvent(@PrimaryKey override val codename: String,
 
     @Ignore
     constructor(codename: String)
-            : this(codename, false, listOf(), 0)
+            : this(codename, false,
+            (ResourcesProvider.instance.eventDescriptors[codename] as? LotteryEventDescriptor)?.shopItems
+                    ?: listOf(), 0)
 
     companion object : Parceler<LotteryEvent> {
         override fun create(parcel: Parcel): LotteryEvent {

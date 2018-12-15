@@ -20,16 +20,11 @@ class EventListFragmentViewModel : ViewModel() {
         data.isNullOrEmpty()
     }
 
-    val gotoEditNormalEventUIEvent = SingleLiveEvent<NormalEvent>()
-    val gotoEditLotteryEventUIEvent = SingleLiveEvent<LotteryEvent>()
+    val gotoEditEventUIEvent = SingleLiveEvent<Event>()
     val gotoChooseEventUIEvent = SingleLiveEvent<Unit>()
 
     fun onClickEvent(codename: String) {
-        val event = originData.value?.get(codename)
-        when (event) {
-            is NormalEvent -> gotoEditNormalEventUIEvent.call(event)
-            is LotteryEvent -> gotoEditLotteryEventUIEvent.call(event)
-        }
+        gotoEditEventUIEvent.call(originData.value?.get(codename))
     }
 
     fun onClickAdd() {

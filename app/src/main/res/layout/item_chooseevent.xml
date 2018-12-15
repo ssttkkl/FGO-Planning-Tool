@@ -16,8 +16,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:alpha="@{viewModel.hiddenEventCodenames.contains(descriptor.codename) ? 0.4f : 1f}"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
+        android:clickable="@{!viewModel.hiddenEventCodenames.contains(descriptor.codename)}"
         android:focusable="true"
         android:gravity="center_vertical"
         android:onClick="@{() -> viewModel.onClickEvent(descriptor)}"

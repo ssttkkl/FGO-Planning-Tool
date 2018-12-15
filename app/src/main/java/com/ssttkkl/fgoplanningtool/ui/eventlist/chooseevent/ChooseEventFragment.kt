@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.event.Event
 import com.ssttkkl.fgoplanningtool.data.event.LotteryEvent
 import com.ssttkkl.fgoplanningtool.data.event.NormalEvent
 import com.ssttkkl.fgoplanningtool.databinding.FragmentChooseeventBinding
@@ -34,20 +35,13 @@ class ChooseEventFragment : Fragment() {
         binding.viewPager.adapter = ChooseEventFragmentPagerAdapter(childFragmentManager, this, binding.viewModel!!)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         binding.viewModel?.apply {
-            gotoEditNormalEventUIEvent.observe(this@ChooseEventFragment, Observer {
-                gotoEditNormalEventUI(it ?: return@Observer)
-            })
-            gotoEditLotteryEventUIEvent.observe(this@ChooseEventFragment, Observer {
-                gotoEditLotteryEventUI(it ?: return@Observer)
+            gotoEditEventUIEvent.observe(this@ChooseEventFragment, Observer {
+                gotoEditEventUI(it ?: return@Observer)
             })
         }
     }
 
-    private fun gotoEditNormalEventUI(event: NormalEvent) {
-        findNavController().navigate(ChooseEventFragmentDirections.actionChooseEventFragmentToEditNormalEventFragment(Mode.New, event))
-    }
-
-    private fun gotoEditLotteryEventUI(event: LotteryEvent) {
-        findNavController().navigate(ChooseEventFragmentDirections.actionChooseEventFragmentToEditLotteryEventFragment(Mode.New, event))
+    private fun gotoEditEventUI(event: Event) {
+        findNavController().navigate(ChooseEventFragmentDirections.actionChooseEventFragmentToEditEventFragment(Mode.New, event))
     }
 }

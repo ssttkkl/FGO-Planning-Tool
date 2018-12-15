@@ -43,7 +43,9 @@ data class NormalEvent(@PrimaryKey override val codename: String,
 
     @Ignore
     constructor(codename: String)
-            : this(codename, false, listOf())
+            : this(codename, false,
+            (ResourcesProvider.instance.eventDescriptors[codename] as? NormalEventDescriptor)?.shopItems
+                    ?: listOf())
 
     companion object : Parceler<NormalEvent> {
         override fun create(parcel: Parcel): NormalEvent {

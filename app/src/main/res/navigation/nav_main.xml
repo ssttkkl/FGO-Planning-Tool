@@ -255,13 +255,6 @@
         android:label="EventListFragment"
         tools:layout="@layout/fragment_eventlist">
         <action
-            android:id="@+id/action_eventListFragment_to_editNormalEventFragment"
-            app:destination="@id/editNormalEventFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
             android:id="@+id/action_eventListFragment_to_chooseEventFragment"
             app:destination="@id/chooseEventFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -269,25 +262,12 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_eventListFragment_to_editLotteryEventFragment"
-            app:destination="@id/editLotteryEventFragment"
+            android:id="@+id/action_eventListFragment_to_editEventFragment"
+            app:destination="@id/editEventFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/editNormalEventFragment"
-        android:name="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditNormalEventFragment"
-        android:label="EditNormalEventFragment"
-        tools:layout="@layout/fragment_editevent_normal">
-        <argument
-            android:name="mode"
-            app:argType="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.Mode" />
-        <argument
-            android:name="event"
-            app:argType="com.ssttkkl.fgoplanningtool.data.event.Event" />
     </fragment>
 
     <action
@@ -306,23 +286,16 @@
         android:label="ChooseEventFragment"
         tools:layout="@layout/fragment_chooseevent">
         <action
-            android:id="@+id/action_chooseEventFragment_to_editNormalEventFragment"
-            app:destination="@id/editNormalEventFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_chooseEventFragment_to_editLotteryEventFragment"
-            app:destination="@id/editLotteryEventFragment"
+            android:id="@+id/action_chooseEventFragment_to_editEventFragment"
+            app:destination="@id/editEventFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/editLotteryEventFragment"
-        android:name="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditLotteryEventFragment"
+        android:id="@+id/editEventFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditEventFragment"
         android:label="EditLotteryEventFragment">
         <argument
             android:name="mode"

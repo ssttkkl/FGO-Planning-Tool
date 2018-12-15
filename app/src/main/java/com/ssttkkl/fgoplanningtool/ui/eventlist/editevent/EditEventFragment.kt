@@ -6,24 +6,31 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.ssttkkl.fgoplanningtool.R
+import com.ssttkkl.fgoplanningtool.data.event.Event
 import com.ssttkkl.fgoplanningtool.data.event.LotteryEvent
 import com.ssttkkl.fgoplanningtool.data.event.NormalEvent
-import com.ssttkkl.fgoplanningtool.databinding.FragmentEditeventLotteryBinding
+import com.ssttkkl.fgoplanningtool.databinding.FragmentEditeventBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
+import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.lottery.EditLotteryEventFragmentViewModel
+import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.lottery.EditLotteryEventPagerAdapter
+import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.normal.EditNormalEventFragmentViewModel
+import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.normal.EditNormalEventPagerAdapter
 
-class EditLotteryEventFragment : Fragment() {
-    private lateinit var binding: FragmentEditeventLotteryBinding
+class EditEventFragment : Fragment() {
+    private lateinit var binding: FragmentEditeventBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentEditeventLotteryBinding.inflate(inflater, container, false)
+        binding = FragmentEditeventBinding.inflate(inflater, container, false)
         binding.setLifecycleOwner(this)
-        binding.viewModel = ViewModelProviders.of(this)[EditLotteryEventFragmentViewModel::class.java].apply {
-            start(arguments!!["mode"] as Mode, arguments!!["event"] as LotteryEvent)
+        val event = arguments!!["event"] as Event
+        binding.viewModel = ViewModelProviders.of(this)[when (event) {
+            is NormalEvent -> EditNormalEventFragmentViewModel::class.java
+            is LotteryEvent -> EditLotteryEventFragmentViewModel::class.java
+            else -> throw Exception("Unknown event type.")
+        }].apply {
+            start(arguments!!["mode"] as Mode, event)
         }
         return binding.root
     }
@@ -31,30 +38,22 @@ class EditLotteryEventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
             drawerState = false
-            title = getString(R.string.title_editevent)
+            title = binding.viewModel?.event?.descriptor?.localizedName ?: ""
         }
         setHasOptionsMenu(true)
 
-        binding.shopRecView.apply {
-            adapter = CheckableItemRecViewAdapter(context!!, this@EditLotteryEventFragment, binding.viewModel!!)
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(CommonRecViewItemDecoration(context!!))
+        binding.viewPager.adapter = when (binding.viewModel) {
+            is EditNormalEventFragmentViewModel -> EditNormalEventPagerAdapter(childFragmentManager)
+            is EditLotteryEventFragmentViewModel -> EditLotteryEventPagerAdapter(childFragmentManager)
+            else -> throw Exception("Unknown event type.")
         }
-        binding.storyGiftRecView.apply {
-            adapter = ItemRecViewAdapter(context!!, this@EditLotteryEventFragment)
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(CommonRecViewItemDecoration(context!!))
-        }
-        binding.lotteryRecView.apply {
-            adapter = ItemRecViewAdapter(context!!, this@EditLotteryEventFragment)
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(CommonRecViewItemDecoration(context!!))
-        }
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
+
         binding.viewModel?.apply {
-            finishEvent.observe(this@EditLotteryEventFragment, Observer {
+            finishEvent.observe(this@EditEventFragment, Observer {
                 finish()
             })
-            showMessageEvent.observe(this@EditLotteryEventFragment, Observer {
+            showMessageEvent.observe(this@EditEventFragment, Observer {
                 showMessage(it ?: "")
             })
         }

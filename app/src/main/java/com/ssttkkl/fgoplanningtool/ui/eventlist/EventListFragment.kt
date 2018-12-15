@@ -40,11 +40,8 @@ class EventListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
         binding.viewModel?.apply {
-            gotoEditNormalEventUIEvent.observe(this@EventListFragment, Observer {
-                gotoEditNormalEventUI(it ?: return@Observer)
-            })
-            gotoEditLotteryEventUIEvent.observe(this@EventListFragment, Observer {
-                gotoEditLotteryEventUI(it ?: return@Observer)
+            gotoEditEventUIEvent.observe(this@EventListFragment, Observer {
+                gotoEditEventUI(it ?: return@Observer)
             })
             gotoChooseEventUIEvent.observe(this@EventListFragment, Observer {
                 gotoChooseEventUI()
@@ -65,12 +62,8 @@ class EventListFragment : Fragment() {
         return true
     }
 
-    private fun gotoEditNormalEventUI(event: NormalEvent) {
-        findNavController().navigate(EventListFragmentDirections.actionEventListFragmentToEditNormalEventFragment(Mode.Edit, event))
-    }
-
-    private fun gotoEditLotteryEventUI(event: LotteryEvent) {
-        findNavController().navigate(EventListFragmentDirections.actionEventListFragmentToEditLotteryEventFragment(Mode.Edit, event))
+    private fun gotoEditEventUI(event: Event) {
+        findNavController().navigate(EventListFragmentDirections.actionEventListFragmentToEditEventFragment(Mode.Edit, event))
     }
 
     private fun gotoChooseEventUI() {
