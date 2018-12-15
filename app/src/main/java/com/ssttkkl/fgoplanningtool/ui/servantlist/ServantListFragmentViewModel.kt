@@ -23,7 +23,15 @@ class ServantListFragmentViewModel : ViewModel() {
     val originServantIDs: LiveData<Set<Int>> = Transformations.map(hiddenServantIDs) { hiddenServantIDs ->
         ResourcesProvider.instance.servants.keys - hiddenServantIDs
     }
-    val viewType = MutableLiveData<ViewType>()
+    val viewType = MutableLiveData<ViewType>().apply {
+        observeForever {
+            PreferenceManager.getDefaultSharedPreferences(context?.get()
+                    ?: return@observeForever)?.edit {
+                putString(KEY_VIEW_TYPE, (value ?: DEFAULT_VIEW_TYPE).name)
+            }
+        }
+    }
+    val isDefaultFilterState = MutableLiveData<Boolean>()
 
     val informClickServantEvent = SingleLiveEvent<Int>()
 
@@ -35,18 +43,12 @@ class ServantListFragmentViewModel : ViewModel() {
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        PreferenceManager.getDefaultSharedPreferences(context?.get() ?: return)?.edit {
-            putString(KEY_VIEW_TYPE, (viewType.value ?: DEFAULT_VIEW_TYPE).name)
-        }
-    }
-
     fun onClickServant(servantID: Int) {
         informClickServantEvent.call(servantID)
     }
 
-    fun onFiltered(filtered: List<Servant>) {
+    fun onFiltered(filtered: List<Servant>, isDefaultState: Boolean) {
+        isDefaultFilterState.value = isDefaultState
         data.value = filtered
     }
 

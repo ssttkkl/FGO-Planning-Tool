@@ -5,7 +5,7 @@
         android:id="@+id/rename_action"
         android:title="@string/rename_databasemanage" />
     <item
-        android:id="@+id/remove_action"
+        android:id="@+id/remove"
         android:title="@string/remove_databasemanage" />
     <item
         android:id="@+id/import_action"

@@ -17,6 +17,7 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.databinding.FragmentServantlistBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
+import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandler
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
@@ -89,16 +90,25 @@ class ServantListFragment : Fragment(),
             informClickServantEvent.observe(this@ServantListFragment, Observer {
                 onInformClickServant(it ?: return@Observer)
             })
+            isDefaultFilterState.observe(this@ServantListFragment, Observer {
+                onIsDefaultFilterStateChanged()
+            })
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.servantlist, menu)
+
         when (binding.viewModel?.viewType?.value) {
             ViewType.List -> menu.findItem(R.id.switchToListView)?.isVisible = false
             ViewType.Grid -> menu.findItem(R.id.switchToGridView)?.isVisible = false
         }
+
+        menu.findItem(R.id.sortAndFilter)?.setIcon(if (binding.viewModel?.isDefaultFilterState?.value == true)
+            R.drawable.ic_sort_white_24dp
+        else
+            R.drawable.ic_sort_coloraccent_bg_24dp)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -124,7 +134,7 @@ class ServantListFragment : Fragment(),
     }
 
     override fun onFilter(filtered: List<Servant>, isDefaultState: Boolean) {
-        binding.viewModel?.onFiltered(filtered)
+        binding.viewModel?.onFiltered(filtered, isDefaultState)
     }
 
     override fun onRequestCostItems(servant: Servant): Collection<Item> {
@@ -154,6 +164,10 @@ class ServantListFragment : Fragment(),
 
     private fun onInformClickServant(servantID: Int) {
         listener?.onClickServant(servantID)
+    }
+
+    private fun onIsDefaultFilterStateChanged() {
+        (activity as? MainActivity)?.invalidateOptionsMenu()
     }
 
     var hiddenServantIDs: Set<Int>

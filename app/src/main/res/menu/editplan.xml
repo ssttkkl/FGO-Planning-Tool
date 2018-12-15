@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/remove_action"
+        android:id="@+id/remove"
         android:icon="@drawable/ic_delete_forever_white_24dp"
         android:title="@string/remove_editplan"
         app:showAsAction="ifRoom" />

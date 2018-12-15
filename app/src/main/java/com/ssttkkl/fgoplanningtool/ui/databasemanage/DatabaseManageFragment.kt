@@ -58,7 +58,7 @@ class DatabaseManageFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.add_action -> binding.viewModel?.onClickAdd()
+            R.id.add -> binding.viewModel?.onClickAdd()
             else -> return super.onOptionsItemSelected(item)
         }
         return true

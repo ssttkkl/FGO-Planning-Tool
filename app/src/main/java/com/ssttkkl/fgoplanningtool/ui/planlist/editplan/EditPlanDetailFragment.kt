@@ -83,7 +83,7 @@ class EditPlanDetailFragment : Fragment(),
         when (item.itemId) {
             android.R.id.home -> findNavController().navigateUp()
             R.id.save_action -> binding.viewModel?.onClickSave()
-            R.id.remove_action -> binding.viewModel?.onClickRemove()
+            R.id.remove -> binding.viewModel?.onClickRemove()
             else -> return super.onOptionsItemSelected(item)
         }
         return true

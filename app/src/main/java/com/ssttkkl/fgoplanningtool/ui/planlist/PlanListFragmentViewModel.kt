@@ -36,7 +36,7 @@ class PlanListFragmentViewModel : ViewModel() {
         data.isNullOrEmpty()
     }
 
-    val isDefaultState = MutableLiveData<Boolean>()
+    val isDefaultFilterState = MutableLiveData<Boolean>()
 
     val inSelectMode = MutableLiveData<Boolean>().apply {
         observeForever {
@@ -129,7 +129,7 @@ class PlanListFragmentViewModel : ViewModel() {
     }
 
     fun onFilter(filtered: List<Servant>, isDefaultState: Boolean) {
-        this.isDefaultState.value = isDefaultState
+        this.isDefaultFilterState.value = isDefaultState
 
         val servantIDs = filtered.map { it.id }
         val selectedServantIDs = data.value?.filter { it.checked }?.map { it.plan.servantId }?.toSet()

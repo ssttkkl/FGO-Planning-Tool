@@ -2,18 +2,18 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/sortAndFilter_action"
-        android:icon="@drawable/ic_sort_white_24dp"
-        android:title="@string/sortAndFilter_servantlist"
+        android:id="@+id/remove"
+        android:icon="@drawable/ic_delete_forever_white_24dp"
+        android:title="@string/remove_planlist"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/selectAll_action"
+        android:id="@+id/selectAll"
         android:icon="@drawable/ic_select_all_white_24dp"
         android:title="@string/selectAll"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/remove_action"
-        android:icon="@drawable/ic_delete_forever_white_24dp"
-        android:title="@string/remove_planlist"
+        android:id="@+id/sortAndFilter"
+        android:icon="@drawable/ic_sort_white_24dp"
+        android:title="@string/sortAndFilter_servantlist"
         app:showAsAction="ifRoom" />
 </menu>

@@ -89,7 +89,7 @@ class DatabaseManageFragmentViewModel : ViewModel() {
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.rename_action -> onClickItemRename(uuid)
-                    R.id.remove_action -> onClickItemRemove(uuid)
+                    R.id.remove -> onClickItemRemove(uuid)
                     R.id.import_action -> onClickItemImport(uuid)
                     R.id.export_action -> onClickItemExport(uuid)
                 }
