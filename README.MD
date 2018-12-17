@@ -2,4 +2,4 @@
 
 这里是资源包的发布分支。
 
-最新：[latest.zip](https://github.com/ssttkkl/FGO-Planning-Tool/raw/res-pack/latest.zip)（20181002）
+最新：[latest.zip](https://github.com/ssttkkl/FGO-Planning-Tool/raw/res-pack/latest.zip)（圣诞节2018 圣桑巴之夜 ～降雪的遗迹与少女骑士～）
