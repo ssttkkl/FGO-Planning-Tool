@@ -6,7 +6,7 @@ import com.google.gson.stream.JsonWriter
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.resources.ConstantValues
+import com.ssttkkl.fgoplanningtool.resources.LevelValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 
 class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
@@ -126,10 +126,10 @@ class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
 
         if (nowExp == null && planExp == null && nowStage != null && planStage != null) {
             val servant = ResourcesProvider.instance.servants[servantId]!!
-            val nowLevel = ConstantValues.stageMapToMaxLevel[servant.star][nowStage]
-            val planLevel = ConstantValues.stageMapToMaxLevel[servant.star][planStage]
-            nowExp = ConstantValues.getExp(nowLevel)
-            planExp = ConstantValues.getExp(planLevel)
+            val nowLevel = LevelValues.stageMapToMaxLevel[servant.star][nowStage]
+            val planLevel = LevelValues.stageMapToMaxLevel[servant.star][planStage]
+            nowExp = LevelValues.levelToExp(nowLevel)
+            planExp = LevelValues.levelToExp(planLevel)
         }
 
         if (listOf(servantId, nowExp, planExp, ascendedOnNowStage, ascendedOnPlanStage, nowSkill1, nowSkill2, nowSkill3, planSkill1, planSkill2, planSkill3).any { it == null })

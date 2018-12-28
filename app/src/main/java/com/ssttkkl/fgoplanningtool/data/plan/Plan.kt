@@ -3,7 +3,7 @@ package com.ssttkkl.fgoplanningtool.data.plan
 import android.os.Parcelable
 import androidx.room.*
 import com.ssttkkl.fgoplanningtool.data.utils.IntSetConverter
-import com.ssttkkl.fgoplanningtool.resources.ConstantValues
+import com.ssttkkl.fgoplanningtool.resources.LevelValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.Dress
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
@@ -28,16 +28,16 @@ data class Plan(@PrimaryKey var servantId: Int,
         get() = ResourcesProvider.instance.servants[servantId]
 
     val nowLevel
-        get() = ConstantValues.getLevel(nowExp)
+        get() = LevelValues.expToLevel(nowExp)
 
     val planLevel
-        get() = ConstantValues.getLevel(planExp)
+        get() = LevelValues.expToLevel(planExp)
 
     val nowStage
-        get() = ConstantValues.getStage(servant!!.star, nowLevel) + if (ascendedOnNowStage) 1 else 0
+        get() = LevelValues.levelToStage(servant!!.star, nowLevel, ascendedOnNowStage)
 
     val planStage
-        get() = ConstantValues.getStage(servant!!.star, planLevel) + if (ascendedOnPlanStage) 1 else 0
+        get() = LevelValues.levelToStage(servant!!.star, planLevel, ascendedOnPlanStage)
 
     var dress: Set<Dress>
         get() = dressID.mapNotNull { servant?.dress?.get(it) }.toSet()
@@ -48,7 +48,7 @@ data class Plan(@PrimaryKey var servantId: Int,
     @Ignore
     constructor(servantId: Int) : this(
             servantId, 0,
-            ConstantValues.getExp(ResourcesProvider.instance.servants[servantId]!!.stageMapToMaxLevel[4]),
+            LevelValues.levelToExp(ResourcesProvider.instance.servants[servantId]!!.stageMapToMaxLevel[4]),
             false, false,
             1, 1, 1,
             10, 10, 10,

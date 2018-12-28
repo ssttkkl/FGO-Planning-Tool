@@ -4,7 +4,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.room.migration.Migration
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
-import com.ssttkkl.fgoplanningtool.resources.ConstantValues
+import com.ssttkkl.fgoplanningtool.resources.LevelValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 
 object RepoDatabaseVersionMigration3To4 : Migration(3, 4) {
@@ -39,8 +39,8 @@ object RepoDatabaseVersionMigration3To4 : Migration(3, 4) {
             while (it.moveToNext()) {
                 val servantID = it.getInt(colServantId)
                 val servant = ResourcesProvider.instance.servants[servantID]
-                val nowLevel = if (servant != null) ConstantValues.stageMapToMaxLevel[servant.star][it.getInt(colNowStage)] else 0
-                val planLevel = if (servant != null) ConstantValues.stageMapToMaxLevel[servant.star][it.getInt(colPlanStage)] else 0
+                val nowLevel = if (servant != null) LevelValues.stageMapToMaxLevel[servant.star][it.getInt(colNowStage)] else 0
+                val planLevel = if (servant != null) LevelValues.stageMapToMaxLevel[servant.star][it.getInt(colPlanStage)] else 0
 
                 val cv = ContentValues()
                 cv.put("servantId", servantID)
@@ -50,8 +50,8 @@ object RepoDatabaseVersionMigration3To4 : Migration(3, 4) {
                 cv.put("planSkill1", it.getInt(colPlanSkill1))
                 cv.put("planSkill2", it.getInt(colPlanSkill2))
                 cv.put("planSkill3", it.getInt(colPlanSkill3))
-                cv.put("nowExp", ConstantValues.getExp(nowLevel))
-                cv.put("planExp", ConstantValues.getExp(planLevel))
+                cv.put("nowExp", LevelValues.levelToExp(nowLevel))
+                cv.put("planExp", LevelValues.levelToExp(planLevel))
                 cv.put("ascendedOnNowStage", false)
                 cv.put("ascendedOnPlanStage", false)
                 cv.put("dress", it.getString(dress))

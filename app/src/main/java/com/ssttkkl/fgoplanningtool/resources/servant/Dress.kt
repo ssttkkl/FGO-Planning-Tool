@@ -4,7 +4,7 @@ import android.preference.PreferenceManager
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.resources.ConstantValues
+import com.ssttkkl.fgoplanningtool.resources.QPValues
 import com.ssttkkl.fgoplanningtool.utils.Localizable
 
 data class Dress(val zhName: String,
@@ -19,5 +19,5 @@ data class Dress(val zhName: String,
         }
 
     val qp: Long
-        get() = ConstantValues.dressQP
+        get() = QPValues.dressQP
 }
