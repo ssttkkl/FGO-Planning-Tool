@@ -2,7 +2,11 @@ package com.ssttkkl.fgoplanningtool.ui.ownitemlist
 
 import android.view.View
 import androidx.databinding.ObservableArrayMap
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
@@ -10,7 +14,18 @@ import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
-import java.util.HashMap
+import java.util.*
+import kotlin.collections.List
+import kotlin.collections.Map
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.forEach
+import kotlin.collections.groupBy
+import kotlin.collections.mapOf
+import kotlin.collections.mapValues
+import kotlin.collections.set
+import kotlin.collections.sortedBy
+import kotlin.collections.toMutableMap
 
 class OwnItemListFragmentViewModel : ViewModel() {
     val showItemInfoEvent = SingleLiveEvent<String>()
@@ -98,6 +113,8 @@ class OwnItemListFragmentViewModel : ViewModel() {
         } else
             setItemEditing(codename, false)
     }
+
+    val onEditorAction = this::onItemClickSave
 
     companion object {
         private const val MAX_VALUE = 999_999_999
