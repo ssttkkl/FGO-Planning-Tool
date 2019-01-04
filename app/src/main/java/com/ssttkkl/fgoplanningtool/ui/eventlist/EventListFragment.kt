@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.event.Event
-import com.ssttkkl.fgoplanningtool.data.event.LotteryEvent
-import com.ssttkkl.fgoplanningtool.data.event.NormalEvent
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEventlistBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.Mode
@@ -30,7 +28,7 @@ class EventListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
             drawerState = true
-            title = getString(R.string.title_eventlist)
+            title = getString(R.string.eventList)
         }
         setHasOptionsMenu(true)
 

@@ -32,7 +32,7 @@ class ChooseServantFragment : Fragment(), ServantListFragment.OnClickServantList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
-            title = getString(R.string.title_editplan_chooseservant)
+            title = getString(R.string.chooseServant)
             drawerState = false
         }
         setHasOptionsMenu(true)

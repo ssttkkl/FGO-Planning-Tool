@@ -2,12 +2,9 @@ package com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Switch
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
@@ -18,7 +15,6 @@ import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentCostitemlistBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.utils.BackHandler
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
 class CostItemListFragment : Fragment() {
@@ -41,7 +37,7 @@ class CostItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
             drawerState = false
-            title = getString(R.string.title_costitemlist)
+            title = getString(R.string.costItemList)
             invalidateOptionsMenu()
         }
 

@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/emptyHint_editevent"
+            android:text="@string/emptyHint"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:visibility="@{viewModel.event.checkedShopItems.isEmpty() ? View.VISIBLE : View.GONE}" />
 

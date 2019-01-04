@@ -4,11 +4,11 @@
     <item
         android:id="@+id/select_all"
         android:icon="@drawable/ic_select_all_white_24dp"
-        android:title="@string/selectAll_editevent"
+        android:title="@string/selectAll"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/reset"
         android:icon="@drawable/ic_refresh_white_24dp"
-        android:title="@string/reset_editevent"
+        android:title="@string/reset"
         app:showAsAction="ifRoom" />
 </menu>

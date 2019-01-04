@@ -113,9 +113,9 @@ class EditLevelDialogFragmentViewModel : ViewModel() {
     fun onClickSaveButton() {
         try {
             if (level.value!! !in minLevel..mmaxLevel.value!!)
-                throw Exception(MyApp.context.getString(R.string.illegalLevel_editplan_editlevel))
+                throw Exception(MyApp.context.getString(R.string.illegalLevel))
             if (level.value!! < 100 && remainedExp.value!! > LevelValues.nextLevelExp[level.value!!])
-                throw Exception(MyApp.context.getString(R.string.illegalRemainedExp_editplan_editlevel))
+                throw Exception(MyApp.context.getString(R.string.illegalRemainedExp))
 
             var exp = LevelValues.levelToExp(level.value!!)
             if (!servant.value!!.stageMapToMaxLevel.contains(level.value!!) || ascendedOnStage.value == true)

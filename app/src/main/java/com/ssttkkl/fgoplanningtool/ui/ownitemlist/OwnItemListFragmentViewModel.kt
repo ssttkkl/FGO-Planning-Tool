@@ -103,7 +103,7 @@ class OwnItemListFragmentViewModel : ViewModel() {
         val editedCount = this.editedCount[codename]
         if (editedCount != null) {
             if (editedCount !in (MIN_VALUE..MAX_VALUE)) {
-                val message = MyApp.context.getString(R.string.exc_outOfBounds_edititem, MIN_VALUE, MAX_VALUE)
+                val message = MyApp.context.getString(R.string.valueOutOfBound, MIN_VALUE, MAX_VALUE)
                 showMessageEvent.call(message)
             } else {
                 val newItem = Item(codename, editedCount)

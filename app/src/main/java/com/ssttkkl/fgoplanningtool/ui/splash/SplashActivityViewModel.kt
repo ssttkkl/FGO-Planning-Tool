@@ -50,8 +50,8 @@ class SplashActivityViewModel : ViewModel() {
             else {
                 showProgress.value = false
                 message.value = when {
-                    ResourcesProvider.instance.isAbsent -> context.getString(R.string.resAbsent_splash)
-                    ResourcesProvider.instance.isBroken -> context.getString(R.string.resBroken_splash)
+                    ResourcesProvider.instance.isAbsent -> context.getString(R.string.resPackAbsentHint)
+                    ResourcesProvider.instance.isBroken -> context.getString(R.string.resPackBrokenHint)
                     else -> ""
                 }
             }

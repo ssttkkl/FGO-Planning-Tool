@@ -10,8 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.event.Event
-import com.ssttkkl.fgoplanningtool.data.event.LotteryEvent
-import com.ssttkkl.fgoplanningtool.data.event.NormalEvent
 import com.ssttkkl.fgoplanningtool.databinding.FragmentChooseeventBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.Mode
@@ -29,7 +27,7 @@ class ChooseEventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
             drawerState = false
-            title = getString(R.string.title_chooseevent)
+            title = getString(R.string.chooseEvent)
         }
 
         binding.viewPager.adapter = ChooseEventFragmentPagerAdapter(childFragmentManager, this, binding.viewModel!!)

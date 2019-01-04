@@ -93,10 +93,10 @@ class DatabaseManageFragmentViewModel : ViewModel() {
             inflate(R.menu.item_databasemanage)
             setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.rename_action -> onClickItemRename(uuid)
+                    R.id.rename -> onClickItemRename(uuid)
                     R.id.remove -> onClickItemRemove(uuid)
-                    R.id.import_action -> onClickItemImport(uuid)
-                    R.id.export_action -> onClickItemExport(uuid)
+                    R.id.importData -> onClickItemImport(uuid)
+                    R.id.exportData -> onClickItemExport(uuid)
                 }
                 true
             }
@@ -162,13 +162,13 @@ class DatabaseManageFragmentViewModel : ViewModel() {
                         val dataSet = gson.fromJson<DataSet>(reader, DataSet::class.java)
                         DatabaseImporterAndExporter.import(databaseToImport!!, dataSet)
                         launch(Dispatchers.Main) {
-                            showMessageEvent.call(MyApp.context.getString(R.string.importSuccessful_databasemanage))
+                            showMessageEvent.call(MyApp.context.getString(R.string.importSuccessfully))
                         }
                     }
                 }
             } catch (e: Exception) {
                 launch(Dispatchers.Main) {
-                    showMessageEvent.call(MyApp.context.getString(R.string.importError_databasemanage, e.message))
+                    showMessageEvent.call(MyApp.context.getString(R.string.importFailed, e.message))
                 }
             }
         }
@@ -182,13 +182,13 @@ class DatabaseManageFragmentViewModel : ViewModel() {
                         val dataSet = DatabaseImporterAndExporter.export(databaseToExport!!)
                         gson.toJson(dataSet, DataSet::class.java, writer)
                         launch(Dispatchers.Main) {
-                            showMessageEvent.call(MyApp.context.getString(R.string.exportSuccessful_databasemanage))
+                            showMessageEvent.call(MyApp.context.getString(R.string.exportSuccessfully))
                         }
                     }
                 }
             } catch (e: Exception) {
                 launch(Dispatchers.Main) {
-                    showMessageEvent.call(MyApp.context.getString(R.string.exportError_databasemanage, e.message))
+                    showMessageEvent.call(MyApp.context.getString(R.string.exportFailed, e.message))
                 }
             }
         }

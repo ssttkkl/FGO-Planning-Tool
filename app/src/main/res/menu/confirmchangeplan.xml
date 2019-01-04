@@ -10,6 +10,6 @@
     <item
         android:id="@+id/yes"
         android:icon="@drawable/ic_check_white_24dp"
-        android:title="@string/removeResPack_yes"
+        android:title="@string/yes"
         app:showAsAction="ifRoom" />
 </menu>

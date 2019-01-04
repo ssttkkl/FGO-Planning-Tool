@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/withEventItems"
-        android:title="@string/withEventItems_costitemlist"
+        android:title="@string/withEventItems"
         app:actionLayout="@layout/switch_item"
         app:showAsAction="ifRoom" />
 </menu>

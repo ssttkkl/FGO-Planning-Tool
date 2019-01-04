@@ -19,8 +19,8 @@ class EditNormalEventPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
-            0 -> MyApp.context.getString(R.string.shop_editevent)
-            1 -> MyApp.context.getString(R.string.storyGift_editevent)
+            0 -> MyApp.context.getString(R.string.eventShop)
+            1 -> MyApp.context.getString(R.string.storyGift)
             else -> ""
         }
     }

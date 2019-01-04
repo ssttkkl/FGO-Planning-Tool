@@ -38,9 +38,9 @@ class ItemInfoFragmentViewModel : ViewModel() {
         return list
     }
 
-    val ascensionItemTitle: String = MyApp.context.getString(R.string.ascension_iteminfo)
-    val skillItemTitle: String = MyApp.context.getString(R.string.skill_iteminfo)
-    val dressItemTitle: String = MyApp.context.getString(R.string.dress_iteminfo)
+    val ascensionItemTitle: String = MyApp.context.getString(R.string.forAscension)
+    val skillItemTitle: String = MyApp.context.getString(R.string.forSkill)
+    val dressItemTitle: String = MyApp.context.getString(R.string.forDress)
 
     val ascensionItemEntities: LiveData<List<RequirementListEntity>> = Transformations.map(codename) { codename ->
         generateEntities(codename) { servant ->

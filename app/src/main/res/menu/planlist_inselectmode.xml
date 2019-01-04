@@ -4,7 +4,7 @@
     <item
         android:id="@+id/remove"
         android:icon="@drawable/ic_delete_forever_white_24dp"
-        android:title="@string/remove_planlist"
+        android:title="@string/remove"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/selectAll"
@@ -14,6 +14,6 @@
     <item
         android:id="@+id/sortAndFilter"
         android:icon="@drawable/ic_sort_white_24dp"
-        android:title="@string/sortAndFilter_servantlist"
+        android:title="@string/sortAndFilter"
         app:showAsAction="ifRoom" />
 </menu>

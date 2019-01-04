@@ -19,9 +19,9 @@ class ServantInfoFragmentViewModel : ViewModel() {
         ResourcesProvider.instance.servants[servantID]
     }
 
-    val ascensionItemTitle = MyApp.context.getString(R.string.ascension_iteminfo)
-    val skillItemTitle = MyApp.context.getString(R.string.skill_iteminfo)
-    val dressItemTitle = MyApp.context.getString(R.string.dress_iteminfo)
+    val ascensionItemTitle = MyApp.context.getString(R.string.forAscension)
+    val skillItemTitle = MyApp.context.getString(R.string.forSkill)
+    val dressItemTitle = MyApp.context.getString(R.string.forDress)
 
     val ascensionItemEntities: LiveData<List<ServantInfoLevelListEntity>?> = Transformations.map(servant) { servant ->
         if (servant?.id != 1)

@@ -4,6 +4,6 @@
     <item
         android:id="@+id/gotoWiki"
         android:icon="@drawable/ic_launch_white_24dp"
-        android:title="@string/gotoWiki_iteminfo"
+        android:title="@string/gotoWiki"
         app:showAsAction="ifRoom" />
 </menu>

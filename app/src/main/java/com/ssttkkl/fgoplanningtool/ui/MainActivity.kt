@@ -41,7 +41,7 @@ class MainActivity : BackRouterActivity(),
 
         // setup toolbar
         setSupportActionBar(binding.toolbar)
-        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.openDrawer_main, R.string.closeDrawer_main).apply {
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.openDrawer, R.string.closeDrawer).apply {
             setToolbarNavigationClickListener {
                 onBackPressed()
             }

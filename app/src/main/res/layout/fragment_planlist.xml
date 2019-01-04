@@ -28,10 +28,10 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:lineSpacingExtra="8sp"
-                android:text="@{viewModel.isDefaultFilterState ? @string/emptyHint_planlist : @string/emptyHint_notDefaultState_planlist}"
+                android:text="@{viewModel.isDefaultFilterState ? @string/emptyHintOnPlanList : @string/emptyHintOnPlanListWithNotDefaultState}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:visibility="@{viewModel.showEmptyHint ? View.VISIBLE : View.GONE}"
-                tools:text="@string/emptyHint_planlist" />
+                tools:text="@string/emptyHintOnPlanList" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recView"

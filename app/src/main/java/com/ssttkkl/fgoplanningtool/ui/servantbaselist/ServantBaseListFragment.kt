@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ssttkkl.fgoplanningtool.R
@@ -19,7 +18,7 @@ class ServantBaseListFragment : Fragment(), ServantListFragment.OnClickServantLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
             drawerState = true
-            title = getString(R.string.title_servantbaselist)
+            title = getString(R.string.servantBaseList)
         }
     }
 

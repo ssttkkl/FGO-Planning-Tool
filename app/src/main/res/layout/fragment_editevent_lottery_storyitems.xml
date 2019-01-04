@@ -26,7 +26,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:checked="@={viewModel.event.rerunAndParticipated}"
-            android:text="@string/participated_editevent"
+            android:text="@string/eventParticipated"
             android:visibility="@{viewModel.event.descriptor.isRerun ? View.VISIBLE : View.GONE}" />
 
         <FrameLayout
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/emptyHint_editevent"
+                android:text="@string/emptyHint"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:visibility="@{viewModel.event.originEvent.storyItems.isEmpty() ? View.VISIBLE : View.GONE}" />
 

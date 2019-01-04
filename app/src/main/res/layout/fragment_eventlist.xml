@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:lineSpacingExtra="8sp"
-            android:text="@string/emptyHint_eventlist"
+            android:text="@string/emptyHintOnEventlist"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:visibility="@{viewModel.showEmptyHint ? View.VISIBLE : View.GONE}" />
 

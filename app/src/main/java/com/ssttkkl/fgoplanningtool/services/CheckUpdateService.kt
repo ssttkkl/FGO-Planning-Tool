@@ -59,13 +59,13 @@ class CheckUpdateService : Service() {
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(CHANNEL_ID_UPDATE, getString(R.string.channel_updateNotification_checkupdare), NotificationManager.IMPORTANCE_HIGH)
+            val channel = NotificationChannel(CHANNEL_ID_UPDATE, getString(R.string.updateNotificationChannel), NotificationManager.IMPORTANCE_HIGH)
             manager.createNotificationChannel(channel)
         }
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID_UPDATE)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(getString(R.string.resPackUpdateAvailable_checkupdate))
+                .setContentTitle(getString(R.string.resPackUpdateAvailable))
                 .setContentText("${latestInfo.content}(${latestInfo.releaseDate})")
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -77,7 +77,7 @@ class CheckUpdateService : Service() {
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(CHANNEL_ID_UPDATE, getString(R.string.channel_updateNotification_checkupdare), NotificationManager.IMPORTANCE_HIGH)
+            val channel = NotificationChannel(CHANNEL_ID_UPDATE, getString(R.string.updateNotificationChannel), NotificationManager.IMPORTANCE_HIGH)
             manager.createNotificationChannel(channel)
         }
 
@@ -89,7 +89,7 @@ class CheckUpdateService : Service() {
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID_UPDATE)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(getString(R.string.appUpdateAvailable_checkupdate))
+                .setContentTitle(getString(R.string.appUpdateAvailable))
                 .setContentText("${latestInfo.versionName}(${latestInfo.versionCode})")
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)

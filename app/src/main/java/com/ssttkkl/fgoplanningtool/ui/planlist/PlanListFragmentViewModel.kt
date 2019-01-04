@@ -47,11 +47,11 @@ class PlanListFragmentViewModel : ViewModel() {
     val title = MediatorLiveData<String>().apply {
         val generator = {
             if (inSelectMode.value == true)
-                MyApp.context.getString(R.string.selectedCount_planlist,
+                MyApp.context.getString(R.string.selectedCountPattern,
                         data.value?.count { it.checked } ?: 0,
                         data.value?.size ?: 0)
             else
-                MyApp.context.getString(R.string.title_planlist)
+                MyApp.context.getString(R.string.planList)
         }
         addSource(data) { value = generator() }
         addSource(inSelectMode) { value = generator() }

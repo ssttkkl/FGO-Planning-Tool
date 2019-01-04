@@ -8,5 +8,5 @@ enum class ItemFilterMode : Localizable {
     And, Or;
 
     override val localizedName: String
-        get() = MyApp.context.resources.getStringArray(R.array.mode_item_servantfilter)[ordinal]
+        get() = MyApp.context.resources.getStringArray(R.array.servantFilterItemMode)[ordinal]
 }

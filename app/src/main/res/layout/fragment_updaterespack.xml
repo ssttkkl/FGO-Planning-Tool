@@ -83,7 +83,7 @@
                 android:layout_column="0"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="16dp"
-                android:text="@string/releaseDate_updaterespack"
+                android:text="@string/releaseDate"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             <TextView
@@ -107,7 +107,7 @@
                 android:layout_column="0"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="16dp"
-                android:text="@string/content_updaterespack"
+                android:text="@string/content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             <TextView
@@ -131,7 +131,7 @@
                 android:layout_column="0"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="16dp"
-                android:text="@string/size_updaterespack"
+                android:text="@string/size"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             <TextView

@@ -32,7 +32,7 @@ class DataSetGsonTypeAdapter : TypeAdapter<DataSet>() {
                 null
             }
             if (plans == null && items == null)
-                throw Exception(MyApp.context.getString(R.string.exc_fileFormatError_planGsonTypeAdapter))
+                throw Exception(MyApp.context.getString(R.string.fileFormatError))
             else
                 return DataSet(plans, items)
         }

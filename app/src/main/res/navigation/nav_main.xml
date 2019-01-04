@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/planListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragment"
-        android:label="@string/title_planlist"
+        android:label="@string/planList"
         tools:layout="@layout/fragment_planlist">
         <action
             android:id="@+id/action_planListFragment_to_chooseServantFragment"
@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/chooseServantFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.chooseservant.ChooseServantFragment"
-        android:label="@string/title_editplan_chooseservant"
+        android:label="@string/chooseServant"
         tools:layout="@layout/fragment_editplan_chooseservant">
         <action
             android:id="@+id/action_chooseServantFragment_to_editPlanDetailFragment"
@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/editPlanDetailFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.EditPlanDetailFragment"
-        android:label="@string/title_edit_editplan"
+        android:label="@string/editPlan"
         tools:layout="@layout/fragment_editplan_detail">
         <argument
             android:name="plan"
@@ -87,7 +87,7 @@
     <fragment
         android:id="@+id/ownItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragment"
-        android:label="@string/title_ownitemlist"
+        android:label="@string/ownItemList"
         tools:layout="@layout/fragment_ownitemlist">
         <action
             android:id="@+id/action_ownItemListFragment_to_itemInfoFragment"
@@ -105,7 +105,7 @@
     <fragment
         android:id="@+id/databaseManageFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageFragment"
-        android:label="@string/title_databasemanage"
+        android:label="@string/databaseManage"
 
         tools:layout="@layout/fragment_databasemanage" />
 
@@ -157,19 +157,19 @@
     <fragment
         android:id="@+id/costItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragment"
-        android:label="@string/title_costitemlist"
+        android:label="@string/costItemList"
         tools:layout="@layout/fragment_costitemlist"></fragment>
 
     <fragment
         android:id="@+id/confirmChangePlanFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment"
-        android:label="@string/title_confirm_change_plan"
+        android:label="@string/confirmChangePlan"
         tools:layout="@layout/fragment_confirmchangeplan" />
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.settings.SettingsFragment"
-        android:label="@string/title_pref">
+        android:label="@string/settings">
         <action
             android:id="@+id/action_settingsFragment_to_updateResPackFragment"
             app:destination="@id/updateResPackFragment"

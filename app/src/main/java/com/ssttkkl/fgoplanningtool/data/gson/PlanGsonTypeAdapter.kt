@@ -133,7 +133,7 @@ class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
         }
 
         if (listOf(servantId, nowExp, planExp, ascendedOnNowStage, ascendedOnPlanStage, nowSkill1, nowSkill2, nowSkill3, planSkill1, planSkill2, planSkill3).any { it == null })
-            throw Exception(MyApp.context.getString(R.string.exc_fileFormatError_planGsonTypeAdapter))
+            throw Exception(MyApp.context.getString(R.string.fileFormatError))
 
         return Plan(servantId = servantId!!,
                 nowExp = nowExp!!,

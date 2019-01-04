@@ -53,7 +53,7 @@
             app:layout_constraintEnd_toStartOf="@+id/enterApp_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2"
-            tools:text="@string/resBroken_splash" />
+            tools:text="@string/resPackBrokenHint" />
 
         <Button
             android:id="@+id/enterApp_button"
@@ -62,7 +62,7 @@
             android:layout_marginEnd="16dp"
             android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
             android:onClick="@{() -> viewModel.onClickEnterApp()}"
-            android:text="@string/enterApp_splash"
+            android:text="@string/enterApp"
             android:visibility="@{viewModel.showProgress ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/message_textView"
             app:layout_constraintEnd_toEndOf="parent"

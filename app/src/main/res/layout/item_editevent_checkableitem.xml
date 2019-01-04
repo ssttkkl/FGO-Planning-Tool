@@ -59,12 +59,12 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:alpha="@{item.checked ? 1f : 0.4f}"
-            android:text="@{@string/maxcount_editevent(item.item.count)}"
+            android:text="@{@string/maxCount_formatable(item.item.count)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/editText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView15"
-            tools:text="@string/maxcount_editevent" />
+            tools:text="@string/maxCount_formatable" />
 
         <EditText
             android:id="@+id/editText"

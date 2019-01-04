@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Switch
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentOwnitemlistBinding
-import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 
 class OwnItemListFragment : Fragment(), LifecycleOwner, ItemListFragment.OnShowItemInfoListener {
@@ -29,7 +26,7 @@ class OwnItemListFragment : Fragment(), LifecycleOwner, ItemListFragment.OnShowI
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
             drawerState = true
-            title = getString(R.string.title_ownitemlist)
+            title = getString(R.string.ownItemList)
         }
         setHasOptionsMenu(true)
         binding.viewPager.adapter = OwnItemListPagerAdapter(childFragmentManager, this, binding.viewModel!!)

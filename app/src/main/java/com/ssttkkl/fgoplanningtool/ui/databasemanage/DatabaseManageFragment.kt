@@ -27,7 +27,7 @@ class DatabaseManageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
             drawerState = true
-            title = getString(R.string.title_databasemanage)
+            title = getString(R.string.databaseManage)
         }
         setHasOptionsMenu(true)
 

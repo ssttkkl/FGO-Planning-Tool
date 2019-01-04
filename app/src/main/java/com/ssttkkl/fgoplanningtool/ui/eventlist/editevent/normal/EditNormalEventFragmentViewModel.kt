@@ -31,7 +31,7 @@ class EditNormalEventFragmentViewModel : EditEventBaseViewModel() {
         shopEventItemCount.forEach { (key, value) ->
             val item = indexed[key]
             if (item != null && item.checked && (value == null || value !in 0..item.item.count)) {
-                showMessageEvent.call(MyApp.context.getString(R.string.illegalValue_editevent, item.item.descriptor?.localizedName, 0, item.item.count))
+                showMessageEvent.call(MyApp.context.getString(R.string.illegalValueOfItemCount, item.item.descriptor?.localizedName, 0, item.item.count))
                 return null
             }
         }

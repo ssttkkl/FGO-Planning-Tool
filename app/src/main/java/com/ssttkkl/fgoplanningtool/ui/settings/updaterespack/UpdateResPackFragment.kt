@@ -26,7 +26,7 @@ class UpdateResPackFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
             drawerState = false
-            title = getString(R.string.title_updaterespack)
+            title = getString(R.string.updateResPack)
             invalidateOptionsMenu()
         }
 

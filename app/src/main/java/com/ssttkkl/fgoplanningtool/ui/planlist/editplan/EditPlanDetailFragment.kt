@@ -35,7 +35,7 @@ class EditPlanDetailFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
-            title = getString(R.string.title_edit_editplan)
+            title = getString(R.string.editPlan)
             drawerState = false
         }
         setHasOptionsMenu(true)
@@ -82,7 +82,7 @@ class EditPlanDetailFragment : Fragment(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> findNavController().navigateUp()
-            R.id.save_action -> binding.viewModel?.onClickSave()
+            R.id.save -> binding.viewModel?.onClickSave()
             R.id.remove -> binding.viewModel?.onClickRemove()
             else -> return super.onOptionsItemSelected(item)
         }

@@ -35,7 +35,7 @@
                 android:drawableEnd="@drawable/rotate_arrow"
                 android:minHeight="0dp"
                 android:onClick="@{() -> viewModel.onClickExpandJump()}"
-                android:text="@string/jump_costitemlist"
+                android:text="@string/jumpTo"
                 app:layout_constraintEnd_toStartOf="@+id/switch1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:checked="@={viewModel.hideEnoughItems}"
-                android:text="@string/hide_enough_items_costitemlist"
+                android:text="@string/hideEnoughItems"
                 app:layout_constraintBottom_toBottomOf="@+id/button"
                 app:layout_constraintEnd_toStartOf="@+id/switch2"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:checked="@={viewModel.withEventItems}"
-                android:text="@string/withEventItems_costitemlist"
+                android:text="@string/withEventItems"
                 app:layout_constraintBottom_toBottomOf="@+id/button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/emptyHint_costitemlist"
+            android:text="@string/emptyHintOnCostItemList"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:visibility="@{viewModel.showEmptyHint ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
