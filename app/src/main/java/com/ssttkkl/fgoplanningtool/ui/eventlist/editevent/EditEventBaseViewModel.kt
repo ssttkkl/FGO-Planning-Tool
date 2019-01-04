@@ -4,9 +4,18 @@ import androidx.databinding.ObservableArrayMap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import com.leinardi.android.speeddial.SpeedDialActionItem
+import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.event.Event
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
+import kotlin.collections.Collection
+import kotlin.collections.forEach
+import kotlin.collections.indexOfFirst
+import kotlin.collections.indices
+import kotlin.collections.map
+import kotlin.collections.set
+import kotlin.collections.toMutableList
 
 abstract class EditEventBaseViewModel : ViewModel() {
     val mode = MutableLiveData<Mode>()
@@ -36,6 +45,15 @@ abstract class EditEventBaseViewModel : ViewModel() {
 
     protected abstract fun prepareEvent(): Event?
 
+    fun onClickShopItemsSpeedDialItem(actionItem: SpeedDialActionItem?): Boolean {
+        when (actionItem?.id) {
+            R.id.select_all -> onClickSelectAllShopItems()
+            R.id.reset -> onClickResetShopItems()
+            else -> return false
+        }
+        return true
+    }
+
     fun onClickRemove() {
         if (mode.value == Mode.Edit) {
             Repo.EventRepo.remove(event.codename)
@@ -50,18 +68,10 @@ abstract class EditEventBaseViewModel : ViewModel() {
 
     fun onClickSelectAllShopItems() {
         event.checkedShopItems.value = event.checkedShopItems.value?.toMutableList()?.apply {
+            val allSelected = all { it.checked }
             indices.forEach { idx ->
-                if (!this[idx].checked)
-                    this[idx] = CheckableItem(this[idx].item, true, this[idx].item.count)
-            }
-        }
-    }
-
-    fun onClickDeselectAllShopItems() {
-        event.checkedShopItems.value = event.checkedShopItems.value?.toMutableList()?.apply {
-            indices.forEach { idx ->
-                if (this[idx].checked)
-                    this[idx] = CheckableItem(this[idx].item, false, this[idx].item.count)
+                if (allSelected == this[idx].checked)
+                    this[idx] = CheckableItem(this[idx].item, !allSelected, this[idx].item.count)
             }
         }
     }

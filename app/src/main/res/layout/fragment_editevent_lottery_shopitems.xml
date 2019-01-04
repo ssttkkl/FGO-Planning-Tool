@@ -16,67 +16,33 @@
             type="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.lottery.EditLotteryEventFragmentViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
             android:text="@string/emptyHint_editevent"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:visibility="@{viewModel.event.checkedShopItems.isEmpty() ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/shop_recView" />
-
-        <Button
-            android:id="@+id/selectAll_Button"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.onClickSelectAllShopItems()}"
-            android:text="@string/selectAll_editevent"
-            app:layout_constraintEnd_toStartOf="@id/deselectAll_Button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/deselectAll_Button"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.onClickDeselectAllShopItems()}"
-            android:text="@string/deselectAll_editevent"
-            app:layout_constraintEnd_toStartOf="@id/reset_Button"
-            app:layout_constraintStart_toEndOf="@id/selectAll_Button"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/reset_Button"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.onClickResetShopItems()}"
-            android:text="@string/reset_editevent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/deselectAll_Button"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:visibility="@{viewModel.event.checkedShopItems.isEmpty() ? View.VISIBLE : View.GONE}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/shop_recView"
             list="@{CheckableItemKt.sorted(viewModel.event.checkedShopItems)}"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selectAll_Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             tools:listitem="@layout/item_editevent_checkableitem" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.leinardi.android.speeddial.SpeedDialView
+            android:id="@+id/speedDial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
+            app:sdMainFabClosedSrc="@drawable/ic_done_all_white_24dp"
+            app:sdMainFabOpenedSrc="@drawable/ic_clear_white_24dp" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

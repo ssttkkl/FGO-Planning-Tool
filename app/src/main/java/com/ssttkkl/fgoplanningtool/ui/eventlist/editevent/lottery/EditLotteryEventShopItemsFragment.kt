@@ -8,11 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.leinardi.android.speeddial.SpeedDialActionItem
+import com.leinardi.android.speeddial.SpeedDialView
+import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEditeventLotteryShopitemsBinding
 import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.CheckableItemRecViewAdapter
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
-class EditLotteryEventShopItemsFragment : Fragment() {
+class EditLotteryEventShopItemsFragment : Fragment(), SpeedDialView.OnActionSelectedListener {
     private lateinit var binding: FragmentEditeventLotteryShopitemsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -26,7 +29,13 @@ class EditLotteryEventShopItemsFragment : Fragment() {
         binding.shopRecView.apply {
             adapter = CheckableItemRecViewAdapter(context!!, this@EditLotteryEventShopItemsFragment, binding.viewModel!!)
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(CommonRecViewItemDecoration(context!!))
+            addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
         }
+        binding.speedDial.inflate(R.menu.editevent_shopitems)
+        binding.speedDial.setOnActionSelectedListener(this)
+    }
+
+    override fun onActionSelected(actionItem: SpeedDialActionItem?): Boolean {
+        return binding.viewModel?.onClickShopItemsSpeedDialItem(actionItem) == true
     }
 }

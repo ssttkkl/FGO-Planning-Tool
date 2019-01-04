@@ -66,13 +66,6 @@ class ServantListFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
 
-        // setup ServantFilterFragment
-        if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
-            childFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, ServantFilterFragment(), ServantFilterFragment::class.qualifiedName)
-                    .commit()
-        }
-
         itemDecoration = CommonRecViewItemDecoration(context!!)
         binding.recView.apply {
             adapter = ServantListAdapter(context!!, this@ServantListFragment, binding.viewModel!!)
@@ -81,9 +74,6 @@ class ServantListFragment : Fragment(),
 
         binding.viewModel?.apply {
             start(context!!)
-            originServantIDs.observe(this@ServantListFragment, Observer {
-                onOriginChanged(it ?: setOf())
-            })
             viewType.observe(this@ServantListFragment, Observer {
                 onViewTypeChanged(it ?: return@Observer)
             })
@@ -93,6 +83,15 @@ class ServantListFragment : Fragment(),
             isDefaultFilterState.observe(this@ServantListFragment, Observer {
                 onIsDefaultFilterStateChanged()
             })
+        }
+
+        // setup ServantFilterFragment
+        if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
+            childFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout,
+                            ServantFilterFragment().apply { originServantIDs = binding.viewModel?.originServantIDs ?: setOf() },
+                            ServantFilterFragment::class.qualifiedName)
+                    .commit()
         }
     }
 
@@ -139,10 +138,6 @@ class ServantListFragment : Fragment(),
 
     override fun onRequestCostItems(servant: Servant): Collection<Item> {
         return binding.viewModel?.onRequestCostItems(servant) ?: listOf()
-    }
-
-    private fun onOriginChanged(originServantIDs: Set<Int>) {
-        servantFilterFragment?.originServantIDs = originServantIDs
     }
 
     private fun onViewTypeChanged(viewType: ViewType) {

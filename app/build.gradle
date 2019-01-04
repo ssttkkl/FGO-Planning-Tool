@@ -91,4 +91,5 @@ dependencies {
     implementation 'com.google.android:flexbox:1.1.0'
     implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
     implementation 'com.android.support:design:28.0.0'
+    implementation "com.leinardi.android:speed-dial:2.0.1"
 }

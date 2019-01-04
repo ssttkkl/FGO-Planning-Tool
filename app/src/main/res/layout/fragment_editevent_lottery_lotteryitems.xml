@@ -31,6 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/planBoxCount_editevent"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:text="@={viewModel.event.boxCount}"
                 tools:text="2333" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -40,6 +42,7 @@
             list="@{ItemKt.sorted(viewModel.event.originEvent.totalLotteryItems)}"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

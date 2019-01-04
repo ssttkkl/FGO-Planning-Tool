@@ -44,19 +44,24 @@
 
         <EditText
             android:id="@+id/name_editText"
+            onEditorAction="@{viewModel.onEditorAction}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:hint="@{descriptor.name}"
+            android:imeOptions="actionDone"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:tag="@{descriptor.uuid}"
             android:text="@={viewModel.editedName[descriptor.uuid]}"
             android:textAppearance="@style/ListItem"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ok_button"
             app:layout_constraintStart_toEndOf="@+id/selectedFlag_imageView"
             app:layout_constraintTop_toTopOf="parent"
-            tools:hint="@string/newDatabaseName"
-            android:hint="@{descriptor.name}"/>
+            tools:hint="@string/newDatabaseName" />
 
         <ImageButton
             android:id="@+id/ok_button"

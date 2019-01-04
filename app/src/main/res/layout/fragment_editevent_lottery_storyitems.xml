@@ -21,7 +21,10 @@
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:checked="@={viewModel.event.rerunAndParticipated}"
             android:text="@string/participated_editevent"
             android:visibility="@{viewModel.event.descriptor.isRerun ? View.VISIBLE : View.GONE}" />

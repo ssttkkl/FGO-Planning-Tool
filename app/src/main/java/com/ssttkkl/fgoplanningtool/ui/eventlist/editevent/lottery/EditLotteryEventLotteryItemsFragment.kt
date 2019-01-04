@@ -26,7 +26,7 @@ class EditLotteryEventLotteryItemsFragment : Fragment() {
         binding.lotteryRecView.apply {
             adapter = ItemRecViewAdapter(context!!, this@EditLotteryEventLotteryItemsFragment)
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(CommonRecViewItemDecoration(context!!))
+            addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
         }
     }
 }

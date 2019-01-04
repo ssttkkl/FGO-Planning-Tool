@@ -65,6 +65,11 @@ class DatabaseManageFragmentViewModel : ViewModel() {
     val editedName = ObservableArrayMap<String, String>()
 
     private fun setItemEditing(uuid: String, editing: Boolean) {
+        if (editing)
+            editedName[uuid] = indexedData.value?.get(uuid)?.databaseDescriptor?.name
+        else
+            editedName.remove(uuid)
+
         indexedData.value = indexedData.value?.toMutableMap()?.apply {
             val oldItem = this[uuid] ?: return
             this[uuid] = EditableDatabaseDescriptor(oldItem.databaseDescriptor, editing)
@@ -105,6 +110,8 @@ class DatabaseManageFragmentViewModel : ViewModel() {
                         ?: Date().time))
         setItemEditing(uuid, false)
     }
+
+    val onEditorAction = this::onClickItemSave
 
     fun onClickItemCancel(uuid: String) {
         setItemEditing(uuid, false)

@@ -20,9 +20,7 @@ class ServantListFragmentViewModel : ViewModel() {
 
     val data = MutableLiveData<List<Servant>>()
     val hiddenServantIDs = MutableLiveData<Set<Int>>()
-    val originServantIDs: LiveData<Set<Int>> = Transformations.map(hiddenServantIDs) { hiddenServantIDs ->
-        ResourcesProvider.instance.servants.keys - hiddenServantIDs
-    }
+    val originServantIDs: Set<Int> = ResourcesProvider.instance.servants.keys
     val viewType = MutableLiveData<ViewType>().apply {
         observeForever {
             PreferenceManager.getDefaultSharedPreferences(context?.get()

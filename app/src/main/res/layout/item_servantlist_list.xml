@@ -17,11 +17,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
+        android:alpha="@{viewModel.hiddenServantIDs.contains(servant.id) ? 0.4f : 1f}"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="16dp"
-        android:onClick="@{() -> viewModel.onClickServant(servant.id)}" >
+        android:clickable="@{viewModel.hiddenServantIDs.contains(servant.id) ? false : true}"
+        android:focusable="@{viewModel.hiddenServantIDs.contains(servant.id) ? false : true}"
+        android:onClick="@{() -> viewModel.onClickServant(servant.id)}"
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/avatar_imageView"
@@ -32,8 +33,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/avatar_placeholder"
-            app:srcCompat="@{servant.avatarFile}" />
+            app:srcCompat="@{servant.avatarFile}"
+            tools:srcCompat="@drawable/avatar_placeholder" />
 
         <TextView
             android:id="@+id/name_textView"
@@ -42,12 +43,12 @@
             android:layout_marginStart="56dp"
             android:gravity="center_vertical|start"
             android:maxLines="1"
+            android:text="@{servant.localizedName}"
             android:textAppearance="@style/ListItem"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Name"
-            android:text="@{servant.localizedName}" />
+            tools:text="Name" />
 
         <TextView
             android:id="@+id/class_textView"
@@ -55,12 +56,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
             android:maxLines="1"
+            android:text="@{servant.theClass.name}"
             android:textAppearance="@style/ListItemTertiary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_textView"
-            tools:text="Class"
-            android:text="@{servant.theClass.name}" />
+            tools:text="Class" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

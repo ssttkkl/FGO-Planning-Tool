@@ -5,12 +5,12 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import kotlin.reflect.KFunction
+import kotlin.reflect.KFunction1
 
 object EditTextBindingAdapter {
     @BindingAdapter("onEditorAction")
     @JvmStatic
-    fun onEditorAction(editText: EditText, function: KFunction<Unit>?) {
+    fun onEditorAction(editText: EditText, function: KFunction1<String, Unit>?) {
         editText.setOnEditorActionListener(if (function == null)
             null
         else
@@ -26,7 +26,7 @@ object EditTextBindingAdapter {
                         && event.action == KeyEvent.ACTION_DOWN
 
                 if (imeAction or keydownEvent)
-                    true.also { function.call(v?.tag) }
+                    true.also { function.call(v?.tag as? String) }
                 else false
             })
     }
