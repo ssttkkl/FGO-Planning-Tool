@@ -47,6 +47,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             android:text="@{descriptor.name}"
             android:textAppearance="@style/ListItem"
             app:layout_constraintBottom_toBottomOf="parent"

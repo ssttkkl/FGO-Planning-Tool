@@ -82,18 +82,14 @@ class CostItemListFragmentViewModel : ViewModel() {
         addSource(indexedEventItems) { value = generator() }
     }
 
-    val itemTypes: LiveData<List<ItemType>> = Transformations.map(dataToShow) { dataToShow ->
-        dataToShow?.mapNotNull { (it as? Header)?.itemType }
-                ?.toSet()
+    val itemTypes
+        get() = dataToShow.value?.mapNotNull { (it as? Header)?.itemType }
                 ?.sortedBy { it }
                 ?: listOf()
-    }
 
     val showEmptyHint: LiveData<Boolean> = Transformations.map(dataToShow) {
         it.isNullOrEmpty()
     }
-
-    val jumpExpanded = MutableLiveData<Boolean>()
 
     fun setDataFromPlans(plans: Collection<Plan>) {
         originData.value = plans.groupedCostItems.mapValues { (codename, requirements) ->
@@ -115,9 +111,10 @@ class CostItemListFragmentViewModel : ViewModel() {
     }
 
     val scrollToPositionEvent = SingleLiveEvent<Int>()
+    val showJumpMenuEvent = SingleLiveEvent<Unit>()
 
-    fun onClickExpandJump() {
-        jumpExpanded.value = jumpExpanded.value != true
+    fun onClickShowJumpMenu() {
+        showJumpMenuEvent.call()
     }
 
     fun onClickItem(codename: String) {
@@ -127,10 +124,10 @@ class CostItemListFragmentViewModel : ViewModel() {
             codename
     }
 
-    fun onClickJumpItem(itemType: ItemType) {
+    fun onClickJumpItem(itemType: ItemType): Boolean {
         scrollToPositionEvent.call(dataToShow.value?.indexOfFirst { (it as? Header)?.itemType == itemType }
-                ?: return)
-        jumpExpanded.value = false
+                ?: return false)
+        return true
     }
 
     companion object {

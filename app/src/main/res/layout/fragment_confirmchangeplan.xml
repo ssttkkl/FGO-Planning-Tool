@@ -23,11 +23,10 @@
             android:id="@+id/emptyHint_textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:text="@string/emptyHintOnCostItemList"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:visibility="@{viewModel.showEmptyHint ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/textView13"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +38,6 @@
             android:layout_height="0dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/textView13"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +52,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/hintOnConfirmChangePlan"
-            android:visibility="@{viewModel.showEmptyHint ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

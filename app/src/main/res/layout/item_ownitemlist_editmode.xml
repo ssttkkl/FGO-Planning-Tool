@@ -51,6 +51,7 @@
 
         <EditText
             android:id="@+id/count_editText"
+            onEditorAction="@{viewModel.onEditorAction}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -59,12 +60,11 @@
             android:ems="6"
             android:gravity="center_vertical|end"
             android:hint="@{String.valueOf(item.count)}"
-            onEditorAction="@{viewModel.onEditorAction}"
+            android:imeOptions="actionDone"
             android:inputType="number"
             android:selectAllOnFocus="true"
-            android:imeOptions="actionDone"
-            android:tag="@{item.codename}"
             android:singleLine="true"
+            android:tag="@{item.codename}"
             android:text="@={viewModel.editedCount[item.codename]}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/reset_button"

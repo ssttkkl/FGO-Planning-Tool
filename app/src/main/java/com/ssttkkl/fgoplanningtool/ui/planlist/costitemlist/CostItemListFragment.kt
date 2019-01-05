@@ -2,13 +2,12 @@ package com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist
 
 import android.os.Bundle
 import android.view.*
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
-import com.google.android.material.chip.Chip
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
@@ -47,8 +46,8 @@ class CostItemListFragment : Fragment() {
             addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
         }
         binding.viewModel?.apply {
-            itemTypes.observe(this@CostItemListFragment, Observer {
-                onItemTypesChanged(it ?: listOf())
+            showJumpMenuEvent.observe(this@CostItemListFragment, Observer {
+                showJumpMenu()
             })
             scrollToPositionEvent.observe(this@CostItemListFragment, Observer {
                 scrollToPosition(it ?: return@Observer)
@@ -74,20 +73,15 @@ class CostItemListFragment : Fragment() {
                 binding.viewModel?.setDataFromItems(value)
         }
 
-    private fun onItemTypesChanged(itemTypes: List<ItemType>) {
-        TransitionManager.beginDelayedTransition(binding.jumpChipGroup)
-        binding.jumpChipGroup.removeAllViews()
-        itemTypes.forEach { itemType ->
-            val chip = Chip(binding.jumpChipGroup.context).apply {
-                text = itemType.localizedName
-                setOnClickListener {
-                    binding.viewModel?.onClickJumpItem(itemType)
-                }
-                transitionName = itemType.name
+    private fun showJumpMenu() {
+        PopupMenu(context, binding.button, Gravity.BOTTOM).apply {
+            binding.viewModel?.itemTypes?.forEach {
+                menu.add(Menu.NONE, it.ordinal, it.ordinal, it.localizedName)
             }
-            binding.jumpChipGroup.addView(chip)
-        }
-        TransitionManager.endTransitions(binding.jumpChipGroup)
+            setOnMenuItemClickListener {
+                binding.viewModel?.onClickJumpItem(ItemType.values()[it.itemId]) == true
+            }
+        }.show()
     }
 
     private fun scrollToPosition(position: Int) {

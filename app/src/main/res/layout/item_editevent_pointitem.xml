@@ -7,6 +7,12 @@
 
         <import type="android.view.View" />
 
+        <import type="com.ssttkkl.fgoplanningtool.utils.ToStringWithSplitterExtKt" />
+
+        <variable
+            name="poolCodename"
+            type="String" />
+
         <variable
             name="item"
             type="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.point.PointItem" />
@@ -19,7 +25,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp">
+        android:layout_height="72dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{()->viewModel.onClickPointItem(poolCodename, item)}">
 
         <ImageView
             android:id="@+id/imageView11"
@@ -42,9 +51,12 @@
             android:layout_marginStart="72dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:singleLine="true"
-            android:text="@{@string/itemWithCountPattern(item.item.descriptor.localizedName, item.item.count)}"
+            android:maxLines="1"
+            android:text="@{@string/itemWithCountPattern(item.item.descriptor.localizedName, ToStringWithSplitterExtKt.toStringWithSplitter(item.item.count))}"
             android:textAppearance="@style/ListItem"
+            app:autoSizeMaxTextSize="16sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toStartOf="@+id/imageView12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -57,11 +69,15 @@
             android:layout_marginStart="72dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:text="@{@string/requestPointPattern(item.requestPoint)}"
+            android:text="@{@string/requestPointPattern(ToStringWithSplitterExtKt.toStringWithSplitter(item.requestPoint))}"
+            android:textAppearance="@style/ListItemSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageView12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView15"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeTextType="uniform"
             tools:text="@string/requestPointPattern" />
 
         <ImageView

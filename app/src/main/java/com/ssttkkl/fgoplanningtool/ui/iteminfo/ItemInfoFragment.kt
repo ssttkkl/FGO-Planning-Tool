@@ -74,7 +74,7 @@ class ItemInfoFragment : Fragment(), RequirementListFragment.OnClickItemListener
     }
 
     private fun showWikiMenu(wikiTitles: Collection<String>) {
-        PopupMenu(context!!, binding.root, GravityCompat.END.or(Gravity.TOP)).apply {
+        PopupMenu(context!!, activity!!.findViewById(R.id.toolbar), GravityCompat.END.or(Gravity.TOP)).apply {
             wikiTitles.forEach {
                 menu.add(it)
             }
