@@ -15,6 +15,10 @@ object DatabaseImporterAndExporter {
             Repo.ItemRepo.clear(true)
             Repo.ItemRepo.update(dataSet.items, true)
         }
+        if (dataSet.events != null) {
+            Repo.EventRepo.clear(true)
+            Repo.EventRepo.insert(dataSet.events, true)
+        }
         if (oldUUID != null)
             runBlocking(Dispatchers.Main) { Repo.switchDatabase(oldUUID) }
     }
@@ -24,8 +28,9 @@ object DatabaseImporterAndExporter {
         runBlocking(Dispatchers.Main) { Repo.switchDatabase(uuid) }
         val plans = Repo.PlanRepo.all.values
         val items = Repo.ItemRepo.all.values.filter { it.count != 0L }
+        val events = Repo.EventRepo.all.values
         if (oldUUID != null)
             runBlocking(Dispatchers.Main) { Repo.switchDatabase(oldUUID) }
-        return DataSet(plans, items)
+        return DataSet(plans, items, events)
     }
 }

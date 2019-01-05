@@ -5,28 +5,16 @@
 
     <data>
 
-        <import type="android.view.View" />
-
-        <import type="com.ssttkkl.fgoplanningtool.data.item.ItemKt" />
-
-        <import type="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.CheckableItemKt" />
+        <import type="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.shop.CheckableItemKt" />
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.lottery.EditLotteryEventFragmentViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditEventFragmentViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/emptyHint"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:visibility="@{viewModel.event.checkedShopItems.isEmpty() ? View.VISIBLE : View.GONE}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/shop_recView"

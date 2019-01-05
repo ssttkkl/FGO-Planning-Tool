@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "ad931a0213da25b994ab536e32aa1262",
+    "identityHash": "1d82b7a823c62d328e407d3694c69955",
     "entities": [
       {
         "tableName": "Plan",
@@ -117,40 +117,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "NormalEvent",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`codename` TEXT NOT NULL, `rerunAndParticipated` INTEGER NOT NULL, `checkedShopItems` TEXT NOT NULL, PRIMARY KEY(`codename`))",
-        "fields": [
-          {
-            "fieldPath": "codename",
-            "columnName": "codename",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rerunAndParticipated",
-            "columnName": "rerunAndParticipated",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "checkedShopItems",
-            "columnName": "checkedShopItems",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "codename"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "LotteryEvent",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`codename` TEXT NOT NULL, `rerunAndParticipated` INTEGER NOT NULL, `checkedShopItems` TEXT NOT NULL, `boxCount` INTEGER NOT NULL, PRIMARY KEY(`codename`))",
+        "tableName": "Event",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`codename` TEXT NOT NULL, `rerunAndParticipated` INTEGER NOT NULL, `checkedShopItems` TEXT NOT NULL, `lotteryBoxCount` TEXT NOT NULL, `point` TEXT NOT NULL, PRIMARY KEY(`codename`))",
         "fields": [
           {
             "fieldPath": "codename",
@@ -171,9 +139,15 @@
             "notNull": true
           },
           {
-            "fieldPath": "boxCount",
-            "columnName": "boxCount",
-            "affinity": "INTEGER",
+            "fieldPath": "lotteryBoxCount",
+            "columnName": "lotteryBoxCount",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "point",
+            "columnName": "point",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -190,7 +164,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ad931a0213da25b994ab536e32aa1262\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1d82b7a823c62d328e407d3694c69955\")"
     ]
   }
 }

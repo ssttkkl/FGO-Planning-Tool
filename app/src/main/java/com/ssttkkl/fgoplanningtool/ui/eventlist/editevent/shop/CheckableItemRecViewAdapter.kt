@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.eventlist.editevent
+package com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.shop
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.databinding.ItemEditeventCheckableitemBinding
+import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditEventFragmentViewModel
 
 class CheckableItemRecViewAdapter(val context: Context,
                                   private val lifecycleOwner: LifecycleOwner,
-                                  private val viewModel: EditEventBaseViewModel)
+                                  private val viewModel: EditEventFragmentViewModel)
     : ListAdapter<CheckableItem, CheckableItemRecViewAdapter.ViewModel>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewModel {

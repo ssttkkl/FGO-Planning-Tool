@@ -1,14 +1,11 @@
 package com.ssttkkl.fgoplanningtool.data
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptor
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptorManager
 import com.ssttkkl.fgoplanningtool.data.event.Event
-import com.ssttkkl.fgoplanningtool.data.event.LotteryEvent
-import com.ssttkkl.fgoplanningtool.data.event.NormalEvent
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
@@ -74,14 +71,14 @@ object Repo {
         }
 
         fun insert(plans: Collection<Plan>, immediately: Boolean = false) {
-            exec(immediately) { database ->
-                database.plansDao.insert(plans)
+            exec(immediately) { db ->
+                db.plansDao.insert(plans)
             }
         }
 
         fun remove(servantIds: Collection<Int>, immediately: Boolean = false) {
-            exec(immediately) {
-                database.value?.plansDao?.remove(servantIds.mapNotNull { database.value?.plansDao?.get(it) })
+            exec(immediately) { db ->
+                db.plansDao.remove(servantIds.mapNotNull { database.value?.plansDao?.get(it) })
             }
         }
 
@@ -94,8 +91,8 @@ object Repo {
         }
 
         fun clear(immediately: Boolean = false) {
-            exec(immediately) {
-                database.value?.plansDao?.clear()
+            exec(immediately) { db ->
+                db.plansDao.clear()
             }
         }
     }
@@ -131,8 +128,8 @@ object Repo {
         }
 
         fun update(items: Collection<Item>, immediately: Boolean = false) {
-            exec(immediately) {
-                database.value?.itemsDao?.update(items)
+            exec(immediately) { db ->
+                db.itemsDao.update(items)
             }
         }
 
@@ -141,19 +138,18 @@ object Repo {
         }
 
         fun deduct(itemsToDeduct: Collection<Item>, immediately: Boolean = false) {
-            exec(immediately) {
-                itemsToDeduct.map {
-                    val itemInRepo = get(it.codename)
-                    if (it.count > itemInRepo.count)
-                        throw Exception("Number of item ${it.codename} to deduct is grater than that in repo. ")
-                    Item(it.codename, itemInRepo.count - it.count)
-                }
+            val items = itemsToDeduct.map {
+                val itemInRepo = get(it.codename)
+                if (it.count > itemInRepo.count)
+                    throw Exception("Number of item ${it.codename} to deduct is grater than that in repo. ")
+                Item(it.codename, itemInRepo.count - it.count)
             }
+            update(items, immediately)
         }
 
         fun clear(immediately: Boolean = false) {
-            exec(immediately) {
-                database.value?.itemsDao?.clear()
+            exec(immediately) { db ->
+                db.itemsDao.clear()
             }
         }
     }
@@ -161,58 +157,31 @@ object Repo {
     object EventRepo {
         val all: Map<String, Event>
             get() = runBlocking(Dispatchers.IO) {
-                (database.value?.normalEventsDao?.all?.associate { it.codename to it }
-                        ?: mapOf()) + (database.value?.lotteryEventsDao?.all?.associate { it.codename to it }
-                        ?: mapOf())
+                database.value?.eventsDao?.all?.associate { it.codename to it } ?: mapOf()
             }
 
-        val allAsLiveData: LiveData<Map<String, Event>> = object : MediatorLiveData<Map<String, Event>>() {
-            private var latestNormalEvents: Map<String, NormalEvent> = mapOf()
-                set(value) {
-                    field = value
-                    this.value = latestNormalEvents + latestLotteryEvents
-                }
-            private var latestLotteryEvents: Map<String, LotteryEvent> = mapOf()
-                set(value) {
-                    field = value
-                    this.value = latestNormalEvents + latestLotteryEvents
-                }
-
-            init {
-                addSource(database) { database ->
-                    addSource(database?.normalEventsDao?.allAsLiveData ?: MutableLiveData()) {
-                        latestNormalEvents = it.associate { event -> event.codename to event }
-                    }
-                    addSource(database?.lotteryEventsDao?.allAsLiveData ?: MutableLiveData()) {
-                        latestLotteryEvents = it.associate { event -> event.codename to event }
-                    }
-                    Unit
-                }
-                value = mapOf()
+        val allAsLiveData: LiveData<Map<String, Event>> = Transformations.switchMap(database) { database ->
+            Transformations.map(database?.eventsDao?.allAsLiveData ?: MutableLiveData()) {
+                it?.associate { event -> event.codename to event } ?: mapOf()
             }
         }
 
         operator fun get(codename: String): Event? {
             return runBlocking(Dispatchers.IO) {
-                database.value?.normalEventsDao?.get(codename)
-                        ?: database.value?.lotteryEventsDao?.get(codename)
+                database.value?.eventsDao?.get(codename)
             }
         }
 
         fun insert(events: Collection<Event>, immediately: Boolean = false) {
-            exec(immediately) {
-                database.value?.normalEventsDao?.insert(events.mapNotNull { it as? NormalEvent })
-                database.value?.lotteryEventsDao?.insert(events.mapNotNull { it as? LotteryEvent })
+            exec(immediately) { db ->
+                db.eventsDao.insert(events)
             }
         }
 
         fun remove(codenames: Collection<String>, immediately: Boolean = false) {
-            exec(immediately) {
-                database.value?.normalEventsDao?.remove(codenames.mapNotNull {
-                    database.value?.normalEventsDao?.get(it)
-                })
-                database.value?.lotteryEventsDao?.remove(codenames.mapNotNull {
-                    database.value?.lotteryEventsDao?.get(it)
+            exec(immediately) { db ->
+                db.eventsDao.remove(codenames.mapNotNull {
+                    database.value?.eventsDao?.get(it)
                 })
             }
         }
@@ -226,9 +195,8 @@ object Repo {
         }
 
         fun clear(immediately: Boolean = false) {
-            exec(immediately) {
-                database.value?.normalEventsDao?.clear()
-                database.value?.lotteryEventsDao?.clear()
+            exec(immediately) { db ->
+                db.eventsDao.clear()
             }
         }
     }

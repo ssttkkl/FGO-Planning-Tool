@@ -9,14 +9,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.event.Event
-import com.ssttkkl.fgoplanningtool.data.event.LotteryEvent
-import com.ssttkkl.fgoplanningtool.data.event.NormalEvent
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEditeventBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.lottery.EditLotteryEventFragmentViewModel
-import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.lottery.EditLotteryEventPagerAdapter
-import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.normal.EditNormalEventFragmentViewModel
-import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.normal.EditNormalEventPagerAdapter
 
 class EditEventFragment : Fragment() {
     private lateinit var binding: FragmentEditeventBinding
@@ -24,13 +18,8 @@ class EditEventFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentEditeventBinding.inflate(inflater, container, false)
         binding.setLifecycleOwner(this)
-        val event = arguments!!["event"] as Event
-        binding.viewModel = ViewModelProviders.of(this)[when (event) {
-            is NormalEvent -> EditNormalEventFragmentViewModel::class.java
-            is LotteryEvent -> EditLotteryEventFragmentViewModel::class.java
-            else -> throw Exception("Unknown event type.")
-        }].apply {
-            start(arguments!!["mode"] as Mode, event)
+        binding.viewModel = ViewModelProviders.of(this)[EditEventFragmentViewModel::class.java].apply {
+            start(arguments!!["mode"] as Mode, arguments!!["event"] as Event)
         }
         return binding.root
     }
@@ -42,11 +31,7 @@ class EditEventFragment : Fragment() {
         }
         setHasOptionsMenu(true)
 
-        binding.viewPager.adapter = when (binding.viewModel) {
-            is EditNormalEventFragmentViewModel -> EditNormalEventPagerAdapter(childFragmentManager)
-            is EditLotteryEventFragmentViewModel -> EditLotteryEventPagerAdapter(childFragmentManager)
-            else -> throw Exception("Unknown event type.")
-        }
+        binding.viewPager.adapter = EditEventPagerAdapter(binding.viewModel!!, childFragmentManager)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
 
         binding.viewModel?.apply {

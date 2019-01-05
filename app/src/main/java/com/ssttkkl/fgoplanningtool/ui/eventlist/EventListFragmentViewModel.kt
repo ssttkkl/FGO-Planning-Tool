@@ -5,8 +5,6 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.event.Event
-import com.ssttkkl.fgoplanningtool.data.event.LotteryEvent
-import com.ssttkkl.fgoplanningtool.data.event.NormalEvent
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 
 class EventListFragmentViewModel : ViewModel() {

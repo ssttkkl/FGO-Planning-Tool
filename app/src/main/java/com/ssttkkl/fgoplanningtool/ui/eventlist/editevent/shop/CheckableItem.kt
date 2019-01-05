@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.eventlist.editevent
+package com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.shop
 
 import com.ssttkkl.fgoplanningtool.data.item.Item
 

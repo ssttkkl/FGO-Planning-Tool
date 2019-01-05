@@ -208,12 +208,18 @@
     <string name="chooseEvent">选择活动</string>
     <string name="eventShop">活动商店</string>
     <string name="eventLottery">无限池</string>
+    <string name="eventPoint">点数奖励</string>
     <string name="planBoxCount">计划池数</string>
+    <string name="planPoint">计划点数</string>
     <string name="storyGift">剧情/周回首通奖励</string>
     <string name="editEvent">编辑活动</string>
+    <string name="selectAllExpectPieces">选择全部（除棋子）</string>
     <string name="reset">重置</string>
     <string name="illegalValueOfItemCount">材料 %1$s 的数量超出范围 [%2$d, %3$d]</string>
     <string name="eventParticipated">参加过原版活动</string>
     <string name="event">活动</string>
     <string name="emptyHint">这里什么都没有</string>
+    <string name="requestPointPattern">%1$d 点以上</string>
+    <string name="itemWithCountPattern">%1$s × %2$d</string>
+    <string name="max">MAX</string>
 </resources>

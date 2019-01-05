@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.lottery.EditLotteryEventFragmentViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditEventFragmentViewModel" />
     </data>
 
     <LinearLayout

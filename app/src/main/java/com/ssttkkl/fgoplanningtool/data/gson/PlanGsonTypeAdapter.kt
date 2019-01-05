@@ -158,7 +158,7 @@ class PlanGsonTypeAdapter : TypeAdapter<Plan>() {
         private const val NAME_SKILL_3 = "skill_3"
         private const val NAME_DRESS = "dress"
 
-        // desperate
+        // for old version
         private const val NAME_STAGE = "stage"
     }
 }

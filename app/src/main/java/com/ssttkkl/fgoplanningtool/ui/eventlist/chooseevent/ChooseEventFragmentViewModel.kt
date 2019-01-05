@@ -1,16 +1,13 @@
 package com.ssttkkl.fgoplanningtool.ui.eventlist.chooseevent
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.event.Event
-import com.ssttkkl.fgoplanningtool.data.event.LotteryEvent
-import com.ssttkkl.fgoplanningtool.data.event.NormalEvent
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.eventdescriptor.EventDescriptor
-import com.ssttkkl.fgoplanningtool.resources.eventdescriptor.LotteryEventDescriptor
-import com.ssttkkl.fgoplanningtool.resources.eventdescriptor.NormalEventDescriptor
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 
 class ChooseEventFragmentViewModel : ViewModel() {
@@ -22,16 +19,13 @@ class ChooseEventFragmentViewModel : ViewModel() {
                 .groupBy { it.date.year }
     }
 
-    val hiddenEventCodenames = Transformations.map(Repo.EventRepo.allAsLiveData) { events ->
+    val hiddenEventCodenames: LiveData<Set<String>> = Transformations.map(Repo.EventRepo.allAsLiveData) { events ->
         events.keys
     }
 
     val gotoEditEventUIEvent = SingleLiveEvent<Event>()
 
     fun onClickEvent(descriptor: EventDescriptor) {
-        when (descriptor) {
-            is NormalEventDescriptor -> gotoEditEventUIEvent.call(NormalEvent(descriptor.codename))
-            is LotteryEventDescriptor -> gotoEditEventUIEvent.call(LotteryEvent(descriptor.codename))
-        }
+        gotoEditEventUIEvent.call(Event(descriptor.codename))
     }
 }

@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.normal
+package com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.shop
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,25 +11,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import com.ssttkkl.fgoplanningtool.R
-import com.ssttkkl.fgoplanningtool.databinding.FragmentEditeventNormalShopitemsBinding
-import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.CheckableItemRecViewAdapter
+import com.ssttkkl.fgoplanningtool.databinding.FragmentEditeventShopitemsBinding
+import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditEventFragmentViewModel
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
-class EditNormalEventShopItemsFragment : Fragment(), SpeedDialView.OnActionSelectedListener {
-    private lateinit var binding: FragmentEditeventNormalShopitemsBinding
+class EditEventShopItemsFragment : Fragment(), SpeedDialView.OnActionSelectedListener {
+    private lateinit var binding: FragmentEditeventShopitemsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentEditeventNormalShopitemsBinding.inflate(inflater, container, false)
-        binding.viewModel = ViewModelProviders.of(parentFragment!!)[EditNormalEventFragmentViewModel::class.java]
+        binding = FragmentEditeventShopitemsBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(parentFragment!!)[EditEventFragmentViewModel::class.java]
         binding.setLifecycleOwner(this)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.shopRecView.apply {
-            adapter = CheckableItemRecViewAdapter(context!!, this@EditNormalEventShopItemsFragment, binding.viewModel!!)
+            adapter = CheckableItemRecViewAdapter(context!!, this@EditEventShopItemsFragment, binding.viewModel!!)
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
+            addItemDecoration(CommonRecViewItemDecoration(context!!))
         }
         binding.speedDial.inflate(R.menu.editevent_shopitems)
         binding.speedDial.setOnActionSelectedListener(this)

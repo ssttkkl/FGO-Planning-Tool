@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditEventBaseViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditEventFragmentViewModel" />
     </data>
 
     <LinearLayout

@@ -4,10 +4,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ssttkkl.fgoplanningtool.MyApp
-import com.ssttkkl.fgoplanningtool.data.event.LotteryEvent
-import com.ssttkkl.fgoplanningtool.data.event.LotteryEventDao
-import com.ssttkkl.fgoplanningtool.data.event.NormalEvent
-import com.ssttkkl.fgoplanningtool.data.event.NormalEventDao
+import com.ssttkkl.fgoplanningtool.data.event.Event
+import com.ssttkkl.fgoplanningtool.data.event.EventDao
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.ItemsDao
 import com.ssttkkl.fgoplanningtool.data.migration.RepoDatabaseVersionMigration1To2
@@ -20,12 +18,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Plan::class, Item::class, NormalEvent::class, LotteryEvent::class], version = 5)
+@Database(entities = [Plan::class, Item::class, Event::class], version = 5)
 abstract class RepoDatabase : RoomDatabase() {
     abstract val plansDao: PlansDao
     abstract val itemsDao: ItemsDao
-    abstract val normalEventsDao: NormalEventDao
-    abstract val lotteryEventsDao: LotteryEventDao
+    abstract val eventsDao: EventDao
 
     companion object {
         private val instances = HashMap<String, RepoDatabase>()
