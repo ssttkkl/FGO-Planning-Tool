@@ -41,6 +41,12 @@ class EditEventFragment : Fragment() {
             showMessageEvent.observe(this@EditEventFragment, Observer {
                 showMessage(it ?: "")
             })
+            gotoConfirmChangeEventUIEvent.observe(this@EditEventFragment, Observer {
+                gotoConfirmChangeEventUI(it ?: return@Observer)
+            })
+            gotoConfirmRemoveEventUIEvent.observe(this@EditEventFragment, Observer {
+                gotoConfirmRemoveEventUI(it ?: return@Observer)
+            })
         }
     }
 
@@ -64,5 +70,15 @@ class EditEventFragment : Fragment() {
 
     private fun showMessage(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun gotoConfirmChangeEventUI(event: Event) {
+        findNavController().navigate(EditEventFragmentDirections.actionEditEventFragmentToConfirmChangeEventFragment(
+                com.ssttkkl.fgoplanningtool.ui.eventlist.confirmchangeevent.Mode.Change, event))
+    }
+
+    private fun gotoConfirmRemoveEventUI(event: Event) {
+        findNavController().navigate(EditEventFragmentDirections.actionEditEventFragmentToConfirmChangeEventFragment(
+                com.ssttkkl.fgoplanningtool.ui.eventlist.confirmchangeevent.Mode.Remove, event))
     }
 }

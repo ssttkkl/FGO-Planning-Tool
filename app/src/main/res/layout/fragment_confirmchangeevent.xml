@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="com.ssttkkl.fgoplanningtool.ui.eventlist.confirmchangeevent.Mode" />
+
+        <variable
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.eventlist.confirmchangeevent.ConfirmChangeEventFragmentViewModel" />
+    </data>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@{viewModel.hint}"
+        android:textAppearance="@style/Body" />
+</layout>

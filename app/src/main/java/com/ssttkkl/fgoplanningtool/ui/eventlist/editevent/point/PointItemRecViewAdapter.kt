@@ -12,7 +12,8 @@ import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditEventFragmentViewM
 
 class PointItemRecViewAdapter(val context: Context,
                               private val lifecycleOwner: LifecycleOwner,
-                              private val viewModel: EditEventFragmentViewModel)
+                              private val viewModel: EditEventFragmentViewModel,
+                              private val poolCodename: String)
     : ListAdapter<PointItem, PointItemRecViewAdapter.ViewHolder>(PointItemRecViewAdapter.diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,6 +28,7 @@ class PointItemRecViewAdapter(val context: Context,
         init {
             binding.setLifecycleOwner(lifecycleOwner)
             binding.viewModel = viewModel
+            binding.poolCodename = poolCodename
         }
 
         fun bind(item: PointItem) {

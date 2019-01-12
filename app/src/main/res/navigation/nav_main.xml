@@ -163,7 +163,7 @@
     <fragment
         android:id="@+id/confirmChangePlanFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment"
-        android:label="@string/confirmChangePlan"
+        android:label="@string/confirmChange"
         tools:layout="@layout/fragment_confirmchangeplan" />
 
     <fragment
@@ -285,6 +285,24 @@
         <argument
             android:name="mode"
             app:argType="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.Mode" />
+        <argument
+            android:name="event"
+            app:argType="com.ssttkkl.fgoplanningtool.data.event.Event" />
+        <action
+            android:id="@+id/action_editEventFragment_to_confirmChangeEventFragment"
+            app:destination="@id/confirmChangeEventFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmChangeEventFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.eventlist.confirmchangeevent.ConfirmChangeEventFragment"
+        android:label="ConfirmChangeEventFragment">
+        <argument
+            android:name="mode"
+            app:argType="com.ssttkkl.fgoplanningtool.ui.eventlist.confirmchangeevent.Mode" />
         <argument
             android:name="event"
             app:argType="com.ssttkkl.fgoplanningtool.data.event.Event" />

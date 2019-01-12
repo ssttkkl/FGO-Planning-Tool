@@ -200,8 +200,8 @@
     <string name="valueOutOfBound">值必须在 %1$d~%2$d 范围之内。</string>
     <string name="fileFormatError">文件格式错误。</string>
     <string name="chooseServantList">选择从者</string>
-    <string name="confirmChangePlan">确认更改</string>
-    <string name="confirmRemovePlan">确认删除</string>
+    <string name="confirmChange">确认更改</string>
+    <string name="confirmRemove">确认删除</string>
     <string name="hintOnConfirmChangePlan">将会从仓库一并扣除相应数量的选中的材料。</string>
 
     <string name="maxCount_formatable">最多 %1$d 个</string>
@@ -219,7 +219,11 @@
     <string name="eventParticipated">参加过原版活动</string>
     <string name="event">活动</string>
     <string name="emptyHint">这里什么都没有</string>
-    <string name="requestPointPattern">%1$d 点以上</string>
-    <string name="itemWithCountPattern">%1$s × %2$d</string>
+    <string name="requestPointPattern">%1$s 点以上</string>
+    <string name="itemWithCountPattern">%1$s × %2$s</string>
     <string name="max">MAX</string>
+    <string name="beforeDeduct">扣除前</string>
+    <string name="afterDeduct">扣除后</string>
+    <string name="hintOfConfirmRemoveEvent">确认删除未来活动“%1$s”吗？</string>
+    <string name="hintOfConfirmChangeEvent">确认修改未来活动“%1$s”吗？</string>
 </resources>

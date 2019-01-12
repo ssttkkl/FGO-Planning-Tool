@@ -1,24 +1,27 @@
 package com.ssttkkl.fgoplanningtool.ui.eventlist.editevent
 
 import androidx.databinding.ObservableArrayMap
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.event.Event
 import com.ssttkkl.fgoplanningtool.data.item.Item
-import com.ssttkkl.fgoplanningtool.resources.eventdescriptor.PointPool
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.point.PointItem
 import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.shop.CheckableItem
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 import kotlin.collections.component1
 import kotlin.collections.component2
+import kotlin.collections.set
 
 class EditEventFragmentViewModel : ViewModel() {
     val mode = MutableLiveData<Mode>()
 
+    lateinit var oldEvent: Event
     lateinit var event: ObservableEvent
 
     private var initialized: Boolean = false
@@ -33,6 +36,7 @@ class EditEventFragmentViewModel : ViewModel() {
     fun start(mode: Mode, event: Event) {
         if (!initialized) {
             this.mode.value = mode
+            this.oldEvent = event
             this.event = ObservableEvent(event)
             initialized = true
         }
@@ -69,6 +73,8 @@ class EditEventFragmentViewModel : ViewModel() {
     }
 
     val showMessageEvent = SingleLiveEvent<String>()
+    val gotoConfirmChangeEventUIEvent = SingleLiveEvent<Event>()
+    val gotoConfirmRemoveEventUIEvent = SingleLiveEvent<Event>()
     val finishEvent = SingleLiveEvent<Unit>()
 
     fun onClickShopItemsSpeedDialItem(actionItem: SpeedDialActionItem?): Boolean {
@@ -82,15 +88,26 @@ class EditEventFragmentViewModel : ViewModel() {
     }
 
     fun onClickRemove() {
-        if (mode.value == Mode.Edit) {
-            Repo.EventRepo.remove(event.codename)
-        }
-        finishEvent.call()
+        if (mode.value == Mode.Edit)
+            gotoConfirmRemoveEventUIEvent.call(event.originEvent.value)
+        else
+            finishEvent.call()
     }
 
     fun onClickSave() {
-        Repo.EventRepo.insert(prepareEvent() ?: return)
-        finishEvent.call()
+        val newEvent = prepareEvent()!!
+        when (mode.value) {
+            Mode.New -> {
+                Repo.EventRepo.insert(newEvent)
+                finishEvent.call()
+            }
+            Mode.Edit -> {
+                if (oldEvent != newEvent)
+                    gotoConfirmChangeEventUIEvent.call(newEvent)
+                else
+                    finishEvent.call()
+            }
+        }
     }
 
     private fun onClickSelectAllShopItems() {
@@ -129,5 +146,9 @@ class EditEventFragmentViewModel : ViewModel() {
 
     fun onClickMaxPoint(poolCodename: String) {
         event.point[poolCodename] = event.descriptor?.pointPools?.get(poolCodename)?.items?.keys?.max()
+    }
+
+    fun onClickPointItem(poolCodename: String, pointItem: PointItem) {
+        event.point[poolCodename] = pointItem.requestPoint
     }
 }

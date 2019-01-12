@@ -24,9 +24,9 @@ class ConfirmChangePlanFragmentViewModel : ViewModel() {
     }
     val title: LiveData<String> = Transformations.map(mode) { mode ->
         if (mode == Mode.Remove)
-            MyApp.context.getString(R.string.confirmRemovePlan)
+            MyApp.context.getString(R.string.confirmRemove)
         else
-            MyApp.context.getString(R.string.confirmChangePlan)
+            MyApp.context.getString(R.string.confirmChange)
     }
 
     private val indexedDeductItems = MutableLiveData<Map<String, DeductItem>>().apply {

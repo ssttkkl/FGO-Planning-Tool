@@ -26,7 +26,8 @@ class EditEventPointItemsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.recView.apply {
-            adapter = PointItemRecViewAdapter(context!!, this@EditEventPointItemsFragment, binding.viewModel!!)
+            adapter = PointItemRecViewAdapter(context!!, this@EditEventPointItemsFragment, binding.viewModel!!, binding.poolCodename
+                    ?: "")
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
         }
