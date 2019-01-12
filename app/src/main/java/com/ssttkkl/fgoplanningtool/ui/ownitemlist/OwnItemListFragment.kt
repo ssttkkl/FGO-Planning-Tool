@@ -19,7 +19,9 @@ class OwnItemListFragment : Fragment(), LifecycleOwner, ItemListFragment.OnShowI
                               savedInstanceState: Bundle?): View {
         binding = FragmentOwnitemlistBinding.inflate(inflater, container, false)
         binding.setLifecycleOwner(this)
-        binding.viewModel = ViewModelProviders.of(this)[OwnItemListFragmentViewModel::class.java]
+        binding.viewModel = ViewModelProviders.of(this)[OwnItemListFragmentViewModel::class.java].apply {
+            start(context!!)
+        }
         return binding.root
     }
 

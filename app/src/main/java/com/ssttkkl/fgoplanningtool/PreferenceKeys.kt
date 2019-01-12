@@ -5,4 +5,5 @@ object PreferenceKeys {
     const val KEY_NAME_LANGUAGE = "nameLanguage"
     const val KEY_UNLOCK_REAL_NAME = "unlockRealName"
     const val KEY_CHECK_UPDATE_ON_START = "checkUpdateOnStart"
+    const val KEY_WITH_EVENT_ITEMS_OWN_ITEM_LIST = "withEventItems_ownItemList"
 }

@@ -20,7 +20,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/avatar_imageView"
@@ -58,10 +58,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="72dp"
-            android:layout_marginBottom="16dp"
             android:text="@string/own"
             android:textAppearance="@style/ListItemTertiary"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/own_textView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_textView" />
@@ -71,15 +69,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="8dp"
             android:singleLine="true"
             android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(item.count)}"
             android:textAppearance="@style/ListItemSecondary"
             app:autoSizeMaxTextSize="14sp"
             app:autoSizeMinTextSize="10sp"
             app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textView17"
+            app:layout_constraintEnd_toStartOf="@+id/edit_button"
             app:layout_constraintStart_toEndOf="@+id/textView14"
             app:layout_constraintTop_toBottomOf="@+id/name_textView"
             tools:text="233,333,333" />
@@ -88,15 +85,15 @@
             android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="72dp"
             android:layout_marginBottom="16dp"
             android:text="@string/event"
             android:textAppearance="@style/ListItemTertiary"
             android:visibility="@{viewModel.withEventItems ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/event_textView"
-            app:layout_constraintStart_toEndOf="@+id/own_textView"
-            app:layout_constraintTop_toBottomOf="@+id/name_textView" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
         <TextView
             android:id="@+id/event_textView"
@@ -115,7 +112,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/edit_button"
             app:layout_constraintStart_toEndOf="@+id/textView17"
-            app:layout_constraintTop_toBottomOf="@+id/name_textView"
+            app:layout_constraintTop_toBottomOf="@+id/own_textView"
             tools:text="666.666.666" />
 
         <ImageButton
