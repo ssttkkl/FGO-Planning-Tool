@@ -68,8 +68,8 @@ class EditEventFragmentViewModel : ViewModel() {
         return Event(event.codename,
                 event.rerunAndParticipated.value == true,
                 checkedShopItems,
-                event.lotteryBoxCount.toMap(),
-                event.point.toMap())
+                event.lotteryBoxCount.map { it ?: 0 },
+                event.point.map { it ?: 0L })
     }
 
     val showMessageEvent = SingleLiveEvent<String>()
@@ -144,11 +144,11 @@ class EditEventFragmentViewModel : ViewModel() {
         }
     }
 
-    fun onClickMaxPoint(poolCodename: String) {
-        event.point[poolCodename] = event.descriptor?.pointPools?.get(poolCodename)?.items?.keys?.max()
+    fun onClickMaxPoint(poolIndex: Int) {
+        event.point[poolIndex] = event.descriptor?.pointPools?.get(poolIndex)?.items?.keys?.max()
     }
 
-    fun onClickPointItem(poolCodename: String, pointItem: PointItem) {
-        event.point[poolCodename] = pointItem.requestPoint
+    fun onClickPointItem(poolIndex: Int, pointItem: PointItem) {
+        event.point[poolIndex] = pointItem.requestPoint
     }
 }

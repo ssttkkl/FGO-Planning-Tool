@@ -7,8 +7,7 @@ import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.utils.Localizable
 import kotlin.math.min
 
-data class Lottery(val codename: String,
-                   val zhName: String,
+data class Lottery(val zhName: String,
                    val enName: String,
                    val jaName: String,
                    val items: Map<IntRange, Collection<Item>>) : Localizable {

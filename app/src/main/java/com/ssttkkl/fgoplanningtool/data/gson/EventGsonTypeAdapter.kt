@@ -27,20 +27,18 @@ class EventGsonTypeAdapter : TypeAdapter<Event>() {
         itemCollectionAdapter.write(writer, it.checkedShopItems)
 
         writer.name(NAME_LOTTERY_BOX_COUNT)
-        writer.beginObject()
+        writer.beginArray()
         it.lotteryBoxCount.forEach {
-            writer.name(it.key)
-            writer.value(it.value)
+            writer.value(it)
         }
-        writer.endObject()
+        writer.endArray()
 
         writer.name(NAME_POINT)
-        writer.beginObject()
+        writer.beginArray()
         it.point.forEach {
-            writer.name(it.key)
-            writer.value(it.value)
+            writer.value(it)
         }
-        writer.endObject()
+        writer.endArray()
 
         writer.endObject()
     }
@@ -49,8 +47,8 @@ class EventGsonTypeAdapter : TypeAdapter<Event>() {
         var codename = ""
         var rerunAndParticipated = false
         var checkedShopItems: Collection<Item> = listOf()
-        var lotteryBoxCount: Map<String, Int> = mapOf()
-        var point: Map<String, Long> = mapOf()
+        var lotteryBoxCount: List<Int> = listOf()
+        var point: List<Long> = listOf()
 
         reader.beginObject()
         while (reader.hasNext()) {
@@ -59,26 +57,22 @@ class EventGsonTypeAdapter : TypeAdapter<Event>() {
                 NAME_RERUN_AND_PARTICIPATED -> rerunAndParticipated = reader.nextBoolean()
                 NAME_CHECKED_SHOP_ITEMS -> checkedShopItems = itemCollectionAdapter.read(reader)
                 NAME_LOTTERY_BOX_COUNT -> {
-                    val map = HashMap<String, Int>()
-                    reader.beginObject()
+                    val list = ArrayList<Int>()
+                    reader.beginArray()
                     while (reader.hasNext()) {
-                        val key = reader.nextName()
-                        val value = reader.nextInt()
-                        map[key] = value
+                        list.add(reader.nextInt())
                     }
-                    reader.endObject()
-                    lotteryBoxCount = map
+                    reader.endArray()
+                    lotteryBoxCount = list
                 }
                 NAME_POINT -> {
-                    val map = HashMap<String, Long>()
-                    reader.beginObject()
+                    val list = ArrayList<Long>()
+                    reader.beginArray()
                     while (reader.hasNext()) {
-                        val key = reader.nextName()
-                        val value = reader.nextLong()
-                        map[key] = value
+                        list.add(reader.nextLong())
                     }
-                    reader.endObject()
-                    point = map
+                    reader.endArray()
+                    point = list
                 }
                 else -> reader.skipValue()
             }

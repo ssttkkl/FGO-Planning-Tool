@@ -12,21 +12,21 @@ import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.story.EditEventStoryIt
 
 class EditEventPagerAdapter(private val viewModel: EditEventFragmentViewModel,
                             fm: FragmentManager) : FragmentPagerAdapter(fm) {
-    val tabs: List<Pair<String, String>>
+    val tabs: List<Pair<String, Int>>
 
     init {
         tabs = ArrayList()
         viewModel.event.descriptor?.apply {
             if (shopItems.isNotEmpty())
-                tabs.add(Pair(SHOP, ""))
-            lotteries.keys.forEach { lotteryCodename ->
-                tabs.add(Pair(LOTTERY, lotteryCodename))
+                tabs.add(Pair(SHOP, 0))
+            lotteries.indices.forEach { idx ->
+                tabs.add(Pair(LOTTERY, idx))
             }
-            pointPools.keys.forEach { pointCodename ->
-                tabs.add(Pair(POINT, pointCodename))
+            pointPools.indices.forEach { idx ->
+                tabs.add(Pair(POINT, idx))
             }
             if (storyItems.isNotEmpty() || storyItemsIfNotParticipated.isNotEmpty() || storyItemsIfParticipated.isNotEmpty())
-                tabs.add(Pair(STORY, ""))
+                tabs.add(Pair(STORY, 0))
         }
     }
 

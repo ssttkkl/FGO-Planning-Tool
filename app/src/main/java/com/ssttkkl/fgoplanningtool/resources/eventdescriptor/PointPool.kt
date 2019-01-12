@@ -8,8 +8,7 @@ import com.ssttkkl.fgoplanningtool.utils.Localizable
 import java.util.*
 import kotlin.collections.ArrayList
 
-data class PointPool(val codename: String,
-                     val zhName: String,
+data class PointPool(val zhName: String,
                      val enName: String,
                      val jaName: String,
                      val items: Map<Long, Collection<Item>>) : Localizable {

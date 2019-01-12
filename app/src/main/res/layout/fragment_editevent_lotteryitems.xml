@@ -8,8 +8,8 @@
         <import type="com.ssttkkl.fgoplanningtool.data.item.ItemKt" />
 
         <variable
-            name="lotteryCodename"
-            type="String" />
+            name="lotteryIndex"
+            type="Integer" />
 
         <variable
             name="viewModel"
@@ -36,13 +36,13 @@
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:singleLine="true"
-                android:text="@={viewModel.event.lotteryBoxCount[lotteryCodename]}"
+                android:text="@={viewModel.event.lotteryBoxCount[lotteryIndex]}"
                 tools:text="2333" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recView"
-            list="@{ItemKt.sorted(viewModel.event.originEvent.lotteryItems[lotteryCodename])}"
+            list="@{ItemKt.sorted(viewModel.event.originEvent.lotteryItems[lotteryIndex])}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"

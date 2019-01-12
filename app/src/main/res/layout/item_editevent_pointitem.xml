@@ -10,8 +10,8 @@
         <import type="com.ssttkkl.fgoplanningtool.utils.ToStringWithSplitterExtKt" />
 
         <variable
-            name="poolCodename"
-            type="String" />
+            name="poolIndex"
+            type="Integer" />
 
         <variable
             name="item"
@@ -28,7 +28,7 @@
         android:layout_height="72dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{()->viewModel.onClickPointItem(poolCodename, item)}">
+        android:onClick="@{()->viewModel.onClickPointItem(poolIndex, item)}">
 
         <ImageView
             android:id="@+id/imageView11"

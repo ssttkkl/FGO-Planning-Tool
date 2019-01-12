@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="poolCodename"
-            type="String" />
+            name="poolIndex"
+            type="Integer" />
 
         <variable
             name="viewModel"
@@ -36,7 +36,7 @@
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:singleLine="true"
-                android:text="@={viewModel.event.point[poolCodename]}"
+                android:text="@={viewModel.event.point[poolIndex]}"
                 tools:text="2333" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:onClick="@{() -> viewModel.onClickMaxPoint(poolCodename)}"
+            android:onClick="@{() -> viewModel.onClickMaxPoint(poolIndex)}"
             android:text="@string/max"
             app:layout_constraintBottom_toBottomOf="@+id/textInputLayout3"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recView"
-            list="@{viewModel.event.pointItems[poolCodename]}"
+            list="@{viewModel.event.pointItems[poolIndex]}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"

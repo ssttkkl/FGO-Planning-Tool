@@ -17,8 +17,8 @@ data class EventDescriptor(val codename: String,
                            val storyItemsIfParticipated: Collection<Item>,
                            val storyItemsIfNotParticipated: Collection<Item>,
                            val shopItems: Collection<Item>,
-                           val lotteries: Map<String, Lottery>,
-                           val pointPools: Map<String, PointPool>) : Localizable {
+                           val lotteries: List<Lottery>,
+                           val pointPools: List<PointPool>) : Localizable {
     override val localizedName: String
         get() = when (PreferenceManager.getDefaultSharedPreferences(MyApp.context).getString(PreferenceKeys.KEY_NAME_LANGUAGE, "zh")) {
             "ja" -> jaName

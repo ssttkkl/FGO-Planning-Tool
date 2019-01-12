@@ -20,23 +20,22 @@ class EditEventPointItemsFragment : Fragment() {
         binding = FragmentEditeventPointitemsBinding.inflate(inflater, container, false)
         binding.viewModel = ViewModelProviders.of(parentFragment!!)[EditEventFragmentViewModel::class.java]
         binding.setLifecycleOwner(this)
-        binding.poolCodename = arguments?.getString(ARG_CODENAME)
+        binding.poolIndex = arguments?.getInt(ARG_INDEX)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.recView.apply {
-            adapter = PointItemRecViewAdapter(context!!, this@EditEventPointItemsFragment, binding.viewModel!!, binding.poolCodename
-                    ?: "")
+            adapter = PointItemRecViewAdapter(context!!, this@EditEventPointItemsFragment, binding.viewModel!!, binding.poolIndex!!)
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
         }
     }
 
     companion object {
-        private const val ARG_CODENAME = "codename"
-        fun newInstance(poolCodename: String) = EditEventPointItemsFragment().apply {
-            arguments = bundleOf(ARG_CODENAME to poolCodename)
+        private const val ARG_INDEX = "index"
+        fun newInstance(poolIndex: Int) = EditEventPointItemsFragment().apply {
+            arguments = bundleOf(ARG_INDEX to poolIndex)
         }
     }
 }

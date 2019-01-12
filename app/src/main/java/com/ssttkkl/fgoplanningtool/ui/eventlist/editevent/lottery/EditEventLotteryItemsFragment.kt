@@ -21,7 +21,7 @@ class EditEventLotteryItemsFragment : Fragment() {
         binding = FragmentEditeventLotteryitemsBinding.inflate(inflater, container, false)
         binding.viewModel = ViewModelProviders.of(parentFragment!!)[EditEventFragmentViewModel::class.java]
         binding.setLifecycleOwner(this)
-        binding.lotteryCodename = arguments?.getString(ARG_CODENAME)
+        binding.lotteryIndex = arguments?.getInt(ARG_INDEX)
         return binding.root
     }
 
@@ -34,9 +34,9 @@ class EditEventLotteryItemsFragment : Fragment() {
     }
 
     companion object {
-        private const val ARG_CODENAME = "codename"
-        fun newInstance(lotteryCodename: String) = EditEventLotteryItemsFragment().apply {
-            arguments = bundleOf(ARG_CODENAME to lotteryCodename)
+        private const val ARG_INDEX = "lotteryIndex"
+        fun newInstance(lotteryIndex: Int) = EditEventLotteryItemsFragment().apply {
+            arguments = bundleOf(ARG_INDEX to lotteryIndex)
         }
     }
 }

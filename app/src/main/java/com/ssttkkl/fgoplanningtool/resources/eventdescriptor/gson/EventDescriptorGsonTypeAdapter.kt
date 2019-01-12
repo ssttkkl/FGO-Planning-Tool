@@ -29,8 +29,8 @@ class EventDescriptorGsonTypeAdapter : TypeAdapter<EventDescriptor>() {
         var storyItemsIfParticipated: Collection<Item> = listOf()
         var storyItemsIfNotParticipated: Collection<Item> = listOf()
         var shopItems: Collection<Item> = listOf()
-        val lotteries = HashMap<String, Lottery>()
-        val pointPools = HashMap<String, PointPool>()
+        val lotteries = ArrayList<Lottery>()
+        val pointPools = ArrayList<PointPool>()
 
         reader.beginObject()
         while (reader.hasNext()) {
@@ -49,7 +49,7 @@ class EventDescriptorGsonTypeAdapter : TypeAdapter<EventDescriptor>() {
                     reader.beginArray()
                     while (reader.hasNext()) {
                         val lottery = readLottery(reader)
-                        lotteries[lottery.codename] = lottery
+                        lotteries.add(lottery)
                     }
                     reader.endArray()
                 }
@@ -57,7 +57,7 @@ class EventDescriptorGsonTypeAdapter : TypeAdapter<EventDescriptor>() {
                     reader.beginArray()
                     while (reader.hasNext()) {
                         val pointPool = readPointPool(reader)
-                        pointPools[pointPool.codename] = pointPool
+                        pointPools.add(pointPool)
                     }
                     reader.endArray()
                 }
@@ -72,7 +72,6 @@ class EventDescriptorGsonTypeAdapter : TypeAdapter<EventDescriptor>() {
     }
 
     private fun readLottery(reader: JsonReader): Lottery {
-        var codename = ""
         var zhName = ""
         var enName = ""
         var jaName = ""
@@ -81,7 +80,6 @@ class EventDescriptorGsonTypeAdapter : TypeAdapter<EventDescriptor>() {
         reader.beginObject()
         while (reader.hasNext()) {
             when (reader.nextName()) {
-                KEY_CODENAME -> codename = reader.nextString()
                 KEY_ZH_NAME -> zhName = reader.nextString()
                 KEY_EN_NAME -> enName = reader.nextString()
                 KEY_JA_NAME -> jaName = reader.nextString()
@@ -110,11 +108,10 @@ class EventDescriptorGsonTypeAdapter : TypeAdapter<EventDescriptor>() {
             }
         }
         reader.endObject()
-        return Lottery(codename, zhName, enName, jaName, lotteryItems)
+        return Lottery(zhName, enName, jaName, lotteryItems)
     }
 
     private fun readPointPool(reader: JsonReader): PointPool {
-        var codename = ""
         var zhName = ""
         var enName = ""
         var jaName = ""
@@ -123,7 +120,6 @@ class EventDescriptorGsonTypeAdapter : TypeAdapter<EventDescriptor>() {
         reader.beginObject()
         while (reader.hasNext()) {
             when (reader.nextName()) {
-                KEY_CODENAME -> codename = reader.nextString()
                 KEY_ZH_NAME -> zhName = reader.nextString()
                 KEY_EN_NAME -> enName = reader.nextString()
                 KEY_JA_NAME -> jaName = reader.nextString()
@@ -149,7 +145,7 @@ class EventDescriptorGsonTypeAdapter : TypeAdapter<EventDescriptor>() {
             }
         }
         reader.endObject()
-        return PointPool(codename, zhName, enName, jaName, pointItems)
+        return PointPool(zhName, enName, jaName, pointItems)
     }
 
     companion object {

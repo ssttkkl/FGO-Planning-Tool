@@ -17,8 +17,8 @@ import kotlinx.android.parcel.Parcelize
 data class Event(@PrimaryKey val codename: String,
                  val rerunAndParticipated: Boolean,
                  val checkedShopItems: Collection<Item>,
-                 val lotteryBoxCount: Map<String, Int>,
-                 val point: Map<String, Long>) : Parcelable {
+                 val lotteryBoxCount: List<Int>,
+                 val point: List<Long>) : Parcelable {
     val descriptor: EventDescriptor?
         get() = ResourcesProvider.instance.eventDescriptors[codename]
 
@@ -37,15 +37,15 @@ data class Event(@PrimaryKey val codename: String,
             return map.map { Item(it.key, it.value) }
         }
 
-    val lotteryItems: Map<String, Collection<Item>>
-        get() = descriptor?.lotteries?.mapValues {
-            it.value.getItems(lotteryBoxCount[it.key] ?: 0)
-        } ?: mapOf()
+    val lotteryItems: List<Collection<Item>>
+        get() = descriptor?.lotteries?.mapIndexed { idx, it ->
+            it.getItems(lotteryBoxCount[idx])
+        } ?: listOf()
 
-    val pointItems: Map<String, Collection<Item>>
-        get() = descriptor?.pointPools?.mapValues {
-            it.value.getItems(point[it.key] ?: 0)
-        } ?: mapOf()
+    val pointItems: List<Collection<Item>>
+        get() = descriptor?.pointPools?.mapIndexed { idx, it ->
+            it.getItems(point[idx])
+        } ?: listOf()
 
     val items: Collection<Item>
         get() {
@@ -56,10 +56,10 @@ data class Event(@PrimaryKey val codename: String,
             storyItems.forEach { (codename, count) ->
                 map[codename] = (map[codename] ?: 0) + count
             }
-            lotteryItems.values.flatten().forEach { (codename, count) ->
+            lotteryItems.flatten().forEach { (codename, count) ->
                 map[codename] = (map[codename] ?: 0) + count
             }
-            pointItems.values.flatten().forEach { (codename, count) ->
+            pointItems.flatten().forEach { (codename, count) ->
                 map[codename] = (map[codename] ?: 0) + count
             }
             return map.map { Item(it.key, it.value) }
@@ -69,33 +69,36 @@ data class Event(@PrimaryKey val codename: String,
     constructor(codename: String)
             : this(codename, false,
             ResourcesProvider.instance.eventDescriptors[codename]?.shopItems ?: listOf(),
-            ResourcesProvider.instance.eventDescriptors[codename]?.lotteries?.keys?.associate { it to 0 }
-                    ?: mapOf(),
-            ResourcesProvider.instance.eventDescriptors[codename]?.pointPools?.mapValues { (_, pool) ->
-                pool.items.keys.max() ?: 0
-            } ?: mapOf<String, Long>())
+            List(ResourcesProvider.instance.eventDescriptors[codename]?.lotteries?.size ?: 0) { 0 },
+            ResourcesProvider.instance.eventDescriptors[codename]?.pointPools?.map {
+                it.items.keys.max() ?: 0
+            } ?: listOf<Long>())
 
     companion object : Parceler<Event> {
         override fun create(parcel: Parcel): Event {
             val codename = parcel.readString() ?: ""
             val rerunAndParticipated = parcel.readByte().toInt() == 1
-            val checkedShopItems = parcel.readParcelableArray(Item::class.java.classLoader)?.mapNotNull { it as? Item }
-                    ?: listOf()
 
-            val lotteryBoxCountSize = parcel.readInt()
-            val lotteryBoxCount = HashMap<String, Int>()
-            for (i in 0 until lotteryBoxCountSize) {
-                val key = parcel.readString()!!
-                val value = parcel.readInt()
-                lotteryBoxCount[key] = value
+            val checkedShopItems = ArrayList<Item>()
+            val checkedShopItemsSize = parcel.readInt()
+            for (i in 0 until checkedShopItemsSize) {
+                val item = parcel.readParcelable<Item>(Item::class.java.classLoader)
+                if (item != null)
+                    checkedShopItems.add(item)
             }
 
-            val pointSize = parcel.readInt()
-            val pointCount = HashMap<String, Long>()
-            for (i in 0 until pointSize) {
-                val key = parcel.readString()!!
-                val value = parcel.readLong()
-                pointCount[key] = value
+            val lotteryBoxCount = ArrayList<Int>()
+            val lotteryBoxCountSize = parcel.readInt()
+            for (i in 0 until lotteryBoxCountSize) {
+                val item = parcel.readInt()
+                lotteryBoxCount.add(item)
+            }
+
+            val pointCount = ArrayList<Long>()
+            val pointCountSize = parcel.readLong()
+            for (i in 0 until pointCountSize) {
+                val item = parcel.readLong()
+                pointCount.add(item)
             }
 
             return Event(codename, rerunAndParticipated, checkedShopItems, lotteryBoxCount, pointCount)
@@ -104,23 +107,24 @@ data class Event(@PrimaryKey val codename: String,
         override fun Event.write(parcel: Parcel, flags: Int) {
             parcel.writeString(codename)
             parcel.writeByte(if (rerunAndParticipated) 1 else 0)
-            parcel.writeParcelableArray(checkedShopItems.toTypedArray(), 0)
+
+            parcel.writeInt(checkedShopItems.size)
+            checkedShopItems.forEach {
+                parcel.writeParcelable(it, 0)
+            }
 
             parcel.writeInt(lotteryBoxCount.size)
-            lotteryBoxCount.forEach { (key, value) ->
-                parcel.writeString(key)
-                parcel.writeInt(value)
+            lotteryBoxCount.forEach {
+                parcel.writeInt(it)
             }
 
             parcel.writeInt(point.size)
-            point.forEach { (key, value) ->
-                parcel.writeString(key)
-                parcel.writeLong(value)
+            point.forEach {
+                parcel.writeLong(it)
             }
         }
     }
 }
-
 
 private object Converter {
     private val gson = Gson()
@@ -139,25 +143,25 @@ private object Converter {
 
     @JvmStatic
     @TypeConverter
-    fun convertStringToIntMap(map: Map<String, Int>): String {
-        return gson.toJson(map, object : TypeToken<Map<String, Int>>() {}.type)
+    fun convertIntList(list: List<Int>): String {
+        return gson.toJson(list, object : TypeToken<List<Int>>() {}.type)
     }
 
     @JvmStatic
     @TypeConverter
-    fun reconvertStringToIntMap(value: String): Map<String, Int> {
-        return gson.fromJson(value, object : TypeToken<Map<String, Int>>() {}.type)
+    fun reconvertIntList(value: String): List<Int> {
+        return gson.fromJson(value, object : TypeToken<List<Int>>() {}.type)
     }
 
     @JvmStatic
     @TypeConverter
-    fun convertStringToLongMap(map: Map<String, Long>): String {
-        return gson.toJson(map, object : TypeToken<Map<String, Long>>() {}.type)
+    fun convertLongList(list: List<Long>): String {
+        return gson.toJson(list, object : TypeToken<List<Long>>() {}.type)
     }
 
     @JvmStatic
     @TypeConverter
-    fun reconvertStringToLongMap(value: String): Map<String, Long> {
-        return gson.fromJson(value, object : TypeToken<Map<String, Long>>() {}.type)
+    fun reconvertLongList(value: String): List<Long> {
+        return gson.fromJson(value, object : TypeToken<List<Long>>() {}.type)
     }
 }
