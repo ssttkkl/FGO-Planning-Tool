@@ -211,7 +211,8 @@
     <string name="eventPoint">点数奖励</string>
     <string name="planBoxCount">计划池数</string>
     <string name="planPoint">计划点数</string>
-    <string name="storyGift">剧情/周回首通奖励</string>
+    <string name="storyGift">剧情/周回首通/任务奖励</string>
+    <string name="totalItems">可获得材料一览</string>
     <string name="editEvent">编辑活动</string>
     <string name="selectAllExpectPieces">选择全部（除棋子）</string>
     <string name="reset">重置</string>

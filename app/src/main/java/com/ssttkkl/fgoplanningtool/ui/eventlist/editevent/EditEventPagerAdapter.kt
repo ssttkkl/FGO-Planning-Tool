@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.lottery.EditEventLotteryItemsFragment
+import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.total.EditEventTotalItemsFragment
 import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.point.EditEventPointItemsFragment
 import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.shop.EditEventShopItemsFragment
 import com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.story.EditEventStoryItemsFragment
@@ -28,6 +29,7 @@ class EditEventPagerAdapter(private val viewModel: EditEventFragmentViewModel,
             if (storyItems.isNotEmpty() || storyItemsIfNotParticipated.isNotEmpty() || storyItemsIfParticipated.isNotEmpty())
                 tabs.add(Pair(STORY, 0))
         }
+        tabs.add(Pair(TOTAL, 0))
     }
 
     override fun getItem(position: Int): Fragment {
@@ -36,6 +38,7 @@ class EditEventPagerAdapter(private val viewModel: EditEventFragmentViewModel,
             LOTTERY -> EditEventLotteryItemsFragment.newInstance(tabs[position].second)
             POINT -> EditEventPointItemsFragment.newInstance(tabs[position].second)
             STORY -> EditEventStoryItemsFragment()
+            TOTAL -> EditEventTotalItemsFragment()
             else -> throw Exception("Unknown position.")
         }
     }
@@ -48,6 +51,7 @@ class EditEventPagerAdapter(private val viewModel: EditEventFragmentViewModel,
             LOTTERY -> viewModel.event.descriptor?.lotteries?.get(tabs[position].second)?.localizedName
             POINT -> viewModel.event.descriptor?.pointPools?.get(tabs[position].second)?.localizedName
             STORY -> MyApp.context.getString(R.string.storyGift)
+            TOTAL -> MyApp.context.getString(R.string.totalItems)
             else -> ""
         }
     }
@@ -57,5 +61,6 @@ class EditEventPagerAdapter(private val viewModel: EditEventFragmentViewModel,
         private const val SHOP = "shop"
         private const val LOTTERY = "lottery"
         private const val POINT = "point"
+        private const val TOTAL = "total"
     }
 }
