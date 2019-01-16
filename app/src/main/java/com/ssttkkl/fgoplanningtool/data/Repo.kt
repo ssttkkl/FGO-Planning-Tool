@@ -137,6 +137,14 @@ object Repo {
             update(listOf(item), immediately)
         }
 
+        fun add(itemToAdd: Collection<Item>, immediately: Boolean = false) {
+            val items = itemToAdd.map {
+                val itemInRepo = get(it.codename)
+                Item(it.codename, itemInRepo.count + it.count)
+            }
+            update(items, immediately)
+        }
+
         fun deduct(itemsToDeduct: Collection<Item>, immediately: Boolean = false) {
             val items = itemsToDeduct.map {
                 val itemInRepo = get(it.codename)

@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.event.Event
 import com.ssttkkl.fgoplanningtool.databinding.FragmentConfirmchangeeventBinding
@@ -29,6 +31,12 @@ class ConfirmChangeEventFragment : Fragment() {
             drawerState = false
         }
         setHasOptionsMenu(true)
+
+        binding.recView.apply {
+            adapter = AddItemListRecViewAdapter(context!!, this@ConfirmChangeEventFragment, binding.viewModel!!)
+            layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
+        }
+
         binding.viewModel?.apply {
             finishEvent.observe(this@ConfirmChangeEventFragment, Observer {
                 finish()

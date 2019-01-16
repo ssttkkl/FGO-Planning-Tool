@@ -227,4 +227,5 @@
     <string name="afterDeduct">扣除后</string>
     <string name="hintOfConfirmRemoveEvent">确认删除未来活动“%1$s”吗？</string>
     <string name="hintOfConfirmChangeEvent">确认修改未来活动“%1$s”吗？</string>
+    <string name="addItemsOnRemoveEvent">将获得材料更新到材料仓库</string>
 </resources>
