@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
@@ -42,18 +43,11 @@ class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemListene
         binding = FragmentServantfilterBinding.inflate(inflater, container, false)
         binding.viewModel = ViewModelProviders.of(this)[ServantFilterFragmentViewModel::class.java].apply {
             setOrigin(arguments?.getIntArray(ARG_ORIGIN_SERVANT_IDS)?.toSet())
-        }
-        binding.setLifecycleOwner(this)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.viewModel?.apply {
-            start {
+            start(context!!, parentFragment?.run { this::class.qualifiedName } ?: "") {
                 callback?.onRequestCostItems(it) ?: listOf()
             }
             items.observe(this@ServantFilterFragment, Observer {
-                onItemsChanged(it.toList().sortedBy { descriptor -> descriptor.rank })
+                onItemsChanged(it.sortedBy { descriptor -> descriptor.rank })
             })
             filtered.observe(this@ServantFilterFragment, Observer {
                 callback?.onFilter(it ?: listOf(), isDefaultState.value == true)
@@ -65,6 +59,8 @@ class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemListene
                 showAddItemUI()
             })
         }
+        binding.setLifecycleOwner(this)
+        return binding.root
     }
 
     override fun onAddItem(codename: String) {

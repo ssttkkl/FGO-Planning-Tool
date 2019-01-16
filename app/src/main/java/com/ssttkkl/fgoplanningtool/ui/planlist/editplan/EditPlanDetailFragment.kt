@@ -69,7 +69,7 @@ class EditPlanDetailFragment : Fragment(),
                 showRemovePlanWarningUI(it ?: return@Observer)
             })
             finishEvent.observe(this@EditPlanDetailFragment, Observer {
-                findNavController().navigate(R.id.action_global_planListFragment)
+                finish()
             })
         }
     }
@@ -81,7 +81,6 @@ class EditPlanDetailFragment : Fragment(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> findNavController().navigateUp()
             R.id.save -> binding.viewModel?.onClickSave()
             R.id.remove -> binding.viewModel?.onClickRemove()
             else -> return super.onOptionsItemSelected(item)
@@ -117,5 +116,9 @@ class EditPlanDetailFragment : Fragment(),
 
     private fun showCostItems(costItems: Collection<Item>) {
         findNavController().navigate(R.id.action_editPlanDetailFragment_to_costItemListFragment, bundleOf("items" to costItems.toTypedArray()))
+    }
+
+    private fun finish() {
+        findNavController().navigate(EditPlanDetailFragmentDirections.actionGlobalPlanListFragment())
     }
 }

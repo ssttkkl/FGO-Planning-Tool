@@ -35,7 +35,7 @@
                 android:hint="@string/planPoint"
                 android:imeOptions="actionDone"
                 android:inputType="number"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:text="@={viewModel.event.point[poolIndex]}"
                 tools:text="2333" />
         </com.google.android.material.textfield.TextInputLayout>

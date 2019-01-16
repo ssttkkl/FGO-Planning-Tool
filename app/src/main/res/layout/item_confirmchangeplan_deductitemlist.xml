@@ -45,12 +45,9 @@
         <TextView
             android:id="@+id/type_textView"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:ellipsize="marquee"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:singleLine="true"
+            android:padding="16dp"
             android:text="@{deductItem.descriptor.type.localizedName}"
             android:textAllCaps="true"
             android:textAppearance="@style/SubHeader"
@@ -62,7 +59,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="wrap_content"
             android:alpha="@{deductItem.delta >= 0 ? 1f : 0.4f}"
             android:background="?android:selectableItemBackground"
             android:clickable="@{deductItem.delta >= 0}"
@@ -100,8 +97,6 @@
                 android:layout_marginStart="72dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:ellipsize="marquee"
-                android:singleLine="true"
                 android:text="@{deductItem.descriptor.localizedName}"
                 android:textAppearance="@style/ListItem"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -110,33 +105,16 @@
                 tools:text="Name" />
 
             <TextView
-                android:id="@+id/textView14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="72dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/beforeDeduct"
-                android:textAppearance="@style/ListItemTertiary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/before_textView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name_textView" />
-
-            <TextView
                 android:id="@+id/before_textView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="72dp"
                 android:layout_marginBottom="16dp"
-                android:singleLine="true"
                 android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(deductItem.own)}"
                 android:textAppearance="@style/ListItemSecondary"
-                app:autoSizeMaxTextSize="14sp"
-                app:autoSizeMinTextSize="10sp"
-                app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/imageView"
-                app:layout_constraintStart_toEndOf="@+id/textView14"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/name_textView"
                 tools:text="233,333,333" />
 
@@ -148,23 +126,10 @@
                 android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textView17"
+                app:layout_constraintEnd_toStartOf="@+id/after_textView"
                 app:layout_constraintStart_toEndOf="@+id/before_textView"
                 app:layout_constraintTop_toBottomOf="@+id/name_textView"
                 app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
-
-            <TextView
-                android:id="@+id/textView17"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/afterDeduct"
-                android:textAppearance="@style/ListItemTertiary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/after_textView"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/name_textView" />
 
             <TextView
                 android:id="@+id/after_textView"
@@ -173,15 +138,11 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:singleLine="true"
                 android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(deductItem.delta)}"
                 android:textAppearance="@{deductItem.delta >= 0 ? R.style.ListItemSecondary : R.style.ListItemSecondaryError}"
-                app:autoSizeMaxTextSize="14sp"
-                app:autoSizeMinTextSize="10sp"
-                app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView17"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/name_textView"
                 tools:text="-666.666.666"
                 tools:textAppearance="@style/ListItemSecondaryError" />

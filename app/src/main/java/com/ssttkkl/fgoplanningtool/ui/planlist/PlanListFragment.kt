@@ -30,7 +30,7 @@ class PlanListFragment : Fragment(),
     private lateinit var binding: FragmentPlanlistBinding
 
     private val servantFilterFragment
-        get() = childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) as? ServantFilterFragment
+        get() = childFragmentManager.findFragmentById(R.id.servantFilterFragment) as? ServantFilterFragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPlanlistBinding.inflate(inflater, container, false)
@@ -42,13 +42,6 @@ class PlanListFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         onInSelectModeChanged(false)
-
-        // setup ServantFilterFragment
-        if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
-            childFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, ServantFilterFragment(), ServantFilterFragment::class.qualifiedName)
-                    .commit()
-        }
 
         // setup RecView
         binding.recView.apply {

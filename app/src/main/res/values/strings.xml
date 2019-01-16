@@ -228,4 +228,7 @@
     <string name="hintOfConfirmRemoveEvent">确认删除未来活动“%1$s”吗？</string>
     <string name="hintOfConfirmChangeEvent">确认修改未来活动“%1$s”吗？</string>
     <string name="addItemsOnRemoveEvent">将获得材料更新到材料仓库</string>
+    <string name="deductItemsOnRemovePlan">从仓库扣除相应的材料（只扣除选中项）</string>
+    <string name="hintOfConfirmRemovePlan">确认删除这%1$d个规划吗？</string>
+    <string name="hintOfConfirmChangePlan">确认修改这%1$d个规划吗？</string>
 </resources>

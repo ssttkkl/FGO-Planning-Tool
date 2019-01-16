@@ -1,14 +1,15 @@
 package com.ssttkkl.fgoplanningtool.ui.utils
 
-import androidx.annotation.IdRes
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import androidx.core.content.res.ResourcesCompat
+import com.ssttkkl.fgoplanningtool.R
 
-fun AppCompatActivity.replaceFragment(@IdRes layoutResID: Int, fragment: Fragment, tag: String?) {
-    supportFragmentManager.beginTransaction()
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .replace(layoutResID, fragment, tag)
-            .commit()
-    supportFragmentManager.executePendingTransactions()
+fun AppCompatActivity.setStatusBarColor(color: Int) {
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    window.statusBarColor = color
+}
+
+fun AppCompatActivity.setStatusBarColor() {
+    setStatusBarColor(ResourcesCompat.getColor(resources, R.color.colorPrimaryDark, null))
 }

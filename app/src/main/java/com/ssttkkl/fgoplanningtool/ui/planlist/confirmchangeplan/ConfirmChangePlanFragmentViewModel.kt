@@ -1,6 +1,7 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -28,8 +29,19 @@ class ConfirmChangePlanFragmentViewModel : ViewModel() {
         else
             MyApp.context.getString(R.string.confirmChange)
     }
+    val hint = MediatorLiveData<String>().apply {
+        val generator = {
+            when (mode.value) {
+                Mode.Remove -> MyApp.context.getString(R.string.hintOfConfirmRemovePlan, plans.value?.size)
+                Mode.Change -> MyApp.context.getString(R.string.hintOfConfirmChangePlan, plans.value?.size)
+                else -> ""
+            }
+        }
+        addSource(mode) { value = generator() }
+        addSource(plans) { value = generator() }
+    }
 
-    private val indexedDeductItems = MutableLiveData<Map<String, DeductItem>>().apply {
+    private val indexedItems = MutableLiveData<Map<String, DeductItem>>().apply {
         val generator = {
             plans.value?.map { it.delta }?.costItems?.associate { item ->
                 item.codename to
@@ -42,23 +54,32 @@ class ConfirmChangePlanFragmentViewModel : ViewModel() {
         Repo.ItemRepo.allAsLiveData.observeForever { value = generator() }
     }
 
-    val deductItems: LiveData<List<DeductItem>> = Transformations.map(indexedDeductItems) { indexedDeductItems ->
-        indexedDeductItems.values
+    val itemsToDeduct: LiveData<List<DeductItem>> = Transformations.map(indexedItems) { indexedItems ->
+        indexedItems.values
                 .groupBy { it.descriptor?.type }
                 .map { (type, items) -> Pair(type, items.sortedBy { it.descriptor?.rank }) }
                 .sortedBy { (type, _) -> type }
                 .flatMap { (_, items) -> items }
     }
 
-    val showEmptyHint: LiveData<Boolean> = Transformations.map(deductItems) { deductItems ->
-        deductItems.isNullOrEmpty()
+    val deductItems = MutableLiveData<Boolean>().apply {
+        observeForever {
+            if (it == true)
+                indexedItems.value = indexedItems.value?.mapValues { (_, item) ->
+                    DeductItem(item.codename, item.require, item.own, item.require <= item.own)
+                }
+        }
+    }
+
+    val showDeductItems: LiveData<Boolean> = Transformations.map(itemsToDeduct) {
+        !it.isNullOrEmpty()
     }
 
     val finishEvent = SingleLiveEvent<Void>()
 
     fun onClickItem(codename: String) {
-        synchronized(indexedDeductItems) {
-            indexedDeductItems.value = indexedDeductItems.value?.toMutableMap()?.apply {
+        synchronized(indexedItems) {
+            indexedItems.value = indexedItems.value?.toMutableMap()?.apply {
                 val oldItem = this[codename] ?: return
                 this[codename] = DeductItem(codename, oldItem.require, oldItem.own, !oldItem.checked)
             }
@@ -66,9 +87,9 @@ class ConfirmChangePlanFragmentViewModel : ViewModel() {
     }
 
     fun onClickSelectAll() {
-        synchronized(indexedDeductItems) {
-            val alreadySelectAll = deductItems.value?.filter { it.delta >= 0 }?.all { it.checked } == true
-            indexedDeductItems.value = indexedDeductItems.value?.mapValues { (_, it) ->
+        synchronized(indexedItems) {
+            val alreadySelectAll = itemsToDeduct.value?.filter { it.delta >= 0 }?.all { it.checked } == true
+            indexedItems.value = indexedItems.value?.mapValues { (_, it) ->
                 DeductItem(it.codename, it.require, it.own, it.delta >= 0 && !alreadySelectAll)
             }
         }
@@ -81,8 +102,10 @@ class ConfirmChangePlanFragmentViewModel : ViewModel() {
                 Mode.Change -> Repo.PlanRepo.insert(it.new!!)
             }
         }
-        Repo.ItemRepo.deduct(deductItems.value?.filter { it.checked }?.map { Item(it.codename, it.require) }
-                ?: listOf())
+
+        if (deductItems.value == true)
+            Repo.ItemRepo.deduct(itemsToDeduct.value?.filter { it.checked }?.map { Item(it.codename, it.require) }
+                    ?: listOf())
         finishEvent.call()
     }
 }

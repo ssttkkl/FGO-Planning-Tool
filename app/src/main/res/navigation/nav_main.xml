@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/planListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.PlanListFragment"
-        android:label="@string/planList"
+        android:label="PlanListFragment"
         tools:layout="@layout/fragment_planlist">
         <action
             android:id="@+id/action_planListFragment_to_chooseServantFragment"
@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/chooseServantFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.chooseservant.ChooseServantFragment"
-        android:label="@string/chooseServant"
+        android:label="ChooseServantFragment"
         tools:layout="@layout/fragment_editplan_chooseservant">
         <action
             android:id="@+id/action_chooseServantFragment_to_editPlanDetailFragment"
@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/editPlanDetailFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.editplan.EditPlanDetailFragment"
-        android:label="@string/editPlan"
+        android:label="EditPlanDetailFragment"
         tools:layout="@layout/fragment_editplan_detail">
         <argument
             android:name="plan"
@@ -81,13 +81,17 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_editPlanDetailFragment_to_servantInfoFragment"
-            app:destination="@id/servantInfoFragment" />
+            app:destination="@id/servantInfoFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
         android:id="@+id/ownItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.ownitemlist.OwnItemListFragment"
-        android:label="@string/ownItemList"
+        android:label="OwnItemListFragment"
         tools:layout="@layout/fragment_ownitemlist">
         <action
             android:id="@+id/action_ownItemListFragment_to_itemInfoFragment"
@@ -105,8 +109,7 @@
     <fragment
         android:id="@+id/databaseManageFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.databasemanage.DatabaseManageFragment"
-        android:label="@string/databaseManage"
-
+        android:label="DatabaseManageFragment"
         tools:layout="@layout/fragment_databasemanage" />
 
     <action
@@ -116,7 +119,9 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_main"
+        app:popUpToInclusive="true" />
 
     <action
         android:id="@+id/action_global_ownItemListFragment"
@@ -125,7 +130,9 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_main"
+        app:popUpToInclusive="true" />
 
     <action
         android:id="@+id/action_global_servantBaseListFragment"
@@ -134,7 +141,9 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_main"
+        app:popUpToInclusive="true" />
 
     <action
         android:id="@+id/action_global_settingsFragment"
@@ -143,7 +152,9 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_main"
+        app:popUpToInclusive="true" />
 
     <action
         android:id="@+id/action_global_databaseManageFragment"
@@ -152,24 +163,26 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_main"
+        app:popUpToInclusive="true" />
 
     <fragment
         android:id="@+id/costItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragment"
-        android:label="@string/costItemList"
+        android:label="CostItemListFragment"
         tools:layout="@layout/fragment_costitemlist"></fragment>
 
     <fragment
         android:id="@+id/confirmChangePlanFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragment"
-        android:label="@string/confirmChange"
+        android:label="ConfirmChangePlanFragment"
         tools:layout="@layout/fragment_confirmchangeplan" />
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.settings.SettingsFragment"
-        android:label="@string/settings">
+        android:label="SettingsFragment">
         <action
             android:id="@+id/action_settingsFragment_to_updateResPackFragment"
             app:destination="@id/updateResPackFragment"
@@ -263,7 +276,9 @@
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim"
-        tools:layout="@layout/fragment_eventlist" />
+        tools:layout="@layout/fragment_eventlist"
+        app:popUpTo="@id/nav_main"
+        app:popUpToInclusive="true" />
 
     <fragment
         android:id="@+id/chooseEventFragment"
@@ -281,7 +296,7 @@
     <fragment
         android:id="@+id/editEventFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.EditEventFragment"
-        android:label="EditLotteryEventFragment">
+        android:label="EditEventFragment">
         <argument
             android:name="mode"
             app:argType="com.ssttkkl.fgoplanningtool.ui.eventlist.editevent.Mode" />

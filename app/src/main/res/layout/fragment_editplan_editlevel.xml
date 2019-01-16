@@ -36,7 +36,7 @@
                 android:gravity="end"
                 android:hint="@string/level"
                 android:inputType="number"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:text="@={viewModel.level}"
                 tools:text="90" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -60,7 +60,7 @@
                 android:gravity="end"
                 android:hint="@string/remainedExp"
                 android:inputType="number"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:text="@={viewModel.remainedExp}"
                 tools:text="233333" />
         </com.google.android.material.textfield.TextInputLayout>

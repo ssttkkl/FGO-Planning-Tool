@@ -111,12 +111,4 @@ class MainActivity : BackRouterActivity(),
         navController.navigate(R.id.action_global_databaseManageFragment)
         binding.drawerLayout.closeDrawer(GravityCompat.START)
     }
-
-    companion object {
-        private val homeDestinationIDs = setOf(R.id.planListFragment,
-                R.id.ownItemListFragment,
-                R.id.servantBaseListFragment,
-                R.id.settingsFragment,
-                R.id.databaseManageFragment)
-    }
 }

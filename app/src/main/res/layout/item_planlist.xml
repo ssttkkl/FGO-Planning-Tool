@@ -27,20 +27,22 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{() -> viewModel.onPlanClick(plan)}"
-        android:onLongClick="@{() -> viewModel.onPlanLongClick(plan)}"
-        android:padding="16dp">
+        android:onLongClick="@{() -> viewModel.onPlanLongClick(plan)}">
 
         <FrameLayout
             android:id="@+id/frameLayout"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> viewModel.onPlanAvatarClick(plan)}"
-            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/name_textView">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/avatar_imageView"
@@ -64,24 +66,23 @@
             android:id="@+id/name_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:ellipsize="marquee"
-            android:gravity="center_vertical|start"
-            android:singleLine="true"
+            android:text="@{plan.servant.localizedName}"
             android:textAppearance="@style/ListItem"
-            app:layout_constraintEnd_toStartOf="@+id/dress_imageView"
-            app:layout_constraintStart_toEndOf="@id/frameLayout"
+            app:layout_constraintEnd_toStartOf="@id/dress_imageView"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:text="@{plan.servant.localizedName}"
             tools:text="Name" />
 
         <ImageView
             android:id="@+id/dress_imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:adjustViewBounds="true"
-            android:tint="@android:color/primary_text_light"
+            android:tint="?android:attr/textColorPrimary"
             android:visibility="@{plan.dress.isEmpty() ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,52 +90,48 @@
             app:srcCompat="@drawable/ic_clothes_fill_black_24dp" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/now_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="sans-serif-condensed"
-            android:singleLine="true"
             android:text="@{@string/planPattern(plan.nowLevel,plan.nowSkill1,plan.nowSkill2,plan.nowSkill3)}"
             android:textAppearance="@style/ListItemSecondary"
-            app:autoSizeMaxTextSize="14sp"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/imageView3"
-            app:layout_constraintStart_toEndOf="@+id/frameLayout"
+            app:layout_constraintEnd_toStartOf="@id/arrow_imageView"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_textView"
             tools:text="Lv.1 1/1/1" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/arrow_imageView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:adjustViewBounds="true"
-            app:layout_constraintBottom_toBottomOf="@+id/textView4"
-            app:layout_constraintEnd_toStartOf="@id/textView5"
-            app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toTopOf="@+id/textView4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/plan_textView"
+            app:layout_constraintStart_toEndOf="@+id/now_textView"
+            app:layout_constraintTop_toBottomOf="@+id/name_textView"
             app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/plan_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="sans-serif-condensed"
-            android:singleLine="true"
             android:text="@{@string/planPattern(plan.planLevel,plan.planSkill1,plan.planSkill2,plan.planSkill3)}"
             android:textAppearance="@style/ListItemSecondary"
-            app:autoSizeMaxTextSize="14sp"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/name_textView"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintEnd_toStartOf="@id/dress_imageView"
+            app:layout_constraintStart_toEndOf="@id/arrow_imageView"
             app:layout_constraintTop_toBottomOf="@+id/name_textView"
-            tools:text="Lv.80 10/10/10" />
+            tools:text="Lv.100 10/10/10" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

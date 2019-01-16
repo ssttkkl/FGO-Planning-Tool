@@ -15,17 +15,14 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:alpha="@{viewModel.hiddenEventCodenames.contains(descriptor.codename) ? 0.4f : 1f}"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="@{!viewModel.hiddenEventCodenames.contains(descriptor.codename)}"
-        android:ellipsize="marquee"
         android:focusable="true"
         android:gravity="center_vertical"
         android:onClick="@{() -> viewModel.onClickEvent(descriptor)}"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:singleLine="true"
+        android:padding="16dp"
         android:text="@{descriptor.localizedName}"
         android:textAppearance="@style/ListItem"
         tools:text="Event" />

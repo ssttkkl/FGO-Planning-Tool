@@ -20,7 +20,7 @@ class OwnItemListFragment : Fragment(), LifecycleOwner, ItemListFragment.OnShowI
         binding = FragmentOwnitemlistBinding.inflate(inflater, container, false)
         binding.setLifecycleOwner(this)
         binding.viewModel = ViewModelProviders.of(this)[OwnItemListFragmentViewModel::class.java].apply {
-            start(context!!)
+            start(context!!, parentFragment?.run { this::class.qualifiedName } ?: "")
         }
         return binding.root
     }

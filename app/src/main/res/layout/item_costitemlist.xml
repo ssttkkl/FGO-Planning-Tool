@@ -24,15 +24,15 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="@{viewModel.itemClickable}"
-        android:elevation="4dp"
         android:focusable="@{viewModel.itemClickable}"
         android:onClick="@{() -> viewModel.onClickItem(costItem.codename)}">
 
         <ImageView
             android:id="@+id/avatar_imageView"
-            android:layout_width="36.57dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
+            android:adjustViewBounds="true"
             app:layout_column="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
             app:layout_row="0"
             app:layout_rowSpan="2"
             app:srcCompat="@{costItem.descriptor.imgFile}"
-            tools:src="@drawable/item_placeholder" />
+            tools:srcCompat="@drawable/item_placeholder" />
 
         <TextView
             android:id="@+id/name_textView"
@@ -49,17 +49,12 @@
             android:layout_marginStart="72dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:ellipsize="marquee"
-            android:singleLine="true"
             android:text="@{costItem.descriptor.localizedName}"
             android:textAppearance="@style/ListItem"
-            app:layout_column="1"
-            app:layout_columnSpan="4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_row="0"
-            tools:text="heart" />
+            tools:text="Name" />
 
         <TextView
             android:id="@+id/textView2"
@@ -80,14 +75,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:ems="5"
-            android:singleLine="true"
             android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(costItem.require)}"
             android:textAppearance="@style/ListItemSecondary"
-            app:autoSizeMaxTextSize="14sp"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/textView3"
             app:layout_constraintStart_toEndOf="@id/textView2"
@@ -116,14 +105,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:ems="5"
-            android:singleLine="true"
             android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(costItem.own)}"
             android:textAppearance="@{costItem.delta >= 0 ? R.style.ListItemSecondary : R.style.ListItemSecondaryError}"
-            app:autoSizeMaxTextSize="14sp"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView3"

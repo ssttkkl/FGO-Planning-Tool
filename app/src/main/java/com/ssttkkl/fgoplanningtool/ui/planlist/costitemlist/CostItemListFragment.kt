@@ -74,7 +74,7 @@ class CostItemListFragment : Fragment() {
         }
 
     private fun showJumpMenu() {
-        PopupMenu(context, binding.button, Gravity.BOTTOM).apply {
+        PopupMenu(context, binding.button).apply {
             binding.viewModel?.itemTypes?.forEach {
                 menu.add(Menu.NONE, it.ordinal, it.ordinal, it.localizedName)
             }

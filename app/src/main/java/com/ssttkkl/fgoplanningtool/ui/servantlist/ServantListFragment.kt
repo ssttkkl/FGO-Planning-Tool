@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexWrap
@@ -22,6 +23,7 @@ import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandler
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
+import java.lang.Exception
 
 class ServantListFragment : Fragment(),
         BackHandler,
@@ -48,7 +50,7 @@ class ServantListFragment : Fragment(),
     }
 
     private val servantFilterFragment
-        get() = childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) as? ServantFilterFragment
+        get() = childFragmentManager.findFragmentById(R.id.servantFilterFragment) as? ServantFilterFragment
 
     private lateinit var binding: FragmentServantlistBinding
 
@@ -56,6 +58,17 @@ class ServantListFragment : Fragment(),
         binding = FragmentServantlistBinding.inflate(inflater, container, false)
         binding.viewModel = ViewModelProviders.of(this)[ServantListFragmentViewModel::class.java].apply {
             hiddenServantIDs.value = arguments?.getIntArray(KEY_HIDDEN)?.toHashSet() ?: setOf()
+            start(context!!, parentFragment?.run { this::class.qualifiedName } ?: "")
+            viewType.observe(this@ServantListFragment, Observer {
+                onViewTypeChanged(it ?: return@Observer)
+            })
+            informClickServantEvent.observe(this@ServantListFragment, Observer {
+                onInformClickServant(it ?: return@Observer)
+            })
+            isDefaultFilterState.observe(this@ServantListFragment, Observer {
+                onIsDefaultFilterStateChanged()
+            })
+            servantFilterFragment?.originServantIDs = originServantIDs
         }
         binding.setLifecycleOwner(this)
         return binding.root
@@ -70,28 +83,6 @@ class ServantListFragment : Fragment(),
         binding.recView.apply {
             adapter = ServantListAdapter(context!!, this@ServantListFragment, binding.viewModel!!)
             setHasFixedSize(true)
-        }
-
-        binding.viewModel?.apply {
-            start(context!!)
-            viewType.observe(this@ServantListFragment, Observer {
-                onViewTypeChanged(it ?: return@Observer)
-            })
-            informClickServantEvent.observe(this@ServantListFragment, Observer {
-                onInformClickServant(it ?: return@Observer)
-            })
-            isDefaultFilterState.observe(this@ServantListFragment, Observer {
-                onIsDefaultFilterStateChanged()
-            })
-        }
-
-        // setup ServantFilterFragment
-        if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
-            childFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout,
-                            ServantFilterFragment().apply { originServantIDs = binding.viewModel?.originServantIDs ?: setOf() },
-                            ServantFilterFragment::class.qualifiedName)
-                    .commit()
         }
     }
 

@@ -12,6 +12,7 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.event.Event
 import com.ssttkkl.fgoplanningtool.databinding.FragmentConfirmchangeeventBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
+import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
 class ConfirmChangeEventFragment : Fragment() {
     private lateinit var binding: FragmentConfirmchangeeventBinding
@@ -35,6 +36,7 @@ class ConfirmChangeEventFragment : Fragment() {
         binding.recView.apply {
             adapter = AddItemListRecViewAdapter(context!!, this@ConfirmChangeEventFragment, binding.viewModel!!)
             layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
+            addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
         }
 
         binding.viewModel?.apply {

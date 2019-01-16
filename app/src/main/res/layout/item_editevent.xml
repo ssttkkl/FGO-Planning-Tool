@@ -14,15 +14,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:adjustViewBounds="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,36 +29,23 @@
             tools:srcCompat="@drawable/item_placeholder" />
 
         <TextView
-            android:id="@+id/textView15"
+            android:id="@+id/name_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="72dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:text="@{item.descriptor.localizedName}"
+            android:text="@{@string/itemWithCountPattern(item.descriptor.localizedName,ToStringWithSplitterExtKt.toStringWithSplitter(item.count))}"
             android:textAppearance="@style/ListItem"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/editText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Name" />
-
-        <TextView
-            android:id="@+id/editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(item.count)}"
-            android:textAppearance="@style/ListItemSecondary"
+            app:autoSizeMaxTextSize="16sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="233,333,333" />
+            tools:text="@string/itemWithCountPattern" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

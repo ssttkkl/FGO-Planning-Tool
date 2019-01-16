@@ -3,11 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/selectAll"
-        android:icon="@drawable/ic_select_all_white_24dp"
-        android:title="@string/selectAll"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/yes"
         android:icon="@drawable/ic_check_white_24dp"
         android:title="@string/yes"

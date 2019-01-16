@@ -13,6 +13,7 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentConfirmchangeplanBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
+import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
 class ConfirmChangePlanFragment : Fragment() {
     private lateinit var binding: FragmentConfirmchangeplanBinding
@@ -33,7 +34,7 @@ class ConfirmChangePlanFragment : Fragment() {
         binding.recView.apply {
             adapter = DeductItemListRecViewAdapter(context!!, this@ConfirmChangePlanFragment, binding.viewModel!!)
             layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
-            setHasFixedSize(true)
+            addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
         }
 
         binding.viewModel?.apply {
@@ -53,8 +54,6 @@ class ConfirmChangePlanFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> findNavController().navigateUp()
-            R.id.selectAll -> binding.viewModel?.onClickSelectAll()
             R.id.yes -> binding.viewModel?.onClickYes()
             else -> return super.onOptionsItemSelected(item)
         }

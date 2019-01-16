@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.planlist.chooseservant.ChooseServantFragmentViewModel" />
-    </data>
-
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_servantlist" />
-</layout>
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/servantListFragment"
+    android:name="com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

@@ -1,7 +1,9 @@
 package com.ssttkkl.fgoplanningtool.ui.servantfilter
 
+import android.content.Context
 import android.preference.PreferenceManager
 import android.view.View
+import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -16,8 +18,29 @@ import com.ssttkkl.fgoplanningtool.resources.servant.Servant
 import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
 import com.ssttkkl.fgoplanningtool.resources.servant.WayToGet
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
+import java.lang.ref.WeakReference
 
 class ServantFilterFragmentViewModel : ViewModel() {
+    private var context = WeakReference<Context>(null)
+    private var prefLabel = ""
+
+    private val keySearchText
+        get() = PreferenceKeys.KEY_SERVANT_FILTER_SEARCH_TEXT.format(prefLabel)
+    private val keyClass
+        get() = PreferenceKeys.KEY_SERVANT_FILTER_CLASS.format(prefLabel)
+    private val keyStar
+        get() = PreferenceKeys.KEY_SERVANT_FILTER_STAR.format(prefLabel)
+    private val keyWayToGet
+        get() = PreferenceKeys.KEY_SERVANT_FILTER_WAY_TO_GET.format(prefLabel)
+    private val keyItem
+        get() = PreferenceKeys.KEY_SERVANT_FILTER_ITEM.format(prefLabel)
+    private val keyItemMode
+        get() = PreferenceKeys.KEY_SERVANT_FILTER_ITEM_MODE.format(prefLabel)
+    private val keyOrder
+        get() = PreferenceKeys.KEY_SERVANT_FILTER_ORDER.format(prefLabel)
+    private val keyOrderBy
+        get() = PreferenceKeys.KEY_SERVANT_FILTER_ORDER_BY.format(prefLabel)
+
     private var costItemGetter: ((Servant) -> Collection<Item>)? = null
 
     val orderEntities = Order.values().toList()
@@ -37,18 +60,81 @@ class ServantFilterFragmentViewModel : ViewModel() {
     val itemFilterMode = MutableLiveData<ItemFilterMode>()
 
     init {
-        searchText.value = ""
-        order.value = DEFAULT_ORDER
-        orderBy.value = DEFAULT_ORDER_BY
-        stars.value = setOf()
-        servantClasses.value = setOf()
-        waysToGet.value = setOf()
-        items.value = setOf()
-        itemFilterMode.value = DEFAULT_ITEM_MODE
+        searchText.observeForever {
+            PreferenceManager.getDefaultSharedPreferences(context.get()
+                    ?: return@observeForever).edit {
+                putString(keySearchText, it ?: "")
+            }
+        }
+
+        order.observeForever {
+            PreferenceManager.getDefaultSharedPreferences(context.get()
+                    ?: return@observeForever).edit {
+                putString(keyOrder, (it ?: DEFAULT_ORDER).name)
+            }
+        }
+
+        orderBy.observeForever {
+            PreferenceManager.getDefaultSharedPreferences(context.get()
+                    ?: return@observeForever).edit {
+                putString(keyOrderBy, (it ?: DEFAULT_ORDER_BY).name)
+            }
+        }
+
+        stars.observeForever {
+            PreferenceManager.getDefaultSharedPreferences(context.get()
+                    ?: return@observeForever).edit {
+                putStringSet(keyStar, it?.map { it.name }?.toSet() ?: setOf())
+            }
+        }
+
+        servantClasses.observeForever {
+            PreferenceManager.getDefaultSharedPreferences(context.get()
+                    ?: return@observeForever).edit {
+                putStringSet(keyClass, it?.map { it.name }?.toSet() ?: setOf())
+            }
+        }
+
+        waysToGet.observeForever {
+            PreferenceManager.getDefaultSharedPreferences(context.get()
+                    ?: return@observeForever).edit {
+                putStringSet(keyWayToGet, it?.map { it.name }?.toSet() ?: setOf())
+            }
+        }
+
+        items.observeForever {
+            PreferenceManager.getDefaultSharedPreferences(context.get()
+                    ?: return@observeForever).edit {
+                putStringSet(keyItem, it?.map { it.codename }?.toSet() ?: setOf())
+            }
+        }
+
+        itemFilterMode.observeForever {
+            PreferenceManager.getDefaultSharedPreferences(context.get()
+                    ?: return@observeForever).edit {
+                putString(keyItemMode, (it ?: DEFAULT_ITEM_MODE).name)
+            }
+        }
     }
 
-    fun start(costItemGetter: (Servant) -> Collection<Item>) {
+    fun start(context: Context, prefLabel: String, costItemGetter: (Servant) -> Collection<Item>) {
+        this.context = WeakReference(context)
+        this.prefLabel = prefLabel
         this.costItemGetter = costItemGetter
+
+        try {
+            PreferenceManager.getDefaultSharedPreferences(context).apply {
+                searchText.value = getString(keySearchText, "")
+                order.value = Order.valueOf(getString(keyOrder, DEFAULT_ORDER.name)!!)
+                orderBy.value = OrderBy.valueOf(getString(keyOrderBy, DEFAULT_ORDER_BY.name)!!)
+                stars.value = getStringSet(keyStar, setOf())?.map { Star.valueOf(it) }?.toSet()
+                servantClasses.value = getStringSet(keyClass, setOf())?.map { ServantClass.valueOf(it) }?.toSet()
+                waysToGet.value = getStringSet(keyWayToGet, setOf())?.map { WayToGet.valueOf(it) }?.toSet()
+                items.value = getStringSet(keyItem, setOf())?.mapNotNull { ResourcesProvider.instance.itemDescriptors[it] }?.toSet()
+                itemFilterMode.value = ItemFilterMode.valueOf(getString(keyItemMode, DEFAULT_ITEM_MODE.name)!!)
+            }
+        } catch (exc: Exception) {
+        }
     }
 
     fun setOrigin(servantIDs: Set<Int>?) {
@@ -139,11 +225,11 @@ class ServantFilterFragmentViewModel : ViewModel() {
     val isDefaultState = object : LiveData<Boolean>() {
         val observer = Observer<Any> {
             var ans = true
-            ans = ans && searchText.value.isNullOrEmpty()
-            ans = ans && servantClasses.value.isNullOrEmpty()
-            ans = ans && stars.value.isNullOrEmpty()
-            ans = ans && waysToGet.value.isNullOrEmpty()
-            ans = ans && items.value.isNullOrEmpty()
+            ans = ans && searchText.value?.isNotEmpty() != true
+            ans = ans && servantClasses.value?.isNotEmpty() != true
+            ans = ans && stars.value?.isNotEmpty() != true
+            ans = ans && waysToGet.value?.isNotEmpty() != true
+            ans = ans && items.value?.isNotEmpty() != true
             ans = ans && itemFilterMode.value == DEFAULT_ITEM_MODE
             ans = ans && order.value == DEFAULT_ORDER
             ans = ans && orderBy.value == DEFAULT_ORDER_BY

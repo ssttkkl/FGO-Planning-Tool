@@ -81,7 +81,6 @@ class EditEventFragmentViewModel : ViewModel() {
         when (actionItem?.id) {
             R.id.select_all -> onClickSelectAllShopItems()
             R.id.reset -> onClickResetShopItems()
-            R.id.select_all_expect_pieces -> onClickSelectAllShopItemsExpectPiece()
             else -> return false
         }
         return true
@@ -116,17 +115,6 @@ class EditEventFragmentViewModel : ViewModel() {
             indices.forEach { idx ->
                 if (allSelected == this[idx].checked)
                     this[idx] = CheckableItem(this[idx].item, !allSelected, this[idx].item.count)
-            }
-        }
-    }
-
-    private fun onClickSelectAllShopItemsExpectPiece() {
-        event.checkedShopItems.value = event.checkedShopItems.value?.toMutableList()?.apply {
-            indices.forEach { idx ->
-                if (this[idx].item.descriptor?.type == ItemType.Piece && this[idx].checked)
-                    this[idx] = CheckableItem(this[idx].item, false, this[idx].item.count)
-                else if (this[idx].item.descriptor?.type != ItemType.Piece && !this[idx].checked)
-                    this[idx] = CheckableItem(this[idx].item, true, this[idx].item.count)
             }
         }
     }

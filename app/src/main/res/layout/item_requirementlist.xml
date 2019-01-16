@@ -20,7 +20,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
@@ -43,9 +43,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="72dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:ellipsize="marquee"
-            android:singleLine="true"
+            android:layout_marginBottom="16dp"
+
             android:text="@{entity.servant.localizedName}"
             android:textAppearance="@style/ListItem"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +59,12 @@
             android:id="@+id/count_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:ems="6"
+            android:gravity="end"
+
             android:text="@{ToStringWithSplitterExtKt.toStringWithSplitter(entity.requirement)}"
             android:textAppearance="@style/ListItemTertiary"
             app:layout_constraintBottom_toBottomOf="parent"

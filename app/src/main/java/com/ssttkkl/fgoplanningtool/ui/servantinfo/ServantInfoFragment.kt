@@ -72,7 +72,7 @@ class ServantInfoFragment : Fragment(), ServantInfoLevelListFragment.OnClickItem
     }
 
     private fun showWikiMenu(wikiTitles: Collection<String>) {
-        PopupMenu(context!!, activity!!.findViewById(R.id.toolbar), GravityCompat.END.or(Gravity.TOP)).apply {
+        PopupMenu(context!!, activity!!.findViewById(R.id.toolbar), GravityCompat.END).apply {
             wikiTitles.forEach {
                 menu.add(it)
             }

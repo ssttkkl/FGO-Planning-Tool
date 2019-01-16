@@ -18,7 +18,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imageView11"
@@ -43,8 +43,6 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:alpha="@{item.checked ? 1f : 0.4f}"
-            android:ellipsize="marquee"
-            android:singleLine="true"
             android:text="@{item.item.descriptor.localizedName}"
             android:textAppearance="@style/ListItem"
             app:layout_constraintEnd_toStartOf="@+id/editText"
@@ -62,9 +60,6 @@
             android:alpha="@{item.checked ? 1f : 0.4f}"
             android:text="@{@string/maxCount_formatable(item.item.count)}"
             android:textAppearance="@style/ListItemSecondary"
-            app:autoSizeMaxTextSize="14sp"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/editText"
             app:layout_constraintStart_toStartOf="parent"
@@ -81,8 +76,8 @@
             android:ems="5"
             android:gravity="center_vertical|end"
             android:inputType="number"
+            android:maxLines="1"
             android:selectAllOnFocus="true"
-            android:singleLine="true"
             android:text="@={viewModel.shopEventItemCount[item.item.codename]}"
             android:textAppearance="@style/ListItem"
             android:visibility="@{item.checked ? View.VISIBLE : View.GONE}"

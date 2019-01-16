@@ -18,7 +18,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:background="?android:selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
@@ -43,19 +43,17 @@
         <TextView
             android:id="@+id/name_textView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:ellipsize="marquee"
-            android:singleLine="true"
             android:text="@{descriptor.name}"
             android:textAppearance="@style/ListItem"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/more_button"
             app:layout_constraintStart_toEndOf="@+id/selectedFlag_imageView"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/newDatabaseName" />
+            tools:text="Name" />
 
         <ImageButton
             android:id="@+id/more_button"
@@ -65,7 +63,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{(v)->viewModel.onClickItemMore(descriptor.uuid,v)}"
             android:scaleType="center"
-            android:tint="@android:color/tertiary_text_light"
+            android:tint="?android:attr/textColorTertiary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/name_textView"

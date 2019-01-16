@@ -25,6 +25,11 @@ import kotlin.collections.component2
 import kotlin.collections.set
 
 class OwnItemListFragmentViewModel : ViewModel() {
+    private var context = WeakReference<Context>(null)
+    private var prefLabel = ""
+    private val keyWithEventItems
+        get() = PreferenceKeys.KEY_WITH_EVENT_ITEMS.format(prefLabel)
+
     val showItemInfoEvent = SingleLiveEvent<String>()
     val showMessageEvent = SingleLiveEvent<String>()
 
@@ -50,6 +55,7 @@ class OwnItemListFragmentViewModel : ViewModel() {
     }
 
     val withEventItems = MutableLiveData<Boolean>()
+
     val indexedEventItems: LiveData<Map<String, Item>> = Transformations.map(Repo.EventRepo.allAsLiveData) { events ->
         val map = HashMap<String, Long>()
         events.values.forEach { event ->
@@ -71,10 +77,11 @@ class OwnItemListFragmentViewModel : ViewModel() {
     init {
         Repo.ItemRepo.allAsLiveData.observeForever(observer)
         withEventItems.observeForever {
-            PreferenceManager.getDefaultSharedPreferences(this.context.get()
-                    ?: return@observeForever).edit {
-                putBoolean(PreferenceKeys.KEY_WITH_EVENT_ITEMS_OWN_ITEM_LIST, it == true)
-            }
+            try {
+                PreferenceManager.getDefaultSharedPreferences(context.get() ?: return@observeForever).edit {
+                    putBoolean(keyWithEventItems, it == true)
+                }
+            } catch (exc: Exception) { }
         }
     }
 
@@ -83,12 +90,15 @@ class OwnItemListFragmentViewModel : ViewModel() {
         Repo.ItemRepo.allAsLiveData.removeObserver(observer)
     }
 
-    private var context = WeakReference<Context>(null)
-
-    fun start(context: Context) {
+    fun start(context: Context, prefLabel: String) {
         this.context = WeakReference(context)
-        withEventItems.value = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(PreferenceKeys.KEY_WITH_EVENT_ITEMS_OWN_ITEM_LIST, false)
+        this.prefLabel = prefLabel
+
+        try {
+            PreferenceManager.getDefaultSharedPreferences(context).apply {
+                withEventItems.value = getBoolean(keyWithEventItems, false)
+            }
+        } catch (exc: Exception) { }
     }
 
     fun getInfoButtonVisibility(item: Item?): Int {
@@ -128,7 +138,7 @@ class OwnItemListFragmentViewModel : ViewModel() {
     val onEditorAction = this::onItemClickSave
 
     companion object {
-        private const val MAX_VALUE = 999_999_999
-        private const val MIN_VALUE = 0
+        private const val MAX_VALUE = Long.MAX_VALUE
+        private const val MIN_VALUE = 0L
     }
 }

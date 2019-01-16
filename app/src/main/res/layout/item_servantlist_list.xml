@@ -16,7 +16,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="wrap_content"
         android:alpha="@{viewModel.hiddenServantIDs.contains(servant.id) ? 0.4f : 1f}"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="@{viewModel.hiddenServantIDs.contains(servant.id) ? false : true}"
@@ -41,9 +41,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
-            android:ellipsize="marquee"
             android:gravity="center_vertical|start"
-            android:singleLine="true"
+
             android:text="@{servant.localizedName}"
             android:textAppearance="@style/ListItem"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,8 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="56dp"
-            android:ellipsize="marquee"
-            android:singleLine="true"
+
             android:text="@{servant.theClass.name}"
             android:textAppearance="@style/ListItemTertiary"
             app:layout_constraintBottom_toBottomOf="parent"

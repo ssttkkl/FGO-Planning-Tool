@@ -65,7 +65,7 @@ class EditEventFragment : Fragment() {
     }
 
     private fun finish() {
-        findNavController().popBackStack(R.id.eventListFragment, false)
+        findNavController().navigate(EditEventFragmentDirections.actionGlobalEventListFragment())
     }
 
     private fun showMessage(message: String) {
