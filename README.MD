@@ -2,12 +2,13 @@
 
 一个安卓上的用于Fate/grand order的素材规划工具。
 
-[获取APK](https://github.com/ssttkkl/FGO-Planning-Tool/releases)
+[获取APK](https://https://github.com/ssttkkl/FGO-Planning-Tool/releases)
 
 数据来源：
 
-- [Mooncell](http://fgo.wiki/)
-- [FGO Wikia](http://fategrandorder.wikia.com/)
+- [Mooncell](https://fgo.wiki/)
+- [FGO Wikia](https://fategrandorder.wikia.com/)
+- [茹西教王的理想乡](https://kazemai.github.io/)
 
 ## 屏幕截图
 
