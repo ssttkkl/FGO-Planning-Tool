@@ -18,5 +18,6 @@
         android:layout_height="wrap_content"
         android:checked="@{viewModel.plan.dress.contains(dress)}"
         android:onClick="@{() -> viewModel.onClickDress(dress)}"
+
         android:text="@{dress.localizedName}" />
 </layout>

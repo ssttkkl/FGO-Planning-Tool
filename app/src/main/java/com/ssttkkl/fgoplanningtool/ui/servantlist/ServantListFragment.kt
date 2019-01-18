@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexWrap
@@ -17,10 +18,12 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.databinding.FragmentServantlistBinding
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
+import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.BackHandler
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
+import java.lang.Exception
 
 class ServantListFragment : Fragment(),
         BackHandler,
@@ -47,7 +50,7 @@ class ServantListFragment : Fragment(),
     }
 
     private val servantFilterFragment
-        get() = childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) as? ServantFilterFragment
+        get() = childFragmentManager.findFragmentById(R.id.servantFilterFragment) as? ServantFilterFragment
 
     private lateinit var binding: FragmentServantlistBinding
 
@@ -55,6 +58,17 @@ class ServantListFragment : Fragment(),
         binding = FragmentServantlistBinding.inflate(inflater, container, false)
         binding.viewModel = ViewModelProviders.of(this)[ServantListFragmentViewModel::class.java].apply {
             hiddenServantIDs.value = arguments?.getIntArray(KEY_HIDDEN)?.toHashSet() ?: setOf()
+            start(context!!, parentFragment?.run { this::class.qualifiedName } ?: "")
+            viewType.observe(this@ServantListFragment, Observer {
+                onViewTypeChanged(it ?: return@Observer)
+            })
+            informClickServantEvent.observe(this@ServantListFragment, Observer {
+                onInformClickServant(it ?: return@Observer)
+            })
+            isDefaultFilterState.observe(this@ServantListFragment, Observer {
+                onIsDefaultFilterStateChanged()
+            })
+            servantFilterFragment?.originServantIDs = originServantIDs
         }
         binding.setLifecycleOwner(this)
         return binding.root
@@ -65,40 +79,26 @@ class ServantListFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
 
-        // setup ServantFilterFragment
-        if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
-            childFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, ServantFilterFragment(), ServantFilterFragment::class.qualifiedName)
-                    .commit()
-        }
-
         itemDecoration = CommonRecViewItemDecoration(context!!)
         binding.recView.apply {
             adapter = ServantListAdapter(context!!, this@ServantListFragment, binding.viewModel!!)
             setHasFixedSize(true)
-        }
-
-        binding.viewModel?.apply {
-            start(context!!)
-            originServantIDs.observe(this@ServantListFragment, Observer {
-                onOriginChanged(it ?: setOf())
-            })
-            viewType.observe(this@ServantListFragment, Observer {
-                onViewTypeChanged(it ?: return@Observer)
-            })
-            informClickServantEvent.observe(this@ServantListFragment, Observer {
-                onInformClickServant(it ?: return@Observer)
-            })
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.servantlist, menu)
+
         when (binding.viewModel?.viewType?.value) {
             ViewType.List -> menu.findItem(R.id.switchToListView)?.isVisible = false
             ViewType.Grid -> menu.findItem(R.id.switchToGridView)?.isVisible = false
         }
+
+        menu.findItem(R.id.sortAndFilter)?.setIcon(if (binding.viewModel?.isDefaultFilterState?.value == true)
+            R.drawable.ic_sort_white_24dp
+        else
+            R.drawable.ic_sort_coloraccent_bg_24dp)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -123,16 +123,12 @@ class ServantListFragment : Fragment(),
         } else false
     }
 
-    override fun onFilter(filtered: List<Servant>) {
-        binding.viewModel?.onFiltered(filtered)
+    override fun onFilter(filtered: List<Servant>, isDefaultState: Boolean) {
+        binding.viewModel?.onFiltered(filtered, isDefaultState)
     }
 
     override fun onRequestCostItems(servant: Servant): Collection<Item> {
         return binding.viewModel?.onRequestCostItems(servant) ?: listOf()
-    }
-
-    private fun onOriginChanged(originServantIDs: Set<Int>) {
-        servantFilterFragment?.originServantIDs = originServantIDs
     }
 
     private fun onViewTypeChanged(viewType: ViewType) {
@@ -154,6 +150,10 @@ class ServantListFragment : Fragment(),
 
     private fun onInformClickServant(servantID: Int) {
         listener?.onClickServant(servantID)
+    }
+
+    private fun onIsDefaultFilterStateChanged() {
+        (activity as? MainActivity)?.invalidateOptionsMenu()
     }
 
     var hiddenServantIDs: Set<Int>

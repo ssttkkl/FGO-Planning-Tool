@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.FragmentEditplanEditlevelBinding
-import com.ssttkkl.fgoplanningtool.resources.ConstantValues
+import com.ssttkkl.fgoplanningtool.resources.LevelValues
 import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 
 class EditLevelDialogFragment : DialogFragment() {
@@ -52,12 +52,8 @@ class EditLevelDialogFragment : DialogFragment() {
             ascendedOnStage.value = arguments?.getBoolean(KEY_ASCENDED_ON_STAGE, false) ?: false
 
             val exp = arguments?.getInt(KEY_EXP, 0) ?: 0
-            level.value = ConstantValues.getLevel(exp)
-            remainedExp.value = if (servant.value?.stageMapToMaxLevel?.contains(level.value!!) != true
-                    || ascendedOnStage.value == true)
-                ConstantValues.getExp(level.value!! + 1) - exp
-            else
-                0
+            level.value = LevelValues.expToLevel(exp)
+            remainedExp.value = LevelValues.expToCurLevelRemainingExp(servant.value?.star!!, exp, ascendedOnStage.value == true)
         }
         binding.setLifecycleOwner(this)
         return binding.root

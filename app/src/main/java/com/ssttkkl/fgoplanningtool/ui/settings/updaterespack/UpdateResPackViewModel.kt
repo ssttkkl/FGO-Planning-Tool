@@ -22,14 +22,14 @@ class UpdateResPackViewModel : ViewModel() {
     val status = MutableLiveData<Status>()
     val latestInfo = MutableLiveData<ResPackLatestInfo>()
     val releaseDate: LiveData<String> = Transformations.map(latestInfo) { latestInfo ->
-        MyApp.context.getString(R.string.releaseDate_pattern_updaterespack,
+        MyApp.context.getString(R.string.releaseDatePattern,
                 latestInfo.releaseDate / 10000,
                 latestInfo.releaseDate % 10000 / 100,
                 latestInfo.releaseDate % 100)
     }
     private val size = MutableLiveData<Long>().apply { value = 0 }
     val sizeSummary: LiveData<String> = Transformations.map(size) { size ->
-        MyApp.context.getString(R.string.size_pattern_updaterespack, size.toDouble() / 1024 / 1024)
+        MyApp.context.getString(R.string.sizePattern, size.toDouble() / 1024 / 1024)
     }
     val progress = MutableLiveData<Int>().apply { value = 0 }
     val showProgress: LiveData<Boolean> = Transformations.map(status) { status ->

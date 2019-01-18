@@ -2,11 +2,10 @@ package com.ssttkkl.fgoplanningtool.ui.servantlist
 
 import android.content.Context
 import androidx.core.content.edit
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
+import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.costItems
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
@@ -16,29 +15,38 @@ import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 import java.lang.ref.WeakReference
 
 class ServantListFragmentViewModel : ViewModel() {
-    private var context: WeakReference<Context>? = null
+    private var context = WeakReference<Context>(null)
+    private var prefLabel = ""
+
+    private val keyViewType
+        get() = PreferenceKeys.KEY_SERVANT_LIST_VIEW_TYPE.format(prefLabel)
 
     val data = MutableLiveData<List<Servant>>()
     val hiddenServantIDs = MutableLiveData<Set<Int>>()
-    val originServantIDs: LiveData<Set<Int>> = Transformations.map(hiddenServantIDs) { hiddenServantIDs ->
-        ResourcesProvider.instance.servants.keys - hiddenServantIDs
-    }
+    val originServantIDs: Set<Int> = ResourcesProvider.instance.servants.keys
     val viewType = MutableLiveData<ViewType>()
+    val isDefaultFilterState = MutableLiveData<Boolean>()
 
-    val informClickServantEvent = SingleLiveEvent<Int>()
-
-    fun start(context: Context) {
-        this.context = WeakReference(context)
-
-        PreferenceManager.getDefaultSharedPreferences(context)?.apply {
-            viewType.value = ViewType.valueOf(getString(KEY_VIEW_TYPE, DEFAULT_VIEW_TYPE.name)!!)
+    init {
+        viewType.observeForever {
+            PreferenceManager.getDefaultSharedPreferences(context.get()
+                    ?: return@observeForever)?.edit {
+                putString(keyViewType, (it ?: DEFAULT_VIEW_TYPE).name)
+            }
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        PreferenceManager.getDefaultSharedPreferences(context?.get() ?: return)?.edit {
-            putString(KEY_VIEW_TYPE, (viewType.value ?: DEFAULT_VIEW_TYPE).name)
+    val informClickServantEvent = SingleLiveEvent<Int>()
+
+    fun start(context: Context, prefLabel: String) {
+        this.context = WeakReference(context)
+        this.prefLabel = prefLabel
+
+        try {
+            PreferenceManager.getDefaultSharedPreferences(context)?.apply {
+                viewType.value = ViewType.valueOf(getString(keyViewType, DEFAULT_VIEW_TYPE.name)!!)
+            }
+        } catch (exc: Exception) {
         }
     }
 
@@ -46,7 +54,8 @@ class ServantListFragmentViewModel : ViewModel() {
         informClickServantEvent.call(servantID)
     }
 
-    fun onFiltered(filtered: List<Servant>) {
+    fun onFiltered(filtered: List<Servant>, isDefaultState: Boolean) {
+        isDefaultFilterState.value = isDefaultState
         data.value = filtered
     }
 
@@ -66,8 +75,6 @@ class ServantListFragmentViewModel : ViewModel() {
     }
 
     companion object {
-        private const val KEY_VIEW_TYPE = "servant_list_view_type"
-
         private val DEFAULT_VIEW_TYPE = ViewType.List
     }
 }

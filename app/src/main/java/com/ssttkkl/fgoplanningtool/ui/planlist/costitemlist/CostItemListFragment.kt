@@ -2,23 +2,18 @@ package com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Switch
-import androidx.core.os.bundleOf
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
-import com.google.android.material.chip.Chip
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
 import com.ssttkkl.fgoplanningtool.databinding.FragmentCostitemlistBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemType
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
-import com.ssttkkl.fgoplanningtool.ui.utils.BackHandler
 import com.ssttkkl.fgoplanningtool.ui.utils.CommonRecViewItemDecoration
 
 class CostItemListFragment : Fragment() {
@@ -41,9 +36,9 @@ class CostItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
             drawerState = false
-            title = getString(R.string.title_costitemlist)
+            title = getString(R.string.costItemList)
+            invalidateOptionsMenu()
         }
-        setHasOptionsMenu(true)
 
         binding.recView.apply {
             adapter = CostItemListRecViewAdapter(context!!, this@CostItemListFragment, binding.viewModel!!)
@@ -51,35 +46,13 @@ class CostItemListFragment : Fragment() {
             addItemDecoration(CommonRecViewItemDecoration(context!!, false, true))
         }
         binding.viewModel?.apply {
-            itemTypes.observe(this@CostItemListFragment, Observer {
-                onItemTypesChanged(it ?: listOf())
-            })
-            showServantInfoEvent.observe(this@CostItemListFragment, Observer {
-                gotoServantDetailUi(it ?: return@Observer)
+            showJumpMenuEvent.observe(this@CostItemListFragment, Observer {
+                showJumpMenu()
             })
             scrollToPositionEvent.observe(this@CostItemListFragment, Observer {
                 scrollToPosition(it ?: return@Observer)
             })
         }
-    }
-
-    private lateinit var hideEnoughItemsSwitch: Switch
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.costitemlist, menu)
-
-        val hideEnoughItemsItem = menu.findItem(R.id.hideEnoughItems)
-        hideEnoughItemsSwitch = hideEnoughItemsItem.actionView.findViewById(R.id.switchWidget)
-        hideEnoughItemsSwitch.text = hideEnoughItemsItem.title
-        hideEnoughItemsSwitch.setOnCheckedChangeListener { _, isChecked ->
-            val alreadyChecked = binding.viewModel?.hideEnoughItems?.value == true
-            if (alreadyChecked != isChecked)
-                binding.viewModel?.hideEnoughItems?.value = isChecked
-        }
-        binding.viewModel?.hideEnoughItems?.observe(this, Observer {
-            hideEnoughItemsSwitch.isChecked = it
-        })
     }
 
     var plans: Collection<Plan>
@@ -100,24 +73,15 @@ class CostItemListFragment : Fragment() {
                 binding.viewModel?.setDataFromItems(value)
         }
 
-    private fun onItemTypesChanged(itemTypes: List<ItemType>) {
-        TransitionManager.beginDelayedTransition(binding.jumpChipGroup)
-        binding.jumpChipGroup.removeAllViews()
-        itemTypes.forEach { itemType ->
-            val chip = Chip(binding.jumpChipGroup.context).apply {
-                text = itemType.localizedName
-                setOnClickListener {
-                    binding.viewModel?.onClickJumpItem(itemType)
-                }
-                transitionName = itemType.name
+    private fun showJumpMenu() {
+        PopupMenu(context, binding.button).apply {
+            binding.viewModel?.itemTypes?.forEach {
+                menu.add(Menu.NONE, it.ordinal, it.ordinal, it.localizedName)
             }
-            binding.jumpChipGroup.addView(chip)
-        }
-        TransitionManager.endTransitions(binding.jumpChipGroup)
-    }
-
-    private fun gotoServantDetailUi(servantID: Int) {
-        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf("servantID" to servantID))
+            setOnMenuItemClickListener {
+                binding.viewModel?.onClickJumpItem(ItemType.values()[it.itemId]) == true
+            }
+        }.show()
     }
 
     private fun scrollToPosition(position: Int) {

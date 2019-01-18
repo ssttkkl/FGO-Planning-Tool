@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/hideEnoughItems"
-        android:title="@string/hide_enough_items_costitemlist"
+        android:id="@+id/withEventItems"
+        android:title="@string/withEventItems"
         app:actionLayout="@layout/switch_item"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

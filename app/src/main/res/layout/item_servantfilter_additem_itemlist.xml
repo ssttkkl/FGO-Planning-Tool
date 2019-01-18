@@ -16,10 +16,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:onClick="@{() -> viewModel.onClickItem(itemDescriptor.codename)}">
 
@@ -32,23 +32,23 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/item_placeholder"
-            app:srcCompat="@{itemDescriptor.imgFile}" />
+            app:srcCompat="@{itemDescriptor.imgFile}"
+            tools:srcCompat="@drawable/item_placeholder" />
 
         <TextView
             android:id="@+id/name_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="72dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@{itemDescriptor.localizedName}"
             android:textAppearance="@style/ListItem"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="heart"
-            android:text="@{itemDescriptor.localizedName}" />
+            tools:text="heart" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

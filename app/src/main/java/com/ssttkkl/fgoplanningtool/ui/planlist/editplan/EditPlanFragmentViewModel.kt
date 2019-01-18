@@ -2,7 +2,6 @@ package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.data.item.costItems
@@ -44,7 +43,7 @@ class EditPlanFragmentViewModel : ViewModel() {
     fun onClickSave() {
         when (mode.value) {
             Mode.New -> {
-                save()
+                Repo.PlanRepo.insert(plan.plan ?: return)
                 finishEvent.call()
             }
             Mode.Edit -> {
@@ -100,11 +99,5 @@ class EditPlanFragmentViewModel : ViewModel() {
             else
                 add(dress)
         }
-    }
-
-    private fun save(itemToDeduct: Collection<Item>? = null) {
-        Repo.planRepo.insert(plan.plan ?: return, HowToPerform.Launch)
-        if (itemToDeduct != null && itemToDeduct.isNotEmpty())
-            Repo.itemRepo.deductItems(itemToDeduct, HowToPerform.Launch)
     }
 }

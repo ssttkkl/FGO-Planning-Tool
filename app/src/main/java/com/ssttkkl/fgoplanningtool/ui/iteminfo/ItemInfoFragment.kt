@@ -74,7 +74,7 @@ class ItemInfoFragment : Fragment(), RequirementListFragment.OnClickItemListener
     }
 
     private fun showWikiMenu(wikiTitles: Collection<String>) {
-        PopupMenu(context!!, binding.root, GravityCompat.END.or(Gravity.TOP)).apply {
+        PopupMenu(context!!, activity!!.findViewById(R.id.toolbar), GravityCompat.END).apply {
             wikiTitles.forEach {
                 menu.add(it)
             }
@@ -93,7 +93,7 @@ class ItemInfoFragment : Fragment(), RequirementListFragment.OnClickItemListener
     }
 
     private fun showServantInfo(servantID: Int) {
-        findNavController().navigate(R.id.action_global_servantInfoFragment, bundleOf("servantID" to servantID))
+        findNavController().navigate(ItemInfoFragmentDirections.actionItemInfoFragmentToServantInfoFragment(servantID))
     }
 
     private fun onItemDescriptorChanged(itemDescriptor: ItemDescriptor) {

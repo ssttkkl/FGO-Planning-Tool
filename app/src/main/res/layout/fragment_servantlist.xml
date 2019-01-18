@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -23,8 +22,9 @@
             android:layout_height="match_parent"
             tools:listitem="@layout/item_servantlist_list" />
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
+        <fragment
+            android:id="@+id/servantFilterFragment"
+            android:name="com.ssttkkl.fgoplanningtool.ui.servantfilter.ServantFilterFragment"
             android:layout_width="250dp"
             android:layout_height="match_parent"
             android:layout_gravity="end" />

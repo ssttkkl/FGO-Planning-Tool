@@ -19,7 +19,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:background="?android:selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
@@ -44,19 +44,21 @@
 
         <EditText
             android:id="@+id/name_editText"
+            onEditorAction="@{viewModel.onEditorAction}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:hint="@{descriptor.name}"
+            android:imeOptions="actionDone"
+            android:selectAllOnFocus="true"
+            android:tag="@{descriptor.uuid}"
             android:text="@={viewModel.editedName[descriptor.uuid]}"
             android:textAppearance="@style/ListItem"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ok_button"
             app:layout_constraintStart_toEndOf="@+id/selectedFlag_imageView"
             app:layout_constraintTop_toTopOf="parent"
-            tools:hint="@string/newDatabaseName"
-            android:hint="@{descriptor.name}"/>
+            tools:hint="@string/newDatabaseName" />
 
         <ImageButton
             android:id="@+id/ok_button"
@@ -66,7 +68,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{()->viewModel.onClickItemSave(descriptor.uuid)}"
             android:scaleType="center"
-            android:tint="@android:color/tertiary_text_light"
+            android:tint="?android:attr/textColorTertiary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/abort_button"
             app:layout_constraintStart_toEndOf="@+id/name_editText"
@@ -81,7 +83,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{()->viewModel.onClickItemCancel(descriptor.uuid)}"
             android:scaleType="center"
-            android:tint="@android:color/tertiary_text_light"
+            android:tint="?android:attr/textColorTertiary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ok_button"

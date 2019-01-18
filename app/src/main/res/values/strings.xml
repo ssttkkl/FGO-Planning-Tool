@@ -2,67 +2,54 @@
     <string name="app_name" translatable="false">FGO Planning Tool</string>
     <string name="app_repo" translatable="false">https://github.com/ssttkkl/FGO-Planning-Tool</string>
 
-    <string name="resAbsent_splash">看上去您还没有加载资源包。您可以在进入APP后，到“选项”界面更新资源包。</string>
-    <string name="resBroken_splash">资源包读取失败。可能是因为资源包和APP版本不匹配。您可以在进入APP后，到“选项”界面重新更新资源包。</string>
-    <string name="enterApp_splash">进入APP</string>
-
-    <string name="emptyHint">什么都没有</string>
+    <string name="resPackAbsentHint">看上去您还没有加载资源包。您可以在进入APP后，到“选项”界面更新资源包。</string>
+    <string name="resPackBrokenHint">资源包读取失败。可能是因为资源包和APP版本不匹配。您可以在进入APP后，到“选项”界面重新更新资源包。</string>
+    <string name="enterApp">进入APP</string>
 
     <string name="databaseFromMigrationName">从旧版本迁移的账号</string>
     <string name="newDatabaseName">新账号</string>
     <string name="newDatabaseNameMultiple">新账号 (%1$d)</string>
 
-    <string name="openDrawer_main">打开侧边栏</string>
-    <string name="closeDrawer_main">关闭侧边栏</string>
-    <string name="backAgain_main">再按一次返回键退出应用</string>
+    <string name="openDrawer">打开侧边栏</string>
+    <string name="closeDrawer">关闭侧边栏</string>
+    <string name="backAgainToExitApp">再按一次返回键退出应用</string>
 
-    <string name="planlist_nav">规划列表</string>
-    <string name="ownitemlist_nav">材料仓库</string>
-    <string name="servantdetaillist_nav">灵基一览</string>
-    <string name="preferences_nav">选项</string>
-    <string name="databaseManage_nav">管理</string>
+    <string name="servantDetailList">灵基一览</string>
 
-    <string name="title_databasemanage">管理账号</string>
-    <string name="add_databasemanage">添加</string>
-    <string name="rename_databasemanage">重命名</string>
-    <string name="remove_databasemanage">删除</string>
-    <string name="import_databasemanage">导入</string>
-    <string name="export_databasemanage">导出</string>
-    <string name="importSuccessful_databasemanage">导入成功</string>
-    <string name="importError_databasemanage">导入失败：%1$s</string>
-    <string name="exportSuccessful_databasemanage">导出成功</string>
-    <string name="exportError_databasemanage">导出失败：%1$s</string>
+    <string name="databaseManage">管理账号</string>
+    <string name="rename">重命名</string>
+    <string name="importData">导入</string>
+    <string name="exportData">导出</string>
+    <string name="importSuccessfully">导入成功</string>
+    <string name="importFailed">导入失败：%1$s</string>
+    <string name="exportSuccessfully">导出成功</string>
+    <string name="exportFailed">导出失败：%1$s</string>
 
-    <string name="title_planlist">规划列表</string>
-    <string name="emptyHint_planlist">什么都没有</string>
-    <string name="selectedCount_planlist" translatable="false">%1$d / %2$d</string>
-    <string name="add_planlist">添加</string>
-    <string name="enterSelectMode_planlist">进入多选模式</string>
-    <string name="remove_planlist">删除</string>
+    <string name="planList">规划列表</string>
+    <string name="emptyHintOnPlanList">现在这里什么都没有\n点击右上角 ＋ 按钮添加规划</string>
+    <string name="emptyHintOnPlanListWithNotDefaultState">当前过滤条件下这里什么都没有\n点击右上角 ＋ 按钮添加规划</string>
+    <string name="selectedCountPattern" translatable="false">%1$d / %2$d</string>
+    <string name="enterSelectMode">进入多选模式</string>
     <string name="selectAll">选择全部</string>
-    <string name="level_item_planlist">等级</string>
-    <string name="skill1_item_planlist">技能 I</string>
-    <string name="skill2_item_planlist">技能 II</string>
-    <string name="skill3_item_planlist">技能 III</string>
-    <string name="lv_planlist">Lv.%1$d %2$d/%3$d/%4$d</string>
+    <string name="level">等级</string>
+    <string name="skill1">技能 I</string>
+    <string name="skill2">技能 II</string>
+    <string name="skill3">技能 III</string>
+    <string name="planPattern" translatable="false">Lv.%1$d %2$d/%3$d/%4$d</string>
 
-    <string-array name="tabTitles">
-        <item>编辑规划</item>
-        <item>消耗材料</item>
-    </string-array>
-    <string name="title_editplan_chooseservant">选择从者</string>
-    <string name="title_new_editplan">新建规划</string>
-    <string name="title_edit_editplan">编辑规划</string>
-    <string name="save_editplan">保存</string>
-    <string name="remove_editplan">删除</string>
-    <string name="tab_edit_editplan">编辑</string>
-    <string name="tab_items_editplan">消耗材料</string>
-    <string name="ascendedInCurStage_editplan">当前阶段完成再临</string>
-    <string name="remainedExp_editplan">升级剩余经验</string>
-    <string name="max_editplan">再临MAX</string>
-    <string name="mmax_editplan">圣杯MAX</string>
-    <string name="dress_editplan">灵衣开放</string>
-    <string-array name="skill_editplan">
+    <string name="eventList">未来活动</string>
+    <string name="emptyHintOnEventlist">现在这里什么都没有\n点击右上角 ＋ 按钮添加未来活动</string>
+
+    <string name="chooseServant">选择从者</string>
+    <string name="newPlan">新建规划</string>
+    <string name="editPlan">编辑规划</string>
+    <string name="costItems">消耗材料</string>
+    <string name="ascendedOnCurStage">当前阶段完成再临</string>
+    <string name="remainedExp">升级剩余经验</string>
+    <string name="maxAscension">再临MAX</string>
+    <string name="mmaxAscension">圣杯MAX</string>
+    <string name="unlockDress">灵衣开放</string>
+    <string-array name="skillLevel">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -74,55 +61,54 @@
         <item>9</item>
         <item>10</item>
     </string-array>
-    <string name="illegalRemainedExp_editplan_editlevel">“升级剩余经验”不能大于该等级升级需要的经验值</string>
-    <string name="illegalLevel_editplan_editlevel">“等级”不能超出该角色的合法等级范围</string>
+    <string name="illegalRemainedExp">“升级剩余经验”不能大于该等级升级需要的经验值</string>
+    <string name="illegalLevel">“等级”不能超出该角色的合法等级范围</string>
 
-    <string name="title_servantbaselist">灵基一览</string>
-    <string name="switchToGridView_servantlist">切换到网格视图</string>
-    <string name="switchToListView_servantlist">切换到列表视图</string>
-    <string name="sortAndFilter_servantlist">排序与过滤</string>
-    <string name="search_servantlist">搜索</string>
-    <string name="order_servantfilter">排序</string>
-    <string-array name="order_servantfilter">
+    <string name="servantBaseList">灵基一览</string>
+    <string name="switchToGridView">切换到网格视图</string>
+    <string name="switchToListView">切换到列表视图</string>
+    <string name="sortAndFilter">排序与过滤</string>
+    <string name="search">搜索</string>
+    <string name="sort">排序</string>
+    <string-array name="servantFilterOrder">
         <item>升序</item>
         <item>降序</item>
     </string-array>
-    <string-array name="orderBy_servantfilter">
+    <string-array name="servantFilterOrderBy">
         <item>编号</item>
         <item>职介</item>
         <item>星级</item>
     </string-array>
-    <string name="star_servantfilter">按星级过滤</string>
-    <string name="class_servantfilter">按职介过滤</string>
-    <string name="wayToGet_servantfilter">按获得方式过滤</string>
-    <string name="item_servantfilter">按消耗材料过滤</string>
-    <string name="add_item_servantfilter">添加</string>
-    <string-array name="mode_item_servantfilter">
+    <string name="servantFilterByStar">按星级过滤</string>
+    <string name="servantFilterByClass">按职介过滤</string>
+    <string name="servantFilterByWayToGet">按获得方式过滤</string>
+    <string name="servantFilterByItem">按消耗材料过滤</string>
+    <string name="add">添加</string>
+    <string-array name="servantFilterItemMode">
         <item>与</item>
         <item>或</item>
     </string-array>
-    <string name="reset_servantfilter">重置</string>
 
-    <string name="title_costitemlist">消耗材料</string>
-    <string name="hide_enough_items_costitemlist">只显示不足项</string>
-    <string name="jump_costitemlist">快速跳转</string>
-    <string name="own_item_costitemlist">持有</string>
-    <string name="need_item_costitemlist">需要</string>
+    <string name="costItemList">消耗材料</string>
+    <string name="hideEnoughItems">只显示不足项</string>
+    <string name="jumpTo">快速跳转</string>
+    <string name="ownAndEvent">持有+活动</string>
+    <string name="need">需要</string>
+    <string name="withEventItems">千里眼</string>
+    <string name="emptyHintOnCostItemList">这规划竟然不消耗任何材料</string>
 
-    <string name="title_ownitemlist">材料仓库</string>
-    <string name="enterEditMode_ownitemlist">进入批量编辑模式</string>
-    <string name="own_item_ownitemlist">持有</string>
+    <string name="ownItemList">材料仓库</string>
+    <string name="enterEditMode">进入批量编辑模式</string>
+    <string name="own">持有</string>
 
-    <string name="hint_edititem">持有数量</string>
-    <string name="save_edititem">保存</string>
-    <string name="cancel_edititem">取消</string>
-    <string name="illegalError_edititem">数据不合法</string>
-    <string name="unknownError_edititem">未知错误</string>
+    <string name="ownItemCount">持有数量</string>
+    <string name="save">保存</string>
+    <string name="illegalValue">数据不合法</string>
+    <string name="unknownError">未知错误</string>
 
-    <string name="ascension_iteminfo">灵基再临</string>
-    <string name="skill_iteminfo">技能升级</string>
-    <string name="dress_iteminfo">灵衣开放</string>
-    <string name="gotoWiki_iteminfo">跳转到 Wiki</string>
+    <string name="forAscension">灵基再临</string>
+    <string name="forSkill">技能升级</string>
+    <string name="forDress">灵衣开放</string>
 
     <string-array name="itemType">
         <item>通用</item>
@@ -142,79 +128,107 @@
         <item>活动赠送</item>
     </string-array>
 
-    <string name="deductItems_changeplanwarning">扣除消耗的材料</string>
-    <string name="viewItems_changeplanwarning">查看</string>
-    <string name="remove_changeplanwarning">删除</string>
-    <string name="edit_changeplanwarning">编辑</string>
-    <string name="cancel_changeplanwarning">取消</string>
+    <string name="deductItems">扣除消耗的材料</string>
+    <string name="view">查看</string>
+    <string name="remove">删除</string>
+    <string name="edit">编辑</string>
+    <string name="cancel">取消</string>
 
-    <string name="gotoWiki_servantinfo">去 Wiki (%1$s) 查阅资料</string>
+    <string name="gotoWiki">去 Wiki (%1$s) 查阅资料</string>
 
-    <string name="title_pref">选项</string>
-    <string name="group_display">显示</string>
-    <string name="title_nameLanguage">从者、材料名称显示语言</string>
-    <string-array name="entities_nameLanguage">
+    <string name="settings">选项</string>
+    <string name="display">显示</string>
+    <string name="nameLanguage">从者、材料名称显示语言</string>
+    <string-array name="nameLanguageEntities">
         <item>简体中文</item>
         <item>日本語</item>
         <item>English</item>
     </string-array>
-    <string-array name="entityValues_nameLanguage">
+    <string-array name="nameLanguageEntityValues">
         <item>zh</item>
         <item>ja</item>
         <item>en</item>
     </string-array>
-    <string name="title_unlockRealName_pref">真名解放</string>
-    <string name="summary_unlockRealName_pref">解放在 Epic of Remnant 中登场的某些隐藏真名的从者的真名</string>
-    <string name="group_res_pref">资源包</string>
-    <string name="title_curResPackVersion_pref">当前资源包版本</string>
-    <string name="summary_curResPackVersion_pref">%1$s（%2$d）</string>
-    <string name="summary_curResPackVersion_broken_pref">%1$s（%2$d）（资源包不完整，请尝试更新资源包）</string>
-    <string name="summary_curResPackVersion_highTargetVersion_pref">%1$s（%2$d）（目标APP版本高于当前APP版本，请尝试更新APP）</string>
-    <string name="summary_curResPackVersion_lowTargetVersion_pref">%1$s（%2$d）（当前APP版本高于目标APP版本，请尝试更新资源包）</string>
-    <string name="summary_curResPackVersion_absent_pref">（当前还没有加载资源包，请尝试更新资源包）</string>
-    <string name="title_checkUpdateOnStart_pref">启动时检查更新</string>
-    <string name="title_autoUpdateResPack_pref">自动更新资源包</string>
-    <string name="summary_autoUpdateResPack_pref">可能会耗费2~4M流量</string>
-    <string name="title_manuallyUpdateResPack_pref">手动更新资源包</string>
-    <string name="summary_manuallyUpdateResPack_pref">请参阅下面的帮助</string>
-    <string name="title_helpResPack_pref">资源包相关帮助</string>
-    <string name="summary_helpResPack_pref">什么是资源包？如何手动更新资源包？</string>
-    <string name="getResLink_pref">https://github.com/ssttkkl/FGO-Planning-Tool/wiki/%E8%B5%84%E6%BA%90%E5%8C%85</string>
-    <string name="version_pref">版本号</string>
-    <string name="repo_pref">Github 项目主页</string>
-    <string name="removeResPack_hint">是否要删除已经加载的资源包？</string>
-    <string name="removeResPack_yes">是</string>
+    <string name="unlockRealName">真名解放</string>
+    <string name="unlockRealNameSummary">解放在 Epic of Remnant 中登场的某些隐藏真名的从者的真名</string>
+    <string name="resPack">资源包</string>
+    <string name="curResPackVersion">当前资源包版本</string>
+    <string name="curResPackVersionPattern">%1$s（%2$d）</string>
+    <string name="curResPackVersionBroken">%1$s（%2$d）（资源包不完整，请尝试更新资源包）</string>
+    <string name="curResPackVersionHigher">%1$s（%2$d）（目标APP版本高于当前APP版本，请尝试更新APP）</string>
+    <string name="curResPackVersionLower">%1$s（%2$d）（当前APP版本高于目标APP版本，请尝试更新资源包）</string>
+    <string name="curResPackVersionAbsent">（当前还没有加载资源包，请尝试更新资源包）</string>
+    <string name="checkUpdateOnStart">启动时检查更新</string>
+    <string name="autoUpdateResPack">自动更新资源包</string>
+    <string name="autoUpdateResPackSummary">可能会耗费2~4M流量</string>
+    <string name="manuallyUpdateResPack">手动更新资源包</string>
+    <string name="manuallyUpdateResPackSummary">请参阅下面的帮助</string>
+    <string name="resPackHelp">资源包相关帮助</string>
+    <string name="helpResPackSummary">什么是资源包？如何手动更新资源包？</string>
+    <string name="resPackHelpLink" translatable="false" formatted="false">https://github.com/ssttkkl/FGO-Planning-Tool/wiki/%E8%B5%84%E6%BA%90%E5%8C%85</string>
+    <string name="version">版本号</string>
+    <string name="repo">Github 项目主页</string>
+    <string name="confirmRemoveResPack">是否要删除已经加载的资源包？</string>
+    <string name="yes">是</string>
 
-    <string name="title_updaterespack">更新资源包</string>
-    <string name="releaseDate_updaterespack">发布日期</string>
-    <string name="releaseDate_pattern_updaterespack">%1$d/%2$d/%3$d</string>
-    <string name="content_updaterespack">内容进度</string>
-    <string name="size_updaterespack">文件大小</string>
-    <string name="size_pattern_updaterespack">%1$.2fMB</string>
-    <string name="status_updaterespack">状态</string>
-    <string name="status_loading_updaterespack">查询更新中……</string>
-    <string name="status_loadSuccessful_updaterespack">查询更新成功</string>
-    <string name="status_loadFailed_updaterespack">查询更新失败</string>
-    <string name="status_downloading_updaterespack">下载中……</string>
-    <string name="status_downloadFailed_updaterespack">下载失败</string>
-    <string name="status_updating_updaterespack">更新中……</string>
-    <string name="status_updateFailed_updaterespack">更新失败</string>
-    <string name="status_updateSuccessful_updaterespack">更新成功</string>
+    <string name="updateResPack">更新资源包</string>
+    <string name="releaseDate">发布日期</string>
+    <string name="releaseDatePattern" translatable="false">%1$d/%2$d/%3$d</string>
+    <string name="content">内容进度</string>
+    <string name="size">文件大小</string>
+    <string name="sizePattern" translatable="false">%1$.2fMB</string>
+    <string name="status">状态</string>
+    <string name="loading">查询更新中……</string>
+    <string name="loadSuccessfully">查询更新成功</string>
+    <string name="loadFailed">查询更新失败</string>
+    <string name="downloading">下载中……</string>
+    <string name="downloadFailed">下载失败</string>
+    <string name="updating">更新中……</string>
+    <string name="updateFailed">更新失败</string>
+    <string name="updateSuccessfully">更新成功</string>
 
-    <string name="channel_updateNotification_checkupdare">更新提醒</string>
-    <string name="resPackUpdateAvailable_checkupdate">资源包更新可用</string>
-    <string name="appUpdateAvailable_checkupdate">APP更新可用</string>
+    <string name="updateNotificationChannel">更新提醒</string>
+    <string name="resPackUpdateAvailable">资源包更新可用</string>
+    <string name="appUpdateAvailable">APP更新可用</string>
 
-    <string name="exc_lowTargetVersion_resUpdater">资源包的目标APP版本小于当前APP版本。请下载最新资源包。</string>
-    <string name="exc_highTargetVersion_resUpdater">资源包的目标APP版本大于当前APP版本。请先升级APP。</string>
-    <string name="exc_fileNotExists_resUpdater">文件 %1$s 不存在。</string>
-    <string name="exc_dirNotExists_resUpdater">目录 %1$s 不存在。</string>
-    <string name="exc_isNotDir_resUpdater">%1$s 不是一个目录。</string>
-    <string name="exc_isNotFile_resUpdater">%1$s 不是一个文件。</string>
-    <string name="exc_outOfBounds_edititem">值必须在 %1$d~%2$d 范围之内。</string>
-    <string name="exc_fileFormatError_planGsonTypeAdapter">文件格式错误。</string>
-    <string name="title_editplan_chooseservantlist">选择从者</string>
-    <string name="title_confirm_change_plan">确认更改</string>
-    <string name="title_confirm_remove_plan">确认删除</string>
-    <string name="hint_confirm_change_plan">将会从仓库一并扣除相应数量的选中的材料。</string>
+    <string name="lowerTargetVersion">资源包的目标APP版本小于当前APP版本。请下载最新资源包。</string>
+    <string name="higherTargetVersion">资源包的目标APP版本大于当前APP版本。请先升级APP。</string>
+    <string name="fileNotExists">文件 %1$s 不存在。</string>
+    <string name="dirNotExists">目录 %1$s 不存在。</string>
+    <string name="isNotDir">%1$s 不是一个目录。</string>
+    <string name="isNotFile">%1$s 不是一个文件。</string>
+    <string name="valueOutOfBound">值必须在 %1$d~%2$d 范围之内。</string>
+    <string name="fileFormatError">文件格式错误。</string>
+    <string name="chooseServantList">选择从者</string>
+    <string name="confirmChange">确认更改</string>
+    <string name="confirmRemove">确认删除</string>
+    <string name="hintOnConfirmChangePlan">将会从仓库一并扣除相应数量的选中的材料。</string>
+
+    <string name="maxCount_formatable">最多 %1$d 个</string>
+    <string name="chooseEvent">选择活动</string>
+    <string name="eventShop">活动商店</string>
+    <string name="eventLottery">无限池</string>
+    <string name="eventPoint">点数奖励</string>
+    <string name="planBoxCount">计划池数</string>
+    <string name="planPoint">计划点数</string>
+    <string name="storyGift">剧情/周回首通/任务奖励</string>
+    <string name="totalItems">可获得材料一览</string>
+    <string name="editEvent">编辑活动</string>
+    <string name="selectAllExpectPieces">选择全部（除棋子）</string>
+    <string name="reset">重置</string>
+    <string name="illegalValueOfItemCount">材料 %1$s 的数量超出范围 [%2$d, %3$d]</string>
+    <string name="eventParticipated">参加过原版活动</string>
+    <string name="event">活动</string>
+    <string name="emptyHint">这里什么都没有</string>
+    <string name="requestPointPattern">%1$s 点以上</string>
+    <string name="itemWithCountPattern">%1$s × %2$s</string>
+    <string name="max">MAX</string>
+    <string name="beforeDeduct">扣除前</string>
+    <string name="afterDeduct">扣除后</string>
+    <string name="hintOfConfirmRemoveEvent">确认删除未来活动“%1$s”吗？</string>
+    <string name="hintOfConfirmChangeEvent">确认修改未来活动“%1$s”吗？</string>
+    <string name="addItemsOnRemoveEvent">将获得材料更新到材料仓库</string>
+    <string name="deductItemsOnRemovePlan">从仓库扣除相应的材料（只扣除选中项）</string>
+    <string name="hintOfConfirmRemovePlan">确认删除这%1$d个规划吗？</string>
+    <string name="hintOfConfirmChangePlan">确认修改这%1$d个规划吗？</string>
 </resources>

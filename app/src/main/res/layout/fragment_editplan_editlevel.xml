@@ -34,9 +34,9 @@
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:gravity="end"
-                android:hint="@string/level_item_planlist"
+                android:hint="@string/level"
                 android:inputType="number"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:text="@={viewModel.level}"
                 tools:text="90" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -58,9 +58,9 @@
                 android:ems="4"
                 android:enabled="@{viewModel.enableRemainedExpEditText}"
                 android:gravity="end"
-                android:hint="@string/remainedExp_editplan"
+                android:hint="@string/remainedExp"
                 android:inputType="number"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:text="@={viewModel.remainedExp}"
                 tools:text="233333" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -73,7 +73,7 @@
             android:layout_marginEnd="16dp"
             android:checked="@={viewModel.ascendedOnStage}"
             android:enabled="@{viewModel.enableAscendedOnStageCheckBox}"
-            android:text="@string/ascendedInCurStage_editplan"
+            android:text="@string/ascendedOnCurStage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
@@ -87,10 +87,10 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:onClick="@{() -> viewModel.onClickSaveButton()}"
-            android:text="@string/save_editplan"
+            android:text="@string/save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/max_chip" />
+            app:layout_constraintTop_toBottomOf="@+id/max_button" />
 
         <Button
             android:id="@+id/cancel_button"
@@ -101,42 +101,42 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:onClick="@{() -> viewModel.onClickCancelButton()}"
-            android:text="@string/cancel_edititem"
+            android:text="@string/cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/save_button"
-            app:layout_constraintTop_toBottomOf="@+id/max_chip" />
+            app:layout_constraintTop_toBottomOf="@+id/max_button" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/min_chip"
-            style="@style/Widget.MaterialComponents.Chip.Action"
+        <Button
+            android:id="@+id/min_button"
+            style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:onClick="@{() -> viewModel.onClickMinButton()}"
             android:text="@{String.valueOf(viewModel.minLevel)}"
-            app:layout_constraintEnd_toStartOf="@id/max_chip"
+            app:layout_constraintEnd_toStartOf="@id/max_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
             tools:text="1" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/max_chip"
-            style="@style/Widget.MaterialComponents.Chip.Action"
+        <Button
+            android:id="@+id/max_button"
+            style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:onClick="@{() -> viewModel.onClickMaxButton()}"
             android:text="@{String.valueOf(viewModel.maxLevel)}"
-            app:layout_constraintEnd_toStartOf="@id/mmax_chip"
-            app:layout_constraintStart_toEndOf="@+id/min_chip"
+            app:layout_constraintEnd_toStartOf="@id/mmax_button"
+            app:layout_constraintStart_toEndOf="@+id/min_button"
             app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
             tools:text="80" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/mmax_chip"
-            style="@style/Widget.MaterialComponents.Chip.Action"
+        <Button
+            android:id="@+id/mmax_button"
+            style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -146,7 +146,7 @@
             android:text="@{String.valueOf(viewModel.mmaxLevel)}"
             android:visibility="@{viewModel.showMmaxLevelButton ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/max_chip"
+            app:layout_constraintStart_toEndOf="@+id/max_button"
             app:layout_constraintTop_toBottomOf="@+id/ascendedOnStage_checkBox"
             tools:text="100" />
 

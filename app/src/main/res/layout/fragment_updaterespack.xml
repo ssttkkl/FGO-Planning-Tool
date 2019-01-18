@@ -26,6 +26,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:singleLine="true"
             android:text="@{viewModel.status.summary}"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +84,7 @@
                 android:layout_column="0"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="16dp"
-                android:text="@string/releaseDate_updaterespack"
+                android:text="@string/releaseDate"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             <TextView
@@ -95,7 +96,6 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginBottom="4dp"
-                android:maxLines="1"
                 android:text="@{viewModel.releaseDate}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="2018/7/18" />
@@ -107,7 +107,7 @@
                 android:layout_column="0"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="16dp"
-                android:text="@string/content_updaterespack"
+                android:text="@string/content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             <TextView
@@ -119,7 +119,6 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginBottom="4dp"
-                android:maxLines="1"
                 android:text="@{viewModel.latestInfo.content}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="2.2预热" />
@@ -131,7 +130,7 @@
                 android:layout_column="0"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="16dp"
-                android:text="@string/size_updaterespack"
+                android:text="@string/size"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             <TextView
@@ -143,7 +142,6 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginBottom="4dp"
-                android:maxLines="1"
                 android:text="@{viewModel.sizeSummary}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="1MB" />

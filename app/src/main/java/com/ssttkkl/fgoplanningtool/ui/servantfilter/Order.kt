@@ -8,5 +8,5 @@ enum class Order : Localizable {
     Increase, Decrease;
 
     override val localizedName: String
-        get() = MyApp.context.resources.getStringArray(R.array.order_servantfilter)[ordinal]
+        get() = MyApp.context.resources.getStringArray(R.array.servantFilterOrder)[ordinal]
 }

@@ -19,44 +19,38 @@ class ServantInfoFragmentViewModel : ViewModel() {
         ResourcesProvider.instance.servants[servantID]
     }
 
-    val ascensionItemTitle = MyApp.context.getString(R.string.ascension_iteminfo)
-    val skillItemTitle = MyApp.context.getString(R.string.skill_iteminfo)
-    val dressItemTitle = MyApp.context.getString(R.string.dress_iteminfo)
+    val ascensionItemTitle = MyApp.context.getString(R.string.forAscension)
+    val skillItemTitle = MyApp.context.getString(R.string.forSkill)
+    val dressItemTitle = MyApp.context.getString(R.string.forDress)
 
     val ascensionItemEntities: LiveData<List<ServantInfoLevelListEntity>?> = Transformations.map(servant) { servant ->
-        if (servant != null && servant.id != 1)
-            servant.ascensionItems.mapIndexed { idx, it ->
+        if (servant?.id != 1)
+            servant?.ascensionItems?.mapIndexed { idx, it ->
                 ServantInfoLevelListEntity(start = idx.toString(),
                         to = (idx + 1).toString(),
                         isHorizontalArrowVisible = true,
-                        items = it + Item("qp", servant.ascensionQP[idx]))
+                        items = (it + Item("qp", servant.ascensionQP[idx])).sortedBy { it.descriptor?.rank })
             }
         else
             null
     }
 
     val skillItemEntities: LiveData<List<ServantInfoLevelListEntity>?> = Transformations.map(servant) { servant ->
-        if (servant != null)
-            servant.skillItems.mapIndexed { idx, it ->
-                ServantInfoLevelListEntity(start = (idx + 1).toString(),
-                        to = (idx + 2).toString(),
-                        isHorizontalArrowVisible = true,
-                        items = it + Item("qp", servant.skillQP[idx]))
-            }
-        else
-            null
+        servant?.skillItems?.mapIndexed { idx, it ->
+            ServantInfoLevelListEntity(start = (idx + 1).toString(),
+                    to = (idx + 2).toString(),
+                    isHorizontalArrowVisible = true,
+                    items = (it + Item("qp", servant.skillQP[idx])).sortedBy { it.descriptor?.rank })
+        }
     }
 
     val dressItemEntities: LiveData<List<ServantInfoLevelListEntity>?> = Transformations.map(servant) { servant ->
-        if (servant != null)
-            servant.dress.map { dress ->
-                ServantInfoLevelListEntity(start = dress.localizedName,
-                        to = "",
-                        isHorizontalArrowVisible = false,
-                        items = dress.items + Item("qp", dress.qp))
-            }
-        else
-            null
+        servant?.dress?.map { dress ->
+            ServantInfoLevelListEntity(start = dress.localizedName,
+                    to = "",
+                    isHorizontalArrowVisible = false,
+                    items = (dress.items + Item("qp", dress.qp)).sortedBy { it.descriptor?.rank })
+        }
     }
 
     val showWikiMenuEvent = SingleLiveEvent<Collection<String>>()

@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <PreferenceCategory android:title="@string/group_display">
+    <PreferenceCategory android:title="@string/display">
         <ListPreference
             android:key="nameLanguage"
-            android:title="@string/title_nameLanguage"
+            android:title="@string/nameLanguage"
             tools:summary="简体中文"
-            android:entries="@array/entities_nameLanguage"
-            android:entryValues="@array/entityValues_nameLanguage"
+            android:entries="@array/nameLanguageEntities"
+            android:entryValues="@array/nameLanguageEntityValues"
             android:defaultValue="zh" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="unlockRealName"
-            android:summary="@string/summary_unlockRealName_pref"
-            android:title="@string/title_unlockRealName_pref" />
+            android:summary="@string/unlockRealNameSummary"
+            android:title="@string/unlockRealName" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/group_res_pref">
+    <PreferenceCategory android:title="@string/resPack">
         <Preference
             android:key="curResPackVersion"
-            android:title="@string/title_curResPackVersion_pref"
-            tools:summary="@string/summary_curResPackVersion_pref" />
+            android:title="@string/curResPackVersion"
+            tools:summary="@string/curResPackVersionPattern" />
         <Preference
             android:key="autoUpdateRes"
-            android:summary="@string/summary_autoUpdateResPack_pref"
-            android:title="@string/title_autoUpdateResPack_pref" />
+            android:summary="@string/autoUpdateResPackSummary"
+            android:title="@string/autoUpdateResPack" />
         <Preference
             android:key="manuallyUpdateRes"
-            android:summary="@string/summary_manuallyUpdateResPack_pref"
-            android:title="@string/title_manuallyUpdateResPack_pref" />
+            android:summary="@string/manuallyUpdateResPackSummary"
+            android:title="@string/manuallyUpdateResPack" />
         <Preference
-            android:summary="@string/summary_helpResPack_pref"
-            android:title="@string/title_helpResPack_pref">
+            android:summary="@string/helpResPackSummary"
+            android:title="@string/resPackHelp">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="@string/getResLink_pref" />
+                android:data="@string/resPackHelpLink" />
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/app_name">
         <Preference
             android:key="version"
-            android:title="@string/version_pref"
+            android:title="@string/version"
             tools:summary="v1.0.0" />
         <CheckBoxPreference
             android:key="checkUpdateOnStart"
-            android:title="@string/title_checkUpdateOnStart_pref"
+            android:title="@string/checkUpdateOnStart"
             android:defaultValue="true" />
         <Preference
             android:summary="@string/app_repo"
-            android:title="@string/repo_pref">
+            android:title="@string/repo">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/app_repo" />

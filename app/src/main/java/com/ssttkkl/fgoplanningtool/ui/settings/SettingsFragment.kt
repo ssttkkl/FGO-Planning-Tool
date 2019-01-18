@@ -3,6 +3,7 @@ package com.ssttkkl.fgoplanningtool.ui.settings
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.webkit.MimeTypeMap
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
@@ -25,12 +26,16 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         viewModel = ViewModelProviders.of(this)[SettingsFragmentViewModel::class.java]
     }
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         (activity as? MainActivity)?.apply {
             drawerState = true
-            title = getString(R.string.title_pref)
+            title = getString(R.string.settings)
             invalidateOptionsMenu()
         }
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         subscribeUI()
     }
@@ -50,22 +55,22 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     }
 
     private fun subscribeUI() {
-        findPreference(KEY_VERSION).summary = viewModel.versionName
-        setupListPreferenceListener(findPreference(PreferenceKeys.KEY_NAME_LANGUAGE) as ListPreference)
+        findPreference<Preference>(KEY_VERSION).summary = viewModel.versionName
+        setupListPreferenceListener(findPreference(PreferenceKeys.KEY_NAME_LANGUAGE))
 
         viewModel.resPackSummary.observe(this, Observer {
-            findPreference(KEY_CUR_VERSION).summary = it
+            findPreference<Preference>(KEY_CUR_VERSION).summary = it
         })
 
-        findPreference(KEY_CUR_VERSION).setOnPreferenceClickListener {
+        findPreference<Preference>(KEY_CUR_VERSION).setOnPreferenceClickListener {
             viewModel.onClickResPack()
             true
         }
-        findPreference(KEY_AUTO_UPDATE).setOnPreferenceClickListener {
+        findPreference<Preference>(KEY_AUTO_UPDATE).setOnPreferenceClickListener {
             viewModel.onClickAutoUpdateResPack()
             true
         }
-        findPreference(KEY_MANUALLY_UPDATE).setOnPreferenceClickListener {
+        findPreference<Preference>(KEY_MANUALLY_UPDATE).setOnPreferenceClickListener {
             viewModel.onClickManuallyUpdateResPack()
             true
         }
@@ -85,8 +90,8 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     }
 
     private fun showRemoveResPackMessage() {
-        Snackbar.make(view ?: return, getString(R.string.removeResPack_hint), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.removeResPack_yes)) {
+        Snackbar.make(view ?: return, getString(R.string.confirmRemoveResPack), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.yes)) {
                     viewModel.onClickRemoveResPack()
                 }.show()
     }

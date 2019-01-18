@@ -20,7 +20,6 @@ import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.DataSet
 import com.ssttkkl.fgoplanningtool.data.DatabaseImporterAndExporter
-import com.ssttkkl.fgoplanningtool.data.HowToPerform
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptor
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptorManager
@@ -41,39 +40,44 @@ class DatabaseManageFragmentViewModel : ViewModel() {
 
     private val indexedData = MutableLiveData<Map<String, EditableDatabaseDescriptor>>()
 
+    val observer = Observer<Map<String, DatabaseDescriptor>> { newData ->
+        indexedData.value = newData?.mapValues { (_, it) ->
+            EditableDatabaseDescriptor(it, indexedData.value?.get(it.uuid)?.editing == true)
+        }
+    }
+
+    init {
+        DatabaseDescriptorManager.all.observeForever(observer)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        DatabaseDescriptorManager.all.removeObserver(observer)
+    }
+
     val data: LiveData<List<EditableDatabaseDescriptor>?> = Transformations.map(indexedData) { indexedData ->
         indexedData?.values?.sortedBy { it.databaseDescriptor.createTime }
     }
 
+    val currentDescriptor
+        get() = Repo.databaseDescriptor
+
+    val editedName = ObservableArrayMap<String, String>()
+
     private fun setItemEditing(uuid: String, editing: Boolean) {
+        if (editing)
+            editedName[uuid] = indexedData.value?.get(uuid)?.databaseDescriptor?.name
+        else
+            editedName.remove(uuid)
+
         indexedData.value = indexedData.value?.toMutableMap()?.apply {
             val oldItem = this[uuid] ?: return
             this[uuid] = EditableDatabaseDescriptor(oldItem.databaseDescriptor, editing)
         }
     }
 
-    val currentDescriptor
-        get() = Repo.databaseDescriptorLiveData
-
-    val observer = Observer<List<DatabaseDescriptor>> { newData ->
-        indexedData.value = newData?.associate {
-            Pair(it.uuid, EditableDatabaseDescriptor(it, indexedData.value?.get(it.uuid)?.editing == true))
-        }
-    }
-
-    init {
-        DatabaseDescriptorManager.liveData.observeForever(observer)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        DatabaseDescriptorManager.liveData.removeObserver(observer)
-    }
-
-    val editedName = ObservableArrayMap<String, String>()
-
     fun onClickAdd() {
-        DatabaseDescriptorManager.generateAndInsert(HowToPerform.Launch)
+        DatabaseDescriptorManager.generateAndInsert()
     }
 
     fun onClickItem(uuid: String) {
@@ -89,10 +93,10 @@ class DatabaseManageFragmentViewModel : ViewModel() {
             inflate(R.menu.item_databasemanage)
             setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.rename_action -> onClickItemRename(uuid)
-                    R.id.remove_action -> onClickItemRemove(uuid)
-                    R.id.import_action -> onClickItemImport(uuid)
-                    R.id.export_action -> onClickItemExport(uuid)
+                    R.id.rename -> onClickItemRename(uuid)
+                    R.id.remove -> onClickItemRemove(uuid)
+                    R.id.importData -> onClickItemImport(uuid)
+                    R.id.exportData -> onClickItemExport(uuid)
                 }
                 true
             }
@@ -103,9 +107,11 @@ class DatabaseManageFragmentViewModel : ViewModel() {
         DatabaseDescriptorManager.update(DatabaseDescriptor(uuid,
                 editedName[uuid].toString(),
                 indexedData.value?.get(uuid)?.databaseDescriptor?.createTime
-                        ?: Date().time), HowToPerform.Launch)
+                        ?: Date().time))
         setItemEditing(uuid, false)
     }
+
+    val onEditorAction = this::onClickItemSave
 
     fun onClickItemCancel(uuid: String) {
         setItemEditing(uuid, false)
@@ -116,22 +122,24 @@ class DatabaseManageFragmentViewModel : ViewModel() {
     }
 
     fun onClickItemRemove(uuid: String) {
-        DatabaseDescriptorManager.remove(uuid, HowToPerform.Launch)
+        DatabaseDescriptorManager.remove(uuid)
     }
 
-    private var databaseToImport: DatabaseDescriptor? = null
-    private var databaseToExport: DatabaseDescriptor? = null
+    private var databaseToImport: String? = null
+    private var databaseToExport: String? = null
 
     fun onClickItemImport(uuid: String) {
-        val descriptor = DatabaseDescriptorManager[uuid] ?: return
-        databaseToImport = descriptor
-        gotoOpenJsonUIEvent.call(Pair(FILENAME_JSON.format(descriptor.name), REQUEST_CODE_IMPORT))
+        databaseToImport = uuid
+        gotoOpenJsonUIEvent.call(Pair(FILENAME_JSON.format(indexedData.value?.get(uuid)?.databaseDescriptor?.name
+                ?: "database"),
+                REQUEST_CODE_IMPORT))
     }
 
     fun onClickItemExport(uuid: String) {
-        val descriptor = DatabaseDescriptorManager[uuid] ?: return
-        databaseToExport = descriptor
-        gotoCreateJsonUIEvent.call(Pair(FILENAME_JSON.format(descriptor.name), REQUEST_CODE_EXPORT))
+        databaseToExport = uuid
+        gotoCreateJsonUIEvent.call(Pair(FILENAME_JSON.format(indexedData.value?.get(uuid)?.databaseDescriptor?.name
+                ?: "database"),
+                REQUEST_CODE_EXPORT))
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
@@ -154,13 +162,13 @@ class DatabaseManageFragmentViewModel : ViewModel() {
                         val dataSet = gson.fromJson<DataSet>(reader, DataSet::class.java)
                         DatabaseImporterAndExporter.import(databaseToImport!!, dataSet)
                         launch(Dispatchers.Main) {
-                            showMessageEvent.call(MyApp.context.getString(R.string.importSuccessful_databasemanage))
+                            showMessageEvent.call(MyApp.context.getString(R.string.importSuccessfully))
                         }
                     }
                 }
             } catch (e: Exception) {
                 launch(Dispatchers.Main) {
-                    showMessageEvent.call(MyApp.context.getString(R.string.importError_databasemanage, e.message))
+                    showMessageEvent.call(MyApp.context.getString(R.string.importFailed, e.message))
                 }
             }
         }
@@ -174,13 +182,13 @@ class DatabaseManageFragmentViewModel : ViewModel() {
                         val dataSet = DatabaseImporterAndExporter.export(databaseToExport!!)
                         gson.toJson(dataSet, DataSet::class.java, writer)
                         launch(Dispatchers.Main) {
-                            showMessageEvent.call(MyApp.context.getString(R.string.exportSuccessful_databasemanage))
+                            showMessageEvent.call(MyApp.context.getString(R.string.exportSuccessfully))
                         }
                     }
                 }
             } catch (e: Exception) {
                 launch(Dispatchers.Main) {
-                    showMessageEvent.call(MyApp.context.getString(R.string.exportError_databasemanage, e.message))
+                    showMessageEvent.call(MyApp.context.getString(R.string.exportFailed, e.message))
                 }
             }
         }

@@ -8,28 +8,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.transition.ChangeBounds
-import androidx.transition.TransitionManager
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.ssttkkl.fgoplanningtool.data.item.Item
 import com.ssttkkl.fgoplanningtool.databinding.FragmentServantfilterBinding
 import com.ssttkkl.fgoplanningtool.resources.itemdescriptor.ItemDescriptor
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
-import com.ssttkkl.fgoplanningtool.resources.servant.ServantClass
-import com.ssttkkl.fgoplanningtool.resources.servant.WayToGet
 import com.ssttkkl.fgoplanningtool.ui.servantfilter.additem.AddItemDialogFragment
 import com.ssttkkl.fgoplanningtool.ui.utils.ChipViewTarget
-import com.ssttkkl.fgoplanningtool.ui.utils.NoInterfaceImplException
 
 class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemListener {
     interface Callback {
-        fun onFilter(filtered: List<Servant>)
+        fun onFilter(filtered: List<Servant>, isDefaultState: Boolean)
         fun onRequestCostItems(servant: Servant): Collection<Item>
     }
 
@@ -51,26 +43,24 @@ class ServantFilterFragment : Fragment(), AddItemDialogFragment.OnAddItemListene
         binding = FragmentServantfilterBinding.inflate(inflater, container, false)
         binding.viewModel = ViewModelProviders.of(this)[ServantFilterFragmentViewModel::class.java].apply {
             setOrigin(arguments?.getIntArray(ARG_ORIGIN_SERVANT_IDS)?.toSet())
-        }
-        binding.setLifecycleOwner(this)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.viewModel?.apply {
-            start {
+            start(context!!, parentFragment?.run { this::class.qualifiedName } ?: "") {
                 callback?.onRequestCostItems(it) ?: listOf()
             }
             items.observe(this@ServantFilterFragment, Observer {
-                onItemsChanged(it.toList().sortedBy { descriptor -> descriptor.rank })
+                onItemsChanged(it.sortedBy { descriptor -> descriptor.rank })
             })
             filtered.observe(this@ServantFilterFragment, Observer {
-                callback?.onFilter(it ?: listOf())
+                callback?.onFilter(it ?: listOf(), isDefaultState.value == true)
+            })
+            isDefaultState.observe(this@ServantFilterFragment, Observer {
+                callback?.onFilter(filtered.value ?: listOf(), it == true)
             })
             showAddItemUIEvent.observe(this@ServantFilterFragment, Observer {
                 showAddItemUI()
             })
         }
+        binding.setLifecycleOwner(this)
+        return binding.root
     }
 
     override fun onAddItem(codename: String) {

@@ -20,10 +20,11 @@
         android:layout_height="70dp"
         android:layout_margin="8dp"
         android:adjustViewBounds="true"
+        android:alpha="@{viewModel.hiddenServantIDs.contains(servant.id) ? 0.4f : 1f}"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        tools:srcCompat="@drawable/avatar_placeholder"
+        android:clickable="@{viewModel.hiddenServantIDs.contains(servant.id) ? false : true}"
+        android:focusable="@{viewModel.hiddenServantIDs.contains(servant.id) ? false : true}"
+        android:onClick="@{() -> viewModel.onClickServant(servant.id)}"
         app:srcCompat="@{servant.avatarFile}"
-        android:onClick="@{() -> viewModel.onClickServant(servant.id)}" />
+        tools:srcCompat="@drawable/avatar_placeholder" />
 </layout>

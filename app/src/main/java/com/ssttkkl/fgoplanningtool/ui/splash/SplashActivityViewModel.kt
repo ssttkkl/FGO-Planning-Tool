@@ -28,7 +28,6 @@ class SplashActivityViewModel : ViewModel() {
 
     fun start(context: Context) {
         PreferenceManager.setDefaultValues(context, R.xml.preferences, false)
-
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
 
         // start CheckUpdateService
@@ -36,12 +35,12 @@ class SplashActivityViewModel : ViewModel() {
             context.startService(Intent(context, CheckUpdateService::class.java))
 
         // switch to default database
-        val uuid = pref.getString(PreferenceKeys.KEY_DEFAULT_DB_UUID, "") ?: ""
-        val dbDescriptor = if (DatabaseDescriptorManager[uuid] != null)
-            uuid
+        val uuidInPref = pref.getString(PreferenceKeys.KEY_DEFAULT_DB_UUID, "") ?: ""
+        val uuid = if (DatabaseDescriptorManager[uuidInPref] != null)
+            uuidInPref
         else
             DatabaseDescriptorManager.firstOrCreate.uuid
-        Repo.switchDatabase(dbDescriptor)
+        Repo.switchDatabase(uuid)
 
         // wait for loading ResourcesPack
         GlobalScope.launch(Dispatchers.Main) {
@@ -51,8 +50,8 @@ class SplashActivityViewModel : ViewModel() {
             else {
                 showProgress.value = false
                 message.value = when {
-                    ResourcesProvider.instance.isAbsent -> context.getString(R.string.resAbsent_splash)
-                    ResourcesProvider.instance.isBroken -> context.getString(R.string.resBroken_splash)
+                    ResourcesProvider.instance.isAbsent -> context.getString(R.string.resPackAbsentHint)
+                    ResourcesProvider.instance.isBroken -> context.getString(R.string.resPackBrokenHint)
                     else -> ""
                 }
             }

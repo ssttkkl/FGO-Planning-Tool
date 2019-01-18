@@ -1,10 +1,11 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist.editplan
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.resources.ConstantValues
+import com.ssttkkl.fgoplanningtool.resources.LevelValues
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.resources.servant.Dress
 import com.ssttkkl.fgoplanningtool.resources.servant.Servant
@@ -33,102 +34,64 @@ class ObservablePlan(_plan: Plan) {
 
     val nowLevel: LiveData<Int> = Transformations.map(nowExp) {
         if (it != null)
-            ConstantValues.getLevel(it)
+            LevelValues.expToLevel(it)
         else
             null
     }
 
     val planLevel: LiveData<Int> = Transformations.map(planExp) {
         if (it != null)
-            ConstantValues.getLevel(it)
+            LevelValues.expToLevel(it)
         else
             null
     }
 
-    val nowLevelProgress = object : LiveData<Int>() {
-        private fun generateValue(servant: Servant?, nowExp: Int?, ascendedOnNowStage: Boolean?): Int? {
+    val nowLevelProgress = MediatorLiveData<Int>().apply {
+        val generator = { servant: Servant?, nowExp: Int?, ascendedOnNowStage: Boolean? ->
             if (servant == null || nowExp == null)
-                return null
-            val level = ConstantValues.getLevel(nowExp)
-            return if (!servant.stageMapToMaxLevel.contains(level) || ascendedOnNowStage == true)
-                ConstantValues.nextLevelExp[level] - (ConstantValues.getExp(level + 1) - nowExp)
+                null
             else
-                ConstantValues.nextLevelExp[level - 1]
+                LevelValues.expToCurLevelExp(servant.star, nowExp, ascendedOnNowStage == true)
         }
-
-        private fun onChanged() {
-            value = generateValue(servant.value, nowExp.value, ascendedOnNowStage.value)
-        }
-
-        init {
-            servant.observeForever { onChanged() }
-            nowExp.observeForever { onChanged() }
-            ascendedOnNowStage.observeForever { onChanged() }
-        }
+        addSource(servant) { value = generator(servant.value, nowExp.value, ascendedOnNowStage.value) }
+        addSource(nowExp) { value = generator(servant.value, nowExp.value, ascendedOnNowStage.value) }
+        addSource(ascendedOnNowStage) { value = generator(servant.value, nowExp.value, ascendedOnNowStage.value) }
     }
 
-    val nowLevelMaxProgress = object : LiveData<Int>() {
-        private fun generateValue(servant: Servant?, nowLevel: Int?, ascendedOnNowStage: Boolean?): Int? {
-            if (servant == null || nowLevel == null)
-                return null
-            return if (!servant.stageMapToMaxLevel.contains(nowLevel) || ascendedOnNowStage == true)
-                ConstantValues.nextLevelExp[nowLevel]
+    val nowLevelMaxProgress = MediatorLiveData<Int>().apply {
+        val generator = { servant: Servant?, nowExp: Int?, ascendedOnNowStage: Boolean? ->
+            if (servant == null || nowExp == null)
+                null
             else
-                ConstantValues.nextLevelExp[nowLevel - 1]
+                LevelValues.expToCurLevelMaxExp(servant.star, nowExp, ascendedOnNowStage == true)
         }
-
-        private fun onChanged() {
-            value = generateValue(servant.value, nowLevel.value, ascendedOnNowStage.value)
-        }
-
-        init {
-            servant.observeForever { onChanged() }
-            nowLevel.observeForever { onChanged() }
-            ascendedOnNowStage.observeForever { onChanged() }
-        }
+        addSource(servant) { value = generator(servant.value, nowExp.value, ascendedOnNowStage.value) }
+        addSource(nowExp) { value = generator(servant.value, nowExp.value, ascendedOnNowStage.value) }
+        addSource(ascendedOnNowStage) { value = generator(servant.value, nowExp.value, ascendedOnNowStage.value) }
     }
 
-    val planLevelProgress = object : LiveData<Int>() {
-        private fun generateValue(servant: Servant?, planExp: Int?, ascendedOnPlanStage: Boolean?): Int? {
+    val planLevelProgress = MediatorLiveData<Int>().apply {
+        val generator = { servant: Servant?, planExp: Int?, ascendedOnPlanStage: Boolean? ->
             if (servant == null || planExp == null)
-                return null
-            val level = ConstantValues.getLevel(planExp)
-            return if (!servant.stageMapToMaxLevel.contains(level) || ascendedOnPlanStage == true)
-                ConstantValues.nextLevelExp[level] - (ConstantValues.getExp(level + 1) - planExp)
+                null
             else
-                ConstantValues.nextLevelExp[level - 1]
+                LevelValues.expToCurLevelExp(servant.star, planExp, ascendedOnPlanStage == true)
         }
-
-        private fun onChanged() {
-            value = generateValue(servant.value, planExp.value, ascendedOnPlanStage.value)
-        }
-
-        init {
-            servant.observeForever { onChanged() }
-            planExp.observeForever { onChanged() }
-            ascendedOnPlanStage.observeForever { onChanged() }
-        }
+        addSource(servant) { value = generator(servant.value, planExp.value, ascendedOnPlanStage.value) }
+        addSource(planExp) { value = generator(servant.value, planExp.value, ascendedOnPlanStage.value) }
+        addSource(ascendedOnPlanStage) { value = generator(servant.value, planExp.value, ascendedOnPlanStage.value) }
     }
 
-    val planLevelMaxProgress = object : LiveData<Int>() {
-        private fun generateValue(servant: Servant?, planLevel: Int?, ascendedOnPlanStage: Boolean?): Int? {
-            if (servant == null || planLevel == null)
-                return null
-            return if (!servant.stageMapToMaxLevel.contains(planLevel) || ascendedOnPlanStage == true)
-                ConstantValues.nextLevelExp[planLevel]
+    val planLevelMaxProgress = MediatorLiveData<Int>().apply {
+        val generator = { servant: Servant?, planExp: Int?, ascendedOnPlanStage: Boolean? ->
+            if (servant == null || planExp == null)
+                null
             else
-                ConstantValues.nextLevelExp[planLevel - 1]
+                LevelValues.expToCurLevelMaxExp(servant.star, planExp, ascendedOnPlanStage == true)
         }
-
-        private fun onChanged() {
-            value = generateValue(servant.value, planLevel.value, ascendedOnPlanStage.value)
-        }
-
-        init {
-            servant.observeForever { onChanged() }
-            planLevel.observeForever { onChanged() }
-            ascendedOnPlanStage.observeForever { onChanged() }
-        }
+        addSource(servant) { value = generator(servant.value, planExp.value, ascendedOnPlanStage.value) }
+        addSource(planExp) { value = generator(servant.value, planExp.value, ascendedOnPlanStage.value) }
+        addSource(ascendedOnPlanStage) { value = generator(servant.value, planExp.value, ascendedOnPlanStage.value) }
     }
 
     val plan: Plan?

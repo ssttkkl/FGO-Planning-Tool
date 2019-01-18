@@ -4,16 +4,16 @@
     <item
         android:id="@+id/switchToGridView"
         android:icon="@drawable/ic_view_list_white_24dp"
-        android:title="@string/switchToGridView_servantlist"
+        android:title="@string/switchToGridView"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/switchToListView"
         android:icon="@drawable/ic_view_comfy_white_24dp"
-        android:title="@string/switchToListView_servantlist"
+        android:title="@string/switchToListView"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/sortAndFilter"
         android:icon="@drawable/ic_sort_white_24dp"
-        android:title="@string/sortAndFilter_servantlist"
+        android:title="@string/sortAndFilter"
         app:showAsAction="ifRoom" />
 </menu>

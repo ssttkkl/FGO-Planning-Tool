@@ -14,36 +14,56 @@
             type="com.ssttkkl.fgoplanningtool.ui.planlist.confirmchangeplan.ConfirmChangePlanFragmentViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recView"
-            list="@{viewModel.deductItems}"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toTopOf="@+id/textView13"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_confirmchangeplan_deductitemlist" />
-
         <TextView
-            android:id="@+id/textView13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/hint_confirm_change_plan"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="@{viewModel.hint}"
+            android:textAppearance="@style/Body" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:checked="@={viewModel.deductItems}"
+            android:text="@string/deductItemsOnRemovePlan"
+            android:visibility="@{viewModel.showDeductItems ? View.VISIBLE : View.GONE}" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="@{viewModel.deductItems ? View.VISIBLE : View.GONE}" >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recView"
+                list="@{viewModel.itemsToDeduct}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                tools:listitem="@layout/item_confirmchangeevent_additemlist" />
+            
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:onClick="@{() -> viewModel.onClickSelectAll()}"
+                app:layout_behavior="com.ssttkkl.fgoplanningtool.ui.utils.AutoSlideFabBehavior"
+                app:srcCompat="@drawable/ic_select_all_white_24dp" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </LinearLayout>
 
 </layout>

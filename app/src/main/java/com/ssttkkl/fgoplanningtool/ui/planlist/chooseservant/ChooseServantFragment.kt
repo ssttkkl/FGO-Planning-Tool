@@ -11,47 +11,34 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.databinding.FragmentEditplanChooseservantBinding
 import com.ssttkkl.fgoplanningtool.ui.MainActivity
 import com.ssttkkl.fgoplanningtool.ui.planlist.editplan.Mode
 import com.ssttkkl.fgoplanningtool.ui.servantlist.ServantListFragment
-import com.ssttkkl.fgoplanningtool.ui.utils.replaceFragment
 
 class ChooseServantFragment : Fragment(), ServantListFragment.OnClickServantListener {
-    private lateinit var binding: FragmentEditplanChooseservantBinding
+    private lateinit var viewModel: ChooseServantFragmentViewModel
 
     private val servantListFragment
-        get() = childFragmentManager.findFragmentByTag(ServantListFragment::class.qualifiedName) as? ServantListFragment
+        get() = childFragmentManager.findFragmentById(R.id.servantListFragment) as? ServantListFragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentEditplanChooseservantBinding.inflate(inflater, container, false)
-        binding.setLifecycleOwner(this)
-        binding.viewModel = ViewModelProviders.of(this)[ChooseServantFragmentViewModel::class.java]
-        return binding.root
+        viewModel = ViewModelProviders.of(this)[ChooseServantFragmentViewModel::class.java]
+        return inflater.inflate(R.layout.fragment_editplan_chooseservant, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.apply {
-            title = getString(R.string.title_editplan_chooseservant)
+            title = getString(R.string.chooseServant)
             drawerState = false
         }
         setHasOptionsMenu(true)
 
-        replaceFragment(R.id.frameLayout, ServantListFragment(), ServantListFragment::class.qualifiedName)
-
-        binding.viewModel?.hiddenServantIDs?.observe(this, Observer {
+        viewModel.hiddenServantIDs.observe(this, Observer {
             servantListFragment?.hiddenServantIDs = it ?: setOf()
         })
     }
 
     override fun onClickServant(servantID: Int) {
         findNavController().navigate(ChooseServantFragmentDirections.actionChooseServantFragmentToEditPlanDetailFragment(Plan(servantID), Mode.New))
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == android.R.id.home) {
-            findNavController().navigateUp()
-            true
-        } else super.onOptionsItemSelected(item)
     }
 }

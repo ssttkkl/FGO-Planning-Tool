@@ -24,21 +24,21 @@ class SettingsFragmentViewModel : ViewModel() {
     val resPackSummary = object : LiveData<String>() {
         private fun generator(): String {
             return when {
-                ResourcesProvider.instance.isAbsent -> MyApp.context.getString(R.string.summary_curResPackVersion_absent_pref)
+                ResourcesProvider.instance.isAbsent -> MyApp.context.getString(R.string.curResPackVersionAbsent)
                 ResourcesProvider.instance.isNotTargeted -> {
                     if (ResourcesProvider.instance.resPackInfo.targetVersion < ResourcesProvider.TARGET_VERSION)
-                        MyApp.context.getString(R.string.summary_curResPackVersion_lowTargetVersion_pref,
+                        MyApp.context.getString(R.string.curResPackVersionLower,
                                 ResourcesProvider.instance.resPackInfo.content,
                                 ResourcesProvider.instance.resPackInfo.releaseDate)
                     else
-                        MyApp.context.getString(R.string.summary_curResPackVersion_highTargetVersion_pref,
+                        MyApp.context.getString(R.string.curResPackVersionHigher,
                                 ResourcesProvider.instance.resPackInfo.content,
                                 ResourcesProvider.instance.resPackInfo.releaseDate)
                 }
-                ResourcesProvider.instance.isBroken -> MyApp.context.getString(R.string.summary_curResPackVersion_broken_pref,
+                ResourcesProvider.instance.isBroken -> MyApp.context.getString(R.string.curResPackVersionBroken,
                         ResourcesProvider.instance.resPackInfo.content,
                         ResourcesProvider.instance.resPackInfo.releaseDate)
-                else -> MyApp.context.getString(R.string.summary_curResPackVersion_pref,
+                else -> MyApp.context.getString(R.string.curResPackVersionPattern,
                         ResourcesProvider.instance.resPackInfo.content,
                         ResourcesProvider.instance.resPackInfo.releaseDate)
             }

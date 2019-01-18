@@ -1,7 +1,8 @@
 package com.ssttkkl.fgoplanningtool.data.item
 
 import com.ssttkkl.fgoplanningtool.data.plan.Plan
-import com.ssttkkl.fgoplanningtool.resources.ConstantValues
+import com.ssttkkl.fgoplanningtool.resources.LevelValues
+import com.ssttkkl.fgoplanningtool.resources.QPValues
 import kotlin.math.ceil
 import kotlin.math.min
 
@@ -21,20 +22,20 @@ private fun Plan.calcForExpCards(): Pair<Long, Long> {
     var totQP = 0L
 
     var curExp = nowExp
-    var curLevel = ConstantValues.getLevel(curExp)
-    var curStage = ConstantValues.getStage(servant!!.star, curLevel)
+    var curLevel = LevelValues.expToLevel(curExp)
+    var curStage = LevelValues.levelToStage(servant!!.star, curLevel)
     while (curExp < planExp) {
-        val nextExp = ConstantValues.getExp(servant!!.stageMapToMaxLevel[curStage])
+        val nextExp = LevelValues.levelToExp(servant!!.stageMapToMaxLevel[curStage])
         // if after using 20 exp cards the level wouldn't reach the max, use 20 exp cards at once.
-        val costExpCards = if (nextExp >= curExp + 20 * ConstantValues.perCardExp)
+        val costExpCards = if (nextExp >= curExp + 20 * LevelValues.perCardExp)
             20
         else
-            ceil(1.0 * (nextExp - curExp) / ConstantValues.perCardExp).toInt()
+            ceil(1.0 * (nextExp - curExp) / LevelValues.perCardExp).toInt()
         totExpCards += costExpCards
         totQP += costExpCards * servant!!.calcExpCardQP(curLevel)
-        curExp = min(curExp + costExpCards * ConstantValues.perCardExp, nextExp)
-        curLevel = ConstantValues.getLevel(curExp)
-        curStage = ConstantValues.getStage(servant!!.star, curLevel) +
+        curExp = min(curExp + costExpCards * LevelValues.perCardExp, nextExp)
+        curLevel = LevelValues.expToLevel(curExp)
+        curStage = LevelValues.levelToStage(servant!!.star, curLevel) +
                 if (servant!!.stageMapToMaxLevel.contains(curLevel)) 1 else 0
     }
 
@@ -75,7 +76,7 @@ val Plan.costItems: Collection<Item>
 
         for (dress in dressID.map { servant!!.dress[it] }) {
             map.putItems(dress.items)
-            qp += ConstantValues.dressQP
+            qp += QPValues.dressQP
         }
 
         val (expCards, qpForExpCards) = calcForExpCards()

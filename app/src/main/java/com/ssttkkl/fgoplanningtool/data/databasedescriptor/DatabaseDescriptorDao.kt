@@ -9,13 +9,16 @@ interface DatabaseDescriptorDao {
     val all: List<DatabaseDescriptor>
 
     @get:Query("SELECT * FROM DatabaseDescriptor")
-    val allLiveData: LiveData<List<DatabaseDescriptor>>
+    val allAsLiveData: LiveData<List<DatabaseDescriptor>>
 
     @Query("SELECT * FROM DatabaseDescriptor WHERE uuid=:uuid")
-    fun getByUUID(uuid: String): DatabaseDescriptor?
+    fun get(uuid: String?): DatabaseDescriptor?
 
     @Query("SELECT * FROM DatabaseDescriptor WHERE uuid=:uuid")
-    fun getLiveDataByUUID(uuid: String): LiveData<DatabaseDescriptor>
+    fun getAsLiveData(uuid: String?): LiveData<DatabaseDescriptor?>
+
+    @Query("SELECT * FROM DatabaseDescriptor WHERE name=:name")
+    fun getByName(name: String?): DatabaseDescriptor?
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(descriptor: Collection<DatabaseDescriptor>)

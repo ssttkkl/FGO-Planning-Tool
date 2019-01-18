@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,13 +9,13 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.splash.SplashActivityViewModel"/>
+            type="com.ssttkkl.fgoplanningtool.ui.splash.SplashActivityViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff">
+        android:background="@android:color/background_light">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -45,15 +45,15 @@
             android:id="@+id/message_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:text="@{viewModel.message}"
             android:visibility="@{viewModel.showProgress ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/enterApp_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2"
-            tools:text="@string/resBroken_splash" />
+            tools:text="@string/resPackBrokenHint" />
 
         <Button
             android:id="@+id/enterApp_button"
@@ -62,7 +62,7 @@
             android:layout_marginEnd="16dp"
             android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
             android:onClick="@{() -> viewModel.onClickEnterApp()}"
-            android:text="@string/enterApp_splash"
+            android:text="@string/enterApp"
             android:visibility="@{viewModel.showProgress ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/message_textView"
             app:layout_constraintEnd_toEndOf="parent"

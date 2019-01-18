@@ -30,7 +30,7 @@ class PlanListFragment : Fragment(),
     private lateinit var binding: FragmentPlanlistBinding
 
     private val servantFilterFragment
-        get() = childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) as? ServantFilterFragment
+        get() = childFragmentManager.findFragmentById(R.id.servantFilterFragment) as? ServantFilterFragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPlanlistBinding.inflate(inflater, container, false)
@@ -42,13 +42,6 @@ class PlanListFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         onInSelectModeChanged(false)
-
-        // setup ServantFilterFragment
-        if (childFragmentManager.findFragmentByTag(ServantFilterFragment::class.qualifiedName) == null) {
-            childFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, ServantFilterFragment(), ServantFilterFragment::class.qualifiedName)
-                    .commit()
-        }
 
         // setup RecView
         binding.recView.apply {
@@ -80,6 +73,9 @@ class PlanListFragment : Fragment(),
             title.observe(this@PlanListFragment, Observer {
                 onTitleChanged(it ?: "")
             })
+            isDefaultFilterState.observe(this@PlanListFragment, Observer {
+                onIsDefaultFilterStateChanged()
+            })
         }
     }
 
@@ -89,21 +85,25 @@ class PlanListFragment : Fragment(),
             R.menu.planlist_inselectmode
         else
             R.menu.planlist, menu)
+
+        menu.findItem(R.id.sortAndFilter)?.setIcon(if (binding.viewModel?.isDefaultFilterState?.value == true)
+            R.drawable.ic_sort_white_24dp
+        else
+            R.drawable.ic_sort_coloraccent_bg_24dp)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> binding.viewModel?.onHomeClick()
-            R.id.sortAndFilter_action -> {
+            R.id.sortAndFilter -> {
                 if (binding.drawerlayout.isDrawerOpen(GravityCompat.END))
                     binding.drawerlayout.closeDrawer(GravityCompat.END)
                 else
                     binding.drawerlayout.openDrawer(GravityCompat.END)
             }
-            R.id.enterSelectMode_action -> binding.viewModel?.onEnterSelectModeClick()
-            R.id.add_action -> binding.viewModel?.onAddClick()
-            R.id.selectAll_action -> binding.viewModel?.onCheckAllClick()
-            R.id.remove_action -> binding.viewModel?.onRemoveClick()
+            R.id.enterSelectMode -> binding.viewModel?.onEnterSelectModeClick()
+            R.id.add -> binding.viewModel?.onAddClick()
+            R.id.selectAll -> binding.viewModel?.onCheckAllClick()
+            R.id.remove -> binding.viewModel?.onRemoveClick()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -120,8 +120,8 @@ class PlanListFragment : Fragment(),
         }
     }
 
-    override fun onFilter(filtered: List<Servant>) {
-        binding.viewModel?.onFilter(filtered)
+    override fun onFilter(filtered: List<Servant>, isDefaultState: Boolean) {
+        binding.viewModel?.onFilter(filtered, isDefaultState)
     }
 
     override fun onRequestCostItems(servant: Servant): Collection<Item> {
@@ -160,5 +160,9 @@ class PlanListFragment : Fragment(),
 
     private fun onTitleChanged(title: String) {
         (activity as? MainActivity)?.title = title
+    }
+
+    private fun onIsDefaultFilterStateChanged() {
+        (activity as? MainActivity)?.invalidateOptionsMenu()
     }
 }

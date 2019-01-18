@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="title"
-            type="String" />
+            name="viewModel"
+            type="com.ssttkkl.fgoplanningtool.ui.MainActivityViewModel" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -16,10 +16,11 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/background_light">
+            android:background="@android:color/background_light"
+            android:orientation="vertical">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
@@ -32,7 +33,7 @@
                     android:layout_height="?android:attr/actionBarSize"
                     android:background="@color/colorPrimary"
                     app:popupTheme="@style/AppTheme.PopupOverlay"
-                    app:title="@{title}" />
+                    app:title="@{viewModel.title}" />
 
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -42,10 +43,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:defaultNavHost="true"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:navGraph="@navigation/nav_main" />
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
@@ -78,6 +78,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:gravity="center_vertical|start"
+                    android:text="@{viewModel.databaseDescriptor.name}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     app:layout_constraintBottom_toBottomOf="@+id/databaseManage_button"
                     app:layout_constraintEnd_toStartOf="@+id/databaseManage_button"
@@ -93,7 +94,8 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="@string/databaseManage_nav"
+                    android:onClick="@{() -> viewModel.onClickManageDatabases()}"
+                    android:text="@string/databaseManage"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/divider" />

@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/rename_action"
-        android:title="@string/rename_databasemanage" />
+        android:id="@+id/rename"
+        android:title="@string/rename" />
     <item
-        android:id="@+id/remove_action"
-        android:title="@string/remove_databasemanage" />
+        android:id="@+id/remove"
+        android:title="@string/remove" />
     <item
-        android:id="@+id/import_action"
-        android:title="@string/import_databasemanage" />
+        android:id="@+id/importData"
+        android:title="@string/importData" />
     <item
-        android:id="@+id/export_action"
-        android:title="@string/export_databasemanage" />
+        android:id="@+id/exportData"
+        android:title="@string/exportData" />
 </menu>

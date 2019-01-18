@@ -8,15 +8,18 @@ import androidx.room.Query
 
 @Dao
 interface ItemsDao {
-    @get:Query("SELECT * FROM item")
+    @get:Query("SELECT * FROM Item")
     val all: List<Item>
 
-    @get:Query("SELECT * FROM item")
-    val allLiveData: LiveData<List<Item>>
+    @get:Query("SELECT * FROM Item")
+    val allAsLiveData: LiveData<List<Item>>
 
-    @Query("SELECT * FROM item WHERE codename=:codename")
-    fun getByName(codename: String): Item?
+    @Query("SELECT * FROM Item WHERE codename=:codename")
+    fun get(codename: String): Item?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun update(item: Collection<Item>)
+
+    @Query("DELETE FROM Item")
+    fun clear()
 }

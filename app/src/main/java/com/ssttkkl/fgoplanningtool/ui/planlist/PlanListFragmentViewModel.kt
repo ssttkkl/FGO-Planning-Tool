@@ -1,9 +1,6 @@
 package com.ssttkkl.fgoplanningtool.ui.planlist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
@@ -19,7 +16,46 @@ class PlanListFragmentViewModel : ViewModel() {
     val removePlansEvent = SingleLiveEvent<Collection<Plan>>()
     val changeOriginEvent = SingleLiveEvent<Collection<Servant>>()
 
+    private val originData get() = Repo.PlanRepo.allAsLiveData
+
+    private val observer = Observer<Map<Int, Plan>> {
+        changeOriginEvent.call(it?.mapNotNull { (_, plan) -> plan.servant })
+    }
+
+    init {
+        originData.observeForever(observer)
+    }
+
+    override fun onCleared() {
+        originData.removeObserver(observer)
+    }
+
     val data = MutableLiveData<List<CheckablePlan>>()
+
+    val showEmptyHint: LiveData<Boolean> = Transformations.map(data) { data ->
+        data.isNullOrEmpty()
+    }
+
+    val isDefaultFilterState = MutableLiveData<Boolean>()
+
+    val inSelectMode = MutableLiveData<Boolean>().apply {
+        observeForever {
+            selectAll(false)
+        }
+    }
+
+    val title = MediatorLiveData<String>().apply {
+        val generator = {
+            if (inSelectMode.value == true)
+                MyApp.context.getString(R.string.selectedCountPattern,
+                        data.value?.count { it.checked } ?: 0,
+                        data.value?.size ?: 0)
+            else
+                MyApp.context.getString(R.string.planList)
+        }
+        addSource(data) { value = generator() }
+        addSource(inSelectMode) { value = generator() }
+    }
 
     private fun reverseChecked(servantID: Int) {
         data.value = data.value?.toMutableList()?.apply {
@@ -35,44 +71,6 @@ class PlanListFragmentViewModel : ViewModel() {
                     this[idx] = CheckablePlan(this[idx].plan, selected)
             }
         }
-    }
-
-    val inSelectMode = object : MutableLiveData<Boolean>() {
-        override fun setValue(value: Boolean?) {
-            val old = this.value
-            if (old != value) {
-                super.setValue(value)
-                selectAll(false)
-            }
-        }
-    }
-
-    val title = object : LiveData<String>() {
-        init {
-            val generator = {
-                if (inSelectMode.value == true)
-                    MyApp.context.getString(R.string.selectedCount_planlist,
-                            data.value?.count { it.checked } ?: 0,
-                            data.value?.size ?: 0)
-                else
-                    MyApp.context.getString(R.string.title_planlist)
-            }
-            data.observeForever { value = generator() }
-            inSelectMode.observeForever { value = generator() }
-        }
-    }
-
-    private val observer = Observer<List<Plan>> {
-        changeOriginEvent.call(it?.mapNotNull { plan -> plan.servant })
-    }
-
-    init {
-        Repo.planListLiveData.observeForever(observer)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Repo.planListLiveData.removeObserver(observer)
     }
 
     fun onPlanClick(plan: Plan) {
@@ -98,11 +96,11 @@ class PlanListFragmentViewModel : ViewModel() {
     }
 
     fun onFabClick() {
-        val plans = if (inSelectMode.value == true)
+        val data = if (inSelectMode.value == true)
             data.value?.filter { it.checked }?.map { it.plan }
         else
             data.value?.map { it.plan }
-        calcResultEvent.call(plans)
+        calcResultEvent.call(data)
         inSelectMode.value = false
     }
 
@@ -111,10 +109,6 @@ class PlanListFragmentViewModel : ViewModel() {
             inSelectMode.value = false
             true
         } else false
-    }
-
-    fun onHomeClick() {
-        inSelectMode.value = false
     }
 
     fun onEnterSelectModeClick() {
@@ -134,15 +128,17 @@ class PlanListFragmentViewModel : ViewModel() {
         inSelectMode.value = false
     }
 
-    fun onFilter(filtered: List<Servant>) {
+    fun onFilter(filtered: List<Servant>, isDefaultState: Boolean) {
+        this.isDefaultFilterState.value = isDefaultState
+
         val servantIDs = filtered.map { it.id }
         val selectedServantIDs = data.value?.filter { it.checked }?.map { it.plan.servantId }?.toSet()
                 ?: setOf()
-        data.value = Repo.planRepo.all
-                .filter { servantIDs.contains(it.servantId) }
-                .sortedBy { servantIDs.indexOf(it.servantId) }
-                .map { CheckablePlan(it, selectedServantIDs.contains(it.servantId)) }
+        data.value = originData.value?.values
+                ?.filter { servantIDs.contains(it.servantId) }
+                ?.sortedBy { servantIDs.indexOf(it.servantId) }
+                ?.map { CheckablePlan(it, selectedServantIDs.contains(it.servantId)) }
     }
 
-    fun getCostItems(servant: Servant) = Repo.planRepo[servant.id]?.costItems ?: listOf()
+    fun getCostItems(servant: Servant) = originData.value?.get(servant.id)?.costItems ?: listOf()
 }
