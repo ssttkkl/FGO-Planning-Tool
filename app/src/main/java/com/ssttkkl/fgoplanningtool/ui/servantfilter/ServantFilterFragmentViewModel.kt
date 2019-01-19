@@ -60,6 +60,16 @@ class ServantFilterFragmentViewModel : ViewModel() {
     val itemFilterMode = MutableLiveData<ItemFilterMode>()
 
     init {
+        searchText.value = ""
+        order.value = DEFAULT_ORDER
+        orderBy.value = DEFAULT_ORDER_BY
+        stars.value = setOf()
+        servantClasses.value = setOf()
+        waysToGet.value = setOf()
+        items.value = setOf()
+        itemFilterMode.value = DEFAULT_ITEM_MODE
+
+        // since context is null now, registering observers is safe
         searchText.observeForever {
             PreferenceManager.getDefaultSharedPreferences(context.get()
                     ?: return@observeForever).edit {
@@ -118,23 +128,57 @@ class ServantFilterFragmentViewModel : ViewModel() {
     }
 
     fun start(context: Context, prefLabel: String, costItemGetter: (Servant) -> Collection<Item>) {
-        this.context = WeakReference(context)
         this.prefLabel = prefLabel
-        this.costItemGetter = costItemGetter
+        PreferenceManager.getDefaultSharedPreferences(context).apply {
+            searchText.value = getString(keySearchText, "")
 
-        try {
-            PreferenceManager.getDefaultSharedPreferences(context).apply {
-                searchText.value = getString(keySearchText, "")
-                order.value = Order.valueOf(getString(keyOrder, DEFAULT_ORDER.name)!!)
-                orderBy.value = OrderBy.valueOf(getString(keyOrderBy, DEFAULT_ORDER_BY.name)!!)
-                stars.value = getStringSet(keyStar, setOf())?.map { Star.valueOf(it) }?.toSet()
-                servantClasses.value = getStringSet(keyClass, setOf())?.map { ServantClass.valueOf(it) }?.toSet()
-                waysToGet.value = getStringSet(keyWayToGet, setOf())?.map { WayToGet.valueOf(it) }?.toSet()
-                items.value = getStringSet(keyItem, setOf())?.mapNotNull { ResourcesProvider.instance.itemDescriptors[it] }?.toSet()
-                itemFilterMode.value = ItemFilterMode.valueOf(getString(keyItemMode, DEFAULT_ITEM_MODE.name)!!)
+            order.value = try {
+                Order.valueOf(getString(keyOrder, null)!!)
+            } catch (_: Exception) {
+                DEFAULT_ORDER
             }
-        } catch (exc: Exception) {
+
+            orderBy.value = try {
+                OrderBy.valueOf(getString(keyOrderBy, null)!!)
+            } catch (_: Exception) {
+                DEFAULT_ORDER_BY
+            }
+
+            itemFilterMode.value = try {
+                ItemFilterMode.valueOf(getString(keyItemMode, null)!!)
+            } catch (_: Exception) {
+                DEFAULT_ITEM_MODE
+            }
+
+            stars.value = getStringSet(keyStar, null)?.mapNotNull {
+                try {
+                    Star.valueOf(it)
+                } catch (_: Exception) {
+                    null
+                }
+            }?.toSet() ?: setOf()
+
+            servantClasses.value = getStringSet(keyClass, null)?.mapNotNull {
+                try {
+                    ServantClass.valueOf(it)
+                } catch (_: Exception) {
+                    null
+                }
+            }?.toSet() ?: setOf()
+
+            waysToGet.value = getStringSet(keyWayToGet, null)?.mapNotNull {
+                try {
+                    WayToGet.valueOf(it)
+                } catch (_: Exception) {
+                    null
+                }
+            }?.toSet() ?: setOf()
+
+            items.value = getStringSet(keyItem, null)?.mapNotNull { ResourcesProvider.instance.itemDescriptors[it] }?.toSet() ?: setOf()
         }
+
+        this.context = WeakReference(context)
+        this.costItemGetter = costItemGetter
     }
 
     fun setOrigin(servantIDs: Set<Int>?) {

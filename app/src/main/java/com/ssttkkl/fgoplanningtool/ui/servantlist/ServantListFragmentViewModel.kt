@@ -39,15 +39,16 @@ class ServantListFragmentViewModel : ViewModel() {
     val informClickServantEvent = SingleLiveEvent<Int>()
 
     fun start(context: Context, prefLabel: String) {
-        this.context = WeakReference(context)
         this.prefLabel = prefLabel
-
-        try {
-            PreferenceManager.getDefaultSharedPreferences(context)?.apply {
-                viewType.value = ViewType.valueOf(getString(keyViewType, DEFAULT_VIEW_TYPE.name)!!)
+        PreferenceManager.getDefaultSharedPreferences(context)?.apply {
+            viewType.value = try {
+                ViewType.valueOf(getString(keyViewType, null)!!)
+            } catch (_: Exception) {
+                DEFAULT_VIEW_TYPE
             }
-        } catch (exc: Exception) {
         }
+
+        this.context = WeakReference(context)
     }
 
     fun onClickServant(servantID: Int) {

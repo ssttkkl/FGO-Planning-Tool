@@ -34,17 +34,25 @@ object ServantFilterBindingAdapter {
     // adapters for Order
     @InverseBindingAdapter(attribute = "app:checkedChip", event = "checkedChipAttrChanged")
     @JvmStatic
-    fun getOrderCheckedChip(chipGroup: ChipGroup): Order {
-        val idx = chipGroup.indexOfChild(chipGroup.findViewById(chipGroup.checkedChipId))
-        return Order.values()[idx]
+    fun getOrderCheckedChip(chipGroup: ChipGroup): Order? {
+        return try {
+            val idx = chipGroup.indexOfChild(chipGroup.findViewById(chipGroup.checkedChipId))
+            Order.values()[idx]
+        } catch (_: Exception) {
+            null
+        }
     }
 
     // adapters for OrderBy
     @InverseBindingAdapter(attribute = "app:checkedChip", event = "checkedChipAttrChanged")
     @JvmStatic
-    fun getOrderByCheckedChip(chipGroup: ChipGroup): OrderBy {
-        val idx = chipGroup.indexOfChild(chipGroup.findViewById(chipGroup.checkedChipId))
-        return OrderBy.values()[idx]
+    fun getOrderByCheckedChip(chipGroup: ChipGroup): OrderBy? {
+        return try {
+            val idx = chipGroup.indexOfChild(chipGroup.findViewById(chipGroup.checkedChipId))
+            OrderBy.values()[idx]
+        } catch (_: Exception) {
+            null
+        }
     }
 
     // adapters for Star
@@ -54,8 +62,11 @@ object ServantFilterBindingAdapter {
         val set = HashSet<Star>()
         chipGroup.forEachIndexed { idx, it ->
             val chip = it as Chip
-            if (chip.isChecked)
-                set.add(Star.values()[idx])
+            if (chip.isChecked) {
+                try {
+                    set.add(Star.values()[idx])
+                } catch (_: Exception) { }
+            }
         }
         return set
     }
@@ -67,8 +78,11 @@ object ServantFilterBindingAdapter {
         val set = HashSet<ServantClass>()
         chipGroup.forEachIndexed { idx, it ->
             val chip = it as Chip
-            if (chip.isChecked)
-                set.add(ServantClass.values()[idx])
+            if (chip.isChecked) {
+                try {
+                    set.add(ServantClass.values()[idx])
+                } catch (_: Exception) { }
+            }
         }
         return set
     }
@@ -80,8 +94,11 @@ object ServantFilterBindingAdapter {
         val set = HashSet<WayToGet>()
         chipGroup.forEachIndexed { idx, it ->
             val chip = it as Chip
-            if (chip.isChecked)
-                set.add(WayToGet.values()[idx])
+            if (chip.isChecked) {
+                try {
+                    set.add(WayToGet.values()[idx])
+                } catch (_: Exception) { }
+            }
         }
         return set
     }
@@ -89,13 +106,17 @@ object ServantFilterBindingAdapter {
     // adapters for ItemFilterMode
     @BindingAdapter("selection")
     @JvmStatic
-    fun setSelection(spinner: Spinner, selection: ItemFilterMode) {
-        spinner.setSelection(selection.ordinal)
+    fun setSelection(spinner: Spinner, selection: ItemFilterMode?) {
+        spinner.setSelection(selection?.ordinal ?: -1)
     }
 
     @InverseBindingAdapter(attribute = "selection", event = "onItemSelected")
     @JvmStatic
-    fun getSelection(spinner: Spinner): ItemFilterMode {
-        return ItemFilterMode.values()[spinner.selectedItemPosition]
+    fun getSelection(spinner: Spinner): ItemFilterMode? {
+        return try {
+            ItemFilterMode.values()[spinner.selectedItemPosition]
+        } catch (_: Exception) {
+            null
+        }
     }
 }
