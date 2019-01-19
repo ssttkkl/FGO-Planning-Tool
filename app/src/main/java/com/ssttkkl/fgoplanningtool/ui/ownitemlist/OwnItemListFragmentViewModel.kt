@@ -77,11 +77,10 @@ class OwnItemListFragmentViewModel : ViewModel() {
     init {
         Repo.ItemRepo.allAsLiveData.observeForever(observer)
         withEventItems.observeForever {
-            try {
-                PreferenceManager.getDefaultSharedPreferences(context.get() ?: return@observeForever).edit {
-                    putBoolean(keyWithEventItems, it == true)
-                }
-            } catch (exc: Exception) { }
+            PreferenceManager.getDefaultSharedPreferences(context.get()
+                    ?: return@observeForever).edit {
+                putBoolean(keyWithEventItems, it == true)
+            }
         }
     }
 
@@ -91,14 +90,16 @@ class OwnItemListFragmentViewModel : ViewModel() {
     }
 
     fun start(context: Context, prefLabel: String) {
-        this.context = WeakReference(context)
         this.prefLabel = prefLabel
-
-        try {
-            PreferenceManager.getDefaultSharedPreferences(context).apply {
-                withEventItems.value = getBoolean(keyWithEventItems, false)
+        PreferenceManager.getDefaultSharedPreferences(context).apply {
+            withEventItems.value = try {
+                getBoolean(keyWithEventItems, false)
+            } catch (_: Exception) {
+                false
             }
-        } catch (exc: Exception) { }
+        }
+
+        this.context = WeakReference(context)
     }
 
     fun getInfoButtonVisibility(item: Item?): Int {
