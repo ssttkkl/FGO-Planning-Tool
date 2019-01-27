@@ -20,7 +20,7 @@ interface DatabaseDescriptorDao {
     @Query("SELECT * FROM DatabaseDescriptor WHERE name=:name")
     fun getByName(name: String?): DatabaseDescriptor?
 
-    @Insert(onConflict = OnConflictStrategy.FAIL)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(descriptor: Collection<DatabaseDescriptor>)
 
     @Update

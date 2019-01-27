@@ -7,4 +7,3 @@ build
 .settings/
 .classpath
 .vscode
-keystore.jks
