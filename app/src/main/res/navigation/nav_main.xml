@@ -171,7 +171,7 @@
         android:id="@+id/costItemListFragment"
         android:name="com.ssttkkl.fgoplanningtool.ui.planlist.costitemlist.CostItemListFragment"
         android:label="CostItemListFragment"
-        tools:layout="@layout/fragment_costitemlist"></fragment>
+        tools:layout="@layout/fragment_costitemlist" />
 
     <fragment
         android:id="@+id/confirmChangePlanFragment"
@@ -194,7 +194,7 @@
 
     <fragment
         android:id="@+id/updateResPackFragment"
-        android:name="com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.UpdateResPackFragment"
+        android:name="com.ssttkkl.fgoplanningtool.ui.updaterespack.UpdateResPackFragment"
         android:label="UpdateResPackFragment"
         tools:layout="@layout/fragment_updaterespack">
 
@@ -208,6 +208,15 @@
             app:argType="string" />
 
     </fragment>
+
+    <action
+        android:id="@+id/action_global_updateResPackFragment"
+        app:destination="@id/updateResPackFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <fragment
         android:id="@+id/itemInfoFragment"

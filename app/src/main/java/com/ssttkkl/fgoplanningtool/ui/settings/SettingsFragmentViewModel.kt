@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.apache.commons.io.IOUtils
+import org.joda.time.format.DateTimeFormatterBuilder
 import java.io.File
 import java.util.*
 
@@ -29,18 +30,18 @@ class SettingsFragmentViewModel : ViewModel() {
                     if (ResourcesProvider.instance.resPackInfo.targetVersion < ResourcesProvider.TARGET_VERSION)
                         MyApp.context.getString(R.string.curResPackVersionLower,
                                 ResourcesProvider.instance.resPackInfo.content,
-                                ResourcesProvider.instance.resPackInfo.releaseDate)
+                                ResourcesProvider.instance.resPackInfo.releaseDate.toString(dateTimeFormatter))
                     else
                         MyApp.context.getString(R.string.curResPackVersionHigher,
                                 ResourcesProvider.instance.resPackInfo.content,
-                                ResourcesProvider.instance.resPackInfo.releaseDate)
+                                ResourcesProvider.instance.resPackInfo.releaseDate.toString(dateTimeFormatter))
                 }
                 ResourcesProvider.instance.isBroken -> MyApp.context.getString(R.string.curResPackVersionBroken,
                         ResourcesProvider.instance.resPackInfo.content,
                         ResourcesProvider.instance.resPackInfo.releaseDate)
                 else -> MyApp.context.getString(R.string.curResPackVersionPattern,
                         ResourcesProvider.instance.resPackInfo.content,
-                        ResourcesProvider.instance.resPackInfo.releaseDate)
+                        ResourcesProvider.instance.resPackInfo.releaseDate.toString(dateTimeFormatter))
             }
         }
 
@@ -103,5 +104,13 @@ class SettingsFragmentViewModel : ViewModel() {
 
     companion object {
         private const val REQUEST_CODE = 1
+
+        @JvmStatic
+        private val dateTimeFormatter = DateTimeFormatterBuilder().appendYear(4, 4)
+                .appendLiteral('/')
+                .appendMonthOfYear(2)
+                .appendLiteral('/')
+                .appendDayOfMonth(2)
+                .toFormatter()
     }
 }

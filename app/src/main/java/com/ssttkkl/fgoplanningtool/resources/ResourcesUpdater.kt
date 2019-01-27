@@ -1,6 +1,7 @@
 package com.ssttkkl.fgoplanningtool.resources
 
 import com.google.gson.Gson
+import com.google.gson.stream.JsonReader
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.utils.unzip
@@ -29,7 +30,7 @@ object ResourcesUpdater {
         val resPackInfoFile = File(dir, ResourcesProvider.FILENAME_RES_PACK_INFO)
         if (resPackInfoFile.exists()) {
             resPackInfoFile.bufferedReader().use {
-                val resPackInfo = Gson().fromJson<ResPackInfo>(it, ResPackInfo::class.java)
+                val resPackInfo = ResPackInfo.GsonTypeAdapter().read(JsonReader(it))
                 if (resPackInfo.targetVersion < ResourcesProvider.TARGET_VERSION)
                     throw Exception(MyApp.context.getString(R.string.lowerTargetVersion))
                 if (resPackInfo.targetVersion > ResourcesProvider.TARGET_VERSION)

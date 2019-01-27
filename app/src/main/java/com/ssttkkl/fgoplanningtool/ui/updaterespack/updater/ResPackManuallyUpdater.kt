@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.updater
+package com.ssttkkl.fgoplanningtool.ui.updaterespack.updater
 
 import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
 import kotlinx.coroutines.CoroutineStart

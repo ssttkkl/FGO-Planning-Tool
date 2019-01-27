@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.settings.updaterespack
+package com.ssttkkl.fgoplanningtool.ui.updaterespack
 
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R

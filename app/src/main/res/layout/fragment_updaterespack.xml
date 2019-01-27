@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.UpdateResPackViewModel" />
+            type="com.ssttkkl.fgoplanningtool.ui.updaterespack.UpdateResPackViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -96,7 +96,7 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginBottom="4dp"
-                android:text="@{viewModel.releaseDate}"
+                android:text="@{viewModel.updateInfo.releaseDate.toString(viewModel.dateTimeFormatter)}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="2018/7/18" />
 
@@ -119,7 +119,7 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginBottom="4dp"
-                android:text="@{viewModel.latestInfo.content}"
+                android:text="@{viewModel.updateInfo.content}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="2.2预热" />
 

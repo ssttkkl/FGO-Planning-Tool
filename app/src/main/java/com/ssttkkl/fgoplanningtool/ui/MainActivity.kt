@@ -12,6 +12,10 @@ import androidx.navigation.findNavController
 import com.google.android.material.navigation.NavigationView
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.databinding.ActivityMainBinding
+import com.ssttkkl.fgoplanningtool.utils.AppUpdateInfo
+import com.ssttkkl.fgoplanningtool.ui.informupdate.app.InformAppUpdateDialogFragment
+import com.ssttkkl.fgoplanningtool.ui.informupdate.respack.InformResPackUpdateDialogFragment
+import com.ssttkkl.fgoplanningtool.utils.ResPackUpdateInfo
 import com.ssttkkl.fgoplanningtool.ui.utils.BackRouterActivity
 
 class MainActivity : BackRouterActivity(),
@@ -34,6 +38,13 @@ class MainActivity : BackRouterActivity(),
             drawerState.observe(this@MainActivity, Observer {
                 onDrawerStateChanged(it == true)
             })
+            showInformAppUpdateUIEvent.observe(this@MainActivity, Observer {
+                showInformAppUpdateUI(it ?: return@Observer)
+            })
+            showInformResPackUpdateUIEvent.observe(this@MainActivity, Observer {
+                showInformResPackUpdateUI(it ?: return@Observer)
+            })
+            start()
         }
 
         // setup navigation view
@@ -110,5 +121,15 @@ class MainActivity : BackRouterActivity(),
     private fun gotoDatabaseManageUI() {
         navController.navigate(R.id.action_global_databaseManageFragment)
         binding.drawerLayout.closeDrawer(GravityCompat.START)
+    }
+
+    private fun showInformAppUpdateUI(appUpdateInfo: AppUpdateInfo) {
+        InformAppUpdateDialogFragment.newInstance(appUpdateInfo)
+                .show(supportFragmentManager, InformAppUpdateDialogFragment::class.qualifiedName)
+    }
+
+    private fun showInformResPackUpdateUI(resPackUpdateInfo: ResPackUpdateInfo) {
+        InformResPackUpdateDialogFragment.newInstance(resPackUpdateInfo)
+                .show(supportFragmentManager, InformAppUpdateDialogFragment::class.qualifiedName)
     }
 }

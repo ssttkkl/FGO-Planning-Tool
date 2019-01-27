@@ -153,10 +153,10 @@
     <string name="unlockRealNameSummary">解放在 Epic of Remnant 中登场的某些隐藏真名的从者的真名</string>
     <string name="resPack">资源包</string>
     <string name="curResPackVersion">当前资源包版本</string>
-    <string name="curResPackVersionPattern">%1$s（%2$d）</string>
-    <string name="curResPackVersionBroken">%1$s（%2$d）（资源包不完整，请尝试更新资源包）</string>
-    <string name="curResPackVersionHigher">%1$s（%2$d）（目标APP版本高于当前APP版本，请尝试更新APP）</string>
-    <string name="curResPackVersionLower">%1$s（%2$d）（当前APP版本高于目标APP版本，请尝试更新资源包）</string>
+    <string name="curResPackVersionPattern">%1$s（%2$s）</string>
+    <string name="curResPackVersionBroken">%1$s（%2$s）（资源包不完整，请尝试更新资源包）</string>
+    <string name="curResPackVersionHigher">%1$s（%2$s）（目标APP版本高于当前APP版本，请尝试更新APP）</string>
+    <string name="curResPackVersionLower">%1$s（%2$s）（当前APP版本高于目标APP版本，请尝试更新资源包）</string>
     <string name="curResPackVersionAbsent">（当前还没有加载资源包，请尝试更新资源包）</string>
     <string name="checkUpdateOnStart">启动时检查更新</string>
     <string name="autoUpdateResPack">自动更新资源包</string>
@@ -231,4 +231,8 @@
     <string name="deductItemsOnRemovePlan">从仓库扣除相应的材料（只扣除选中项）</string>
     <string name="hintOfConfirmRemovePlan">确认删除这%1$d个规划吗？</string>
     <string name="hintOfConfirmChangePlan">确认修改这%1$d个规划吗？</string>
+    <string name="updateInformation">更新说明</string>
+    <string name="versionName">版本名称</string>
+    <string name="RemindMeLater">稍后再说</string>
+    <string name="download">下载</string>
 </resources>

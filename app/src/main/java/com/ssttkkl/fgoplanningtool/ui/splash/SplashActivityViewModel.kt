@@ -10,7 +10,6 @@ import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptorManager
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.services.CheckUpdateService
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,10 +28,6 @@ class SplashActivityViewModel : ViewModel() {
     fun start(context: Context) {
         PreferenceManager.setDefaultValues(context, R.xml.preferences, false)
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-        // start CheckUpdateService
-        if (pref.getBoolean(PreferenceKeys.KEY_CHECK_UPDATE_ON_START, true))
-            context.startService(Intent(context, CheckUpdateService::class.java))
 
         // switch to default database
         val uuidInPref = pref.getString(PreferenceKeys.KEY_DEFAULT_DB_UUID, "") ?: ""

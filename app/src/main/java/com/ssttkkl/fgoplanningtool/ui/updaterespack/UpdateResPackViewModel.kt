@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.settings.updaterespack
+package com.ssttkkl.fgoplanningtool.ui.updaterespack
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModel
 import com.ssttkkl.fgoplanningtool.MyApp
 import com.ssttkkl.fgoplanningtool.R
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
-import com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.updater.ResPackAutoUpdater
-import com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.updater.ResPackLatestInfo
-import com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.updater.ResPackManuallyUpdater
+import com.ssttkkl.fgoplanningtool.ui.updaterespack.updater.ResPackAutoUpdater
+import com.ssttkkl.fgoplanningtool.utils.ResPackUpdateInfo
+import com.ssttkkl.fgoplanningtool.ui.updaterespack.updater.ResPackManuallyUpdater
+import org.joda.time.format.DateTimeFormatterBuilder
 import java.io.File
 
 class UpdateResPackViewModel : ViewModel() {
@@ -20,17 +21,14 @@ class UpdateResPackViewModel : ViewModel() {
     var manually: Boolean = false
 
     val status = MutableLiveData<Status>()
-    val latestInfo = MutableLiveData<ResPackLatestInfo>()
-    val releaseDate: LiveData<String> = Transformations.map(latestInfo) { latestInfo ->
-        MyApp.context.getString(R.string.releaseDatePattern,
-                latestInfo.releaseDate / 10000,
-                latestInfo.releaseDate % 10000 / 100,
-                latestInfo.releaseDate % 100)
-    }
+    val updateInfo = MutableLiveData<ResPackUpdateInfo>()
+    val errorMessage = MutableLiveData<String>()
+
     private val size = MutableLiveData<Long>().apply { value = 0 }
     val sizeSummary: LiveData<String> = Transformations.map(size) { size ->
         MyApp.context.getString(R.string.sizePattern, size.toDouble() / 1024 / 1024)
     }
+
     val progress = MutableLiveData<Int>().apply { value = 0 }
     val showProgress: LiveData<Boolean> = Transformations.map(status) { status ->
         when (status) {
@@ -58,7 +56,6 @@ class UpdateResPackViewModel : ViewModel() {
             null -> false
         }
     }
-    val errorMessage = MutableLiveData<String>()
 
     fun start() {
         if (!::autoUpdater.isInitialized)
@@ -66,19 +63,19 @@ class UpdateResPackViewModel : ViewModel() {
         autoUpdater.setCallback(object : ResPackAutoUpdater.Callback {
             override fun onStartLoadingLatestInfo() {
                 status.value = Status.LoadingLatestInfo
-                Log.d("UpdateResPack", "Start loading latestInfo.")
+                Log.d("UpdateResPack", "Start loading updateInfo.")
             }
 
-            override fun onCompleteLoadingLatestInfo(latestInfo: ResPackLatestInfo) {
+            override fun onCompleteLoadingLatestInfo(updateInfo: ResPackUpdateInfo) {
                 status.value = Status.CompleteLoadingLatestInfo
-                this@UpdateResPackViewModel.latestInfo.value = latestInfo
-                Log.d("UpdateResPack", "LatestInfo: $latestInfo")
+                this@UpdateResPackViewModel.updateInfo.value = updateInfo
+                Log.d("UpdateResPack", "LatestInfo: $updateInfo")
             }
 
             override fun onFailOnLoadingLatestInfo(message: String) {
                 status.value = Status.FailedOnLoadingLatestInfo
                 errorMessage.value = message
-                Log.d("UpdateResPack", "Fail on loading latestInfo. $message")
+                Log.d("UpdateResPack", "Fail on loading updateInfo. $message")
             }
 
             override fun onDownloadProgress(progress: Int, totalBytes: Long) {
@@ -124,7 +121,7 @@ class UpdateResPackViewModel : ViewModel() {
 
             override fun onCompleteUpdating() {
                 status.value = Status.CompleteUpdating
-                latestInfo.value = ResPackLatestInfo(targetVersion = ResourcesProvider.TARGET_VERSION,
+                updateInfo.value = ResPackUpdateInfo(targetVersion = ResourcesProvider.TARGET_VERSION,
                         releaseDate = ResourcesProvider.instance.resPackInfo.releaseDate,
                         content = ResourcesProvider.instance.resPackInfo.content,
                         downloadLink = "")
@@ -145,5 +142,15 @@ class UpdateResPackViewModel : ViewModel() {
         if (::manuallyUpdater.isInitialized)
             manuallyUpdater.cancel()
         Log.d("UpdateResPack", "Canceled")
+    }
+
+    companion object {
+        @JvmStatic
+        val dateTimeFormatter = DateTimeFormatterBuilder().appendYear(4, 4)
+                .appendLiteral('/')
+                .appendMonthOfYear(2)
+                .appendLiteral('/')
+                .appendDayOfMonth(2)
+                .toFormatter()
     }
 }

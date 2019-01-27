@@ -1,16 +1,17 @@
-package com.ssttkkl.fgoplanningtool.ui.settings.updaterespack.updater
+package com.ssttkkl.fgoplanningtool.ui.updaterespack.updater
 
 import android.content.Context
+import android.util.Log
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.ssttkkl.fgoplanningtool.resources.ResourcesUpdater
+import com.ssttkkl.fgoplanningtool.utils.ConstantLinks
+import com.ssttkkl.fgoplanningtool.utils.ResPackUpdateInfo
 import com.tonyodev.fetch2.*
 import com.tonyodev.fetch2core.DownloadBlock
 import com.tonyodev.fetch2core.Func
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.apache.commons.io.FileUtils
 import java.io.File
 import java.net.URL
@@ -20,7 +21,7 @@ class ResPackAutoUpdater(val context: Context) : FetchListener {
     interface Callback {
         fun onStartLoadingLatestInfo()
         fun onFailOnLoadingLatestInfo(message: String)
-        fun onCompleteLoadingLatestInfo(latestInfo: ResPackLatestInfo)
+        fun onCompleteLoadingLatestInfo(updateInfo: ResPackUpdateInfo)
         fun onDownloadProgress(progress: Int, totalBytes: Long)
         fun onCompleteDownloading()
         fun onFailOnDownloading(message: String)
@@ -39,25 +40,25 @@ class ResPackAutoUpdater(val context: Context) : FetchListener {
             .enableRetryOnNetworkGain(true)
             .build())
 
-    private lateinit var latestInfo: ResPackLatestInfo
+    private lateinit var updateInfo: ResPackUpdateInfo
 
     private lateinit var resPackFile: File
 
     private val work = GlobalScope.launch(Dispatchers.Default, CoroutineStart.LAZY) {
         launch(Main) { callback?.onStartLoadingLatestInfo() }
-        val latestInfoFile = File(this@ResPackAutoUpdater.context.cacheDir, "${UUID.randomUUID()}.json").apply { deleteOnExit() }
         try {
-            FileUtils.copyURLToFile(URL(ConstantLinks.urlPattern.format(ConstantLinks.resPackLatestInfoFilename)), latestInfoFile)
-            latestInfo = Gson().fromJson<ResPackLatestInfo>(latestInfoFile.readText(), ResPackLatestInfo::class.java)
+            val url = URL(ConstantLinks.urlPattern.format(ConstantLinks.resPackLatestInfoFilename))
+            updateInfo = gson.fromJson<ResPackUpdateInfo>(url.readText(), ResPackUpdateInfo::class.java)
+            Log.d("CheckUpdate", updateInfo.toString())
         } catch (exc: Exception) {
             launch(Main) { callback?.onFailOnLoadingLatestInfo(exc.localizedMessage) }
             return@launch
         }
-        launch(Main) { callback?.onCompleteLoadingLatestInfo(latestInfo) }
+        launch(Main) { callback?.onCompleteLoadingLatestInfo(updateInfo) }
 
         resPackFile = File(this@ResPackAutoUpdater.context.cacheDir, "${UUID.randomUUID()}.zip").apply { deleteOnExit() }
         fetch.addListener(this@ResPackAutoUpdater)
-        val request = Request(latestInfo.downloadLink, resPackFile.path)
+        val request = Request(updateInfo.downloadLink, resPackFile.path)
         fetch.enqueue(request, null, Func { error ->
             callback?.onFailOnDownloading(error.name)
         })
@@ -111,4 +112,8 @@ class ResPackAutoUpdater(val context: Context) : FetchListener {
     override fun onResumed(download: Download) {}
 
     override fun onWaitingNetwork(download: Download) {}
+
+    companion object {
+        private val gson = GsonBuilder().registerTypeAdapter(ResPackUpdateInfo::class.java, ResPackUpdateInfo.GsonTypeAdapter()).create()
+    }
 }

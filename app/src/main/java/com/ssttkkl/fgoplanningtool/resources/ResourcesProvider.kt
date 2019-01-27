@@ -14,12 +14,14 @@ import com.ssttkkl.fgoplanningtool.resources.servant.gson.ServantMapGsonTypeAdap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
 import java.io.File
 import java.util.*
 
 class ResourcesProvider(context: Context) {
     private val gson = GsonBuilder().registerTypeAdapter(ServantMapGsonTypeAdapter.typeToken.type, ServantMapGsonTypeAdapter())
             .registerTypeAdapter(EventDescriptorMapGsonTypeAdapter.typeToken.type, EventDescriptorMapGsonTypeAdapter())
+            .registerTypeAdapter(ResPackInfo::class.java, ResPackInfo.GsonTypeAdapter())
             .create()
 
     val resourcesDir = File(context.filesDir, DIRECTORYNAME_RESOURCES)
@@ -30,74 +32,58 @@ class ResourcesProvider(context: Context) {
         CommonMigration1.migration(resourcesDir)
     }
 
-    val resPackInfo = buildResPackInfo()
-
     val isAbsent = !(resourcesDir.exists() && resourcesDir.isDirectory && resourcesDir.list().isNotEmpty())
-
-    val isNotTargeted = resPackInfo.targetVersion != TARGET_VERSION
 
     var isBroken = false
         private set
 
-    val servants: Map<Int, Servant> = buildServants()
+    val resPackInfo = try {
+        File(resourcesDir, FILENAME_RES_PACK_INFO).bufferedReader().use { reader ->
+            gson.fromJson(reader, ResPackInfo::class.java)
+        }
+    } catch (exc: Exception) {
+        Log.e("ResProvider", "Failed to build ResPackInfo. $exc")
+        isBroken = true
+        ResPackInfo(DateTime(0), "", 1)
+    }
+
+    val isNotTargeted = resPackInfo.targetVersion != TARGET_VERSION
+
+    val servants: Map<Int, Servant> = try {
+        File(resourcesDir, FILENAME_SERVANT_INFO).bufferedReader().use { reader ->
+            gson.fromJson(reader, ServantMapGsonTypeAdapter.typeToken.type)
+        }
+    } catch (exc: Exception) {
+        Log.e("ResProvider", "Failed to build Servant map. $exc")
+        isBroken = true
+        emptyMap()
+    }
 
     val itemRank: Map<String, Int>
     val itemDescriptors: Map<String, ItemDescriptor>
 
     init {
-        val list = buildItemDescriptors()
-        itemDescriptors = list.associate { Pair(it.codename, it) }
-        itemRank = list.mapIndexed { idx, it -> Pair(it.codename, idx) }.toMap(HashMap())
-    }
-
-    val eventDescriptors: Map<String, EventDescriptor> = buildEventDescriptors()
-
-    private fun buildResPackInfo(): ResPackInfo {
-        try {
-            File(resourcesDir, FILENAME_RES_PACK_INFO).bufferedReader().use { reader ->
-                return gson.fromJson(reader, ResPackInfo::class.java)
-            }
-        } catch (exc: Exception) {
-            Log.e("ResProvider", "Failed to build ResPackInfo. $exc")
-            isBroken = true
-            return ResPackInfo(0, "", 1)
-        }
-    }
-
-    private fun buildItemDescriptors(): List<ItemDescriptor> {
-        try {
+        val list = try {
             File(resourcesDir, FILENAME_ITEM_INFO).bufferedReader().use { reader ->
-                return gson.fromJson(reader, object : TypeToken<List<ItemDescriptor>>() {}.type)
+                gson.fromJson<List<ItemDescriptor>>(reader, object : TypeToken<List<ItemDescriptor>>() {}.type)
             }
         } catch (exc: Exception) {
             Log.e("ResProvider", "Failed to build ItemDescriptor list. $exc")
             isBroken = true
-            return listOf()
+            emptyList<ItemDescriptor>()
         }
+        itemDescriptors = list.associate { Pair(it.codename, it) }
+        itemRank = list.mapIndexed { idx, it -> Pair(it.codename, idx) }.toMap(HashMap())
     }
 
-    private fun buildServants(): Map<Int, Servant> {
-        try {
-            File(resourcesDir, FILENAME_SERVANT_INFO).bufferedReader().use { reader ->
-                return gson.fromJson(reader, ServantMapGsonTypeAdapter.typeToken.type)
-            }
-        } catch (exc: Exception) {
-            Log.e("ResProvider", "Failed to build Servant map. $exc")
-            isBroken = true
-            return mapOf()
+    val eventDescriptors: Map<String, EventDescriptor> = try {
+        File(resourcesDir, FILENAME_EVENT_INFO).bufferedReader().use { reader ->
+            gson.fromJson(reader, EventDescriptorMapGsonTypeAdapter.typeToken.type)
         }
-    }
-
-    private fun buildEventDescriptors(): Map<String, EventDescriptor> {
-        try {
-            File(resourcesDir, FILENAME_EVENT_INFO).bufferedReader().use { reader ->
-                return gson.fromJson(reader, EventDescriptorMapGsonTypeAdapter.typeToken.type)
-            }
-        } catch (exc: Exception) {
-            Log.e("ResProvider", "Failed to build EventDescriptors map. $exc")
-            isBroken = true
-            return mapOf()
-        }
+    } catch (exc: Exception) {
+        Log.e("ResProvider", "Failed to build EventDescriptors map. $exc")
+        isBroken = true
+        emptyMap()
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package com.ssttkkl.fgoplanningtool.ui.settings.updaterespack
+package com.ssttkkl.fgoplanningtool.ui.updaterespack
 
 import android.os.Bundle
 import android.view.LayoutInflater
