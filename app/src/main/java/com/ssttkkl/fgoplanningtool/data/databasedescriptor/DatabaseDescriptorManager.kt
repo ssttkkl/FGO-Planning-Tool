@@ -31,11 +31,16 @@ object DatabaseDescriptorManager {
         return database.databaseDescriptorDao.getAsLiveData(uuid)
     }
 
-    fun insert(descriptors: Collection<DatabaseDescriptor>, immediately: Boolean = false) {
+    private fun exec(immediately: Boolean, action: (DatabaseDescriptorDatabase) -> Unit) {
         if (immediately) runBlocking(Dispatchers.IO) {
-            database.databaseDescriptorDao.insert(descriptors)
+            action.invoke(database)
+        } else GlobalScope.launch(Dispatchers.IO) {
+            action.invoke(database)
         }
-        else GlobalScope.launch(Dispatchers.IO) {
+    }
+
+    fun insert(descriptors: Collection<DatabaseDescriptor>, immediately: Boolean = false) {
+        exec(immediately) {
             database.databaseDescriptorDao.insert(descriptors)
         }
     }
@@ -45,27 +50,13 @@ object DatabaseDescriptorManager {
     }
 
     fun update(descriptor: DatabaseDescriptor, immediately: Boolean = false) {
-        if (immediately) runBlocking(Dispatchers.IO) {
-            database.databaseDescriptorDao.update(descriptor)
-        }
-        else GlobalScope.launch(Dispatchers.IO) {
+        exec(immediately) {
             database.databaseDescriptorDao.update(descriptor)
         }
     }
 
     fun remove(uuids: Collection<String>, immediately: Boolean = false) {
-        if (immediately) runBlocking(Dispatchers.IO) {
-            uuids.forEach { uuid ->
-                database.databaseDescriptorDao.remove(database.databaseDescriptorDao.get(uuid)!!)
-                RepoDatabase.removeDatabaseFile(uuid)
-            }
-            GlobalScope.launch(Dispatchers.Main) {
-                if (this@DatabaseDescriptorManager[Repo.uuid.value] == null) {
-                    Repo.switchDatabase(firstOrCreate.uuid)
-                }
-            }
-        }
-        else GlobalScope.launch(Dispatchers.IO) {
+        exec(immediately) {
             uuids.forEach { uuid ->
                 database.databaseDescriptorDao.remove(database.databaseDescriptorDao.get(uuid)!!)
                 RepoDatabase.removeDatabaseFile(uuid)

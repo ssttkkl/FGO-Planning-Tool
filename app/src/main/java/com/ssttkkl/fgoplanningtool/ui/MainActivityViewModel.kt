@@ -1,11 +1,14 @@
 package com.ssttkkl.fgoplanningtool.ui
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ssttkkl.fgoplanningtool.MyApp
+import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.data.Repo
 import com.ssttkkl.fgoplanningtool.resources.ResourcesProvider
 import com.ssttkkl.fgoplanningtool.ui.utils.SingleLiveEvent
@@ -26,14 +29,16 @@ class MainActivityViewModel : ViewModel() {
     val showInformAppUpdateUIEvent = SingleLiveEvent<AppUpdateInfo>()
     val showInformResPackUpdateUIEvent = SingleLiveEvent<ResPackUpdateInfo>()
 
-    fun start() {
-        try {
-            val gson = GsonBuilder().registerTypeAdapter(ResPackUpdateInfo::class.java, ResPackUpdateInfo.GsonTypeAdapter())
-                    .registerTypeAdapter(AppUpdateInfo::class.java, AppUpdateInfo.GsonTypeAdapter())
-                    .create()
-            checkResPackUpdate(gson)
-            checkAppUpdate(gson)
-        } catch (_: Exception) {
+    fun start(context: Context) {
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PreferenceKeys.KEY_CHECK_UPDATE_ON_START, true)) {
+            try {
+                val gson = GsonBuilder().registerTypeAdapter(ResPackUpdateInfo::class.java, ResPackUpdateInfo.GsonTypeAdapter())
+                        .registerTypeAdapter(AppUpdateInfo::class.java, AppUpdateInfo.GsonTypeAdapter())
+                        .create()
+                checkResPackUpdate(gson)
+                checkAppUpdate(gson)
+            } catch (_: Exception) {
+            }
         }
     }
 

@@ -27,15 +27,6 @@ class SplashActivityViewModel : ViewModel() {
 
     fun start(context: Context) {
         PreferenceManager.setDefaultValues(context, R.xml.preferences, false)
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-
-        // switch to default database
-        val uuidInPref = pref.getString(PreferenceKeys.KEY_DEFAULT_DB_UUID, "") ?: ""
-        val uuid = if (DatabaseDescriptorManager[uuidInPref] != null)
-            uuidInPref
-        else
-            DatabaseDescriptorManager.firstOrCreate.uuid
-        Repo.switchDatabase(uuid)
 
         // wait for loading ResourcesPack
         GlobalScope.launch(Dispatchers.Main) {

@@ -44,7 +44,7 @@ class MainActivity : BackRouterActivity(),
             showInformResPackUpdateUIEvent.observe(this@MainActivity, Observer {
                 showInformResPackUpdateUI(it ?: return@Observer)
             })
-            start()
+            start(this@MainActivity)
         }
 
         // setup navigation view

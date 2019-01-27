@@ -1,8 +1,12 @@
 package com.ssttkkl.fgoplanningtool.data
 
+import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.preference.PreferenceManager
+import com.ssttkkl.fgoplanningtool.MyApp
+import com.ssttkkl.fgoplanningtool.PreferenceKeys
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptor
 import com.ssttkkl.fgoplanningtool.data.databasedescriptor.DatabaseDescriptorManager
 import com.ssttkkl.fgoplanningtool.data.event.Event
@@ -42,6 +46,11 @@ object Repo {
 
     fun switchDatabase(uuid: String) {
         (this.uuid as MutableLiveData).value = uuid
+
+        PreferenceManager.getDefaultSharedPreferences(MyApp.context).edit {
+            putString(PreferenceKeys.KEY_DEFAULT_DB_UUID, uuid)
+            apply()
+        }
     }
 
     private fun exec(immediately: Boolean, action: (RepoDatabase) -> Unit) {
@@ -50,6 +59,17 @@ object Repo {
         } else GlobalScope.launch(Dispatchers.IO) {
             database.value?.also { action.invoke(it) }
         }
+    }
+
+    init {
+        val pref = PreferenceManager.getDefaultSharedPreferences(MyApp.context)
+        // switch to default database
+        val uuidInPref = pref.getString(PreferenceKeys.KEY_DEFAULT_DB_UUID, "") ?: ""
+        val uuid = if (DatabaseDescriptorManager[uuidInPref] != null)
+            uuidInPref
+        else
+            DatabaseDescriptorManager.firstOrCreate.uuid
+        switchDatabase(uuid)
     }
 
     object PlanRepo {

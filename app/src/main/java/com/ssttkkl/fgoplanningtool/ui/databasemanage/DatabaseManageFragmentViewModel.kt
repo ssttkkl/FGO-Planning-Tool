@@ -82,10 +82,6 @@ class DatabaseManageFragmentViewModel : ViewModel() {
 
     fun onClickItem(uuid: String) {
         Repo.switchDatabase(uuid)
-        PreferenceManager.getDefaultSharedPreferences(MyApp.context).edit {
-            putString(PreferenceKeys.KEY_DEFAULT_DB_UUID, uuid)
-            apply()
-        }
     }
 
     fun onClickItemMore(uuid: String, view: View) {
