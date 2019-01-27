@@ -1,5 +1,7 @@
 {
-  "versionName": "v1.2.1",
-  "versionCode": 20190119,
-  "downloadLink": "https://github.com/ssttkkl/FGO-Planning-Tool/releases/tag/v1.2.1"
+  "versionName": "v1.2.2",
+  "versionCode": 20190127,
+  "releaseDate": 20190127,
+  "information": "1、修复长时间后台之后APP未选中任何账号的bug\n2、添加更新提示对话框",
+  "downloadLink": "https://www.coolapk.com/game/215714"
 }
