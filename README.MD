@@ -2,7 +2,7 @@
 
 一个安卓上的用于Fate/grand order的素材规划工具。
 
-[获取APK](https://https://github.com/ssttkkl/FGO-Planning-Tool/releases)
+[获取APK(酷安)](https://www.coolapk.com/game/com.ssttkkl.fgoplanningtool)
 
 数据来源：
 
