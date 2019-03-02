@@ -1,7 +1,7 @@
 {
-  "versionName": "v1.2.2",
-  "versionCode": 20190127,
-  "releaseDate": 20190127,
-  "information": "1、修复长时间后台之后APP未选中任何账号的bug\n2、添加更新提示对话框",
+  "versionName": "v1.2.3",
+  "versionCode": 20190302,
+  "releaseDate": 20190302,
+  "information": "1、修复在材料仓库中查看材料需求量的技能升级项显示错误（忘记×3）的问题；\n2、部分文本修改。",
   "downloadLink": "https://www.coolapk.com/game/215714"
 }
