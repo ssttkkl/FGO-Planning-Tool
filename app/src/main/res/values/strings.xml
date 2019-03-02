@@ -14,7 +14,7 @@
     <string name="closeDrawer">关闭侧边栏</string>
     <string name="backAgainToExitApp">再按一次返回键退出应用</string>
 
-    <string name="servantDetailList">灵基一览</string>
+    <string name="servantDetailList">英灵图鉴</string>
 
     <string name="databaseManage">管理账号</string>
     <string name="rename">重命名</string>
@@ -64,7 +64,7 @@
     <string name="illegalRemainedExp">“升级剩余经验”不能大于该等级升级需要的经验值</string>
     <string name="illegalLevel">“等级”不能超出该角色的合法等级范围</string>
 
-    <string name="servantBaseList">灵基一览</string>
+    <string name="servantBaseList">英灵图鉴</string>
     <string name="switchToGridView">切换到网格视图</string>
     <string name="switchToListView">切换到列表视图</string>
     <string name="sortAndFilter">排序与过滤</string>
@@ -235,4 +235,5 @@
     <string name="versionName">版本名称</string>
     <string name="RemindMeLater">稍后再说</string>
     <string name="download">下载</string>
+    <string name="autoUpdate">自动更新</string>
 </resources>

@@ -59,7 +59,7 @@ class ItemInfoFragmentViewModel : ViewModel() {
             val requirement = HashMap<String, Long>()
             servant.skillItems.forEach { itemsForCurLevel ->
                 itemsForCurLevel.forEach { item ->
-                    requirement[item.codename] = (requirement[item.codename] ?: 0) + item.count
+                    requirement[item.codename] = (requirement[item.codename] ?: 0) + item.count * 3
                 }
             }
             requirement.map { Item(it.key, it.value) }
