@@ -2,6 +2,8 @@
 
 一个安卓上的用于Fate/grand order的素材规划工具。
 
+因作者沉迷果缤纷，本项目无限期停更。
+
 [获取APK(酷安)](https://www.coolapk.com/game/com.ssttkkl.fgoplanningtool)
 
 数据来源：
